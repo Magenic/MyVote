@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarChart.Android.Sample", "BarChart.Android.Sample.csproj", "{264B98C1-36B0-4C11-BC8F-146EB9CACD4E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		DebugAndroid|Any CPU = DebugAndroid|Any CPU
+		ReleaseAndroid|Any CPU = ReleaseAndroid|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{264B98C1-36B0-4C11-BC8F-146EB9CACD4E}.DebugAndroid|Any CPU.ActiveCfg = Debug|Any CPU
+		{264B98C1-36B0-4C11-BC8F-146EB9CACD4E}.DebugAndroid|Any CPU.Build.0 = Debug|Any CPU
+		{264B98C1-36B0-4C11-BC8F-146EB9CACD4E}.ReleaseAndroid|Any CPU.ActiveCfg = Release|Any CPU
+		{264B98C1-36B0-4C11-BC8F-146EB9CACD4E}.ReleaseAndroid|Any CPU.Build.0 = Release|Any CPU
+		{5ABE3F17-568E-4599-AEFA-EC68DB16503A}.DebugAndroid|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ABE3F17-568E-4599-AEFA-EC68DB16503A}.DebugAndroid|Any CPU.Build.0 = Debug|Any CPU
+		{5ABE3F17-568E-4599-AEFA-EC68DB16503A}.ReleaseAndroid|Any CPU.ActiveCfg = Release|Any CPU
+		{5ABE3F17-568E-4599-AEFA-EC68DB16503A}.ReleaseAndroid|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = BarChart.Android.Sample.csproj
+	EndGlobalSection
+EndGlobal

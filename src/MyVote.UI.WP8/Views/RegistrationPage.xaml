@@ -1,0 +1,80 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="MyVote.UI.Views.RegistrationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:converters="clr-namespace:MyVote.UI.Converters"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+	<phone:PhoneApplicationPage.Resources>
+		<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+	</phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid Background="Transparent">
+		<ScrollViewer Margin="12,17,0,28">
+			<StackPanel>
+				<TextBlock Text="MyVote" Style="{StaticResource PhoneTextNormalStyle}"/>
+
+				<TextBlock
+    				Text="Email Address"
+    				Style="{StaticResource PhoneTextNormalStyle}" />
+				<TextBox
+    				Text="{Binding User.EmailAddress, Mode=TwoWay}" />
+
+				<TextBlock
+    				Text="Choose a User Name"
+    				Style="{StaticResource PhoneTextNormalStyle}" />
+				<TextBox
+    				Text="{Binding User.UserName, Mode=TwoWay}" />
+
+				<TextBlock
+    				Text="Date of Birth"
+    				Style="{StaticResource PhoneTextNormalStyle}" />
+				<TextBox
+    				Text="{Binding User.BirthDate, Mode=TwoWay}"/>
+
+				<TextBlock
+    				Text="Zip Code"
+    				Style="{StaticResource PhoneTextNormalStyle}" />
+				<TextBox
+    				Text="{Binding User.PostalCode, Mode=TwoWay}"/>
+
+				<TextBlock
+    				Text="Sex"
+    				Style="{StaticResource PhoneTextNormalStyle}" />
+				<ComboBox
+    				SelectedValue="{Binding User.Gender, Mode=TwoWay}"
+    				DisplayMemberPath="Display"
+					SelectedValuePath="Value"
+					ItemsSource="{Binding GenderOptions}"/>
+
+				<Button
+    				x:Name="Submit"
+    				Content="Let's Get Started!"
+    				IsEnabled="{Binding CanSave}"
+    				HorizontalAlignment="Right"
+    				VerticalAlignment="Bottom" Margin="0,0,60,60" />
+			</StackPanel>
+
+
+		</ScrollViewer>
+
+		<Grid
+			Background="#66000000"
+			Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}}">
+			<ProgressBar
+				IsIndeterminate="True"
+				IsEnabled="{Binding IsBusy}"
+				VerticalAlignment="Top"/>
+		</Grid>
+	</Grid>
+
+</phone:PhoneApplicationPage>

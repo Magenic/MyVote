@@ -1,0 +1,94 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="MyVote.UI.Views.PollResultsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:appBar="clr-namespace:MyVote.UI.ApplicationBar"
+	xmlns:converter="clr-namespace:MyVote.UI.Converters"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+	
+	<phone:PhoneApplicationPage.Resources>
+		<converter:IntToPluralStringConverter x:Key="IntToPluralStringConverter" />
+		<Color x:Key="DarkGrayColor">#FF333333</Color>
+		<SolidColorBrush x:Key="PollResultBarBrush" Color="{StaticResource DarkGrayColor}" />
+
+		<Style x:Key="ItemTextStyle" TargetType="TextBlock" BasedOn="{StaticResource PhoneTextNormalStyle}"/>
+
+		<DataTemplate x:Key="ResultItemTemplate">
+			<Grid HorizontalAlignment="Stretch">
+				<TextBlock
+                    FontSize="16"
+                    Margin="0,0,0,10"
+                    VerticalAlignment="Center"
+                    TextWrapping="Wrap">
+					<Run Text="{Binding ResponseCount}" />
+					<Run Text=" - " />
+					<Run Text="{Binding OptionText}" />
+				</TextBlock>
+			</Grid>
+		</DataTemplate>
+	</phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="Results" Style="{StaticResource PhoneTextNormalStyle}"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid Grid.Row="1" Margin="12,0,12,0">
+			<ScrollViewer>
+				<StackPanel Orientation="Vertical">
+					<TextBlock
+						x:Name="Question"
+						Margin="0,20,0,10"
+						Visibility="Collapsed"
+						HorizontalAlignment="Left"
+						Text="{Binding PollDataResults.Question}"
+						TextWrapping="Wrap" />
+
+					<TextBlock
+						x:Name="SubHeader"
+						Text="Thanks for voting! Here are the current results:"
+						TextWrapping="Wrap" />
+					
+					<TextBlock TextWrapping="Wrap" Margin="0,0,0,10">
+						<Run Text="{Binding TotalResponses}" />
+						<Run Text="Total" />
+						<Run Text="{Binding Path=TotalResponses, Converter={StaticResource IntToPluralStringConverter}, ConverterParameter='Response'}" />
+					</TextBlock>
+
+					<phone:LongListSelector
+						ItemsSource="{Binding Path=PollDataResults.Results}"
+						HorizontalAlignment="Stretch"
+						ItemTemplate="{StaticResource ResultItemTemplate}" Margin="10,0,0,0">
+					</phone:LongListSelector>
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
+
+		<appBar:BindableApplicationBar>
+			<appBar:BindableApplicationBar.Buttons>
+				<appBar:BindableApplicationBarIconButton
+					IconUri="/Assets/Icons/Light/Cancel.png"
+					Text="delete poll"
+					ClickMethodName="DeletePoll"/>
+			</appBar:BindableApplicationBar.Buttons>
+		</appBar:BindableApplicationBar>
+	</Grid>
+
+</phone:PhoneApplicationPage>

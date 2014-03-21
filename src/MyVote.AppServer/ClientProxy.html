@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<script src="/Scripts/jquery-1.10.2.js"></script>
+<script src="/Scripts/postmessage.js"></script>
+<script type="text/javascript">
+    (function () {
+        pm.bind("xhrRequest", function (data) {
+            console.log(JSON.stringify(data));
+
+            if (data && data.url) {
+                var ret = $.ajax({
+                    type: data.method,
+                    url: data.url,
+                    headers: data.headers,
+                    data: data.data,  //forgot to include the body
+                    async: false
+                });
+                return {
+                    responseText: ret.responseText,
+                    contentType: ret.getResponseHeader("Content-Type")
+                };
+            }
+            return '';
+        });
+
+    })();
+
+</script>
+</head>
+<body style="color:#3e3e3e">
+  This page is intentionally left blank
+</body>
+</html>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dictionary>
+	<Words>
+		<Recognized>
+			<Word>csla</Word>
+			<Word>io</Word>
+			<Word>ioc</Word>
+			<Word>mvc</Word>
+			<Word>mvvm</Word>
+		</Recognized>
+	</Words>
+	<Acronyms>
+		<CasingExceptions>
+			<Acronym>IoC</Acronym>
+			<Acronym>ID</Acronym>
+		</CasingExceptions>
+	</Acronyms>
+</Dictionary>

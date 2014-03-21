@@ -1,0 +1,157 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="MyVote.UI.Views.AddPollPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+	xmlns:converters="clr-namespace:MyVote.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+	<phone:PhoneApplicationPage.Resources>
+		<converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+		<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+	</phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="MyVote" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock Text="Add poll" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid Grid.Row="1" Margin="12,0,12,0">
+			<ScrollViewer>
+				<StackPanel Orientation="Vertical">
+					<TextBlock
+						Text="Select A Category"
+						Margin="0,30,0,0"/>
+
+					<ComboBox x:Name="Categories"
+						DisplayMemberPath="Name"
+						SelectedValuePath="ID"         
+						SelectedValue="{Binding Poll.PollCategoryID, Mode=TwoWay}"
+						Margin="0,0,0,0"/>
+
+					<TextBlock
+						Text="What's Your Question?"
+						Margin="0,30,0,0"/>
+					<TextBox
+						Text="{Binding Poll.PollQuestion, Mode=TwoWay}" />
+
+					<TextBlock
+						Text="Answer A*"
+						Margin="0,30,0,0"/>
+					<TextBox
+						Text="{Binding PollAnswers[0].PollAnswer, Mode=TwoWay}" />
+
+					<TextBlock
+						Text="Answer B*"
+						Margin="0,30,0,0"/>
+					<TextBox
+						Text="{Binding PollAnswers[1].PollAnswer, Mode=TwoWay}"/>
+
+					<TextBlock
+						Text="Answer C"
+						Margin="0,30,0,0"/>
+					<TextBox
+						Text="{Binding PollAnswers[2].PollAnswer, Mode=TwoWay}"/>
+
+					<TextBlock
+						Text="Answer D"
+						Margin="0,30,0,0"/>
+					<TextBox
+						Text="{Binding PollAnswers[3].PollAnswer, Mode=TwoWay}"/>
+
+					<TextBlock
+						Text="Answer E"
+						Margin="0,30,0,0"/>
+					<TextBox
+						Text="{Binding PollAnswers[4].PollAnswer, Mode=TwoWay}"/>
+
+					<TextBlock
+						Text="Minimum Answers"
+						Margin="0,30,0,0" />
+
+					<TextBox
+						Text="{Binding Poll.PollMinAnswers, Mode=TwoWay}" />
+
+					<TextBlock
+						Text="Maximum Answers"
+						Margin="0,30,0,0" />
+
+					<TextBox
+						Text="{Binding Poll.PollMaxAnswers, Mode=TwoWay}" />
+
+					<RadioButton
+						GroupName="BeginEndDates"
+						Content="Post this Poll with no end date &amp; time."
+						HorizontalAlignment="Left"
+						Margin="0,0,0,0"
+						VerticalAlignment="Top"
+						IsChecked="{Binding SpecifyBeginEndDates, Converter={StaticResource InverseBoolConverter}}" />
+					<RadioButton
+						GroupName="BeginEndDates"
+						Content="Specify a start and end date and time for this poll."
+						HorizontalAlignment="Left"
+						Margin="0,0,0,0"
+						VerticalAlignment="Top"
+						IsChecked="{Binding SpecifyBeginEndDates, Mode=TwoWay}" />
+					<TextBlock
+						Text="Start Date"
+						Margin="0,30,0,0"/>
+					<TextBox
+						Text="{Binding Poll.PollStartDate, Mode=TwoWay}"
+						IsEnabled="{Binding SpecifyBeginEndDates}"
+						Margin="0,0,0,0"/>
+
+					<TextBlock
+						Text="End Date"
+						Margin="0,30,0,0"/>
+					<TextBox
+						Text="{Binding Poll.PollEndDate, Mode=TwoWay}"
+						IsEnabled="{Binding SpecifyBeginEndDates}"
+						Margin="0,0,0,0"/>
+
+					<Button
+				        x:Name="AddImage"
+				        Content="+ Add Optional Image To Poll"
+                        Padding="10,5"  />
+
+					<Image
+                        Source="{Binding PollImageViewModel.PollImage}"
+                        HorizontalAlignment="Stretch"
+                        Stretch="Uniform" />
+
+					<Button
+						x:Name="Submit"
+						Content="Post &amp; View My Poll!"
+						IsEnabled="{Binding CanSave}"
+						Margin="0,0,0,0" />
+				</StackPanel>
+			</ScrollViewer>
+
+			<Grid
+				Background="#66000000"
+				Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}}">
+				<ProgressBar
+					IsIndeterminate="True"
+					IsEnabled="{Binding IsBusy}"
+					VerticalAlignment="Top"/>
+			</Grid>
+		</Grid>
+    </Grid>
+
+</phone:PhoneApplicationPage>

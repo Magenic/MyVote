@@ -1,0 +1,1254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MyVote.DatabaseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="MyVoteDatabaseModelStoreContainer">
+          <EntitySet Name="__RefactorLog" EntityType="MyVote.DatabaseModel.Store.__RefactorLog" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MVCategory" EntityType="MyVote.DatabaseModel.Store.MVCategory" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MVDates" EntityType="MyVote.DatabaseModel.Store.MVDates" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MVGeography" EntityType="MyVote.DatabaseModel.Store.MVGeography" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MVPoll" EntityType="MyVote.DatabaseModel.Store.MVPoll" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MVPollComment" EntityType="MyVote.DatabaseModel.Store.MVPollComment" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MVPollOption" EntityType="MyVote.DatabaseModel.Store.MVPollOption" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MVPollResponse" EntityType="MyVote.DatabaseModel.Store.MVPollResponse" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MVPollSubmission" EntityType="MyVote.DatabaseModel.Store.MVPollSubmission" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MVReportedPoll" EntityType="MyVote.DatabaseModel.Store.MVReportedPoll" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MVReportedPollStateLog" EntityType="MyVote.DatabaseModel.Store.MVReportedPollStateLog" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MVReportedPollStateOption" EntityType="MyVote.DatabaseModel.Store.MVReportedPollStateOption" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MVUser" EntityType="MyVote.DatabaseModel.Store.MVUser" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MVUserRole" EntityType="MyVote.DatabaseModel.Store.MVUserRole" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="fk_CurrentStateAdminUser_MVReportedPoll" Association="MyVote.DatabaseModel.Store.fk_CurrentStateAdminUser_MVReportedPoll">
+            <End Role="MVUser" EntitySet="MVUser" />
+            <End Role="MVReportedPoll" EntitySet="MVReportedPoll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MVPoll_MVCategory" Association="MyVote.DatabaseModel.Store.FK_MVPoll_MVCategory">
+            <End Role="MVCategory" EntitySet="MVCategory" />
+            <End Role="MVPoll" EntitySet="MVPoll" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPoll_MVPollComment" Association="MyVote.DatabaseModel.Store.fk_MVPoll_MVPollComment">
+            <End Role="MVPoll" EntitySet="MVPoll" />
+            <End Role="MVPollComment" EntitySet="MVPollComment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPoll_MVPollOption" Association="MyVote.DatabaseModel.Store.fk_MVPoll_MVPollOption">
+            <End Role="MVPoll" EntitySet="MVPoll" />
+            <End Role="MVPollOption" EntitySet="MVPollOption" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPoll_MVPollResponse" Association="MyVote.DatabaseModel.Store.fk_MVPoll_MVPollResponse">
+            <End Role="MVPoll" EntitySet="MVPoll" />
+            <End Role="MVPollResponse" EntitySet="MVPollResponse" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPoll_MVPollSubmission" Association="MyVote.DatabaseModel.Store.fk_MVPoll_MVPollSubmission">
+            <End Role="MVPoll" EntitySet="MVPoll" />
+            <End Role="MVPollSubmission" EntitySet="MVPollSubmission" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPoll_MVReportedPoll" Association="MyVote.DatabaseModel.Store.fk_MVPoll_MVReportedPoll">
+            <End Role="MVPoll" EntitySet="MVPoll" />
+            <End Role="MVReportedPoll" EntitySet="MVReportedPoll" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPoll_MVReportedPollStateLog" Association="MyVote.DatabaseModel.Store.fk_MVPoll_MVReportedPollStateLog">
+            <End Role="MVPoll" EntitySet="MVPoll" />
+            <End Role="MVReportedPollStateLog" EntitySet="MVReportedPollStateLog" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPoll_MVUser" Association="MyVote.DatabaseModel.Store.fk_MVPoll_MVUser">
+            <End Role="MVUser" EntitySet="MVUser" />
+            <End Role="MVPoll" EntitySet="MVPoll" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPollOption_MVPollResponse" Association="MyVote.DatabaseModel.Store.fk_MVPollOption_MVPollResponse">
+            <End Role="MVPollOption" EntitySet="MVPollOption" />
+            <End Role="MVPollResponse" EntitySet="MVPollResponse" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPollSubmission_MVPollResponse" Association="MyVote.DatabaseModel.Store.fk_MVPollSubmission_MVPollResponse">
+            <End Role="MVPollSubmission" EntitySet="MVPollSubmission" />
+            <End Role="MVPollResponse" EntitySet="MVPollResponse" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVReportedPoll_MVReportedPollStateLog" Association="MyVote.DatabaseModel.Store.fk_MVReportedPoll_MVReportedPollStateLog">
+            <End Role="MVReportedPoll" EntitySet="MVReportedPoll" />
+            <End Role="MVReportedPollStateLog" EntitySet="MVReportedPollStateLog" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVReportedPollStateOption_MVReportedPoll" Association="MyVote.DatabaseModel.Store.fk_MVReportedPollStateOption_MVReportedPoll">
+            <End Role="MVReportedPollStateOption" EntitySet="MVReportedPollStateOption" />
+            <End Role="MVReportedPoll" EntitySet="MVReportedPoll" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVUser_MVPollComment" Association="MyVote.DatabaseModel.Store.fk_MVUser_MVPollComment">
+            <End Role="MVUser" EntitySet="MVUser" />
+            <End Role="MVPollComment" EntitySet="MVPollComment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVUser_MVPollResponse" Association="MyVote.DatabaseModel.Store.fk_MVUser_MVPollResponse">
+            <End Role="MVUser" EntitySet="MVUser" />
+            <End Role="MVPollResponse" EntitySet="MVPollResponse" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVUser_MVPollSubmission" Association="MyVote.DatabaseModel.Store.fk_MVUser_MVPollSubmission">
+            <End Role="MVUser" EntitySet="MVUser" />
+            <End Role="MVPollSubmission" EntitySet="MVPollSubmission" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVUser_MVUserRole" Association="MyVote.DatabaseModel.Store.fk_MVUser_MVUserRole">
+            <End Role="MVUserRole" EntitySet="MVUserRole" />
+            <End Role="MVUser" EntitySet="MVUser" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ReportedByUser_MVReportedPoll" Association="MyVote.DatabaseModel.Store.fk_ReportedByUser_MVReportedPoll">
+            <End Role="MVUser" EntitySet="MVUser" />
+            <End Role="MVReportedPoll" EntitySet="MVReportedPoll" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StateAdminUser_MVReportedPollStateLog" Association="MyVote.DatabaseModel.Store.fk_StateAdminUser_MVReportedPollStateLog">
+            <End Role="MVUser" EntitySet="MVUser" />
+            <End Role="MVReportedPollStateLog" EntitySet="MVReportedPollStateLog" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MVCategory">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MVDates">
+          <Key>
+            <PropertyRef Name="DateKey" />
+          </Key>
+          <Property Name="DateKey" Type="int" Nullable="false" />
+          <Property Name="DateID" Type="date" Nullable="false" />
+          <Property Name="DayNme" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="DayShort" Type="char" Nullable="false" MaxLength="10" />
+          <Property Name="DayNOD" Type="tinyint" Nullable="false" />
+          <Property Name="CalendarYear" Type="smallint" Nullable="false" />
+          <Property Name="CalendarYearNOD" Type="smallint" Nullable="false" />
+          <Property Name="CalendarQuarter" Type="int" Nullable="false" />
+          <Property Name="CalendarQuarterName" Type="char" Nullable="false" MaxLength="15" />
+          <Property Name="CalendarQuarterShort" Type="char" Nullable="false" MaxLength="7" />
+          <Property Name="CalendarQuarterNOD" Type="tinyint" Nullable="false" />
+          <Property Name="CalendarMonth" Type="int" Nullable="false" />
+          <Property Name="CalendarMonthName" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="CalendarMonthShort" Type="char" Nullable="false" MaxLength="8" />
+          <Property Name="CalendarMonthNOD" Type="tinyint" Nullable="false" />
+          <Property Name="CalendarWeek" Type="int" Nullable="false" />
+          <Property Name="CalendarWeekName" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="CalendarWeekShort" Type="char" Nullable="false" MaxLength="9" />
+          <Property Name="CalendarWeekNOD" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MVGeography">
+          <Key>
+            <PropertyRef Name="GeographyKey" />
+          </Key>
+          <Property Name="GeographyKey" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="zip" Type="varchar" MaxLength="50" />
+          <Property Name="primary_city" Type="varchar" MaxLength="50" />
+          <Property Name="state" Type="varchar" MaxLength="50" />
+          <Property Name="county" Type="varchar" MaxLength="50" />
+          <Property Name="timezone" Type="varchar" MaxLength="50" />
+          <Property Name="area_codes" Type="varchar" MaxLength="50" />
+          <Property Name="latitude" Type="varchar" MaxLength="50" />
+          <Property Name="longitude" Type="varchar" MaxLength="50" />
+          <Property Name="estimated_population" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MVPoll">
+          <Key>
+            <PropertyRef Name="PollID" />
+          </Key>
+          <Property Name="PollID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="PollCategoryID" Type="int" Nullable="false" />
+          <Property Name="PollQuestion" Type="nvarchar" Nullable="false" MaxLength="1000" />
+          <Property Name="PollDescription" Type="nvarchar(max)" />
+          <Property Name="PollImageLink" Type="nvarchar" MaxLength="500" />
+          <Property Name="PollMaxAnswers" Type="smallint" />
+          <Property Name="PollMinAnswers" Type="smallint" />
+          <Property Name="PollStartDate" Type="datetime2" Nullable="false" />
+          <Property Name="PollEndDate" Type="datetime2" Nullable="false" />
+          <Property Name="PollAdminRemovedFlag" Type="bit" />
+          <Property Name="PollDateRemoved" Type="datetime2" />
+          <Property Name="PollDeletedFlag" Type="bit" />
+          <Property Name="PollDeletedDate" Type="datetime2" />
+          <Property Name="AuditDateCreated" Type="datetime2" />
+          <Property Name="AuditDateModified" Type="datetime2" />
+        </EntityType>
+        <EntityType Name="MVPollComment">
+          <Key>
+            <PropertyRef Name="PollCommentID" />
+          </Key>
+          <Property Name="PollCommentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="CommentText" Type="nvarchar" MaxLength="1000" />
+          <Property Name="CommentDate" Type="datetime2" />
+          <Property Name="ParentCommentID" Type="int" />
+          <Property Name="PollID" Type="int" Nullable="false" />
+          <Property Name="PollCommentDeletedFlag" Type="bit" />
+          <Property Name="PollCommentDeletedDate" Type="datetime2" />
+        </EntityType>
+        <EntityType Name="MVPollOption">
+          <Key>
+            <PropertyRef Name="PollOptionID" />
+          </Key>
+          <Property Name="PollOptionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PollID" Type="int" Nullable="false" />
+          <Property Name="OptionPosition" Type="smallint" Nullable="false" />
+          <Property Name="OptionText" Type="nvarchar" Nullable="false" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="MVPollResponse">
+          <Key>
+            <PropertyRef Name="PollResponseID" />
+          </Key>
+          <Property Name="PollResponseID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PollID" Type="int" Nullable="false" />
+          <Property Name="PollSubmissionID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="PollOptionID" Type="int" Nullable="false" />
+          <Property Name="OptionSelected" Type="bit" Nullable="false" />
+          <Property Name="ResponseDate" Type="datetime2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MVPollSubmission">
+          <Key>
+            <PropertyRef Name="PollSubmissionID" />
+          </Key>
+          <Property Name="PollSubmissionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PollID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="PollSubmissionDate" Type="datetime2" Nullable="false" />
+          <Property Name="PollSubmissionComment" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="MVReportedPoll">
+          <Key>
+            <PropertyRef Name="ReportedPollID" />
+          </Key>
+          <Property Name="ReportedPollID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PollID" Type="int" Nullable="false" />
+          <Property Name="ReportedByUserID" Type="int" Nullable="false" />
+          <Property Name="CurrentStateAdminUserID" Type="int" />
+          <Property Name="DateReported" Type="datetime2" Nullable="false" />
+          <Property Name="DateCurrentStateChanged" Type="datetime2" />
+          <Property Name="ReportedPollStateOptionID" Type="int" Nullable="false" />
+          <Property Name="ReportComments" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="MVReportedPollStateLog">
+          <Key>
+            <PropertyRef Name="ReportedPollStateLogID" />
+          </Key>
+          <Property Name="ReportedPollStateLogID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ReportedPollID" Type="int" Nullable="false" />
+          <Property Name="PollID" Type="int" Nullable="false" />
+          <Property Name="StateAdminUserID" Type="int" Nullable="false" />
+          <Property Name="DateStateChanged" Type="datetime2" Nullable="false" />
+          <Property Name="StateChangeComments" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="MVReportedPollStateOption">
+          <Key>
+            <PropertyRef Name="ReportedPollStateOptionID" />
+          </Key>
+          <Property Name="ReportedPollStateOptionID" Type="int" Nullable="false" />
+          <Property Name="ReportedPollStateName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ReportedPollStateComments" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="MVUser">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="ProfileID" Type="nvarchar" MaxLength="200" />
+          <Property Name="ProfileAuthToken" Type="nvarchar" MaxLength="2100" />
+          <Property Name="EmailAddress" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Gender" Type="nchar" MaxLength="1" />
+          <Property Name="PostalCode" Type="nvarchar" MaxLength="20" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="UserRoleID" Type="int" />
+          <Property Name="AuditCreateDate" Type="datetime2" />
+          <Property Name="AuditModifyDate" Type="datetime2" />
+        </EntityType>
+        <EntityType Name="MVUserRole">
+          <Key>
+            <PropertyRef Name="UserRoleID" />
+          </Key>
+          <Property Name="UserRoleID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserRoleName" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <Association Name="fk_CurrentStateAdminUser_MVReportedPoll">
+          <End Role="MVUser" Type="MyVote.DatabaseModel.Store.MVUser" Multiplicity="0..1" />
+          <End Role="MVReportedPoll" Type="MyVote.DatabaseModel.Store.MVReportedPoll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MVReportedPoll">
+              <PropertyRef Name="CurrentStateAdminUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MVPoll_MVCategory">
+          <End Role="MVCategory" Type="MyVote.DatabaseModel.Store.MVCategory" Multiplicity="1" />
+          <End Role="MVPoll" Type="MyVote.DatabaseModel.Store.MVPoll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVCategory">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="MVPoll">
+              <PropertyRef Name="PollCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPoll_MVPollComment">
+          <End Role="MVPoll" Type="MyVote.DatabaseModel.Store.MVPoll" Multiplicity="1" />
+          <End Role="MVPollComment" Type="MyVote.DatabaseModel.Store.MVPollComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVPoll">
+              <PropertyRef Name="PollID" />
+            </Principal>
+            <Dependent Role="MVPollComment">
+              <PropertyRef Name="PollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPoll_MVPollOption">
+          <End Role="MVPoll" Type="MyVote.DatabaseModel.Store.MVPoll" Multiplicity="1" />
+          <End Role="MVPollOption" Type="MyVote.DatabaseModel.Store.MVPollOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVPoll">
+              <PropertyRef Name="PollID" />
+            </Principal>
+            <Dependent Role="MVPollOption">
+              <PropertyRef Name="PollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPoll_MVPollResponse">
+          <End Role="MVPoll" Type="MyVote.DatabaseModel.Store.MVPoll" Multiplicity="1" />
+          <End Role="MVPollResponse" Type="MyVote.DatabaseModel.Store.MVPollResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVPoll">
+              <PropertyRef Name="PollID" />
+            </Principal>
+            <Dependent Role="MVPollResponse">
+              <PropertyRef Name="PollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPoll_MVPollSubmission">
+          <End Role="MVPoll" Type="MyVote.DatabaseModel.Store.MVPoll" Multiplicity="1" />
+          <End Role="MVPollSubmission" Type="MyVote.DatabaseModel.Store.MVPollSubmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVPoll">
+              <PropertyRef Name="PollID" />
+            </Principal>
+            <Dependent Role="MVPollSubmission">
+              <PropertyRef Name="PollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPoll_MVReportedPoll">
+          <End Role="MVPoll" Type="MyVote.DatabaseModel.Store.MVPoll" Multiplicity="1" />
+          <End Role="MVReportedPoll" Type="MyVote.DatabaseModel.Store.MVReportedPoll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVPoll">
+              <PropertyRef Name="PollID" />
+            </Principal>
+            <Dependent Role="MVReportedPoll">
+              <PropertyRef Name="PollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPoll_MVReportedPollStateLog">
+          <End Role="MVPoll" Type="MyVote.DatabaseModel.Store.MVPoll" Multiplicity="1" />
+          <End Role="MVReportedPollStateLog" Type="MyVote.DatabaseModel.Store.MVReportedPollStateLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVPoll">
+              <PropertyRef Name="PollID" />
+            </Principal>
+            <Dependent Role="MVReportedPollStateLog">
+              <PropertyRef Name="PollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPoll_MVUser">
+          <End Role="MVUser" Type="MyVote.DatabaseModel.Store.MVUser" Multiplicity="1" />
+          <End Role="MVPoll" Type="MyVote.DatabaseModel.Store.MVPoll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MVPoll">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPollOption_MVPollResponse">
+          <End Role="MVPollOption" Type="MyVote.DatabaseModel.Store.MVPollOption" Multiplicity="1" />
+          <End Role="MVPollResponse" Type="MyVote.DatabaseModel.Store.MVPollResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVPollOption">
+              <PropertyRef Name="PollOptionID" />
+            </Principal>
+            <Dependent Role="MVPollResponse">
+              <PropertyRef Name="PollOptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPollSubmission_MVPollResponse">
+          <End Role="MVPollSubmission" Type="MyVote.DatabaseModel.Store.MVPollSubmission" Multiplicity="1" />
+          <End Role="MVPollResponse" Type="MyVote.DatabaseModel.Store.MVPollResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVPollSubmission">
+              <PropertyRef Name="PollSubmissionID" />
+            </Principal>
+            <Dependent Role="MVPollResponse">
+              <PropertyRef Name="PollSubmissionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVReportedPoll_MVReportedPollStateLog">
+          <End Role="MVReportedPoll" Type="MyVote.DatabaseModel.Store.MVReportedPoll" Multiplicity="1" />
+          <End Role="MVReportedPollStateLog" Type="MyVote.DatabaseModel.Store.MVReportedPollStateLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVReportedPoll">
+              <PropertyRef Name="ReportedPollID" />
+            </Principal>
+            <Dependent Role="MVReportedPollStateLog">
+              <PropertyRef Name="ReportedPollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVReportedPollStateOption_MVReportedPoll">
+          <End Role="MVReportedPollStateOption" Type="MyVote.DatabaseModel.Store.MVReportedPollStateOption" Multiplicity="1" />
+          <End Role="MVReportedPoll" Type="MyVote.DatabaseModel.Store.MVReportedPoll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVReportedPollStateOption">
+              <PropertyRef Name="ReportedPollStateOptionID" />
+            </Principal>
+            <Dependent Role="MVReportedPoll">
+              <PropertyRef Name="ReportedPollStateOptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVUser_MVPollComment">
+          <End Role="MVUser" Type="MyVote.DatabaseModel.Store.MVUser" Multiplicity="1" />
+          <End Role="MVPollComment" Type="MyVote.DatabaseModel.Store.MVPollComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MVPollComment">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVUser_MVPollResponse">
+          <End Role="MVUser" Type="MyVote.DatabaseModel.Store.MVUser" Multiplicity="1" />
+          <End Role="MVPollResponse" Type="MyVote.DatabaseModel.Store.MVPollResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MVPollResponse">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVUser_MVPollSubmission">
+          <End Role="MVUser" Type="MyVote.DatabaseModel.Store.MVUser" Multiplicity="1" />
+          <End Role="MVPollSubmission" Type="MyVote.DatabaseModel.Store.MVPollSubmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MVPollSubmission">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVUser_MVUserRole">
+          <End Role="MVUserRole" Type="MyVote.DatabaseModel.Store.MVUserRole" Multiplicity="0..1" />
+          <End Role="MVUser" Type="MyVote.DatabaseModel.Store.MVUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVUserRole">
+              <PropertyRef Name="UserRoleID" />
+            </Principal>
+            <Dependent Role="MVUser">
+              <PropertyRef Name="UserRoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ReportedByUser_MVReportedPoll">
+          <End Role="MVUser" Type="MyVote.DatabaseModel.Store.MVUser" Multiplicity="1" />
+          <End Role="MVReportedPoll" Type="MyVote.DatabaseModel.Store.MVReportedPoll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MVReportedPoll">
+              <PropertyRef Name="ReportedByUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StateAdminUser_MVReportedPollStateLog">
+          <End Role="MVUser" Type="MyVote.DatabaseModel.Store.MVUser" Multiplicity="1" />
+          <End Role="MVReportedPollStateLog" Type="MyVote.DatabaseModel.Store.MVReportedPollStateLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MVReportedPollStateLog">
+              <PropertyRef Name="StateAdminUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyVote.DatabaseModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="C__RefactorLog" EntityType="MyVote.DatabaseModel.C__RefactorLog" />
+          <EntitySet Name="MVCategories" EntityType="MyVote.DatabaseModel.MVCategory" />
+          <EntitySet Name="MVDates" EntityType="MyVote.DatabaseModel.MVDate" />
+          <EntitySet Name="MVGeographies" EntityType="MyVote.DatabaseModel.MVGeography" />
+          <EntitySet Name="MVPolls" EntityType="MyVote.DatabaseModel.MVPoll" />
+          <EntitySet Name="MVPollComments" EntityType="MyVote.DatabaseModel.MVPollComment" />
+          <EntitySet Name="MVPollOptions" EntityType="MyVote.DatabaseModel.MVPollOption" />
+          <EntitySet Name="MVPollResponses" EntityType="MyVote.DatabaseModel.MVPollResponse" />
+          <EntitySet Name="MVPollSubmissions" EntityType="MyVote.DatabaseModel.MVPollSubmission" />
+          <EntitySet Name="MVReportedPolls" EntityType="MyVote.DatabaseModel.MVReportedPoll" />
+          <EntitySet Name="MVReportedPollStateLogs" EntityType="MyVote.DatabaseModel.MVReportedPollStateLog" />
+          <EntitySet Name="MVReportedPollStateOptions" EntityType="MyVote.DatabaseModel.MVReportedPollStateOption" />
+          <EntitySet Name="MVUsers" EntityType="MyVote.DatabaseModel.MVUser" />
+          <EntitySet Name="MVUserRoles" EntityType="MyVote.DatabaseModel.MVUserRole" />
+          <AssociationSet Name="FK_MVPoll_MVCategory" Association="MyVote.DatabaseModel.FK_MVPoll_MVCategory">
+            <End Role="MVCategory" EntitySet="MVCategories" />
+            <End Role="MVPoll" EntitySet="MVPolls" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPoll_MVPollComment" Association="MyVote.DatabaseModel.fk_MVPoll_MVPollComment">
+            <End Role="MVPoll" EntitySet="MVPolls" />
+            <End Role="MVPollComment" EntitySet="MVPollComments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPoll_MVPollOption" Association="MyVote.DatabaseModel.fk_MVPoll_MVPollOption">
+            <End Role="MVPoll" EntitySet="MVPolls" />
+            <End Role="MVPollOption" EntitySet="MVPollOptions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPoll_MVPollResponse" Association="MyVote.DatabaseModel.fk_MVPoll_MVPollResponse">
+            <End Role="MVPoll" EntitySet="MVPolls" />
+            <End Role="MVPollResponse" EntitySet="MVPollResponses" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPoll_MVPollSubmission" Association="MyVote.DatabaseModel.fk_MVPoll_MVPollSubmission">
+            <End Role="MVPoll" EntitySet="MVPolls" />
+            <End Role="MVPollSubmission" EntitySet="MVPollSubmissions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPoll_MVReportedPoll" Association="MyVote.DatabaseModel.fk_MVPoll_MVReportedPoll">
+            <End Role="MVPoll" EntitySet="MVPolls" />
+            <End Role="MVReportedPoll" EntitySet="MVReportedPolls" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPoll_MVReportedPollStateLog" Association="MyVote.DatabaseModel.fk_MVPoll_MVReportedPollStateLog">
+            <End Role="MVPoll" EntitySet="MVPolls" />
+            <End Role="MVReportedPollStateLog" EntitySet="MVReportedPollStateLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPoll_MVUser" Association="MyVote.DatabaseModel.fk_MVPoll_MVUser">
+            <End Role="MVUser" EntitySet="MVUsers" />
+            <End Role="MVPoll" EntitySet="MVPolls" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVUser_MVPollComment" Association="MyVote.DatabaseModel.fk_MVUser_MVPollComment">
+            <End Role="MVUser" EntitySet="MVUsers" />
+            <End Role="MVPollComment" EntitySet="MVPollComments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPollOption_MVPollResponse" Association="MyVote.DatabaseModel.fk_MVPollOption_MVPollResponse">
+            <End Role="MVPollOption" EntitySet="MVPollOptions" />
+            <End Role="MVPollResponse" EntitySet="MVPollResponses" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVPollSubmission_MVPollResponse" Association="MyVote.DatabaseModel.fk_MVPollSubmission_MVPollResponse">
+            <End Role="MVPollSubmission" EntitySet="MVPollSubmissions" />
+            <End Role="MVPollResponse" EntitySet="MVPollResponses" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVUser_MVPollResponse" Association="MyVote.DatabaseModel.fk_MVUser_MVPollResponse">
+            <End Role="MVUser" EntitySet="MVUsers" />
+            <End Role="MVPollResponse" EntitySet="MVPollResponses" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVUser_MVPollSubmission" Association="MyVote.DatabaseModel.fk_MVUser_MVPollSubmission">
+            <End Role="MVUser" EntitySet="MVUsers" />
+            <End Role="MVPollSubmission" EntitySet="MVPollSubmissions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_CurrentStateAdminUser_MVReportedPoll" Association="MyVote.DatabaseModel.fk_CurrentStateAdminUser_MVReportedPoll">
+            <End Role="MVUser" EntitySet="MVUsers" />
+            <End Role="MVReportedPoll" EntitySet="MVReportedPolls" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVReportedPoll_MVReportedPollStateLog" Association="MyVote.DatabaseModel.fk_MVReportedPoll_MVReportedPollStateLog">
+            <End Role="MVReportedPoll" EntitySet="MVReportedPolls" />
+            <End Role="MVReportedPollStateLog" EntitySet="MVReportedPollStateLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVReportedPollStateOption_MVReportedPoll" Association="MyVote.DatabaseModel.fk_MVReportedPollStateOption_MVReportedPoll">
+            <End Role="MVReportedPollStateOption" EntitySet="MVReportedPollStateOptions" />
+            <End Role="MVReportedPoll" EntitySet="MVReportedPolls" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ReportedByUser_MVReportedPoll" Association="MyVote.DatabaseModel.fk_ReportedByUser_MVReportedPoll">
+            <End Role="MVUser" EntitySet="MVUsers" />
+            <End Role="MVReportedPoll" EntitySet="MVReportedPolls" />
+          </AssociationSet>
+          <AssociationSet Name="fk_StateAdminUser_MVReportedPollStateLog" Association="MyVote.DatabaseModel.fk_StateAdminUser_MVReportedPollStateLog">
+            <End Role="MVUser" EntitySet="MVUsers" />
+            <End Role="MVReportedPollStateLog" EntitySet="MVReportedPollStateLogs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MVUser_MVUserRole" Association="MyVote.DatabaseModel.fk_MVUser_MVUserRole">
+            <End Role="MVUserRole" EntitySet="MVUserRoles" />
+            <End Role="MVUser" EntitySet="MVUsers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="C__RefactorLog">
+          <Key>
+            <PropertyRef Name="OperationKey" />
+          </Key>
+          <Property Type="Guid" Name="OperationKey" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MVCategory">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Type="Int32" Name="CategoryID" Nullable="false" />
+          <Property Type="String" Name="CategoryName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MVPolls" Relationship="MyVote.DatabaseModel.FK_MVPoll_MVCategory" FromRole="MVCategory" ToRole="MVPoll" />
+        </EntityType>
+        <EntityType Name="MVDate">
+          <Key>
+            <PropertyRef Name="DateKey" />
+          </Key>
+          <Property Type="Int32" Name="DateKey" Nullable="false" />
+          <Property Type="DateTime" Name="DateID" Nullable="false" Precision="0" />
+          <Property Type="String" Name="DayNme" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DayShort" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Type="Byte" Name="DayNOD" Nullable="false" />
+          <Property Type="Int16" Name="CalendarYear" Nullable="false" />
+          <Property Type="Int16" Name="CalendarYearNOD" Nullable="false" />
+          <Property Type="Int32" Name="CalendarQuarter" Nullable="false" />
+          <Property Type="String" Name="CalendarQuarterName" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="CalendarQuarterShort" Nullable="false" MaxLength="7" FixedLength="true" Unicode="false" />
+          <Property Type="Byte" Name="CalendarQuarterNOD" Nullable="false" />
+          <Property Type="Int32" Name="CalendarMonth" Nullable="false" />
+          <Property Type="String" Name="CalendarMonthName" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CalendarMonthShort" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+          <Property Type="Byte" Name="CalendarMonthNOD" Nullable="false" />
+          <Property Type="Int32" Name="CalendarWeek" Nullable="false" />
+          <Property Type="String" Name="CalendarWeekName" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CalendarWeekShort" Nullable="false" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Type="Byte" Name="CalendarWeekNOD" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MVGeography">
+          <Key>
+            <PropertyRef Name="GeographyKey" />
+          </Key>
+          <Property Type="Int32" Name="GeographyKey" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="zip" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="primary_city" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="state" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="county" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="timezone" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="area_codes" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="latitude" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="longitude" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="estimated_population" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="MVPoll">
+          <Key>
+            <PropertyRef Name="PollID" />
+          </Key>
+          <Property Type="Int32" Name="PollID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="Int32" Name="PollCategoryID" Nullable="false" />
+          <Property Type="String" Name="PollQuestion" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PollDescription" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PollImageLink" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="Int16" Name="PollMaxAnswers" />
+          <Property Type="Int16" Name="PollMinAnswers" />
+          <Property Type="DateTime" Name="PollStartDate" Nullable="false" Precision="7" />
+          <Property Type="DateTime" Name="PollEndDate" Nullable="false" Precision="7" />
+          <Property Type="Boolean" Name="PollAdminRemovedFlag" />
+          <Property Type="DateTime" Name="PollDateRemoved" Precision="7" />
+          <Property Type="Boolean" Name="PollDeletedFlag" />
+          <Property Type="DateTime" Name="PollDeletedDate" Precision="7" />
+          <Property Type="DateTime" Name="AuditDateCreated" Precision="7" />
+          <Property Type="DateTime" Name="AuditDateModified" Precision="7" />
+          <NavigationProperty Name="MVCategory" Relationship="MyVote.DatabaseModel.FK_MVPoll_MVCategory" FromRole="MVPoll" ToRole="MVCategory" />
+          <NavigationProperty Name="MVPollComments" Relationship="MyVote.DatabaseModel.fk_MVPoll_MVPollComment" FromRole="MVPoll" ToRole="MVPollComment" />
+          <NavigationProperty Name="MVPollOptions" Relationship="MyVote.DatabaseModel.fk_MVPoll_MVPollOption" FromRole="MVPoll" ToRole="MVPollOption" />
+          <NavigationProperty Name="MVPollResponses" Relationship="MyVote.DatabaseModel.fk_MVPoll_MVPollResponse" FromRole="MVPoll" ToRole="MVPollResponse" />
+          <NavigationProperty Name="MVPollSubmissions" Relationship="MyVote.DatabaseModel.fk_MVPoll_MVPollSubmission" FromRole="MVPoll" ToRole="MVPollSubmission" />
+          <NavigationProperty Name="MVReportedPolls" Relationship="MyVote.DatabaseModel.fk_MVPoll_MVReportedPoll" FromRole="MVPoll" ToRole="MVReportedPoll" />
+          <NavigationProperty Name="MVReportedPollStateLogs" Relationship="MyVote.DatabaseModel.fk_MVPoll_MVReportedPollStateLog" FromRole="MVPoll" ToRole="MVReportedPollStateLog" />
+          <NavigationProperty Name="MVUser" Relationship="MyVote.DatabaseModel.fk_MVPoll_MVUser" FromRole="MVPoll" ToRole="MVUser" />
+        </EntityType>
+        <EntityType Name="MVPollComment">
+          <Key>
+            <PropertyRef Name="PollCommentID" />
+          </Key>
+          <Property Type="Int32" Name="PollCommentID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="CommentText" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CommentDate" Precision="7" />
+          <Property Type="Int32" Name="ParentCommentID" />
+          <Property Type="Int32" Name="PollID" Nullable="false" />
+          <Property Type="Boolean" Name="PollCommentDeletedFlag" />
+          <Property Type="DateTime" Name="PollCommentDeletedDate" Precision="7" />
+          <NavigationProperty Name="MVPoll" Relationship="MyVote.DatabaseModel.fk_MVPoll_MVPollComment" FromRole="MVPollComment" ToRole="MVPoll" />
+          <NavigationProperty Name="MVUser" Relationship="MyVote.DatabaseModel.fk_MVUser_MVPollComment" FromRole="MVPollComment" ToRole="MVUser" />
+        </EntityType>
+        <EntityType Name="MVPollOption">
+          <Key>
+            <PropertyRef Name="PollOptionID" />
+          </Key>
+          <Property Type="Int32" Name="PollOptionID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="PollID" Nullable="false" />
+          <Property Type="Int16" Name="OptionPosition" Nullable="false" />
+          <Property Type="String" Name="OptionText" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MVPoll" Relationship="MyVote.DatabaseModel.fk_MVPoll_MVPollOption" FromRole="MVPollOption" ToRole="MVPoll" />
+          <NavigationProperty Name="MVPollResponses" Relationship="MyVote.DatabaseModel.fk_MVPollOption_MVPollResponse" FromRole="MVPollOption" ToRole="MVPollResponse" />
+        </EntityType>
+        <EntityType Name="MVPollResponse">
+          <Key>
+            <PropertyRef Name="PollResponseID" />
+          </Key>
+          <Property Type="Int32" Name="PollResponseID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="PollID" Nullable="false" />
+          <Property Type="Int32" Name="PollSubmissionID" Nullable="false" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="Int32" Name="PollOptionID" Nullable="false" />
+          <Property Type="Boolean" Name="OptionSelected" Nullable="false" />
+          <Property Type="DateTime" Name="ResponseDate" Nullable="false" Precision="7" />
+          <NavigationProperty Name="MVPoll" Relationship="MyVote.DatabaseModel.fk_MVPoll_MVPollResponse" FromRole="MVPollResponse" ToRole="MVPoll" />
+          <NavigationProperty Name="MVPollOption" Relationship="MyVote.DatabaseModel.fk_MVPollOption_MVPollResponse" FromRole="MVPollResponse" ToRole="MVPollOption" />
+          <NavigationProperty Name="MVPollSubmission" Relationship="MyVote.DatabaseModel.fk_MVPollSubmission_MVPollResponse" FromRole="MVPollResponse" ToRole="MVPollSubmission" />
+          <NavigationProperty Name="MVUser" Relationship="MyVote.DatabaseModel.fk_MVUser_MVPollResponse" FromRole="MVPollResponse" ToRole="MVUser" />
+        </EntityType>
+        <EntityType Name="MVPollSubmission">
+          <Key>
+            <PropertyRef Name="PollSubmissionID" />
+          </Key>
+          <Property Type="Int32" Name="PollSubmissionID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="PollID" Nullable="false" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="DateTime" Name="PollSubmissionDate" Nullable="false" Precision="7" />
+          <Property Type="String" Name="PollSubmissionComment" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MVPoll" Relationship="MyVote.DatabaseModel.fk_MVPoll_MVPollSubmission" FromRole="MVPollSubmission" ToRole="MVPoll" />
+          <NavigationProperty Name="MVPollResponses" Relationship="MyVote.DatabaseModel.fk_MVPollSubmission_MVPollResponse" FromRole="MVPollSubmission" ToRole="MVPollResponse" />
+          <NavigationProperty Name="MVUser" Relationship="MyVote.DatabaseModel.fk_MVUser_MVPollSubmission" FromRole="MVPollSubmission" ToRole="MVUser" />
+        </EntityType>
+        <EntityType Name="MVReportedPoll">
+          <Key>
+            <PropertyRef Name="ReportedPollID" />
+          </Key>
+          <Property Type="Int32" Name="ReportedPollID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="PollID" Nullable="false" />
+          <Property Type="Int32" Name="ReportedByUserID" Nullable="false" />
+          <Property Type="Int32" Name="CurrentStateAdminUserID" />
+          <Property Type="DateTime" Name="DateReported" Nullable="false" Precision="7" />
+          <Property Type="DateTime" Name="DateCurrentStateChanged" Precision="7" />
+          <Property Type="Int32" Name="ReportedPollStateOptionID" Nullable="false" />
+          <Property Type="String" Name="ReportComments" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MVPoll" Relationship="MyVote.DatabaseModel.fk_MVPoll_MVReportedPoll" FromRole="MVReportedPoll" ToRole="MVPoll" />
+          <NavigationProperty Name="MVUser" Relationship="MyVote.DatabaseModel.fk_CurrentStateAdminUser_MVReportedPoll" FromRole="MVReportedPoll" ToRole="MVUser" />
+          <NavigationProperty Name="MVReportedPollStateLogs" Relationship="MyVote.DatabaseModel.fk_MVReportedPoll_MVReportedPollStateLog" FromRole="MVReportedPoll" ToRole="MVReportedPollStateLog" />
+          <NavigationProperty Name="MVReportedPollStateOption" Relationship="MyVote.DatabaseModel.fk_MVReportedPollStateOption_MVReportedPoll" FromRole="MVReportedPoll" ToRole="MVReportedPollStateOption" />
+          <NavigationProperty Name="MVUser1" Relationship="MyVote.DatabaseModel.fk_ReportedByUser_MVReportedPoll" FromRole="MVReportedPoll" ToRole="MVUser" />
+        </EntityType>
+        <EntityType Name="MVReportedPollStateLog">
+          <Key>
+            <PropertyRef Name="ReportedPollStateLogID" />
+          </Key>
+          <Property Type="Int32" Name="ReportedPollStateLogID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ReportedPollID" Nullable="false" />
+          <Property Type="Int32" Name="PollID" Nullable="false" />
+          <Property Type="Int32" Name="StateAdminUserID" Nullable="false" />
+          <Property Type="DateTime" Name="DateStateChanged" Nullable="false" Precision="7" />
+          <Property Type="String" Name="StateChangeComments" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MVPoll" Relationship="MyVote.DatabaseModel.fk_MVPoll_MVReportedPollStateLog" FromRole="MVReportedPollStateLog" ToRole="MVPoll" />
+          <NavigationProperty Name="MVReportedPoll" Relationship="MyVote.DatabaseModel.fk_MVReportedPoll_MVReportedPollStateLog" FromRole="MVReportedPollStateLog" ToRole="MVReportedPoll" />
+          <NavigationProperty Name="MVUser" Relationship="MyVote.DatabaseModel.fk_StateAdminUser_MVReportedPollStateLog" FromRole="MVReportedPollStateLog" ToRole="MVUser" />
+        </EntityType>
+        <EntityType Name="MVReportedPollStateOption">
+          <Key>
+            <PropertyRef Name="ReportedPollStateOptionID" />
+          </Key>
+          <Property Type="Int32" Name="ReportedPollStateOptionID" Nullable="false" />
+          <Property Type="String" Name="ReportedPollStateName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ReportedPollStateComments" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MVReportedPolls" Relationship="MyVote.DatabaseModel.fk_MVReportedPollStateOption_MVReportedPoll" FromRole="MVReportedPollStateOption" ToRole="MVReportedPoll" />
+        </EntityType>
+        <EntityType Name="MVUser">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Type="Int32" Name="UserID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ProfileID" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ProfileAuthToken" MaxLength="2100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="EmailAddress" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FirstName" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Gender" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="PostalCode" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="BirthDate" Precision="0" />
+          <Property Type="Int32" Name="UserRoleID" />
+          <Property Type="DateTime" Name="AuditCreateDate" Precision="7" />
+          <Property Type="DateTime" Name="AuditModifyDate" Precision="7" />
+          <NavigationProperty Name="MVPolls" Relationship="MyVote.DatabaseModel.fk_MVPoll_MVUser" FromRole="MVUser" ToRole="MVPoll" />
+          <NavigationProperty Name="MVPollComments" Relationship="MyVote.DatabaseModel.fk_MVUser_MVPollComment" FromRole="MVUser" ToRole="MVPollComment" />
+          <NavigationProperty Name="MVPollResponses" Relationship="MyVote.DatabaseModel.fk_MVUser_MVPollResponse" FromRole="MVUser" ToRole="MVPollResponse" />
+          <NavigationProperty Name="MVPollSubmissions" Relationship="MyVote.DatabaseModel.fk_MVUser_MVPollSubmission" FromRole="MVUser" ToRole="MVPollSubmission" />
+          <NavigationProperty Name="MVReportedPolls" Relationship="MyVote.DatabaseModel.fk_CurrentStateAdminUser_MVReportedPoll" FromRole="MVUser" ToRole="MVReportedPoll" />
+          <NavigationProperty Name="MVReportedPolls1" Relationship="MyVote.DatabaseModel.fk_ReportedByUser_MVReportedPoll" FromRole="MVUser" ToRole="MVReportedPoll" />
+          <NavigationProperty Name="MVReportedPollStateLogs" Relationship="MyVote.DatabaseModel.fk_StateAdminUser_MVReportedPollStateLog" FromRole="MVUser" ToRole="MVReportedPollStateLog" />
+          <NavigationProperty Name="MVUserRole" Relationship="MyVote.DatabaseModel.fk_MVUser_MVUserRole" FromRole="MVUser" ToRole="MVUserRole" />
+        </EntityType>
+        <EntityType Name="MVUserRole">
+          <Key>
+            <PropertyRef Name="UserRoleID" />
+          </Key>
+          <Property Type="Int32" Name="UserRoleID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="UserRoleName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MVUsers" Relationship="MyVote.DatabaseModel.fk_MVUser_MVUserRole" FromRole="MVUserRole" ToRole="MVUser" />
+        </EntityType>
+        <Association Name="FK_MVPoll_MVCategory">
+          <End Type="MyVote.DatabaseModel.MVCategory" Role="MVCategory" Multiplicity="1" />
+          <End Type="MyVote.DatabaseModel.MVPoll" Role="MVPoll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVCategory">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="MVPoll">
+              <PropertyRef Name="PollCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPoll_MVPollComment">
+          <End Type="MyVote.DatabaseModel.MVPoll" Role="MVPoll" Multiplicity="1" />
+          <End Type="MyVote.DatabaseModel.MVPollComment" Role="MVPollComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVPoll">
+              <PropertyRef Name="PollID" />
+            </Principal>
+            <Dependent Role="MVPollComment">
+              <PropertyRef Name="PollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPoll_MVPollOption">
+          <End Type="MyVote.DatabaseModel.MVPoll" Role="MVPoll" Multiplicity="1" />
+          <End Type="MyVote.DatabaseModel.MVPollOption" Role="MVPollOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVPoll">
+              <PropertyRef Name="PollID" />
+            </Principal>
+            <Dependent Role="MVPollOption">
+              <PropertyRef Name="PollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPoll_MVPollResponse">
+          <End Type="MyVote.DatabaseModel.MVPoll" Role="MVPoll" Multiplicity="1" />
+          <End Type="MyVote.DatabaseModel.MVPollResponse" Role="MVPollResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVPoll">
+              <PropertyRef Name="PollID" />
+            </Principal>
+            <Dependent Role="MVPollResponse">
+              <PropertyRef Name="PollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPoll_MVPollSubmission">
+          <End Type="MyVote.DatabaseModel.MVPoll" Role="MVPoll" Multiplicity="1" />
+          <End Type="MyVote.DatabaseModel.MVPollSubmission" Role="MVPollSubmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVPoll">
+              <PropertyRef Name="PollID" />
+            </Principal>
+            <Dependent Role="MVPollSubmission">
+              <PropertyRef Name="PollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPoll_MVReportedPoll">
+          <End Type="MyVote.DatabaseModel.MVPoll" Role="MVPoll" Multiplicity="1" />
+          <End Type="MyVote.DatabaseModel.MVReportedPoll" Role="MVReportedPoll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVPoll">
+              <PropertyRef Name="PollID" />
+            </Principal>
+            <Dependent Role="MVReportedPoll">
+              <PropertyRef Name="PollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPoll_MVReportedPollStateLog">
+          <End Type="MyVote.DatabaseModel.MVPoll" Role="MVPoll" Multiplicity="1" />
+          <End Type="MyVote.DatabaseModel.MVReportedPollStateLog" Role="MVReportedPollStateLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVPoll">
+              <PropertyRef Name="PollID" />
+            </Principal>
+            <Dependent Role="MVReportedPollStateLog">
+              <PropertyRef Name="PollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPoll_MVUser">
+          <End Type="MyVote.DatabaseModel.MVUser" Role="MVUser" Multiplicity="1" />
+          <End Type="MyVote.DatabaseModel.MVPoll" Role="MVPoll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MVPoll">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVUser_MVPollComment">
+          <End Type="MyVote.DatabaseModel.MVUser" Role="MVUser" Multiplicity="1" />
+          <End Type="MyVote.DatabaseModel.MVPollComment" Role="MVPollComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MVPollComment">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPollOption_MVPollResponse">
+          <End Type="MyVote.DatabaseModel.MVPollOption" Role="MVPollOption" Multiplicity="1" />
+          <End Type="MyVote.DatabaseModel.MVPollResponse" Role="MVPollResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVPollOption">
+              <PropertyRef Name="PollOptionID" />
+            </Principal>
+            <Dependent Role="MVPollResponse">
+              <PropertyRef Name="PollOptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVPollSubmission_MVPollResponse">
+          <End Type="MyVote.DatabaseModel.MVPollSubmission" Role="MVPollSubmission" Multiplicity="1" />
+          <End Type="MyVote.DatabaseModel.MVPollResponse" Role="MVPollResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVPollSubmission">
+              <PropertyRef Name="PollSubmissionID" />
+            </Principal>
+            <Dependent Role="MVPollResponse">
+              <PropertyRef Name="PollSubmissionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVUser_MVPollResponse">
+          <End Type="MyVote.DatabaseModel.MVUser" Role="MVUser" Multiplicity="1" />
+          <End Type="MyVote.DatabaseModel.MVPollResponse" Role="MVPollResponse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MVPollResponse">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVUser_MVPollSubmission">
+          <End Type="MyVote.DatabaseModel.MVUser" Role="MVUser" Multiplicity="1" />
+          <End Type="MyVote.DatabaseModel.MVPollSubmission" Role="MVPollSubmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MVPollSubmission">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_CurrentStateAdminUser_MVReportedPoll">
+          <End Type="MyVote.DatabaseModel.MVUser" Role="MVUser" Multiplicity="0..1" />
+          <End Type="MyVote.DatabaseModel.MVReportedPoll" Role="MVReportedPoll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MVReportedPoll">
+              <PropertyRef Name="CurrentStateAdminUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVReportedPoll_MVReportedPollStateLog">
+          <End Type="MyVote.DatabaseModel.MVReportedPoll" Role="MVReportedPoll" Multiplicity="1" />
+          <End Type="MyVote.DatabaseModel.MVReportedPollStateLog" Role="MVReportedPollStateLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVReportedPoll">
+              <PropertyRef Name="ReportedPollID" />
+            </Principal>
+            <Dependent Role="MVReportedPollStateLog">
+              <PropertyRef Name="ReportedPollID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVReportedPollStateOption_MVReportedPoll">
+          <End Type="MyVote.DatabaseModel.MVReportedPollStateOption" Role="MVReportedPollStateOption" Multiplicity="1" />
+          <End Type="MyVote.DatabaseModel.MVReportedPoll" Role="MVReportedPoll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVReportedPollStateOption">
+              <PropertyRef Name="ReportedPollStateOptionID" />
+            </Principal>
+            <Dependent Role="MVReportedPoll">
+              <PropertyRef Name="ReportedPollStateOptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ReportedByUser_MVReportedPoll">
+          <End Type="MyVote.DatabaseModel.MVUser" Role="MVUser" Multiplicity="1" />
+          <End Type="MyVote.DatabaseModel.MVReportedPoll" Role="MVReportedPoll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MVReportedPoll">
+              <PropertyRef Name="ReportedByUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_StateAdminUser_MVReportedPollStateLog">
+          <End Type="MyVote.DatabaseModel.MVUser" Role="MVUser" Multiplicity="1" />
+          <End Type="MyVote.DatabaseModel.MVReportedPollStateLog" Role="MVReportedPollStateLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MVReportedPollStateLog">
+              <PropertyRef Name="StateAdminUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_MVUser_MVUserRole">
+          <End Type="MyVote.DatabaseModel.MVUserRole" Role="MVUserRole" Multiplicity="0..1" />
+          <End Type="MyVote.DatabaseModel.MVUser" Role="MVUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MVUserRole">
+              <PropertyRef Name="UserRoleID" />
+            </Principal>
+            <Dependent Role="MVUser">
+              <PropertyRef Name="UserRoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyVoteDatabaseModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="C__RefactorLog">
+            <EntityTypeMapping TypeName="MyVote.DatabaseModel.C__RefactorLog">
+              <MappingFragment StoreEntitySet="__RefactorLog">
+                <ScalarProperty Name="OperationKey" ColumnName="OperationKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MVCategories">
+            <EntityTypeMapping TypeName="MyVote.DatabaseModel.MVCategory">
+              <MappingFragment StoreEntitySet="MVCategory">
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MVDates">
+            <EntityTypeMapping TypeName="MyVote.DatabaseModel.MVDate">
+              <MappingFragment StoreEntitySet="MVDates">
+                <ScalarProperty Name="CalendarWeekNOD" ColumnName="CalendarWeekNOD" />
+                <ScalarProperty Name="CalendarWeekShort" ColumnName="CalendarWeekShort" />
+                <ScalarProperty Name="CalendarWeekName" ColumnName="CalendarWeekName" />
+                <ScalarProperty Name="CalendarWeek" ColumnName="CalendarWeek" />
+                <ScalarProperty Name="CalendarMonthNOD" ColumnName="CalendarMonthNOD" />
+                <ScalarProperty Name="CalendarMonthShort" ColumnName="CalendarMonthShort" />
+                <ScalarProperty Name="CalendarMonthName" ColumnName="CalendarMonthName" />
+                <ScalarProperty Name="CalendarMonth" ColumnName="CalendarMonth" />
+                <ScalarProperty Name="CalendarQuarterNOD" ColumnName="CalendarQuarterNOD" />
+                <ScalarProperty Name="CalendarQuarterShort" ColumnName="CalendarQuarterShort" />
+                <ScalarProperty Name="CalendarQuarterName" ColumnName="CalendarQuarterName" />
+                <ScalarProperty Name="CalendarQuarter" ColumnName="CalendarQuarter" />
+                <ScalarProperty Name="CalendarYearNOD" ColumnName="CalendarYearNOD" />
+                <ScalarProperty Name="CalendarYear" ColumnName="CalendarYear" />
+                <ScalarProperty Name="DayNOD" ColumnName="DayNOD" />
+                <ScalarProperty Name="DayShort" ColumnName="DayShort" />
+                <ScalarProperty Name="DayNme" ColumnName="DayNme" />
+                <ScalarProperty Name="DateID" ColumnName="DateID" />
+                <ScalarProperty Name="DateKey" ColumnName="DateKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MVGeographies">
+            <EntityTypeMapping TypeName="MyVote.DatabaseModel.MVGeography">
+              <MappingFragment StoreEntitySet="MVGeography">
+                <ScalarProperty Name="estimated_population" ColumnName="estimated_population" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
+                <ScalarProperty Name="area_codes" ColumnName="area_codes" />
+                <ScalarProperty Name="timezone" ColumnName="timezone" />
+                <ScalarProperty Name="county" ColumnName="county" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="primary_city" ColumnName="primary_city" />
+                <ScalarProperty Name="zip" ColumnName="zip" />
+                <ScalarProperty Name="GeographyKey" ColumnName="GeographyKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MVPolls">
+            <EntityTypeMapping TypeName="MyVote.DatabaseModel.MVPoll">
+              <MappingFragment StoreEntitySet="MVPoll">
+                <ScalarProperty Name="AuditDateModified" ColumnName="AuditDateModified" />
+                <ScalarProperty Name="AuditDateCreated" ColumnName="AuditDateCreated" />
+                <ScalarProperty Name="PollDeletedDate" ColumnName="PollDeletedDate" />
+                <ScalarProperty Name="PollDeletedFlag" ColumnName="PollDeletedFlag" />
+                <ScalarProperty Name="PollDateRemoved" ColumnName="PollDateRemoved" />
+                <ScalarProperty Name="PollAdminRemovedFlag" ColumnName="PollAdminRemovedFlag" />
+                <ScalarProperty Name="PollEndDate" ColumnName="PollEndDate" />
+                <ScalarProperty Name="PollStartDate" ColumnName="PollStartDate" />
+                <ScalarProperty Name="PollMinAnswers" ColumnName="PollMinAnswers" />
+                <ScalarProperty Name="PollMaxAnswers" ColumnName="PollMaxAnswers" />
+                <ScalarProperty Name="PollImageLink" ColumnName="PollImageLink" />
+                <ScalarProperty Name="PollDescription" ColumnName="PollDescription" />
+                <ScalarProperty Name="PollQuestion" ColumnName="PollQuestion" />
+                <ScalarProperty Name="PollCategoryID" ColumnName="PollCategoryID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PollID" ColumnName="PollID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MVPollComments">
+            <EntityTypeMapping TypeName="MyVote.DatabaseModel.MVPollComment">
+              <MappingFragment StoreEntitySet="MVPollComment">
+                <ScalarProperty Name="PollCommentDeletedDate" ColumnName="PollCommentDeletedDate" />
+                <ScalarProperty Name="PollCommentDeletedFlag" ColumnName="PollCommentDeletedFlag" />
+                <ScalarProperty Name="PollID" ColumnName="PollID" />
+                <ScalarProperty Name="ParentCommentID" ColumnName="ParentCommentID" />
+                <ScalarProperty Name="CommentDate" ColumnName="CommentDate" />
+                <ScalarProperty Name="CommentText" ColumnName="CommentText" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PollCommentID" ColumnName="PollCommentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MVPollOptions">
+            <EntityTypeMapping TypeName="MyVote.DatabaseModel.MVPollOption">
+              <MappingFragment StoreEntitySet="MVPollOption">
+                <ScalarProperty Name="OptionText" ColumnName="OptionText" />
+                <ScalarProperty Name="OptionPosition" ColumnName="OptionPosition" />
+                <ScalarProperty Name="PollID" ColumnName="PollID" />
+                <ScalarProperty Name="PollOptionID" ColumnName="PollOptionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MVPollResponses">
+            <EntityTypeMapping TypeName="MyVote.DatabaseModel.MVPollResponse">
+              <MappingFragment StoreEntitySet="MVPollResponse">
+                <ScalarProperty Name="ResponseDate" ColumnName="ResponseDate" />
+                <ScalarProperty Name="OptionSelected" ColumnName="OptionSelected" />
+                <ScalarProperty Name="PollOptionID" ColumnName="PollOptionID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PollSubmissionID" ColumnName="PollSubmissionID" />
+                <ScalarProperty Name="PollID" ColumnName="PollID" />
+                <ScalarProperty Name="PollResponseID" ColumnName="PollResponseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MVPollSubmissions">
+            <EntityTypeMapping TypeName="MyVote.DatabaseModel.MVPollSubmission">
+              <MappingFragment StoreEntitySet="MVPollSubmission">
+                <ScalarProperty Name="PollSubmissionComment" ColumnName="PollSubmissionComment" />
+                <ScalarProperty Name="PollSubmissionDate" ColumnName="PollSubmissionDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PollID" ColumnName="PollID" />
+                <ScalarProperty Name="PollSubmissionID" ColumnName="PollSubmissionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MVReportedPolls">
+            <EntityTypeMapping TypeName="MyVote.DatabaseModel.MVReportedPoll">
+              <MappingFragment StoreEntitySet="MVReportedPoll">
+                <ScalarProperty Name="ReportComments" ColumnName="ReportComments" />
+                <ScalarProperty Name="ReportedPollStateOptionID" ColumnName="ReportedPollStateOptionID" />
+                <ScalarProperty Name="DateCurrentStateChanged" ColumnName="DateCurrentStateChanged" />
+                <ScalarProperty Name="DateReported" ColumnName="DateReported" />
+                <ScalarProperty Name="CurrentStateAdminUserID" ColumnName="CurrentStateAdminUserID" />
+                <ScalarProperty Name="ReportedByUserID" ColumnName="ReportedByUserID" />
+                <ScalarProperty Name="PollID" ColumnName="PollID" />
+                <ScalarProperty Name="ReportedPollID" ColumnName="ReportedPollID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MVReportedPollStateLogs">
+            <EntityTypeMapping TypeName="MyVote.DatabaseModel.MVReportedPollStateLog">
+              <MappingFragment StoreEntitySet="MVReportedPollStateLog">
+                <ScalarProperty Name="StateChangeComments" ColumnName="StateChangeComments" />
+                <ScalarProperty Name="DateStateChanged" ColumnName="DateStateChanged" />
+                <ScalarProperty Name="StateAdminUserID" ColumnName="StateAdminUserID" />
+                <ScalarProperty Name="PollID" ColumnName="PollID" />
+                <ScalarProperty Name="ReportedPollID" ColumnName="ReportedPollID" />
+                <ScalarProperty Name="ReportedPollStateLogID" ColumnName="ReportedPollStateLogID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MVReportedPollStateOptions">
+            <EntityTypeMapping TypeName="MyVote.DatabaseModel.MVReportedPollStateOption">
+              <MappingFragment StoreEntitySet="MVReportedPollStateOption">
+                <ScalarProperty Name="ReportedPollStateComments" ColumnName="ReportedPollStateComments" />
+                <ScalarProperty Name="ReportedPollStateName" ColumnName="ReportedPollStateName" />
+                <ScalarProperty Name="ReportedPollStateOptionID" ColumnName="ReportedPollStateOptionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MVUsers">
+            <EntityTypeMapping TypeName="MyVote.DatabaseModel.MVUser">
+              <MappingFragment StoreEntitySet="MVUser">
+                <ScalarProperty Name="AuditModifyDate" ColumnName="AuditModifyDate" />
+                <ScalarProperty Name="AuditCreateDate" ColumnName="AuditCreateDate" />
+                <ScalarProperty Name="UserRoleID" ColumnName="UserRoleID" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="ProfileAuthToken" ColumnName="ProfileAuthToken" />
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MVUserRoles">
+            <EntityTypeMapping TypeName="MyVote.DatabaseModel.MVUserRole">
+              <MappingFragment StoreEntitySet="MVUserRole">
+                <ScalarProperty Name="UserRoleName" ColumnName="UserRoleName" />
+                <ScalarProperty Name="UserRoleID" ColumnName="UserRoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

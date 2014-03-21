@@ -79,7 +79,7 @@ publish
 *.Publish.xml
 
 # NuGet Packages Directory
-packages
+#packages
 
 # Windows Azure Build Output
 csx
@@ -101,8 +101,23 @@ ClientBin
 *.dbmdl
 Generated_Code #added for RIA/Silverlight projects
 
+# javascript unit testing
+_Chutzpah*
+coverage/
+**/controllers/*.html
+
 # Backup & report files from converting an old project file to a newer
 # Visual Studio version. Backup files are not needed, because we have git ;-)
 _UpgradeReport_Files/
 Backup*/
 UpgradeLog*.XML
+
+Desktop.ini
+/Source/Csla.Silverlight.test/UnitTest/CslaLight.Testing/Generated_Code
+
+# TFS Git metadata
+$tf
+
+######### Xamarin #########
+
+*.userprefs

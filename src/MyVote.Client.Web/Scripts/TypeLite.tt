@@ -1,0 +1,19 @@
+﻿<#@ template debug="false" hostspecific="True" language="C#" #><#@
+    assembly name="$(TargetDir)TypeLite.dll" #><#@
+	assembly name="$(TargetDir)$(TargetFileName)" #><#@
+	assembly name="$(TargetDir)..\..\MyVote.AppServer\bin\MyVote.AppServer.dll" #><#@
+	import namespace="TypeLite" #><#@
+	output extension=".d.ts"#>
+<#= TypeScript.Definitions()
+	.For<MyVote.AppServer.Models.PollSummary>()
+	.For<MyVote.AppServer.Models.Poll>()
+	.For<MyVote.AppServer.Models.PollResponse>()
+	.For<MyVote.AppServer.Models.PollResult>()
+	.For<MyVote.AppServer.Models.PollInfo>()
+	.For<MyVote.AppServer.Models.User>() #>
+
+declare module MyVote.AppServer.Models {
+	interface PollOption {
+		Selected: boolean;
+	}
+}

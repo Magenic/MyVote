@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyVote.Client.Droid", "MyVote.Android\MyVote.Client.Droid.csproj", "{F071E0FC-59AA-4C23-A9BD-A374C1EC8C3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyVote.Core.Droid", "MyVote.Core.Android\MyVote.Core.Droid.csproj", "{7205C83B-B029-4225-B016-8C4DA17F6BB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyVote.BusinessObjects.Droid", "MyVote.BusinessObjects.Android\MyVote.BusinessObjects.Droid.csproj", "{DA567DF4-61C4-4CEA-B2B8-49259C634507}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyVote.UI.Droid", "MyVote.UI.Android\MyVote.UI.Droid.csproj", "{D8B8A411-F70B-400E-9C36-370F84E1ABD5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7205C83B-B029-4225-B016-8C4DA17F6BB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7205C83B-B029-4225-B016-8C4DA17F6BB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7205C83B-B029-4225-B016-8C4DA17F6BB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7205C83B-B029-4225-B016-8C4DA17F6BB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8B8A411-F70B-400E-9C36-370F84E1ABD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8B8A411-F70B-400E-9C36-370F84E1ABD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8B8A411-F70B-400E-9C36-370F84E1ABD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8B8A411-F70B-400E-9C36-370F84E1ABD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA567DF4-61C4-4CEA-B2B8-49259C634507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA567DF4-61C4-4CEA-B2B8-49259C634507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA567DF4-61C4-4CEA-B2B8-49259C634507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA567DF4-61C4-4CEA-B2B8-49259C634507}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F071E0FC-59AA-4C23-A9BD-A374C1EC8C3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F071E0FC-59AA-4C23-A9BD-A374C1EC8C3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F071E0FC-59AA-4C23-A9BD-A374C1EC8C3E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F071E0FC-59AA-4C23-A9BD-A374C1EC8C3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F071E0FC-59AA-4C23-A9BD-A374C1EC8C3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F071E0FC-59AA-4C23-A9BD-A374C1EC8C3E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = MyVote.Android\MyVote.Client.Droid.csproj
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

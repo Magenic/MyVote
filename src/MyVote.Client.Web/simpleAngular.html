@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Angular</title>
+</head>
+<body ng-app>
+    <div ng-controller="StuffCtrl">
+        <input ng-model='stuff' type='text'></input>
+        <div>You entered: {{stuff}}</div>
+    </div>
+    <script src='/Scripts/angular.js'></script>
+    <script type='text/javascript'>
+        function StuffCtrl($scope) {
+            $scope.stuff = null;
+        }
+    </script>
+</body>
+</html>

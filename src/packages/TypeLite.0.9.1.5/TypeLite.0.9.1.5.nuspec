@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>TypeLite</id>
+    <version>0.9.1.5</version>
+    <title>TypeLITE</title>
+    <authors>Lukas Kabrt and contributors</authors>
+    <owners>Lukas Kabrt and contributors</owners>
+    <licenseUrl>http://type.litesolutions.net/license</licenseUrl>
+    <projectUrl>http://type.litesolutions.net/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Generates TypeScript interfaces from .NET classes</description>
+    <summary>Generates TypeScript interfaces from .NET classes</summary>
+    <copyright>Lukas Kabrt</copyright>
+    <tags>TypeScript</tags>
+  </metadata>
+</package>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="800dp"
+    android:layout_height="fill_parent"
+    android:layout_gravity="right"
+    android:background="#ff656552">
+    <barchart.BarChartView
+        android:id="@+id/barChart"
+        android:layout_height="300dp"
+        android:layout_width="fill_parent"
+        android:layout_centerInParent="true"
+        bar_color="#FED437"
+        bar_caption_outerColor="#000000"
+        bar_caption_innerColor="#000000" />
+    <Button
+        android:id="@+id/closeVoteButtonn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="5dp"
+        android:minHeight="50dp"
+        android:text="Close" />
+    <Button
+        android:id="@+id/deletePollButtonn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_weight="0"
+        android:minHeight="50dp"
+        android:text="Delete Poll" />
+</RelativeLayout>

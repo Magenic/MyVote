@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragmentContainer"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:background="@drawable/landscapepagebackgrounddark">
+<!--
+    <ImageView
+        android:src="@drawable/LandscapePageBackgroundDark"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitXY"
+        android:id="@+id/splashImage" />-->
+    <LinearLayout
+        android:layout_gravity="bottom|center_horizontal"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:minWidth="25px"
+        android:minHeight="25px">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true">
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/pollTypeSpinner" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/pollsPageSearchField" />
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_weight="1">
+            <ListView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/pollListView2"
+                android:dividerHeight="2dp"
+                android:scrollingCache="true"
+                android:fastScrollEnabled="false"
+                android:smoothScrollbar="true" />
+        </RelativeLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:minHeight="50dp"
+            android:layout_weight="0">
+            <Button
+                android:text="See New Layout"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/goToNewLayoutButton" />
+            <Button
+                android:id="@+id/addPollButton"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="Add a Poll" />
+            <Button
+                android:text="Search"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/searchButton" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

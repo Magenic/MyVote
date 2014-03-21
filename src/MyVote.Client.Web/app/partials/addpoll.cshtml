@@ -1,0 +1,59 @@
+﻿@using System.Data.SqlTypes
+@using MyVote.Client.Web
+@* what we want here is class- or field-level helper that renders angular validating inputs *@
+<section class="left-view">
+    <h2>Create A New Poll</h2>
+    <form name="addPollForm"
+          class="stacked-form"
+          ng-submit="submit()"
+          novalidate
+          autocomplete="off"
+          ng-init="defaultStartDate='@SqlDateTime.MinValue.Value';defaultEndDate='@SqlDateTime.MaxValue.Value'">
+
+        <div class="clear-fix">
+            <div class="stacked-form-column">
+                <fieldset>
+                    <legend>Poll</legend>
+                    @FormHelpers.Select("newPoll.PollCategoryID", "Select A Category", MyVoteData.GetCategories(), required: true, autoFocus: true)
+                    @FormHelpers.Input("newPoll.PollQuestion", "What's Your Question?", "text", required: true, attribs: "style='padding:24px' ")
+
+                    @FormHelpers.Input("newPoll.PollDescription", "Description", "text")
+
+                    <div ng-repeat="pollOption in newPoll.PollOptions">
+                        @FormHelpers.Input("pollOption.OptionText", "Answer {{answerLetter($index)}}", "text", attribs: "ng-required='$index < 2'", includeErrorBlock: false)
+                    </div>
+                    @FormHelpers.ErrorBlock("pollOption.OptionText")
+                </fieldset>
+            </div>
+            <div class="stacked-form-column">
+                <fieldset>
+                    <legend>Image</legend>
+                    <label for="pollImage">Polls are more interesting with an image!</label>
+                    <file id="pollImage" file-model="pollImage" accept="image/png,image/jpg,image/jpeg,image/gif" />
+                </fieldset>
+                <button class="clear-fix" type="submit" ng-disabled="busyMessage">Post & View My Poll!</button>
+                <a class="block-link" href="/#/polls">Back to polls</a>
+
+                <h3 class="accordionHead" ng-click="toggleAccordion()">Advanced</h3>
+                <div class="accordion" ng-show="showAccordion">
+                    <fieldset>
+                        <legend>Start and End</legend>
+                        <label for="setDateTrue"><input id="setDateTrue" name="setStartEndDate" type="radio" ng-model="setStartEndDate" value="no" /> Post this Poll with no end date & time.</label>
+                        <label for="setDateFalse"><input id="setDateFalse" name="setStartEndDate" type="radio" ng-model="setStartEndDate" value="yes" /> Specify a start and end date and time for this poll.</label>
+                        @FormHelpers.Input("startDate", "Start Date", "date", attribs: "ng-required=\"setStartEndDate == 'yes'\" ng-disabled=\"setStartEndDate == 'no'\"")
+                        @FormHelpers.Input("endDate", "End Date", "date", attribs: "ng-required=\"setStartEndDate == 'yes'\" ng-disabled=\"setStartEndDate == 'no'\"")
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Answer Count</legend>
+                        <label for="multiAnswer"><input id="multiAnswer" name="multiAnswer" type="checkbox" ng-model="multiAnswer" /> Allow user to select more than one answer.</label>
+                        @FormHelpers.Input("newPoll.PollMinAnswers", "Min answers", "number", attribs: "ng-required='multiAnswer' ng-disabled='!multiAnswer' min='1' max='5'")
+                        @FormHelpers.Input("newPoll.PollMaxAnswers", "Max answers", "number", attribs: "ng-required='multiAnswer' ng-disabled='!multiAnswer' min='1' max='5'")
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="topbar topbar-error" ng-show="errorMessage"><span ng-bind="errorMessage"></span></div>
+    <div class="progress" ng-show="busyMessage"><span ng-bind="busyMessage"></span></div>
+</section>

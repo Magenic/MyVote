@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView1"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/landscapepagebackgrounddark">
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="5"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:layout_margin="10dp"
+                android:id="@+id/linearLayout2">
+                <TextView
+                    android:id="@+id/pollDescription"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold"
+                    android:text="Poll Question" />
+                <EditText
+                    android:id="@+id/description"
+                    style="@style/addpoll_edittext" />
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold"
+                    android:text="Select a Category" />
+                <Spinner
+                    android:id="@+id/categorySpinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            <!-- Answer A -->
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold"
+                    android:text="Answer A*" />
+                <EditText
+                    android:id="@+id/answerA"
+                    style="@style/addpoll_edittext" />
+            <!-- Answer B -->
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold"
+                    android:text="Answer B*" />
+                <EditText
+                    android:id="@+id/answerB"
+                    style="@style/addpoll_edittext" />
+            <!-- Answer C -->
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold"
+                    android:text="Answer C" />
+                <EditText
+                    android:id="@+id/answerC"
+                    style="@style/addpoll_edittext" />
+            <!-- Answer D -->
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold"
+                    android:text="Answer D" />
+                <EditText
+                    android:id="@+id/answerD"
+                    style="@style/addpoll_edittext" />
+            <!-- Answer E -->
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold"
+                    android:text="Answer E" />
+                <EditText
+                    android:id="@+id/answerE"
+                    style="@style/addpoll_edittext" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Polls are more interesting with an image." />
+                <ImageView
+                    android:id="@+id/newPollImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:scaleType="fitXY"
+                    android:background="#000000"
+                    android:minWidth="200dp"
+                    android:minHeight="200dp"
+                    android:maxWidth="400dp"
+                    android:maxHeight="400dp"
+                    android:src="@drawable/photo_not_available"
+                    android:clickable="true" />
+                <TextView
+                    style="@style/addpoll_text"
+                    android:text="Poll Date and Time" />
+                <RadioGroup
+                    android:id="@+id/endDateTimeRadioOptions"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:minWidth="25px"
+                    android:minHeight="25px">
+                    <RadioButton
+                        android:id="@+id/radioButton1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Post this poll with no end date and time." />
+                    <RadioButton
+                        android:id="@+id/radioButton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Specify a start and end date and time for this poll." />
+                </RadioGroup>
+            <!-- Start Date -->
+                <TextView
+                    android:id="@+id/addpoll_startDateLabel"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Start Date" />
+                <Button
+                    android:id="@+id/addPollStartDateButton"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="Select Start Date" />
+            <!-- End Date -->
+                <TextView
+                    android:id="@+id/addpoll_endDateLabel"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="End Date" />
+                <Button
+                    android:id="@+id/addPollEndDateButton"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="Select Start Date" />
+            <!-- Submit Poll -->
+                <Button
+                    android:id="@+id/postPollButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:text="Post and View My Poll!" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+</ScrollView>

@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [MyVote]
+    AUTHORIZATION [dbo];
+

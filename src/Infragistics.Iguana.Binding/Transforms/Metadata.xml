@@ -1,0 +1,30 @@
+<metadata>
+
+<!--
+  <remove-node 
+  		path="/api/package[@name='com.iguanaui']/class[@name='ValueListView']/method[@name='ctor' and count(parameter)=2 and parameter[1][@type='android.content.Context'] and parameter[2][@type='android.util.AttributeSet']]"
+  />
+  -->
+  <!--Access modifier junk-->
+ <!--
+
+      <attr   
+  path="/api/package[@name='com.iguanaui.controls']/class[@name='Axis']/method[@name='doAutoRange' and count(parameter)=0]"
+  name="new_flag">1</attr>
+  -->
+<!--
+    <attr   
+path="/api/package[@name='com.iguanaui.controls.series']/class[@name='Series']/method[@name='onScaleUpdate' and count(parameter)=1 and parameter[1][@type='com.iguanaui.scales.IScale']]"   name="visibility"
+>public</attr>
+
+  <attr   
+path="/api/package[@name='com.iguanaui.controls.category']/class[@name='CategorySeries']/method[@name='onScaleUpdate' and count(parameter)=1 and parameter[1][@type='com.iguanaui.scales.IScale']]"   name="visibility"
+>public</attr>
+-->
+<!--
+  <attr
+        path="/api/package[@name='com.iguanaui.valuelistview']/interface[@name='MediationBannerListener']/method[@name='onDismissScreen']"
+        name="argsType"
+>BannerDismissScreenEventArgs</attr>
+-->
+</metadata>

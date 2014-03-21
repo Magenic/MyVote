@@ -1,0 +1,2 @@
+[config]
+project = src/MyVote.Client.Web/MyVote.Client.Web.csproj

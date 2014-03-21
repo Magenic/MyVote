@@ -1,0 +1,40 @@
+
+Azure Deployment:
+
+Prerequisite: you must be an administrator on the Magenic Azure portal, or at least posess a copy of
+              the .publishsettings file that inculdes the management certificate for Azdem193E49514P
+              (the Magenic account).
+
+First time instructions:
+
+0) Obtain a copy of the Magenic .publishsettings file. If you are a member of the Azure account
+   administrators group, you can do this by visiting
+   
+   https://manage.windowsazure.com/publishsettings/index?client=vs&schemaversion=2.0
+   
+   and logging in with your Microsoft account.
+   
+1) From Visual Studio Solution Explorer, right-click MyVote.AzureService and select Publish...
+2) Navigate to the first page of the wizard (Sign in)
+3) Click Import and browse to the Magenic .publishsettings file
+4) Click Next. Resume at step 2 of the following list.
+
+Publish instructions:
+
+1) From Visual Studio Solution Explorer, right-click MyVote.AzureService and select Publish...
+2) Navigate to the Settings page
+3) Make the following selections:
+
+   Common Settings
+   ---------------
+   Cloud Service: MyVote (West US)
+   Environment: Staging
+   Build configuration: Release
+   Service configuration: Cloud
+   
+   Advanced Settings
+   -----------------
+   Storage account: myvotestorage (West US)
+   
+ 4) Click Next
+ 5) Click Publish   

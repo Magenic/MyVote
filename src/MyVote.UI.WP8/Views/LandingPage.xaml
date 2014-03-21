@@ -1,0 +1,70 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="MyVote.UI.Views.LandingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:converters="clr-namespace:MyVote.UI.Converters"
+	FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+	<phone:PhoneApplicationPage.Resources>
+		<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+	</phone:PhoneApplicationPage.Resources>
+
+	<Grid Background="Transparent">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<!--TitlePanel contains the name of the application and page title-->
+		<StackPanel Grid.Row="0" Margin="12,17,0,28">
+			<TextBlock Text="MyVote" Style="{StaticResource PhoneTextNormalStyle}"/>
+			<!--<TextBlock Text="page name" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>-->
+		</StackPanel>
+
+		<!--ContentPanel - place additional content here-->
+		<Grid Grid.Row="1" Margin="12,0,12,0">
+			<ScrollViewer>
+				<StackPanel
+					HorizontalAlignment="Center"
+					VerticalAlignment="Center">
+					<Button
+						x:Name="SignInWithTwitter"
+						Content="Sign in with Twitter"
+						HorizontalAlignment="Stretch" />
+
+					<Button
+						x:Name="SignInWithFacebook"
+						Content="Sign in with Facebook"
+						HorizontalAlignment="Stretch" />
+
+					<Button
+						x:Name="SignInWithMicrosoft"
+						Content="Sign in with Microsoft ID"
+						HorizontalAlignment="Stretch" />
+
+					<Button
+						x:Name="SignInWithGoogle"
+						Content="Sign in with Google"
+						HorizontalAlignment="Stretch" />
+				</StackPanel>
+			</ScrollViewer>
+			<Grid
+				Background="#66000000"
+				Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}}">
+				<ProgressBar
+					IsIndeterminate="True"
+					IsEnabled="{Binding IsBusy}"
+					VerticalAlignment="Top"/>
+			</Grid>
+		</Grid>
+	</Grid>
+
+</phone:PhoneApplicationPage>

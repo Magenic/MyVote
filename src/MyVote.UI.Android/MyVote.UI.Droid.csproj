@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D8B8A411-F70B-400E-9C36-370F84E1ABD5}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyVote.UI.Droid</RootNamespace>
+    <AssemblyName>MyVote.UI.Droid</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ANDROID</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE; ANDROID;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Csla, Version=4.5.501.0, Culture=neutral, PublicKeyToken=93be5fdc093e4c30, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CSLA-Core.4.5.501\lib\MonoAndroid\Csla.dll</HintPath>
+    </Reference>
+    <Reference Include="Csla.Axml, Version=4.5.501.0, Culture=neutral, PublicKeyToken=93be5fdc093e4c30, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CSLA-Android.4.5.501\lib\MonoAndroid\Csla.Axml.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Mobile">
+      <HintPath>..\Components\azure-mobile-services-1.1.0\lib\android\Microsoft.WindowsAzure.Mobile.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Mobile.Ext">
+      <HintPath>..\Components\azure-mobile-services-1.1.0\lib\android\Microsoft.WindowsAzure.Mobile.Ext.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Android" />
+    <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Components\azure-mobile-services-1.1.0\lib\android\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Autofac">
+      <HintPath>..\xamlibs\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="UrlImageViewHelper">
+      <HintPath>..\xamlibs\UrlImageViewHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Auth.Android">
+      <HintPath>..\Components\azure-mobile-services-1.1.0\lib\android\Xamarin.Auth.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Controls.BarChart.Android">
+      <HintPath>..\Components\barchart-1.1\lib\android\Xamarin.Controls.BarChart.Android.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\myvote.ui.w8\models\ActiveUsers.cs">
+      <Link>Model\ActiveUsers.cs</Link>
+    </Compile>
+    <Compile Include="..\myvote.ui.w8\services\IAzureStorageService.cs">
+      <Link>Services\IAzureStorageService.cs</Link>
+    </Compile>
+    <Compile Include="..\myvote.ui.w8\services\IMobileService.cs">
+      <Link>Services\IMobileService.cs</Link>
+    </Compile>
+    <Compile Include="..\myvote.ui.w8\services\MobileService.cs">
+      <Link>Services\MobileService.cs</Link>
+    </Compile>
+    <Compile Include="Resources\Resource.Designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\MyVote.UI.W8\Helpers\IAppSettings.cs">
+      <Link>Helpers\IAppSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\MyVote.UI.W8\Helpers\IMessageBox.cs">
+      <Link>Helpers\IMessageBox.cs</Link>
+    </Compile>
+    <Compile Include="..\MyVote.UI.W8\Helpers\Roles.cs">
+      <Link>Helpers\Roles.cs</Link>
+    </Compile>
+    <Compile Include="..\MyVote.UI.W8\Helpers\Serializer.cs">
+      <Link>Helpers\Serializer.cs</Link>
+    </Compile>
+    <Compile Include="..\MyVote.UI.W8\Helpers\SettingsKeys.cs">
+      <Link>Helpers\SettingsKeys.cs</Link>
+    </Compile>
+    <Compile Include="..\MyVote.UI.W8\Helpers\MessageBox.cs">
+      <Link>Helpers\MessageBox.cs</Link>
+    </Compile>
+    <Compile Include="..\MyVote.UI.W8\ViewModels\PollSearchOptionViewModel.cs">
+      <Link>ViewModels\PollSearchOptionViewModel.cs</Link>
+    </Compile>
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="UIContainerBuilderComposition.cs" />
+    <Compile Include="..\MyVote.UI.W8\NavigationCriteria\LandingPageNavigationCriteria.cs">
+      <Link>NavigationCriteria\LandingPageNavigationCriteria.cs</Link>
+    </Compile>
+    <Compile Include="..\MyVote.UI.W8\NavigationCriteria\PollResultsPageNavigationCriteria.cs">
+      <Link>NavigationCriteria\PollResultsPageNavigationCriteria.cs</Link>
+    </Compile>
+    <Compile Include="..\MyVote.UI.W8\NavigationCriteria\PollsPageSearchNavigationCriteria.cs">
+      <Link>NavigationCriteria\PollsPageSearchNavigationCriteria.cs</Link>
+    </Compile>
+    <Compile Include="..\MyVote.UI.W8\NavigationCriteria\RegistrationPageNavigationCriteria.cs">
+      <Link>NavigationCriteria\RegistrationPageNavigationCriteria.cs</Link>
+    </Compile>
+    <Compile Include="..\MyVote.UI.W8\NavigationCriteria\ViewPollPageNavigationCriteria.cs">
+      <Link>NavigationCriteria\ViewPollPageNavigationCriteria.cs</Link>
+    </Compile>
+    <Compile Include="Helpers\Navigation.cs" />
+    <Compile Include="BaseActivities\MyVoteActivity.cs" />
+    <Compile Include="BaseActivities\AutofacActivity.cs" />
+    <Compile Include="Activities\AddPollActivity.cs" />
+    <Compile Include="Activities\EditUserActivity.cs" />
+    <Compile Include="Activities\LoginActivity.cs" />
+    <Compile Include="Activities\PollsActivity.cs" />
+    <Compile Include="Activities\RegistrationActivity.cs" />
+    <Compile Include="ViewModels\AndroidPollImageViewModelBase.cs" />
+    <Compile Include="..\MyVote.UI.W8\ViewModels\PollAnswerViewModel.cs">
+      <Link>ViewModels\PollAnswerViewModel.cs</Link>
+    </Compile>
+    <Compile Include="Autofac\InjectAttribute.cs" />
+    <Compile Include="Autofac\AutofacInject.cs" />
+    <Compile Include="..\MyVote.UI.W8\Helpers\IPhotoChooser.cs">
+      <Link>Helpers\IPhotoChooser.cs</Link>
+    </Compile>
+    <Compile Include="Helpers\Preferences.cs" />
+    <Compile Include="Activities\AnswerPollFragment.cs" />
+    <Compile Include="BaseActivities\MyVoteFragment.cs" />
+    <Compile Include="EventExtensions.cs" />
+    <Compile Include="Activities\ViewPollFragment.cs" />
+    <Compile Include="Helpers\BitmapHelpers.cs" />
+    <Compile Include="..\MyVote.UI.WP8\Services\AzureStorageService.cs">
+      <Link>Services\AzureStorageService.cs</Link>
+    </Compile>
+    <Compile Include="ViewModels\UploadViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Resources\AboutResources.txt" />
+    <AndroidResource Include="Resources\drawable\custom_button.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\image_not_available.png" />
+    <AndroidResource Include="Resources\Layout\pollview_catagorytitle.xml" />
+    <AndroidResource Include="Resources\Layout\pollview_container.xml" />
+    <AndroidResource Include="Resources\Layout\pollview_new.xml" />
+    <AndroidResource Include="Resources\Values\colors.xml" />
+    <AndroidResource Include="Resources\Values\strings.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Values\styles.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\addpoll.axml" />
+    <AndroidResource Include="Resources\Layout\login.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\edituser.axml" />
+    <AndroidResource Include="Resources\Layout\pollresults.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\polls.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\pollsearchresultcell.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\registration.axml" />
+    <AndroidResource Include="Resources\drawable\google.png" />
+    <AndroidResource Include="Resources\drawable\logo.png" />
+    <AndroidResource Include="Resources\drawable\microsoft.png" />
+    <AndroidResource Include="Resources\drawable\twitter.png" />
+    <AndroidResource Include="Resources\drawable\facebook.png" />
+    <AndroidResource Include="Resources\Layout\viewpoll.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\defaultportrait.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\defaultlandscape.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\landscapepagebackgrounddark.png" />
+    <AndroidResource Include="Resources\drawable\photo_not_available.png" />
+    <AndroidResource Include="Resources\drawable\logo_tiny.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Color\social_login_button.xml" />
+    <AndroidResource Include="Resources\drawable\Icon.png" />
+    <AndroidResource Include="Resources\drawable\android_button.xml">
+      <DeployService-Deploy>True</DeployService-Deploy>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Layout\answerpoll_layout.axml" />
+    <AndroidResource Include="Resources\Anim\slide_in_right.xml" />
+    <AndroidResource Include="Resources\Anim\slide_out_right.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\drawable-mdpi\" />
+    <Folder Include="Resources\drawable-xhdpi\" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="azure-mobile-services">
+      <Visible>False</Visible>
+      <Version>1.1.0</Version>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="barchart">
+      <Version>1.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\MyVote.BusinessObjects.Android\MyVote.BusinessObjects.Droid.csproj">
+      <Project>{DA567DF4-61C4-4CEA-B2B8-49259C634507}</Project>
+      <Name>MyVote.BusinessObjects.Droid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyVote.Core.Android\MyVote.Core.Droid.csproj">
+      <Project>{7205C83B-B029-4225-B016-8C4DA17F6BB1}</Project>
+      <Name>MyVote.Core.Droid</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
