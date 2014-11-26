@@ -60,13 +60,13 @@
     <CodeAnalysisRuleSet>..\Assets\MyVote.Rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+    <Reference Include="Autofac, Version=3.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Autofac.3.3.0\lib\net40\Autofac.dll</HintPath>
+      <HintPath>..\packages\Autofac.3.4.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Csla, Version=4.5.501.0, Culture=neutral, PublicKeyToken=93be5fdc093e4c30, processorArchitecture=MSIL">
+    <Reference Include="Csla, Version=4.5.601.0, Culture=neutral, PublicKeyToken=93be5fdc093e4c30, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CSLA-Core.4.5.501\lib\net45\Csla.dll</HintPath>
+      <HintPath>..\packages\CSLA-Core.4.5.601\lib\net45\Csla.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -83,107 +83,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Assets\ProjectAssemblyInfo.cs">
-      <Link>ProjectAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="Attributes\DependencyAttribute.cs" />
-    <Compile Include="BusinessObjectsContainerBuilderComposition.cs" />
-    <Compile Include="Category.cs" />
-    <Compile Include="CategoryCollection.cs" />
-    <Compile Include="Contracts\ICategory.cs" />
-    <Compile Include="Contracts\ICategoryCollection.cs" />
-    <Compile Include="Contracts\IObjectFactory.cs" />
-    <Compile Include="Contracts\IPoll.cs" />
-    <Compile Include="Contracts\IPollComment.cs" />
-    <Compile Include="Contracts\IPollCommentCollection.cs" />
-    <Compile Include="Contracts\IPollComments.cs" />
-    <Compile Include="Contracts\IPollDataResult.cs" />
-    <Compile Include="Contracts\IPollDataResults.cs" />
-    <Compile Include="Contracts\IPollOption.cs" />
-    <Compile Include="Contracts\IPollResults.cs" />
-    <Compile Include="Contracts\IPollSearchResult.cs" />
-    <Compile Include="Contracts\IPollSearchResults.cs" />
-    <Compile Include="Contracts\IPollSearchResultsByCategory.cs" />
-    <Compile Include="Contracts\IPollSubmission.cs" />
-    <Compile Include="Contracts\IPollSubmissionCommand.cs" />
-    <Compile Include="Contracts\IPollSubmissionResponse.cs" />
-    <Compile Include="Contracts\IPollSubmissionResponseCollection.cs" />
-    <Compile Include="Contracts\IUser.cs" />
-    <Compile Include="Contracts\IUserIdentity.cs" />
-    <Compile Include="Core\AuthorizationRuleCore.cs" />
-    <Compile Include="Core\BusinessBaseScopeCore.cs" />
-    <Compile Include="Core\BusinessBaseCore.cs" />
-    <Compile Include="Core\BusinessList.cs" />
-    <Compile Include="Core\BusinessListBaseCore.cs" />
-    <Compile Include="Core\BusinessRuleCore.cs" />
-    <Compile Include="Core\CommandBaseScopeCore.cs" />
-    <Compile Include="Core\CommandBaseCore.cs" />
-    <Compile Include="Core\Contracts\IBusinessBaseCore.cs" />
-    <Compile Include="Core\Contracts\IBusinessListBaseCore.cs" />
-    <Compile Include="Core\Contracts\IBusinessScope.cs" />
-    <Compile Include="Core\Contracts\ICommandBaseCore.cs" />
-    <Compile Include="Core\Contracts\ICslaIdentityCore.cs" />
-    <Compile Include="Core\Contracts\ICslaPrincipalCore.cs" />
-    <Compile Include="Core\Contracts\IReadOnlyBaseCore.cs" />
-    <Compile Include="Core\Contracts\IReadOnlyListBaseCore.cs" />
-    <Compile Include="Core\CoreMessages.cs" />
-    <Compile Include="Core\CriteriaBaseCore.cs" />
-    <Compile Include="Core\CslaIdentityScopeCore.cs" />
-    <Compile Include="Core\CslaIdentityCore.cs" />
-    <Compile Include="Core\CslaPrincipalCore.cs" />
-    <Compile Include="Core\ReadOnlyBaseScopeCore.cs" />
-    <Compile Include="Core\ReadOnlyBaseCore.cs" />
-    <Compile Include="Core\ReadOnlySwitchList.cs" />
-    <Compile Include="Core\ReadOnlyListBaseScopeCore.cs" />
-    <Compile Include="Core\ReadOnlyListBaseCore.cs" />
-    <Compile Include="Extensions\TypeExtensions.cs" />
-    <Compile Include="ObjectActivator.cs" />
-    <Compile Include="ObjectFactory.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Poll.cs" />
-    <Compile Include="PollComment.cs" />
-    <Compile Include="PollCommentCollection.cs" />
-    <Compile Include="PollComments.cs" />
     <Compile Include="PollCommentData.cs" />
     <Compile Include="PollData.cs" />
-    <Compile Include="PollDataResult.cs" />
-    <Compile Include="PollDataResults.cs" />
-    <Compile Include="PollOption.cs" />
-    <Compile Include="PollResults.cs" />
-    <Compile Include="PollResultsCriteria.cs" />
-    <Compile Include="PollSearchResult.cs" />
-    <Compile Include="PollSearchResults.cs" />
-    <Compile Include="PollSearchResultsByCategory.cs" />
-    <Compile Include="PollSearchResultsByUserCriteria.cs" />
     <Compile Include="PollSearchResultsData.cs" />
-    <Compile Include="PollSearchResultsQueryType.cs" />
-    <Compile Include="PollSubmission.cs" />
-    <Compile Include="PollSubmissionCommand.cs" />
-    <Compile Include="PollSubmissionCriteria.cs" />
-    <Compile Include="PollSubmissionResponse.cs" />
-    <Compile Include="PollSubmissionResponseCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rules\CanDeletePollRule.cs" />
-    <Compile Include="Rules\MinimumAndMaximumPollOptionRule.cs" />
-    <Compile Include="Rules\MinimumAndMaximumPollSubmissionResponsesRule.cs" />
-    <Compile Include="Rules\PollMaxAnswersRule.cs" />
-    <Compile Include="Rules\PollMinAnswersRule.cs" />
-    <Compile Include="Rules\PollSubmissionPollEndDateRule.cs" />
-    <Compile Include="Rules\PollSubmissionPollStartDateRule.cs" />
-    <Compile Include="Rules\PollSubmissionPollDeletedFlagRule.cs" />
-    <Compile Include="Rules\PollOptionsRule.cs" />
-    <Compile Include="Rules\StartAndEndDateRule.cs" />
-    <Compile Include="Rules\UtcDateRule.cs" />
-    <Compile Include="User.cs" />
-    <Compile Include="UserIdentity.cs" />
-    <Compile Include="UserRoles.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MyVote.Core\MyVote.Core.csproj">
+    <ProjectReference Include="..\MyVote.Core\MyVote.Core\MyVote.Core.csproj">
       <Project>{3bc31396-efba-42d4-aa31-f4ace96b9023}</Project>
       <Name>MyVote.Core</Name>
     </ProjectReference>
@@ -192,12 +103,9 @@
       <Name>MyVote.Repository</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <CodeAnalysisDictionary Include="..\Assets\CodeAnalysisDictionary.xml">
-      <Link>CodeAnalysisDictionary.xml</Link>
-    </CodeAnalysisDictionary>
-  </ItemGroup>
   <ItemGroup />
+  <Import Project="..\MyVote.BO.Universal\MyVote.BO.Universal.Shared\MyVote.BO.Universal.Shared.projitems" Label="Shared" Condition="Exists('..\MyVote.BO.Universal\MyVote.BO.Universal.Shared\MyVote.BO.Universal.Shared.projitems')" />
+  <Import Project="..\MyVote.BusinessObjects\MyVote.BO.Shared\MyVote.BO.Universal.Shared.projitems" Label="Shared" Condition="Exists('..\MyVote.BusinessObjects\MyVote.BO.Shared\MyVote.BO.Universal.Shared.projitems')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

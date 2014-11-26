@@ -47,6 +47,13 @@ var MyVote;
                         _this._rootScope.$emit(AuthService.LoginEvent);
                     }
                     return result;
+                }, function (error) {
+                    //Indicate there was an Authorization error and a user was not returned
+                    _this._isAuthError = true;
+
+                    //Remove any saved user credentials from storage as they were not valid anymore (i.e. expired)
+                    window.localStorage.removeItem(AuthService._zumoUserKey);
+                    return _this._q.reject(error);
                 });
             };
 
@@ -85,6 +92,10 @@ var MyVote;
                 return (this.userId != null);
             };
 
+            AuthService.prototype.isAuthError = function () {
+                return this._isAuthError;
+            };
+
             AuthService.prototype.isRegistered = function () {
                 return (this.isLoggedIn() && this.userId != null);
             };
@@ -112,3 +123,4 @@ var MyVote;
     })(MyVote.Services || (MyVote.Services = {}));
     var Services = MyVote.Services;
 })(MyVote || (MyVote = {}));
+//# sourceMappingURL=auth.js.map

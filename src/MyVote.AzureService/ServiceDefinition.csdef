@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ServiceDefinition name="MyVote.AzureService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2013-10.2.2">
+<ServiceDefinition name="MyVote.AzureService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2014-06.2.4">
   <WebRole name="MyVote.AppServer" vmsize="Small">
     <ConfigurationSettings>
       <Setting name="Microsoft.AppInsights.AccountId" />
@@ -25,8 +25,7 @@
       <LocalStorage name="MyVote.AppServer.svclog" sizeInMB="1000" cleanOnRoleRecycle="false" />
     </LocalResources>
     <Startup>
-      <Task commandLine="AppInsightsAgent\UnifiedBootstrap.bat" executionContext="elevated" taskType="background">
-      </Task>
+      <Task commandLine="AppInsightsAgent\UnifiedBootstrap.bat" executionContext="elevated" taskType="background"></Task>
     </Startup>
   </WebRole>
 </ServiceDefinition>

@@ -51,4 +51,3 @@ MyVote iPad Setup
 Replace "kURL" with your Azure Mobile Service url.
 Replace "kAppKey" with your Azure Mobile Services application key.
 Replace "kMALAPIBaseURLString" with your REST API endpoint.
-

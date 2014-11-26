@@ -18,11 +18,14 @@ namespace MyVote.BusinessObjects
 #else
   [Csla.Serialization.Serializable]
 #endif
+#if ANDROID
+    [Android.Runtime.Preserve(AllMembers=true)]
+#endif
 	internal sealed class User
 	  : BusinessBaseScopeCore<User>, IUser
 	{
 		[RunLocal]
-		private void DataPortal_Create(string profileId)
+		public void DataPortal_Create(string profileId)
 		{
 			this.ProfileID = profileId;
 			this.BusinessRules.CheckRules();

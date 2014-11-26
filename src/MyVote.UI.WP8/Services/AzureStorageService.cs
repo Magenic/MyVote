@@ -23,7 +23,7 @@ namespace MyVote.UI.Services
 
 			uploadViewModel.PictureStream.Position = 0;
 
-#if ANDROID
+#if __ANDROID__
             request.ContentLength = uploadViewModel.PictureStream.Length;
 #else
             request.Headers["Content-Length"] = uploadViewModel.PictureStream.Length.ToString();

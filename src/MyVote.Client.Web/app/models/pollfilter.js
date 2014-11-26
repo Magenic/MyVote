@@ -20,3 +20,4 @@ var MyVote;
     })(MyVote.Models || (MyVote.Models = {}));
     var Models = MyVote.Models;
 })(MyVote || (MyVote = {}));
+//# sourceMappingURL=pollfilter.js.map

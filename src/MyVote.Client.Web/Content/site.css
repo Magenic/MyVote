@@ -166,7 +166,7 @@ input[type=email],
 input[type=date],
 input[type=tel],
 select {
-  height: 1.8em;
+  line-height: 1.5em;
   margin: 0.25em 0 0 0;
   font-size: 1em;
   font-family: "Segoe UI", "Segoe", "Arial", "Helvetica Neue", "Helvetica", sans-serif;
@@ -314,14 +314,14 @@ input.ng-dirty.ng-invalid {
 }
 
 /* responsive */
-@media screen and (max-width: 50em) {
+@media screen and (max-width: 800px) {
   .stacked-form-column {
     float: none;
     width: 100%;
   }
 }
 
-@media screen and (max-width: 25em) {
+@media screen and (max-width: 400px) {
   .site-header {
     padding: 0.5em 0 0.5em 0.5em;
   }

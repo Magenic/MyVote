@@ -53,13 +53,12 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Autofac.3.3.0\lib\net40\Autofac.dll</HintPath>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.4.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Csla, Version=4.5.501.0, Culture=neutral, PublicKeyToken=93be5fdc093e4c30, processorArchitecture=MSIL">
+    <Reference Include="Csla, Version=4.5.601.0, Culture=neutral, PublicKeyToken=93be5fdc093e4c30, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CSLA-Core.4.5.501\lib\net45\Csla.dll</HintPath>
+      <HintPath>..\packages\CSLA-Core.4.5.601\lib\net45\Csla.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -111,10 +110,6 @@
     <ProjectReference Include="..\MyVote.BusinessObjects.Net\MyVote.BusinessObjects.Net.csproj">
       <Project>{d9283b72-843e-4619-b1e9-3893d8a9937a}</Project>
       <Name>MyVote.BusinessObjects.Net</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MyVote.Core\MyVote.Core.csproj">
-      <Project>{3bc31396-efba-42d4-aa31-f4ace96b9023}</Project>
-      <Name>MyVote.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\MyVote.Repository\MyVote.Repository.csproj">
       <Project>{596bb94f-0eb4-4ff1-9322-91321b88abb3}</Project>

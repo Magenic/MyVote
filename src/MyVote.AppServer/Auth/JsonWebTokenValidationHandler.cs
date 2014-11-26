@@ -55,8 +55,9 @@ namespace MyVote.AppServer.Auth
 
                         MyVoteAuthentication.SetCurrentPrincipal(new MyVotePrincipal(jwt.Claims.UserId));
                     }
-                    catch (JsonWebTokenException)
+                    catch (JsonWebTokenException ex)
                     {
+                        //log JWT exception
                     }
                 }
             }

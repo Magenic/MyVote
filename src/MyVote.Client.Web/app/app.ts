@@ -16,11 +16,15 @@ module MyVote {
         };
     });
 
+    //  register work which needs to be performed on module loading
     App.config([
         '$routeProvider', '$httpProvider',
         ($routeProvider: ng.route.IRouteProvider, $httpProvider: ng.IHttpProvider) => {
             // enable CORS on IE <= 9
             delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
+            // Interceptors are a service factory for all synchronous or asynchronous $http 
+            // pre-processing of request or postprocessing of responses
             $httpProvider.interceptors.push('zumoAuthInterceptor');
 
             $routeProvider
@@ -36,6 +40,7 @@ module MyVote {
                         controller: MyVote.Controllers.PollsCtrl,
                         templateUrl: '/app/partials/polls.html'
                 })
+                //:pollId is a route parameter passed in the URL
                 .when('/viewPoll/:pollId', {
                     controller: MyVote.Controllers.ViewPollCtrl,
                     templateUrl: '/app/partials/viewpoll.html'
@@ -44,6 +49,7 @@ module MyVote {
                     controller: MyVote.Controllers.AddPollCtrl,
                     templateUrl: '/app/partials/addpoll.cshtml'
                 })
+                //:pollId is a route parameter passed in the URL
                 .when('/pollResult/:pollId', {
                     controller: MyVote.Controllers.PollResultCtrl,
                     templateUrl: '/app/partials/pollresult.html'
@@ -64,6 +70,7 @@ module MyVote {
     interface AuthScope extends ng.IScope {
         authMessage: string;
         newPollsCount: number;
+        isAuthError(): boolean;
         loggedIn(): boolean;
         logOut(): void;
         getNewPollsMessage(): string;
@@ -92,9 +99,16 @@ module MyVote {
                 return authService.isLoggedIn();
             };
 
+            $scope.isAuthError = () => {
+                return authService.isAuthError();
+            };
+
             $scope.logOut = () => {
-                authService.logout();
+                authService.logout();                
                 $location.path('/landing');
+                //Causes $route service to reload the current route even if $location hasn't changed.
+                //If a failed login comes back with an error, we need to reload the providers and the landing page
+                $route.reload();
             };
 
             $scope.getNewPollsMessage = () => {
@@ -112,7 +126,10 @@ module MyVote {
                 }
             };
             
+            //SignalR listener for newly added polls
             $scope.$parent.$on(MyVote.Services.SignalrService.PollAddedEvent, () => {
+                //$scope.$apply will manually trigger a digest cycle for this SignalR callback and ensure data is bound because this occurs outside of Angular's
+                //normal digest cycles which are ordinarily triggered by events Angular controls (i.e. Directives ng-click, etc.).
                 $scope.$apply(()=> {
                     var newCount = $scope.newPollsCount + 1;
                     $scope.newPollsCount = 0;

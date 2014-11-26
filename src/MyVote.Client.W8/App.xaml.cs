@@ -50,9 +50,9 @@ namespace MyVote.Client.W8
 #else
 			
 #if STAGING
-			Csla.ApplicationContext.DataPortalUrlString = "http://mystagingserver.cloudapp.net/MobilePortal.svc";
+			Csla.ApplicationContext.DataPortalUrlString = "http://084dd66925e34ddca11a8277ceb0ded4.cloudapp.net/MobilePortal.svc";
 #else
-			Csla.ApplicationContext.DataPortalUrlString = "http://myserver.cloudapp.net/MobilePortal.svc";
+			Csla.ApplicationContext.DataPortalUrlString = "http://myvote.cloudapp.net/MobilePortal.svc";
 #endif // STAGING
 
 #endif // DEBUG

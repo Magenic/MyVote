@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-#if ANDROID
+#if __ANDROID__
 using Android.Content;
 #endif 
 namespace MyVote.UI.Helpers
@@ -23,7 +23,7 @@ namespace MyVote.UI.Helpers
 #if WINDOWS_PHONE
 		bool? Show(string content, MessageBoxButtons messageBoxButtons = MessageBoxButtons.Ok);
 		bool? Show(string content, string title, MessageBoxButtons messageBoxButtons = MessageBoxButtons.Ok);
-#elif ANDROID
+#elif __ANDROID__
 		void Show(Context context, string content);
 		void Show(Context context, string content, string title);
         void ShowYesNo(Context context, string message, Action onSuccess, Action onNo);

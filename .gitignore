@@ -121,3 +121,5 @@ $tf
 ######### Xamarin #########
 
 *.userprefs
+/docs/presentations/Thumbs.db
+/src/packages

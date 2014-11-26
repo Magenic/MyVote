@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MyVoteForms:ContentPageBase xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="MyVote.UI.Forms.ViewPoll"
+             xmlns:MyVoteControls="clr-namespace:MyVote.UI.Controls;assembly=MyVote"
+			 xmlns:MyVoteCo="clr-namespace:MyVote.BusinessObjects.Contracts;assembly=MyVote.BusinessObjects"
+             xmlns:MyVoteForms="clr-namespace:MyVote.UI.Forms;assembly=MyVote">
+    <Grid ColumnSpacing="0">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+
+		
+		<Image
+			Grid.Column="0"
+			Grid.Row="0"
+            WidthRequest="150" 
+            HeightRequest="150"
+            BackgroundColor="#ffffff"
+			Source="{Binding PollSubmission.PollImageLink}" />
+
+        <Label Text="{Binding PollSubmission.PollQuestion}" TextColor="#000000" Grid.Column="1" Grid.Row="0" BackgroundColor="#ffffff" />
+
+        <MyVoteControls:ExtendedLabel
+			Text="{Binding PollSubmission.PollDescription}"
+			Grid.Row="1"
+            Grid.ColumnSpan="2"
+            LeftPadding="20"
+            TextColor="#000000" />
+
+        <MyVoteControls:RepeaterView x:TypeArguments="MyVoteCo:IPollSubmissionResponse" Grid.Row="2" Grid.ColumnSpan="2" Spacing="0" Orientation="Vertical" ItemsSource="{Binding PollSubmission.Responses}" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+            <MyVoteControls:RepeaterView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <StackLayout Orientation="Vertical" Spacing="0" VerticalOptions="FillAndExpand">
+                                <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="#989898"></BoxView>
+                                <StackLayout Orientation="Horizontal" BackgroundColor="#ffffff" Padding="0,0,0,0">
+                                    <MyVoteControls:ExtendedLabel Text="{Binding OptionText}" HorizontalOptions="StartAndExpand" YAlign="Center" LeftPadding="20" TextColor="#000000" />
+                                    <Switch IsToggled="{Binding IsOptionSelected, Mode=TwoWay}" HorizontalOptions="End" />
+                                </StackLayout>
+                                <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="#989898"></BoxView>
+                            </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </MyVoteControls:RepeaterView.ItemTemplate>
+        </MyVoteControls:RepeaterView>
+
+		<Button
+            Grid.Row="3"
+            Grid.ColumnSpan="2"
+			IsEnabled="{Binding CanSubmit}"
+			Command="{Binding SubmitPoll}"
+            BackgroundColor="#ffffff" 
+            TextColor="#000000"
+			Text="Submit My Vote!" />
+
+		<ActivityIndicator IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           BackgroundColor="#75949494"
+                           Color="Black"
+						   Grid.RowSpan="4"
+						   Grid.ColumnSpan="2"
+                           WidthRequest="50"
+                           HeightRequest="50"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" />
+	</Grid>
+</MyVoteForms:ContentPageBase>

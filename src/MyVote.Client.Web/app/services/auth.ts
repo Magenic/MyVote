@@ -24,6 +24,8 @@ module MyVote.Services {
         public userName: string;
         public desiredPath: string;
 
+        private _isAuthError: boolean;
+
         private _q: ng.IQService;
         private _rootScope: ng.IRootScopeService;
         private _myVoteService: MyVoteService;
@@ -58,15 +60,23 @@ module MyVote.Services {
         }
 
         public loadSavedLogin(): ng.IPromise<MyVote.AppServer.Models.User> {
-            return this._myVoteService.getUser(this._savedZumoUser.userId).then((result: MyVote.AppServer.Models.User) => {
-                if (result) {
-                    AuthService._client.currentUser = this._savedZumoUser;
-                    this.userId = result.UserID;
-                    this.userName = result.UserName;
-                    this._rootScope.$emit(AuthService.LoginEvent);
+            return this._myVoteService.getUser(this._savedZumoUser.userId)
+                .then((result: MyVote.AppServer.Models.User) => {
+                    if (result) {
+                        AuthService._client.currentUser = this._savedZumoUser;
+                        this.userId = result.UserID;
+                        this.userName = result.UserName;
+                        this._rootScope.$emit(AuthService.LoginEvent);
+                    }
+                    return result;
+                }, (error) => {
+                    //Indicate there was an Authorization error and a user was not returned
+                    this._isAuthError = true;
+                    //Remove any saved user credentials from storage as they were not valid anymore (i.e. expired)
+                    window.localStorage.removeItem(AuthService._zumoUserKey);
+                    return this._q.reject(error);
                 }
-                return result;
-            });
+            );
         }
 
         public login(provider: string): Microsoft.WindowsAzure.asyncPromise {
@@ -82,7 +92,7 @@ module MyVote.Services {
 
                     return this._myVoteService.getUser(zumoUser.userId);
                 }).then((result: MyVote.AppServer.Models.User) => {
-                    if (result) {
+                    if (result) {                        
                         this.userId = result.UserID;
                         this.userName = result.UserName;
                         this._rootScope.$emit(AuthService.LoginEvent);
@@ -102,6 +112,10 @@ module MyVote.Services {
 
         public isLoggedIn(): boolean {
             return (this.userId != null);
+        }
+
+        public isAuthError(): boolean {
+            return this._isAuthError;
         }
 
         public isRegistered(): boolean {

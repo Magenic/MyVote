@@ -15,7 +15,7 @@
                 <fieldset>
                     <legend>Poll</legend>
                     @FormHelpers.Select("newPoll.PollCategoryID", "Select A Category", MyVoteData.GetCategories(), required: true, autoFocus: true)
-                    @FormHelpers.Input("newPoll.PollQuestion", "What's Your Question?", "text", required: true, attribs: "style='padding:24px' ")
+                    @FormHelpers.Input("newPoll.PollQuestion", "What's Your Question?", "text", required: true, attribs: "style='padding:14px' ")
 
                     @FormHelpers.Input("newPoll.PollDescription", "Description", "text")
 

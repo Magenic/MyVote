@@ -200,16 +200,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MyVote.BusinessObjects.W8\MyVote.BusinessObjects.W8.csproj">
-      <Project>{04a9eda3-c9a4-4ece-b8ea-b8229267a0b1}</Project>
-      <Name>MyVote.BusinessObjects.W8</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MyVote.UI.W8\MyVote.UI.W8.csproj">
-      <Project>{5a883d94-737d-44a6-b8a0-3662e0d1db4a}</Project>
-      <Name>MyVote.UI.W8</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="Caliburn.Micro, Version=1.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\win8\Caliburn.Micro.dll</HintPath>
@@ -218,9 +208,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\win8\Caliburn.Micro.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Csla, Version=4.5.501.0, Culture=neutral, PublicKeyToken=93be5fdc093e4c30, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CSLA-Core.4.5.501\lib\NetCore45\Csla.dll</HintPath>
+    <Reference Include="Csla">
+      <HintPath>..\packages\CSLA-Core.4.5.583-Beta\lib\NetCore45\Csla.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.165\lib\win8\Microsoft.Threading.Tasks.dll</HintPath>

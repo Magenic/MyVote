@@ -5,3 +5,4 @@
 ///<reference path="../Scripts/typings/signalr/signalr.d.ts" />
 ///<reference path="../Scripts/TypeLite.d.ts" />
 var Globals;
+//# sourceMappingURL=_refs.js.map

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-#if !ANDROID
+#if !__ANDROID__
 using Windows.UI.Popups;
 #else
 using Android.App;
@@ -45,7 +45,7 @@ namespace MyVote.UI.Helpers
 			}
 		}
 
-#elif ANDROID
+#elif __ANDROID__
 		public void Show(Context context, string content)
 		{
 			var dialog = new ProgressDialog(context);

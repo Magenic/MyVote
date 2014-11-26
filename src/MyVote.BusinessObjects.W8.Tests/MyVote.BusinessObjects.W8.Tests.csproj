@@ -150,12 +150,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MyVote.BusinessObjects.W8\MyVote.BusinessObjects.W8.csproj">
-      <Project>{04a9eda3-c9a4-4ece-b8ea-b8229267a0b1}</Project>
-      <Name>MyVote.BusinessObjects.W8</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="Autofac, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Autofac.3.3.0\lib\portable-win+net40+sl50+wp8\Autofac.dll</HintPath>

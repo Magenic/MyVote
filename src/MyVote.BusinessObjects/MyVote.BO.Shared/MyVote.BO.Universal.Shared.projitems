@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>d43734ce-9518-431d-9811-c7ca172e05eb</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MyVote.BO.Universal.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\DependencyAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BusinessObjectsContainerBuilderComposition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Category.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CategoryCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\ICategory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\ICategoryCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IObjectFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IPoll.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IPollComment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IPollCommentCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IPollComments.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IPollDataResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IPollDataResults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IPollOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IPollOptionCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IPollResults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IPollSearchResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IPollSearchResults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IPollSearchResultsByCategory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IPollSubmission.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IPollSubmissionCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IPollSubmissionResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IPollSubmissionResponseCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IUserIdentity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\AuthorizationRuleCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\BusinessBaseCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\BusinessBaseScopeCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\BusinessList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\BusinessListBaseCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\BusinessRuleCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\CommandBaseCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\CommandBaseScopeCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Contracts\IBusinessBaseCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Contracts\IBusinessListBaseCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Contracts\IBusinessScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Contracts\ICommandBaseCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Contracts\ICslaIdentityCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Contracts\ICslaPrincipalCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Contracts\IReadOnlyBaseCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Contracts\IReadOnlyListBaseCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\CoreMessages.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\CriteriaBaseCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\CslaIdentityCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\CslaIdentityScopeCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\CslaPrincipalCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReadOnlyBaseCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReadOnlyBaseScopeCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReadOnlyListBaseCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReadOnlyListBaseScopeCore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\ReadOnlySwitchList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectActivator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Poll.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollComment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollCommentCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollComments.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollDataResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollDataResults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollOptionCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollResults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollResultsCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollSearchResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollSearchResults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollSearchResultsByCategory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollSearchResultsByUserCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollSearchResultsQueryType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollSubmission.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollSubmissionCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollSubmissionCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollSubmissionResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PollSubmissionResponseCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rules\CanDeletePollRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rules\MinimumAndMaximumPollOptionRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rules\MinimumAndMaximumPollSubmissionResponsesRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rules\PollMaxAnswersRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rules\PollMinAnswersRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rules\PollOptionsRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rules\PollSubmissionPollDeletedFlagRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rules\PollSubmissionPollEndDateRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rules\PollSubmissionPollStartDateRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rules\StartAndEndDateRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Rules\UtcDateRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)User.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserIdentity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserRoles.cs" />
+  </ItemGroup>
+</Project>

@@ -59,6 +59,9 @@ var MyVote;
 
                 $scope.invalidInput = function (name) {
                     var field = $scope.addPollForm[name];
+                    if (field === undefined) {
+                        return false;
+                    }
                     return ($scope.submitted || field.$dirty) && field.$invalid;
                 };
 
@@ -138,3 +141,4 @@ var MyVote;
     })(MyVote.Controllers || (MyVote.Controllers = {}));
     var Controllers = MyVote.Controllers;
 })(MyVote || (MyVote = {}));
+//# sourceMappingURL=addpoll.js.map

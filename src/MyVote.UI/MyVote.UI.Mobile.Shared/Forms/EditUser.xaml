@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MyVoteForms:ContentPageBase xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:MyVote.UI.Controls;assembly=MyVote"
+			 x:Class="MyVote.UI.Forms.EditUser" Padding="10"
+             xmlns:MyVoteForms="clr-namespace:MyVote.UI.Forms;assembly=MyVote"
+             xmlns:converters="clr-namespace:MyVote.UI.Converters;assembly=MyVote">
+    <MyVoteForms:ContentPageBase.Resources>
+        <ResourceDictionary>
+            <converters:NullableDateConverter x:Key="nullableDateConverter"/>
+        </ResourceDictionary>
+    </MyVoteForms:ContentPageBase.Resources>
+    <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <StackLayout Orientation="Vertical" Spacing="0">
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="#989898"></BoxView>
+            <StackLayout x:Name="firstNameRegion" Orientation="Horizontal" BackgroundColor="#ffffff" Padding="0,0,0,0">
+                <controls:ExtendedLabel Text="First Name" HorizontalOptions="StartAndExpand" YAlign="Center" LeftPadding="20" />
+                <Entry x:Name="txtFirstName" Text="{Binding User.FirstName, Mode=TwoWay}" Placeholder="First Name" HorizontalOptions="End" WidthRequest="300" TextColor="#000000" />
+            </StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="#989898"></BoxView>
+            <StackLayout x:Name="lastNameRegion" Orientation="Horizontal" BackgroundColor="#ffffff">
+                <controls:ExtendedLabel Text="Last Name" HorizontalOptions="StartAndExpand" YAlign="Center" LeftPadding="20" />
+                <Entry x:Name="txtLastName" Text="{Binding User.LastName, Mode=TwoWay}" Placeholder="Last Name" HorizontalOptions="End" WidthRequest="300" TextColor="#000000" />
+            </StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="#989898"></BoxView>
+            <StackLayout x:Name="emailRegion" Orientation="Horizontal" BackgroundColor="#ffffff">
+                <controls:ExtendedLabel Text="Email" HorizontalOptions="StartAndExpand" YAlign="Center" LeftPadding="20" />
+                <Entry x:Name="txtEmail" Text="{Binding User.EmailAddress, Mode=TwoWay}" Placeholder="Email" HorizontalOptions="End" WidthRequest="300" TextColor="#000000" />
+            </StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="#989898"></BoxView>
+            <StackLayout x:Name="userNameRegion" Orientation="Horizontal" BackgroundColor="#ffffff">
+                <controls:ExtendedLabel Text="Username" HorizontalOptions="StartAndExpand" YAlign="Center" LeftPadding="20" TextColor="#000000" />
+                <Entry x:Name="txtUsername" Text="{Binding User.UserName, Mode=TwoWay}" Placeholder="Username" HorizontalOptions="End" WidthRequest="300" TextColor="#000000" />
+            </StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="#989898"></BoxView>
+            <StackLayout x:Name="birthDateRegion" Orientation="Horizontal" BackgroundColor="#ffffff">
+                <controls:ExtendedLabel Text="Date of Birth" HorizontalOptions="StartAndExpand" YAlign="Center" LeftPadding="20" />
+                <controls:ExtendedDatePicker x:Name="dteBirthDate" Date="{Binding User.BirthDate, Converter={StaticResource nullableDateConverter}, Mode=TwoWay}" HorizontalOptions="End" WidthRequest="300" />
+            </StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="#989898"></BoxView>
+            <StackLayout x:Name="genderRegion" Orientation="Horizontal" BackgroundColor="#ffffff">
+                <controls:ExtendedLabel Text="Gender" HorizontalOptions="StartAndExpand" YAlign="Center" LeftPadding="20" />
+                <controls:BackgroundExtendedPicker x:TypeArguments="x:String" x:Name="pckGender" HorizontalOptions="End" WidthRequest="300" ItemsSource="{Binding GenderOptions}" SelectedItem="{Binding User.Gender, Mode=TwoWay}" />
+            </StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="#989898"></BoxView>
+            <StackLayout x:Name="zipCodeRegion" Orientation="Horizontal" BackgroundColor="#ffffff">
+                <controls:ExtendedLabel Text="Zip Code" HorizontalOptions="StartAndExpand" YAlign="Center" LeftPadding="20" />
+                <Entry x:Name="txtPostalCode" Text="{Binding User.PostalCode, Mode=TwoWay}" Placeholder="Zip Code" HorizontalOptions="End" WidthRequest="300" TextColor="#000000" />
+            </StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="#989898"></BoxView>
+            <BoxView HorizontalOptions="Start" HeightRequest="10" Color="#00000000"></BoxView>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="#989898"></BoxView>
+            <StackLayout Orientation="Vertical" Padding="0,0,0,0">
+                <Button x:Name="btnLogin" IsEnabled="{Binding CanSave}" Text="Save" HorizontalOptions="FillAndExpand" BackgroundColor="#ffffff" TextColor="#000000" Command="{Binding Submit}" />
+            </StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="#989898"></BoxView>
+    </StackLayout>
+    </ScrollView>
+</MyVoteForms:ContentPageBase>

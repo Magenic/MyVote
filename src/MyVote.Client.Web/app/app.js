@@ -16,11 +16,15 @@ var MyVote;
         };
     });
 
+    //  register work which needs to be performed on module loading
     MyVote.App.config([
         '$routeProvider', '$httpProvider',
         function ($routeProvider, $httpProvider) {
             // enable CORS on IE <= 9
             delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
+            // Interceptors are a service factory for all synchronous or asynchronous $http
+            // pre-processing of request or postprocessing of responses
             $httpProvider.interceptors.push('zumoAuthInterceptor');
 
             $routeProvider.when('/landing', {
@@ -63,9 +67,17 @@ var MyVote;
                 return authService.isLoggedIn();
             };
 
+            $scope.isAuthError = function () {
+                return authService.isAuthError();
+            };
+
             $scope.logOut = function () {
                 authService.logout();
                 $location.path('/landing');
+
+                //Causes $route service to reload the current route even if $location hasn't changed.
+                //If a failed login comes back with an error, we need to reload the providers and the landing page
+                $route.reload();
             };
 
             $scope.getNewPollsMessage = function () {
@@ -81,7 +93,10 @@ var MyVote;
                 }
             };
 
+            //SignalR listener for newly added polls
             $scope.$parent.$on(MyVote.Services.SignalrService.PollAddedEvent, function () {
+                //$scope.$apply will manually trigger a digest cycle for this SignalR callback and ensure data is bound because this occurs outside of Angular's
+                //normal digest cycles which are ordinarily triggered by events Angular controls (i.e. Directives ng-click, etc.).
                 $scope.$apply(function () {
                     var newCount = $scope.newPollsCount + 1;
                     $scope.newPollsCount = 0;
@@ -161,3 +176,4 @@ var MyVote;
     })();
     MyVote.UtilityService = UtilityService;
 })(MyVote || (MyVote = {}));
+//# sourceMappingURL=app.js.map

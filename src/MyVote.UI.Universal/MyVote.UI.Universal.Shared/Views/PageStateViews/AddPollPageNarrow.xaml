@@ -1,0 +1,44 @@
+﻿<UserControl
+    x:Class="MyVote.UI.Views.AddPollPageNarrow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyVote.UI.Views"
+    xmlns:conv="using:MyVote.UI.Converters"
+    xmlns:cal="using:Caliburn.Micro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="HeaderContainer" Style="{StaticResource SnappedHeaderPanelStyle}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+			<Button
+				    x:Name="GoBack"
+                    cal:Message.Attach="GoBack"
+				    IsEnabled="{Binding CanGoBack}"
+				    /> <!-- Style="{StaticResource SnappedBackButtonStyle}" -->
+
+            <TextBlock
+				    x:Name="Header"
+                    Grid.Column="1"
+				    HorizontalAlignment="Left"
+				    Text="Create A New Poll" /> <!--Style="{StaticResource SnappedPageHeaderTextStyle}"-->
+        </Grid>
+
+        <local:AddPollPageNarrowContent x:Name="NarrowContent" Grid.Row="1" Margin="20,20,0,0" />
+        
+    </Grid>
+    
+</UserControl>

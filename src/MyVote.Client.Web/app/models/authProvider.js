@@ -17,3 +17,4 @@ var MyVote;
     })(MyVote.Models || (MyVote.Models = {}));
     var Models = MyVote.Models;
 })(MyVote || (MyVote = {}));
+//# sourceMappingURL=authProvider.js.map

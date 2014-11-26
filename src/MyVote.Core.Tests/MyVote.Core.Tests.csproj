@@ -61,9 +61,9 @@
     <CodeAnalysisRuleSet>..\Assets\MyVote.Rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Csla, Version=4.5.501.0, Culture=neutral, PublicKeyToken=93be5fdc093e4c30, processorArchitecture=MSIL">
+    <Reference Include="Csla, Version=4.5.601.0, Culture=neutral, PublicKeyToken=93be5fdc093e4c30, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CSLA-Core.4.5.501\lib\net45\Csla.dll</HintPath>
+      <HintPath>..\packages\CSLA-Core.4.5.601\lib\net45\Csla.dll</HintPath>
     </Reference>
     <Reference Include="Spackle">
       <HintPath>..\packages\Spackle.7.1.0.0\lib\NET4.0\Spackle.dll</HintPath>
@@ -91,18 +91,18 @@
     <Compile Include="SystemTimeTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MyVote.Core\MyVote.Core.csproj">
-      <Project>{3bc31396-efba-42d4-aa31-f4ace96b9023}</Project>
-      <Name>MyVote.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <CodeAnalysisDictionary Include="..\Assets\CodeAnalysisDictionary.xml">
       <Link>CodeAnalysisDictionary.xml</Link>
     </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyVote.Core\MyVote.Core\MyVote.Core.csproj">
+      <Project>{3bc31396-efba-42d4-aa31-f4ace96b9023}</Project>
+      <Name>MyVote.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

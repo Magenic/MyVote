@@ -1,7 +1,7 @@
 ﻿using MyVote.UI.Models;
 using System;
 using System.Threading.Tasks;
-#if ANDROID
+#if __ANDROID__
 using Android.Content;
 #endif
 
@@ -20,7 +20,7 @@ namespace MyVote.UI.Services
 		: IDisposable
 #endif // NETFX_CORE
 	{
-#if ANDROID
+#if __ANDROID__
 		Task<string> AuthenticateAsync(Context context, AuthenticationProvider provider);
 #else
 		Task<string> AuthenticateAsync(AuthenticationProvider provider);

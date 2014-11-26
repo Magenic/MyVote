@@ -152,3 +152,4 @@ var MyVote;
     })(MyVote.Controllers || (MyVote.Controllers = {}));
     var Controllers = MyVote.Controllers;
 })(MyVote || (MyVote = {}));
+//# sourceMappingURL=pollresult.js.map

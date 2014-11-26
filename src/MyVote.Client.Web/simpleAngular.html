@@ -3,16 +3,23 @@
 <head>
     <title>Simple Angular</title>
 </head>
-<body ng-app>
-    <div ng-controller="StuffCtrl">
-        <input ng-model='stuff' type='text'></input>
-        <div>You entered: {{stuff}}</div>
+<body ng-app="SimpleAngularApp">
+    <div ng-controller="MyController">
+        <input ng-model='dataEntered' type='text' /><br/>
+        You entered: <span>{{dataEntered}}</span>
+        <!--You entered: <span ng-bind="dataEntered"></span>-->
     </div>
     <script src='/Scripts/angular.js'></script>
     <script type='text/javascript'>
-        function StuffCtrl($scope) {
-            $scope.stuff = null;
-        }
+
+        (function () {
+            function MyController($scope) {
+                $scope.dataEntered = null;
+            };
+            angular.module("SimpleAngularApp", []).controller("MyController", ["$scope", MyController]);
+        })();
+
     </script>
 </body>
+
 </html>

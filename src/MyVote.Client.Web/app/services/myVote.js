@@ -233,3 +233,4 @@ var MyVote;
     })(MyVote.Services || (MyVote.Services = {}));
     var Services = MyVote.Services;
 })(MyVote || (MyVote = {}));
+//# sourceMappingURL=myvote.js.map

@@ -4,13 +4,14 @@
 <html id="ng-app">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MyVote</title>
     @Styles.Render("~/bundles/css")
     <!--[if lt IE 9]>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/json2/20110223/json2.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.min.js"></script>
     <![endif]-->
+    <meta name="description" content="Magenic MyVote Web Application" />
 </head>
 <body ng-app="MyVoteApp" ng-controller="auth">
 
@@ -19,7 +20,7 @@
         <h2>Modern Apps Live!</h2>
         <div class="auth-message">
             <span ng-bind="authMessage"></span>
-            <span ng-show="loggedIn()">(<a class="logout-link" ng-click="logOut()">Logout</a>)</span>
+            <span ng-show="loggedIn() || isAuthError()">(<a class="logout-link" ng-click="logOut()">Logout</a>)</span>
         </div>
         <div ng-show="newPollsCount" class="newpolls-message">
             <span ng-bind="getNewPollsMessage()"></span>

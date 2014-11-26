@@ -26,3 +26,4 @@ var MyVote;
     })(MyVote.Directives || (MyVote.Directives = {}));
     var Directives = MyVote.Directives;
 })(MyVote || (MyVote = {}));
+//# sourceMappingURL=file.js.map

@@ -88,6 +88,9 @@ module MyVote.Controllers {
 
             $scope.invalidInput = (name: string)=> {
                 var field = $scope.addPollForm[name];
+                if (field === undefined) {
+                    return false;
+                }
                 return ($scope.submitted || field.$dirty) && field.$invalid;
             };
 

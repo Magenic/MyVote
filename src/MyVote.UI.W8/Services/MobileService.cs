@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
-#if ANDROID
+#if __ANDROID__
 using Android.Content;
 #endif
 
@@ -14,17 +14,17 @@ namespace MyVote.UI.Services
 	public sealed class MobileService : IMobileService
 	{
 		private readonly MobileServiceClient mobileService = new MobileServiceClient(
-			new Uri("MyUrl", UriKind.Absolute),
-			"MyKey"
+			new Uri("https://myvote.azure-mobile.net/", UriKind.Absolute),
+			"ZvcAeJgeuBlZVTAiPYEhfDDloLsJUb20"
 		);
 
-#if ANDROID
+#if __ANDROID__
 		public async Task<string> AuthenticateAsync(Context context, AuthenticationProvider provider)
 #else
 		public async Task<string> AuthenticateAsync(AuthenticationProvider provider)
 #endif
 		{
-#if ANDROID
+#if __ANDROID__
 		    var user = await this.mobileService.LoginAsync(context, ToMobileServiceProvider(provider));
 #else
 			var user = await this.mobileService.LoginAsync(ToMobileServiceProvider(provider));

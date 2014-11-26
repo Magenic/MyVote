@@ -400,12 +400,6 @@
       <Link>CodeAnalysisDictionary.xml</Link>
     </CodeAnalysisDictionary>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MyVote.Core.W8\MyVote.Core.W8.csproj">
-      <Project>{0190854e-3553-4a97-b944-c083a67fb5c9}</Project>
-      <Name>MyVote.Core.W8</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>

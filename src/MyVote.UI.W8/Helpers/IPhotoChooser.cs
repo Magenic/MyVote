@@ -5,7 +5,7 @@ namespace MyVote.UI.Helpers
 {
 	public interface IPhotoChooser
 	{
-#if !ANDROID
+#if !__ANDROID__
 		Task<UploadViewModel> ShowChooser();
 #endif
 	}
