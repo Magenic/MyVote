@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="877b38f6-b7e4-401e-9124-0f8181c4c905" ChangeDateTime="12/11/2014 16:02:49">
+    <Property Name="ElementName" Value="[dbo].[MVGeography].[zip]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MVGeography]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Zip" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7ff93bd3-615a-4de2-a463-efb03f9e330c" ChangeDateTime="12/11/2014 16:02:56">
+    <Property Name="ElementName" Value="[dbo].[MVGeography].[primary_city]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MVGeography]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Primary_City" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ebde2917-f2b4-4c9f-b381-c92c7e10e79b" ChangeDateTime="12/11/2014 16:03:00">
+    <Property Name="ElementName" Value="[dbo].[MVGeography].[state]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MVGeography]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="State" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e0404f80-1491-4042-b36d-2e9f4e5b19a0" ChangeDateTime="12/11/2014 16:03:05">
+    <Property Name="ElementName" Value="[dbo].[MVGeography].[county]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MVGeography]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="County" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1f620df8-309a-417b-b911-503b029bd6e9" ChangeDateTime="12/11/2014 16:03:11">
+    <Property Name="ElementName" Value="[dbo].[MVGeography].[timezone]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MVGeography]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TimeZone" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7415136f-3184-460e-a9cd-dd07f1a93fa3" ChangeDateTime="12/11/2014 16:03:17">
+    <Property Name="ElementName" Value="[dbo].[MVGeography].[area_codes]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MVGeography]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Area_Codes" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8026583d-4352-468a-b210-4152d0df41c0" ChangeDateTime="12/11/2014 16:03:20">
+    <Property Name="ElementName" Value="[dbo].[MVGeography].[latitude]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MVGeography]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Latitude" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0530222a-6be8-4364-8b84-97e5c7d7db61" ChangeDateTime="12/11/2014 16:03:25">
+    <Property Name="ElementName" Value="[dbo].[MVGeography].[longitude]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MVGeography]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Longitude" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f254d4b7-872d-424a-9ac6-ec9af5d0de92" ChangeDateTime="12/11/2014 16:03:35">
+    <Property Name="ElementName" Value="[dbo].[MVGeography].[estimated_population]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MVGeography]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Estimated_Population" />
+  </Operation>
+</Operations>

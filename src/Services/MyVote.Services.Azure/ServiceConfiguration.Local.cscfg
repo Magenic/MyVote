@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="MyVote.Services.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2014-06.2.4">
+  <Role name="MyVote.Services.AppServer">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="brent" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCECsEFo57o4ixR6RFfzfgYDswDQYJKoZIhvcNAQEBBQAEggEAO5FqgjyYMJxLsj+xh06/xpEi/ByvX0xBstxHk9xZIV9rbNzGnu1bS48jzfCN/53o6X87tw1taYXEzqQXcjA+8fNZJ8W/iXWYv9MuhBqV2/pvhFKiDskgZ7fK0zXuG/7Ky3H2oLA+/Ve4dXUfEHuNG0p1crgGfto6qRuszAg67xY1owy6KiTsKQqh498sJEiRQMMT/6knVwvPCWX2pQ/ri6QdrRLI/C16BfA5L8pB3JU5mCF9aN5qCauZ69zvmbmTzoZqibhho+ZyhV0haXWIDWKEmVkm0aLcQtI0Eb9+PnD4+h+bnhTRIcDheZ4qvW2jeWzrSbW+w6WuTZ8taBfXUDAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECKPjKSQy8cfGgBD/KRmKCFfQTyBmbrvtMSAU" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2016-02-09T23:59:59.0000000-06:00" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="518FF591F4A59725C111C86C22AC081A433CBF44" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+</ServiceConfiguration>

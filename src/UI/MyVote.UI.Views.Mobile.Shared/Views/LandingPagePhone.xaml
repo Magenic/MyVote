@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:ContentPageBase xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyVote.UI.Views.LandingPagePhone"
+             xmlns:views="clr-namespace:MyVote.UI.Views;assembly=MyVoteUI"
+             xmlns:controls="clr-namespace:MyVote.UI.Controls;assembly=MyVoteUI">
+    <RelativeLayout x:Name="lytMain" Style="{StaticResource BackgroundStyle}">
+        <controls:ImageButton x:Name="btnTwitter" Text="Twitter" BackgroundColor="#01abdf" TextColor="#ffffff" WidthRequest="175" HeightRequest="40" Command="{Binding SignInWithTwitter}"
+            RelativeLayout.XConstraint=
+                "{ConstraintExpression Type=RelativeToParent, 
+                                    Property=Width,
+                                    Factor =.5,
+                                    Constant=-87.5}"
+            RelativeLayout.YConstraint=
+                "{ConstraintExpression Type=RelativeToParent,
+                                    Property=Height,
+                                    Factor=.5}" >
+            <controls:ImageButton.Source>
+                <OnPlatform x:TypeArguments="ImageSource">
+                    <OnPlatform.iOS>
+                        <FileImageSource File="icon_twitter.png"/>
+                    </OnPlatform.iOS>
+                    <OnPlatform.Android>
+                        <FileImageSource File="icon_twitter.png"/>
+                    </OnPlatform.Android>
+                    <OnPlatform.WinPhone>
+                        <FileImageSource File="Images/icon_twitter.png"/>
+                    </OnPlatform.WinPhone>
+                </OnPlatform>
+            </controls:ImageButton.Source>
+        </controls:ImageButton>
+        <controls:ImageButton x:Name="btnFacebook" Text="Facebook" BackgroundColor="#3d509f" TextColor="#ffffff" WidthRequest="175" HeightRequest="40" Command="{Binding SignInWithFacebook}"
+            RelativeLayout.XConstraint=
+                 "{ConstraintExpression Type=RelativeToView,
+                                        ElementName=btnTwitter,
+                                        Property=X,
+                                        Constant=0}"
+             RelativeLayout.YConstraint=
+                 "{ConstraintExpression Type=RelativeToView,
+                                        ElementName=btnTwitter,
+                                        Property=Y,
+                                        Constant=50}" >
+            <controls:ImageButton.Source>
+                <OnPlatform x:TypeArguments="ImageSource">
+                    <OnPlatform.iOS>
+                        <FileImageSource File="icon_facebook.png"/>
+                    </OnPlatform.iOS>
+                    <OnPlatform.Android>
+                        <FileImageSource File="icon_facebook.png"/>
+                    </OnPlatform.Android>
+                    <OnPlatform.WinPhone>
+                        <FileImageSource File="Images/icon_facebook.png"/>
+                    </OnPlatform.WinPhone>
+                </OnPlatform>
+            </controls:ImageButton.Source>
+        </controls:ImageButton>
+        <controls:ImageButton x:Name="btnGoogle" Text="Google" BackgroundColor="#dc021e" TextColor="#ffffff" WidthRequest="175" HeightRequest="40" Command="{Binding SignInWithGoogle}"
+            RelativeLayout.XConstraint=
+                 "{ConstraintExpression Type=RelativeToView,
+                                        ElementName=btnFacebook,
+                                        Property=X,
+                                        Constant=0}"
+             RelativeLayout.YConstraint=
+                 "{ConstraintExpression Type=RelativeToView,
+                                        ElementName=btnFacebook,
+                                        Property=Y,
+                                        Constant=50}" >
+            <controls:ImageButton.Source>
+                <OnPlatform x:TypeArguments="ImageSource">
+                    <OnPlatform.iOS>
+                        <FileImageSource File="icon_google.png"/>
+                    </OnPlatform.iOS>
+                    <OnPlatform.Android>
+                        <FileImageSource File="icon_google.png"/>
+                    </OnPlatform.Android>
+                    <OnPlatform.WinPhone>
+                        <FileImageSource File="Images/icon_google.png"/>
+                    </OnPlatform.WinPhone>
+                </OnPlatform>
+            </controls:ImageButton.Source>
+        </controls:ImageButton>
+        <controls:ImageButton x:Name="btnMicrosoft" Text="Microsoft" BackgroundColor="#ffffff" TextColor="#000000" WidthRequest="175" HeightRequest="40" Command="{Binding SignInWithMicrosoft}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+            RelativeLayout.XConstraint=
+                 "{ConstraintExpression Type=RelativeToView,
+                                        ElementName=btnGoogle,
+                                        Property=X,
+                                        Constant=0}"
+             RelativeLayout.YConstraint=
+                 "{ConstraintExpression Type=RelativeToView,
+                                        ElementName=btnGoogle,
+                                        Property=Y,
+                                        Constant=50}" >
+            <controls:ImageButton.Source>
+                <OnPlatform x:TypeArguments="ImageSource">
+                    <OnPlatform.iOS>
+                        <FileImageSource File="icon_microsoft.png"/>
+                    </OnPlatform.iOS>
+                    <OnPlatform.Android>
+                        <FileImageSource File="icon_microsoft.png"/>
+                    </OnPlatform.Android>
+                    <OnPlatform.WinPhone>
+                        <FileImageSource File="Images/icon_microsoft.png"/>
+                    </OnPlatform.WinPhone>
+                </OnPlatform>
+            </controls:ImageButton.Source>
+        </controls:ImageButton>
+        <ActivityIndicator IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           BackgroundColor="#75949494"
+                           Color="Black"
+                           WidthRequest="50"
+                           HeightRequest="50"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand"
+                           RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                                    Property=Width,
+                                    Factor=0.5,
+                                    Constant=-25}"
+                           RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                                    Property=Height,
+                                    Factor=0.5,
+                                    Constant=-25}" />
+    </RelativeLayout>
+</views:ContentPageBase>

@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:ContentPageBase xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyVote.UI.Views.RegistrationPage"
+			 xmlns:views="clr-namespace:MyVote.UI.Views;assembly=MyVoteUI"
+			 xmlns:converters="clr-namespace:MyVote.UI.Converters;assembly=MyVoteUI"
+			 xmlns:controls="clr-namespace:MyVote.UI.Controls;assembly=MyVoteUI">
+	<views:ContentPageBase.Resources>
+		<ResourceDictionary>
+			<converters:NullableDateConverter x:Key="nullableDateConverter"/>
+        </ResourceDictionary>
+	</views:ContentPageBase.Resources>
+    <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Style="{StaticResource BackgroundStyle}">
+		<StackLayout Orientation="Vertical" Spacing="0">
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource SpacerStyle}"></BoxView>
+            <StackLayout x:Name="firstNameRegion" Style="{StaticResource IndividualEntryRegionStyle}">
+                <controls:ExtendedLabel Text="First Name" Style="{StaticResource ColumnLabelColumnStyle}" />
+                <Entry Text="{Binding User.FirstName, Mode=TwoWay}" Placeholder="First Name" Style="{StaticResource EntryColumnStyle}" />
+			</StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource SpacerStyle}"></BoxView>
+            <StackLayout x:Name="lastNameRegion" Style="{StaticResource IndividualEntryRegionStyle}">
+                <controls:ExtendedLabel Text="Last Name" Style="{StaticResource ColumnLabelColumnStyle}" />
+                <Entry Text="{Binding User.LastName, Mode=TwoWay}" Placeholder="Last Name" Style="{StaticResource EntryColumnStyle}" />
+			</StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource SpacerStyle}"></BoxView>
+            <StackLayout x:Name="emailRegion" Style="{StaticResource IndividualEntryRegionStyle}">
+                <controls:ExtendedLabel Text="Email" Style="{StaticResource ColumnLabelColumnStyle}" />
+                <Entry Text="{Binding User.EmailAddress, Mode=TwoWay}" Placeholder="Email" Style="{StaticResource EntryColumnStyle}" />
+			</StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource SpacerStyle}"></BoxView>
+            <StackLayout x:Name="userNameRegion" Style="{StaticResource IndividualEntryRegionStyle}">
+                <controls:ExtendedLabel Text="Username" Style="{StaticResource ColumnLabelColumnStyle}" />
+                <Entry Text="{Binding User.UserName, Mode=TwoWay}" Placeholder="Username" Style="{StaticResource EntryColumnStyle}" />
+			</StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource SpacerStyle}"></BoxView>
+            <StackLayout x:Name="birthDateRegion" Style="{StaticResource IndividualEntryRegionStyle}">
+                <controls:ExtendedLabel Text="Date of Birth" Style="{StaticResource ColumnLabelColumnStyle}" />
+                <controls:ExtendedDatePicker Date="{Binding User.BirthDate, Converter={StaticResource nullableDateConverter}, Mode=TwoWay}" Style="{StaticResource DatePickerColumnStyle}" />
+			</StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource SpacerStyle}"></BoxView>
+            <StackLayout x:Name="genderRegion" Style="{StaticResource IndividualEntryRegionStyle}">
+                <controls:ExtendedLabel Text="Gender" Style="{StaticResource ColumnLabelColumnStyle}" />
+                <controls:BackgroundStringExtendedPicker Style="{StaticResource PickerColumnStyle}" ItemsSource="{Binding GenderOptions}" SelectedItem="{Binding User.Gender, Mode=TwoWay}" />
+			</StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource SpacerStyle}"></BoxView>
+            <StackLayout x:Name="zipCodeRegion" Style="{StaticResource IndividualEntryRegionStyle}">
+                <controls:ExtendedLabel Text="Zip Code" Style="{StaticResource ColumnLabelColumnStyle}" />
+                <Entry Text="{Binding User.PostalCode, Mode=TwoWay}" Placeholder="Zip Code" Style="{StaticResource EntryColumnStyle}" />
+			</StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource SpacerStyle}"></BoxView>
+			<BoxView HorizontalOptions="Start" HeightRequest="10" Color="#00000000"></BoxView>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource SpacerStyle}"></BoxView>
+			<StackLayout Orientation="Vertical" Padding="0,0,0,0">
+                <Button IsEnabled="{Binding CanSave}" Text="Save" Style="{StaticResource ButtonStyle}" HorizontalOptions="FillAndExpand" Command="{Binding Submit}" />
+			</StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource SpacerStyle}"></BoxView>
+		</StackLayout>
+	</ScrollView>
+</views:ContentPageBase>

@@ -1,0 +1,10 @@
+﻿<section class="centered-view">
+    <h2 class="landing-head" ng-show="providers">How would you like to sign in?</h2>
+    <ul class="landing-hmenu" ng-class="{busy: busy}">
+        <li ng-repeat="provider in providers" ng-click="login(provider)" ng-disabled="busyMessage" back-color="{{provider.color}}">
+            <img ng-src="{{provider.image}}" />
+        </li>
+    </ul>
+    <div class="topbar topbar-error" ng-show="errorMessage"><span ng-bind="errorMessage"></span></div>
+    <div class="progress" ng-show="busyMessage"><span ng-bind="busyMessage"></span></div>
+</section>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- File created by the Android Action Bar Style Generator
+
+     Copyright (C) 2011 The Android Open Source Project
+     Copyright (C) 2012 readyState Software Ltd
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+
+    <style name="Theme.Myvote" parent="@android:style/Theme.Holo">
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_myvote</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Myvote</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Myvote</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Myvote</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Myvote</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Myvote</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_myvote</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_myvote</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Myvote</item>
+    </style>
+
+    <style name="ActionBar.Solid.Myvote" parent="@android:style/Widget.Holo.ActionBar.Solid">
+        <item name="android:background">@drawable/ab_solid_myvote</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_myvote</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_myvote</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Myvote</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Myvote" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background">@drawable/ab_transparent_myvote</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Myvote</item>
+    </style>
+
+    <style name="PopupMenu.Myvote" parent="@android:style/Widget.Holo.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_myvote</item>	
+    </style>
+
+    <style name="DropDownListView.Myvote" parent="@android:style/Widget.Holo.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_myvote</item>
+    </style>
+
+    <style name="ActionBarTabStyle.Myvote" parent="@android:style/Widget.Holo.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_myvote</item>
+    </style>
+
+    <style name="DropDownNav.Myvote" parent="@android:style/Widget.Holo.Spinner">
+        <item name="android:background">@drawable/spinner_background_ab_myvote</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_myvote</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_myvote</item>
+    </style>
+    
+    <style name="ProgressBar.Myvote" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_myvote</item>
+    </style>
+    
+    <style name="ActionButton.CloseMode.Myvote" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_myvote</item>
+    </style>
+
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Myvote.Widget" parent="@android:style/Theme.Holo">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Myvote</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Myvote</item>
+    </style>
+</resources>

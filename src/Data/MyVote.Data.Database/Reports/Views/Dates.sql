@@ -1,0 +1,18 @@
+﻿
+create view [Reports].[Dates]
+with schemabinding as 
+SELECT [DateKey] as [Date Id]
+      ,[DateID] as [Date]
+      ,[DayNme] as [Day Name]
+      ,[DayShort] as [Short Day Name]
+      ,[CalendarYear] as [Year]
+      ,[CalendarQuarter] as [Quarter]
+      ,[CalendarQuarterName] as [Quarter Name]
+      ,[CalendarQuarterShort] as [Short Quarter Name]
+      ,[CalendarMonth] as [Month]
+      ,[CalendarMonthName] as [Month Name]
+      ,[CalendarMonthShort] as [Short Month Name]
+      ,[CalendarWeek] as [Week Number]
+      ,[CalendarWeekName] as [Week Name]
+      ,[CalendarWeekShort] as [Short Week Name]
+  FROM [dbo].[MVDates]

@@ -1,0 +1,18 @@
+﻿<div class="left-view">
+    <form class="poll-actions">
+        <label for="filter">View: </label>
+        <select id="filter" ng-model="filterBy" ng-options="filter.name for filter in filters"></select>
+        <button ng-click="addPoll()">Add a Poll</button>
+    </form>
+
+    <h2 ng-hide="pollGroups" ng-bind="message"></h2>
+    <div class="poll-group" ng-repeat="group in pollGroups">
+        <h2>{{group[0].Category}}</h2>
+        <a class="poll-box" ng-click="viewPoll(poll.Id)" ng-repeat="poll in group" back-img="{{getBackImg(poll.ImageLink)}}">
+            <div class="poll-info">
+                <h3>{{poll.Question}}</h3>
+                <h4>{{poll.SubmissionCount}} {{responseText(poll.SubmissionCount)}}</h4>
+            </div>
+        </a>
+    </div>
+</div>

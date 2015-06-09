@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:ContentPageBase xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyVote.UI.Views.PollResultsPage"
+			 xmlns:views="clr-namespace:MyVote.UI.Views;assembly=MyVoteUI"
+			 xmlns:controls="clr-namespace:MyVote.UI.Controls;assembly=MyVoteUI"
+			 xmlns:vm="clr-namespace:MyVote.UI.ViewModels;assembly=MyVoteUI">
+    <Grid ColumnSpacing="0" Style="{StaticResource BackgroundStyle}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Image
+				Grid.Column="0"
+				Grid.Row="0"
+				VerticalOptions="LayoutOptions.Start"
+                WidthRequest="150" 
+                HeightRequest="150"
+                Aspect="AspectFill"
+				Source="{Binding PollResults.PollImageLink}" />
+
+        <controls:ExtendedLabel Text="{Binding PollResults.PollDataResults.Question}" Style="{StaticResource LabelStyle}" Grid.Column="1" Grid.Row="0" />
+
+		<controls:ExtendedLabel
+			Text="Thanks for voting! Here are the current results:"
+			Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Style="{StaticResource LabelStyle}" />
+
+        <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource IndividualEntryRegionStyle}" >
+            <controls:ExtendedLabel Text="Total" Style="{StaticResource LabelStyle}" />
+            <controls:ExtendedLabel Text="{Binding TotalResponses}" Style="{StaticResource LabelStyle}" />
+            <controls:ExtendedLabel Text="Votes" Style="{StaticResource LabelStyle}" />
+		</StackLayout>
+
+		<controls:RepeaterView x:TypeArguments="vm:PollDataResultViewModel" Grid.Row="3" Grid.ColumnSpan="2" Spacing="0" Orientation="Vertical" ItemsSource="{Binding PollDataResults}" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+			<controls:RepeaterView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<ViewCell.View>
+							<StackLayout Orientation="Vertical" Spacing="0" VerticalOptions="FillAndExpand">
+                                <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource SpacerStyle}"></BoxView>
+                                <StackLayout Orientation="Horizontal" Style="{StaticResource IndividualEntryRegionStyle}" Padding="0,0,0,0">
+                                    <controls:ExtendedLabel Text="{Binding PollDataResult.OptionText}" HorizontalOptions="Start" Style="{StaticResource LabelStyle}"/>
+                                    <controls:ExtendedLabel Text="{Binding ResponsePercentage}" HorizontalOptions="EndAndExpand" Style="{StaticResource LabelStyle}" />
+                                    <controls:ExtendedLabel Text="% " HorizontalOptions="Start" Style="{StaticResource LabelStyle}"/>
+								</StackLayout>
+                                <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource SpacerStyle}"></BoxView>
+							</StackLayout>
+						</ViewCell.View>
+					</ViewCell>
+				</DataTemplate>
+			</controls:RepeaterView.ItemTemplate>
+		</controls:RepeaterView>
+
+		<ActivityIndicator IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           BackgroundColor="#75949494"
+                           Color="Black"
+						   Grid.RowSpan="4"
+						   Grid.ColumnSpan="2"
+                           WidthRequest="50"
+                           HeightRequest="50"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" />
+	</Grid>
+</views:ContentPageBase>

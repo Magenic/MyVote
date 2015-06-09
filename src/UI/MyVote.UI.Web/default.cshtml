@@ -1,0 +1,54 @@
+﻿@using System.Configuration
+@using System.Web.Optimization
+<!DOCTYPE html>
+<html id="ng-app">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MyVote</title>
+    @Styles.Render("~/bundles/css")
+    <!--[if lt IE 9]>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.min.js"></script>
+    <![endif]-->
+    <meta name="description" content="Magenic MyVote Web Application" />
+</head>
+<body ng-app="MyVoteApp" ng-controller="auth">
+
+    <header class="site-header">
+        <h1><a href="/#/polls">MyVote</a></h1>
+        <h2>Modern Apps Live!</h2>
+        <div class="auth-message">
+            <span ng-bind="authMessage"></span>
+            <span ng-show="loggedIn() || isAuthError()">(<a class="logout-link" ng-click="logOut()">Logout</a>)</span>
+        </div>
+        <div ng-show="newPollsCount" class="newpolls-message">
+            <span ng-bind="getNewPollsMessage()"></span>
+            <button ng-click="viewNewPolls()">Go</button>
+            <button ng-click="newPollsCount = 0">X</button>
+        </div>
+    </header>
+    
+    <div class="main-content" ng-view=""></div>
+    
+    <script type="text/javascript">
+        @{
+            var apiUrl = ConfigurationManager.AppSettings["apiUrl"];
+            var apiHost = new Uri(apiUrl).Host;
+            var zumoKey = ConfigurationManager.AppSettings["zumoKey"];
+        }
+        Globals = {
+            apiUrl: '@apiUrl',
+            zumoKey: '@zumoKey'
+        };
+    </script>
+    <iframe id="uniqueFrameId"
+            class="xdProxy"
+            name="@apiHost"
+            src="@(apiUrl + "/ClientProxy.html")"
+            style="visibility: hidden;display:none;">
+    </iframe>
+    @Scripts.Render("~/bundles/app")
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>MyVote.Data.Database</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{c08d2d15-9aa1-4d87-8480-b2dc5b47f984}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureDatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>MyVote.Data.Database</RootNamespace>
+    <AssemblyName>MyVote.Data.Database</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>True</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\Views" />
+    <Folder Include="MyVote" />
+    <Folder Include="MyVote\Tables" />
+    <Folder Include="Reports" />
+    <Folder Include="Reports\Views" />
+    <Folder Include="Security" />
+    <Folder Include="Stored Procedures" />
+    <Folder Include="Tables" />
+    <Folder Include="Scripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Views\dimDate.sql" />
+    <Build Include="dbo\Views\dimPoll.sql" />
+    <Build Include="dbo\Views\dimUser.sql" />
+    <Build Include="dbo\Views\factMVPollSubmission.sql" />
+    <Build Include="dbo\Views\UserPollsByCategory.sql" />
+    <Build Include="MyVote\Tables\ActiveUsers.sql" />
+    <Build Include="MyVote\Tables\MyVotePhotos.sql" />
+    <Build Include="Reports\Views\Categories.sql" />
+    <Build Include="Reports\Views\Dates.sql" />
+    <Build Include="Reports\Views\Geography.sql" />
+    <Build Include="Reports\Views\Poll Options.sql" />
+    <Build Include="Reports\Views\Poll Owner.sql" />
+    <Build Include="Reports\Views\Poll Responses.sql" />
+    <Build Include="Reports\Views\Poll Submissions.sql" />
+    <Build Include="Reports\Views\Polls.sql" />
+    <Build Include="Reports\Views\Responding User.sql" />
+    <Build Include="Reports\Views\Response Date.sql" />
+    <Build Include="Reports\Views\Submission Date.sql" />
+    <Build Include="Security\MyVote.sql" />
+    <Build Include="Security\Reports.sql" />
+    <Build Include="Stored Procedures\deletePoll.sql" />
+    <Build Include="Tables\MVCategory.sql" />
+    <Build Include="Tables\MVDates.sql" />
+    <Build Include="Tables\MVGeography.sql" />
+    <Build Include="Tables\MVPoll.sql" />
+    <Build Include="Tables\MVPollComment.sql" />
+    <Build Include="Tables\MVPollOption.sql" />
+    <Build Include="Tables\MVPollResponse.sql" />
+    <Build Include="Tables\MVPollSubmission.sql" />
+    <Build Include="Tables\MVReportedPoll.sql" />
+    <Build Include="Tables\MVReportedPollStateLog.sql" />
+    <Build Include="Tables\MVReportedPollStateOption.sql" />
+    <Build Include="Tables\MVUser.sql" />
+    <Build Include="Tables\MVUserRole.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="MyVote.Data.Database.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="PreLoadMVCategory.sql" />
+    <None Include="PreLoadMVReportedPollStateOptions.sql" />
+    <None Include="PreLoadMVUserRole.sql" />
+    <None Include="Script.PostDeployment1.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MyVote.Data.Database.Local.publish.xml" />
+  </ItemGroup>
+</Project>

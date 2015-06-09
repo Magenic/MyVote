@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
+  <Identity Name="da4d9fcf-70c6-4754-9eb8-4b46a57dcf17" Publisher="CN=BrentE" Version="1.0.0.0" />
+  <Properties>
+    <DisplayName>MyVote.UI.Windows</DisplayName>
+    <PublisherDisplayName>BrentE</PublisherDisplayName>
+    <Logo>Assets/50x50Logo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.3.0</OSMinVersion>
+    <OSMaxVersionTested>6.3.0</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="MyVote.UI.Windows.App">
+      <m2:VisualElements DisplayName="MyVote" Square150x150Logo="Assets/150x150Logo.png" Square30x30Logo="Assets/30x30Logo.png" Description="MyVote" ForegroundText="light" BackgroundColor="#333333">
+        <m2:DefaultTile ShortName="MyVote" Wide310x150Logo="Assets/310x150Logo.png" Square310x310Logo="Assets/310x310Logo.png" Square70x70Logo="Assets/70x70Logo.png">
+        </m2:DefaultTile>
+        <m2:SplashScreen Image="Assets\620x300Splash.png" BackgroundColor="#333333" />
+      </m2:VisualElements>
+      <Extensions>
+        <Extension Category="windows.search" />
+      </Extensions>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+  </Capabilities>
+</Package>

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>0f1d7658-e133-4114-9920-f4ac16f41383</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MyVote.UI</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ILogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\IMvxPageNavigationProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\IPhotoChooser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\MvxAppStart.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\MvxPresenterHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SharedPoll.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MyVoteApp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Bootstrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\AutofacInject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\IAppSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\IMessageBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\InjectAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\IVmPageMappings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\SettingsKeys.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NavigationCriteria\LandingPageNavigationCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NavigationCriteria\PollResultsPageNavigationCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NavigationCriteria\PollsPageSearchNavigationCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NavigationCriteria\RegistrationPageNavigationCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NavigationCriteria\ViewPollPageNavigationCriteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AutofacMvxProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AzureStorageService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IAzureStorageService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IMobileService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IUiContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\MobileService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UiModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AddPollPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LandingPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PollCommentViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PollDataResultViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PollOptionViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PollImageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PollImageViewModelBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PollResultsPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PollSearchOptionViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PollResultsByCategoryViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PollSearchResultViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PollsPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\RegistrationPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SelectOptionViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Settings\AccountSettingsPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewModelBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\UploadViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewPollPageViewModel.cs" />
+  </ItemGroup>
+</Project>
