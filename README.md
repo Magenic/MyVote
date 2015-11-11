@@ -4,7 +4,7 @@ MyVote is an app developed by [Magenic](http://www.magenic.com) as a comprehensi
 
 The code in this repo has been scrubbed to remove sensitive key values for encryption and services. The following is a list of changes you'll need to make to insert your own keys into the codebase:
 
-**src/MyVote.UI.W8/Services/MobileService.cs**
+**src/MyVote.UI.ViewModels.Shared/Services/MobileService.cs**
 ````
 	private readonly MobileServiceClient mobileService = new MobileServiceClient(
 		new Uri("MyUrl", UriKind.Absolute),
@@ -14,40 +14,49 @@ The code in this repo has been scrubbed to remove sensitive key values for encry
 	
 * Replace "MyUrl" with your Azure Mobile Services url.
 * Replace "MyKey" with your Azure Mobile Services application key.
+
+````
+	client.BaseAddress = new Uri("https://myapp.azure-mobile.net/");
+````
+
+* Replace "myapp" with your Azure Mobile Services url.
 	
-**src/MyVote.AppServer/Web.config**
+**src/Services/MyVote.Services.AppServer/Web.config**
 
 * Replace the value of the zumoMaster appSettings entry with your Azure Mobile Service master key.
 
-**src/MyVote.AppServer/Web.Release.config and Web.Staging.config**
+**src/Services/MyVote.Services.AppServer/Web.Release.config**
 
-* Replace the connection string with your production and staging environment connection strings.
+* Replace the connection string with your production environment connection strings.
 
-**src/MyVote.AzureService/ServiceConfiguration.Cloud.cscfg**
+**src/Services/MyVote.Services.AppServer/App_Start/WebApiConfig.cs**
 
-* If you want to enable remote desktop access to your Cloud Service VM, follow the instructions found [here](http://msdn.microsoft.com/en-us/library/windowsazure/hh124130.aspx). Set the	thumbprint value in the Certificate tag.
+* Update and add urls for your Azure Website and domain name.
 
-**src/MyVote/AzureService/Profiles**
+**src/UI/MyVote.UI.ViewModels.Shared/Bootstrapper.cs -> Configure()**
 
-* To publish the Cloud Service to Azure, configure it in the Azure Management Portal, download the Publish profile, and import it into this project.
+* Replace "DataPortalUrl" values with your server urls.
 
-**src/MyVote.Client.W8/app.xaml.cs and src/MyVote.Client.Wp8/Bootstrapper.cs -> Configure()**
+**src/UI/MyVote.UI.ViewModels.Shared/ViewModels/PollImageViewModelBase.cs**
 
-* Replace Csla.ApplicationContext.DataPortalUrlString values with your server urls.
+* Replace "PollPicturesUrlBase" with your Azure Storage url.
 
-**src/MyVote.Client.Web/Web.config**
+**src/UI/MyVote.UI.Web/Web.config**
 
 * Replace the value of the zumoKey entry with your Azure Mobile Service application key.
 
-**src/MyVote.Client.Web/Web.Release.config and Web.Staging.config**
+**src/UI/MyVote.UI.Web/Web.Release.config and Web.Staging.config**
 
 * Replace the value of the apiUrl appSettings entries with the URLs of your	Production and Staging cloud services.
 
-MyVote iPad Setup
------------------
+**src/Services/MyVote.Services.MobileServices/Web.config**
 
-**src/iPad/MyVoteLV/MyVoteLV/HelperClasses/Constants.m**
+* Replace "StorageConnectionString" with your Azure Storage url.
 
-Replace "kURL" with your Azure Mobile Service url.
-Replace "kAppKey" with your Azure Mobile Services application key.
-Replace "kMALAPIBaseURLString" with your REST API endpoint.
+**src/Services/MyVote.Services.AppServer/Web.myvoteapi.config**
+
+* Replace connection string with your production environment connection string.
+
+**src/Services/MyVote.Services.AppServer/Controller/PollImageController.cs**
+
+* Update "STORAGE_CONNECTION_STRING" with your Azure Storage Account Name and Account Key.

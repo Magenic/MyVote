@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyVote.UI.Views.PollsPagePhone"
+			 xmlns:views="clr-namespace:MyVote.UI.Views;assembly=MyVoteUI"
+             Title="MyVote Polls">
+    <TabbedPage.ToolbarItems>
+        <ToolbarItem Name="Actions" Icon="MoreMenu.png" Activated="ActionsClick"  Order="Primary" Priority="1" />
+    </TabbedPage.ToolbarItems>
+    <TabbedPage.Children>
+        <views:HomePagePhone Title="Home"></views:HomePagePhone>
+        <views:AddPollPage Title="New Poll"></views:AddPollPage>
+        <views:CategoriesPage Title="Categories"></views:CategoriesPage>
+        <views:SearchPage Title="Search" ></views:SearchPage>
+    </TabbedPage.Children>
+</TabbedPage>

@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:MyVote.UI.Controls;assembly=MyVoteUI"
+             xmlns:vm="clr-namespace:MyVote.UI.ViewModels;assembly=MyVoteUI"
+             x:Class="MyVote.UI.Views.HomePageTablet">
+    <ScrollView Style="{StaticResource BackgroundStyle}" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <controls:RepeaterView x:TypeArguments="vm:PollResultsByCategoryViewModel" x:Name="Repeater" Orientation="Vertical" ItemsSource="{Binding PollSearchResults}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <controls:RepeaterView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <StackLayout Orientation="Vertical" Spacing="2" VerticalOptions="FillAndExpand">
+                                <StackLayout Orientation="Horizontal" Spacing="0" VerticalOptions="FillAndExpand">
+                                    <Label Text="{Binding Category}" TextColor="#000000" Font="Bold" />
+                                    <Label Text="{Binding SearchResults.Count, StringFormat=' ({0})'}" TextColor="#000000" Font="Bold" />
+                                </StackLayout>
+                                <controls:ExtendedScrollView Orientation="Horizontal" HeightRequest="175">
+                                    <controls:RepeaterView x:TypeArguments="vm:PollSearchResultViewModel" Spacing="2" Orientation="Horizontal" ItemsSource="{Binding SearchResults}" HorizontalOptions="StartAndExpand">
+                                        <controls:RepeaterView.ItemTemplate>
+                                            <DataTemplate>
+                                                <ViewCell>
+                                                    <ViewCell.View>
+                                                        <RelativeLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                                            <Image WidthRequest="150" HeightRequest="150" Aspect="AspectFill" HorizontalOptions="FillAndExpand" Source="{Binding ImageLink}"
+                                                                       RelativeLayout.XConstraint=
+                                                                            "{ConstraintExpression Type=RelativeToParent, 
+                                                                                                    Property=Width,
+                                                                                                    Factor=0,
+                                                                                                    Constant=0}"
+                                                                         RelativeLayout.YConstraint=
+                                                                             "{ConstraintExpression Type=RelativeToParent, 
+                                                                                                    Property=Height,
+                                                                                                    Factor=0,
+                                                                                                    Constant=0}">
+                                                                <Image.GestureRecognizers>
+                                                                    <TapGestureRecognizer Command="{DynamicResource vmViewPoll}" CommandParameter="{Binding Id}" />
+                                                                </Image.GestureRecognizers>
+                                                            </Image>
+                                                            <controls:ExtendedLabel Text="{Binding Question}" WidthRequest="150" HeightRequest="50"  LineBreakMode="WordWrap" TextColor="Black" BackgroundColor="#98FFFFFF" HorizontalOptions="FillAndExpand"
+                                                                    RelativeLayout.XConstraint=
+                                                                        "{ConstraintExpression Type=RelativeToParent, 
+                                                                        Property=Width,
+                                                                        Factor=0,
+                                                                        Constant=0}"
+                                                                    RelativeLayout.YConstraint=
+                                                                        "{ConstraintExpression Type=RelativeToParent,
+                                                                                            Property=Height,
+                                                                                            Factor=0,
+                                                                                            Constant=95}" />
+                                                        </RelativeLayout>
+                                                    </ViewCell.View>
+                                                </ViewCell>
+                                            </DataTemplate>
+                                        </controls:RepeaterView.ItemTemplate>
+                                    </controls:RepeaterView>
+                                </controls:ExtendedScrollView>
+                            </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </controls:RepeaterView.ItemTemplate>
+        </controls:RepeaterView>
+    </ScrollView>
+</ContentPage>

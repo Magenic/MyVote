@@ -1,0 +1,44 @@
+﻿<UserControl
+    x:Class="MyVote.UI.Views.PageStateViews.AddPollPageFilled"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyVote.UI.Views.PageStateViews"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="120"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+
+		<Grid x:Name="HeaderContainer">
+			<!--Style="{StaticResource HeaderPanelStyle}"-->
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="120" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<AppBarButton
+					Icon="Back"
+				    x:Name="GoBack"
+                    Command="{Binding GoBack}"
+				    />
+			<!--IsEnabled="{Binding CanGoBack}" Style="{StaticResource BackButtonStyle}"-->
+
+			<TextBlock
+				    x:Name="Header"
+                    Grid.Column="1"
+				    HorizontalAlignment="Left"
+				    Text="Create A New Poll"
+					Style="{StaticResource HeaderTextBlockStyle}"/>
+		</Grid>
+
+		<local:AddPollPageNarrowContent x:Name="NarrowContent" Grid.Row="1" Margin="120,20,0,0" />
+
+	</Grid>
+</UserControl>

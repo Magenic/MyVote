@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:ContentPageBase xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyVote.UI.Views.ViewPollPage"
+			 xmlns:views="clr-namespace:MyVote.UI.Views;assembly=MyVoteUI"
+			 xmlns:controls="clr-namespace:MyVote.UI.Controls;assembly=MyVoteUI"
+			 xmlns:bo="clr-namespace:MyVote.BusinessObjects.Contracts;assembly=MyVote.BusinessObjects">
+    <Grid ColumnSpacing="0" Style="{StaticResource BackgroundStyle}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Image
+			Grid.Column="0"
+			Grid.Row="0"
+            WidthRequest="150" 
+            HeightRequest="150"
+            Aspect="AspectFill" 
+			Source="{Binding PollSubmission.PollImageLink}" />
+
+        <controls:ExtendedLabel Text="{Binding PollSubmission.PollQuestion}" Style="{StaticResource LabelStyle}" Grid.Column="1" Grid.Row="0" />
+
+		<controls:ExtendedLabel
+			Text="{Binding PollSubmission.PollDescription}"
+			Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Style="{StaticResource LabelStyle}" />
+
+		<controls:RepeaterView x:TypeArguments="bo:IPollSubmissionResponse" Grid.Row="2" Grid.ColumnSpan="2" Spacing="0" Orientation="Vertical" ItemsSource="{Binding PollSubmission.Responses}" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+			<controls:RepeaterView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<ViewCell.View>
+							<StackLayout Orientation="Vertical" Spacing="0" VerticalOptions="FillAndExpand">
+                                <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource SpacerStyle}"></BoxView>
+                                <StackLayout Orientation="Horizontal" Style="{StaticResource IndividualEntryRegionStyle}" Padding="0,0,0,0">
+                                    <controls:ExtendedLabel Text="{Binding OptionText}" HorizontalOptions="StartAndExpand" Style="{StaticResource LabelStyle}" />
+									<Switch IsToggled="{Binding IsOptionSelected, Mode=TwoWay}" HorizontalOptions="End" />
+								</StackLayout>
+                                <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource SpacerStyle}"></BoxView>
+							</StackLayout>
+						</ViewCell.View>
+					</ViewCell>
+				</DataTemplate>
+			</controls:RepeaterView.ItemTemplate>
+		</controls:RepeaterView>
+
+		<Button
+            Grid.Row="3"
+            Grid.ColumnSpan="2"
+			IsEnabled="{Binding CanSubmit}"
+			Command="{Binding SubmitPoll}"
+            Style="{StaticResource ButtonStyle}"
+			Text="Submit My Vote!" />
+
+		<ActivityIndicator IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           BackgroundColor="#75949494"
+                           Color="Black"
+						   Grid.RowSpan="4"
+						   Grid.ColumnSpan="2"
+                           WidthRequest="50"
+                           HeightRequest="50"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" />
+	</Grid>
+</views:ContentPageBase>

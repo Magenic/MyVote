@@ -1,0 +1,419 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3AA3F586-E7A2-4F6E-A885-BF9C2C2A609A}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyVote.UI</RootNamespace>
+    <AssemblyName>MyVoteUI</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <AndroidApplication>true</AndroidApplication>
+    <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
+    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
+    <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
+    <JavaMaximumHeapSize />
+    <JavaOptions />
+    <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <DevInstrumentationEnabled>False</DevInstrumentationEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ANDROID;MOBILE;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
+    <AndroidLinkMode>None</AndroidLinkMode>
+    <AndroidLinkSkip />
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <BundleAssemblies>False</BundleAssemblies>
+    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+    <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
+    <Debugger>Xamarin</Debugger>
+    <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
+    <DevInstrumentationEnabled>True</DevInstrumentationEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;ANDROID;MOBILE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidLinkSkip />
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <BundleAssemblies>False</BundleAssemblies>
+    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+    <AndroidSupportedAbis>armeabi,armeabi-v7a</AndroidSupportedAbis>
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
+    <JavaMaximumHeapSize />
+    <JavaOptions />
+    <MonoDroidExtraArgs />
+    <AndroidSigningKeyStore>..\..\MyVote.Android.keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>LogiconEx</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>com.magenic.myvote</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>LogiconEx</AndroidSigningKeyPass>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\..\packages\Autofac.3.5.2\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Cirrious.CrossCore, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MvvmCross.HotTuna.CrossCore.4.0.0-beta3\lib\MonoAndroid\Cirrious.CrossCore.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Cirrious.CrossCore.Droid, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MvvmCross.HotTuna.CrossCore.4.0.0-beta3\lib\MonoAndroid\Cirrious.CrossCore.Droid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Cirrious.MvvmCross, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MvvmCross.HotTuna.MvvmCrossLibraries.4.0.0-beta3\lib\MonoAndroid\Cirrious.MvvmCross.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Cirrious.MvvmCross.Binding, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MvvmCross.HotTuna.Binding.4.0.0-beta3\lib\MonoAndroid\Cirrious.MvvmCross.Binding.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Cirrious.MvvmCross.Binding.Droid, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MvvmCross.HotTuna.Binding.4.0.0-beta3\lib\MonoAndroid\Cirrious.MvvmCross.Binding.Droid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Cirrious.MvvmCross.Droid, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MvvmCross.HotTuna.MvvmCrossLibraries.4.0.0-beta3\lib\MonoAndroid\Cirrious.MvvmCross.Droid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Cirrious.MvvmCross.Localization, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MvvmCross.HotTuna.CrossCore.4.0.0-beta3\lib\MonoAndroid\Cirrious.MvvmCross.Localization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Csla, Version=4.6.175.0, Culture=neutral, PublicKeyToken=93be5fdc093e4c30, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CSLA-Core.4.6.175-Beta\lib\MonoAndroid10\Csla.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ExifLib, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ExifLib.PCL.1.0.1\lib\portable-net45+sl50+win+WindowsPhoneApp81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\ExifLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FormsViewGroup, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.Forms.1.5.1.6471\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Mobile, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Components\azure-mobile-services-1.3.1\lib\android\Microsoft.WindowsAzure.Mobile.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Mobile.Ext, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Components\azure-mobile-services-1.3.1\lib\android\Microsoft.WindowsAzure.Mobile.Ext.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Android" />
+    <Reference Include="Mono.Android.Export" />
+    <Reference Include="mscorlib" />
+    <Reference Include="MvvmCross.Plugins.Json, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MvvmCross.HotTuna.Plugin.Json.4.0.0-beta3\lib\MonoAndroid\MvvmCross.Plugins.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Refractored.Xam.Settings, Version=1.5.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugins.Settings.1.5.2\lib\MonoAndroid10\Refractored.Xam.Settings.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Refractored.Xam.Settings.Abstractions, Version=1.5.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugins.Settings.1.5.2\lib\MonoAndroid10\Refractored.Xam.Settings.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Globalization" />
+    <Reference Include="System.ObjectModel" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.IO" />
+    <Reference Include="System.Linq.Expressions" />
+    <Reference Include="System.Reflection" />
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\monoandroid\System.Net.Http.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\portable-wp8+netcore45+net45+wp81+wpa81\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\monoandroid\System.Net.Http.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Xamarin.Android.Support.Design, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.Android.Support.Design.23.0.1.1\lib\MonoAndroid403\Xamarin.Android.Support.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v4, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.Android.Support.v4.23.0.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.AppCompat, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.Android.Support.v7.AppCompat.23.0.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.CardView, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.Android.Support.v7.CardView.23.0.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.CardView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.MediaRouter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.Android.Support.v7.MediaRouter.23.0.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.MediaRouter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Core, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.Forms.1.5.1.6471\lib\MonoAndroid10\Xamarin.Forms.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.Forms.1.5.1.6471\lib\MonoAndroid10\Xamarin.Forms.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform.Android, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.Forms.1.5.1.6471\lib\MonoAndroid10\Xamarin.Forms.Platform.Android.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Xaml, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.Forms.1.5.1.6471\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xamarin.Insights, Version=1.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.Insights.1.11.2\lib\MonoAndroid10\Xamarin.Insights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xamarin.Mobile">
+      <HintPath>..\..\Components\xamarin.mobile-0.7.7\lib\android\Xamarin.Mobile.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bootstrap\JsonPluginBootstrap.cs" />
+    <Compile Include="DebugTrace.cs" />
+    <Compile Include="Extensions\FontExtensions.cs" />
+    <Compile Include="Helpers\IMvxPageNavigationHost.cs" />
+    <Compile Include="Helpers\MvxFormsSplashScreenActivity.cs" />
+    <Compile Include="Helpers\MvxNavigationActivity.cs" />
+    <Compile Include="Helpers\MvxPagePresenter.cs" />
+    <Compile Include="Renderers\BackgroundExtendedPickerRenderer.cs" />
+    <Compile Include="Renderers\ExtendedDatePickerRenderer.cs" />
+    <Compile Include="Renderers\ExtendedImageRenderer.cs" />
+    <Compile Include="Renderers\ExtendedLabelRenderer.cs" />
+    <Compile Include="Renderers\ExtendedScrollViewRenderer.cs" />
+    <Compile Include="Renderers\ImageButtonRenderer.cs" />
+    <Compile Include="Resources\Resource.Designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\UiContext.cs" />
+    <Compile Include="Setup.cs" />
+    <Compile Include="SplashActivity.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\AboutResources.txt" />
+    <None Include="Assets\AboutAssets.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Layout\SplashScreen.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PluginsHelp\SettingsReadme.txt" />
+    <Content Include="Properties\AndroidManifest.xml" />
+    <AndroidResource Include="Resources\Drawable\icon_facebook.png" />
+    <AndroidResource Include="Resources\Drawable\icon_twitter.png" />
+    <AndroidResource Include="Resources\Drawable\icon_microsoft.png" />
+    <AndroidResource Include="Resources\Drawable\icon_google.png" />
+    <AndroidResource Include="Resources\Drawable\NoImage.png" />
+    <AndroidResource Include="Resources\Drawable\tab_indicator_ab_myvote.xml" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\tab_selected_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\tab_selected_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\tab_unselected_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\tab_unselected_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\tab_unselected_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\tab_selected_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\tab_selected_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\tab_unselected_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\tab_unselected_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\tab_unselected_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\tab_selected_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\tab_selected_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\tab_unselected_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\tab_selected_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\tab_selected_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\tab_selected_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\tab_unselected_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\tab_unselected_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\tab_selected_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\tab_selected_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\tab_unselected_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\tab_unselected_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\tab_unselected_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\tab_selected_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable\ab_background_textured_myvote.xml" />
+    <AndroidResource Include="Resources\Drawable\selectable_background_myvote.xml" />
+    <AndroidResource Include="Resources\Drawable\spinner_background_ab_myvote.xml" />
+    <AndroidResource Include="Resources\Drawable\btn_cab_done_myvote.xml" />
+    <AndroidResource Include="Resources\Drawable\progress_horizontal_myvote.xml" />
+    <AndroidResource Include="Resources\Drawable-hdpi\ab_bottom_solid_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\ab_solid_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\ab_stacked_solid_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\ab_texture_tile_myvote.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\ab_transparent_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\btn_cab_done_default_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\btn_cab_done_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\btn_cab_done_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\cab_background_bottom_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\cab_background_top_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\list_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\list_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\menu_dropdown_panel_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\progress_bg_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\progress_primary_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\progress_secondary_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\spinner_ab_default_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\spinner_ab_disabled_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\spinner_ab_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\spinner_ab_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\ab_bottom_solid_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\ab_solid_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\ab_stacked_solid_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\ab_texture_tile_myvote.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\ab_transparent_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\btn_cab_done_default_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\btn_cab_done_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\btn_cab_done_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\cab_background_bottom_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\cab_background_top_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\list_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\list_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\menu_dropdown_panel_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\progress_bg_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\progress_primary_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\progress_secondary_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\spinner_ab_default_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\spinner_ab_disabled_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\spinner_ab_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\spinner_ab_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\ab_bottom_solid_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\ab_solid_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\ab_stacked_solid_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\ab_texture_tile_myvote.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\ab_transparent_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\btn_cab_done_default_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\btn_cab_done_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\btn_cab_done_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\cab_background_bottom_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\cab_background_top_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\list_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\list_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\menu_dropdown_panel_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\progress_bg_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\progress_primary_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\progress_secondary_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\spinner_ab_default_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\spinner_ab_disabled_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\spinner_ab_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\spinner_ab_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\ab_bottom_solid_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\ab_solid_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\ab_stacked_solid_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\ab_texture_tile_myvote.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\ab_transparent_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\btn_cab_done_default_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\btn_cab_done_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\btn_cab_done_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\cab_background_bottom_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\cab_background_top_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\list_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\list_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\menu_dropdown_panel_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\progress_bg_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\progress_primary_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\progress_secondary_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\spinner_ab_default_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\spinner_ab_disabled_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\spinner_ab_focused_myvote.9.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\spinner_ab_pressed_myvote.9.png" />
+    <AndroidResource Include="Resources\Values\styles_myvote.xml" />
+    <AndroidResource Include="Resources\Drawable\GooglePlay.png" />
+    <AndroidResource Include="Resources\Drawable-hdpi\icon.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\icon.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\icon.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\icon.png" />
+    <AndroidResource Include="Resources\Values\styles_all.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\Drawable-hdpi\MoreMenu.png" />
+    <AndroidResource Include="Resources\Drawable-mdpi\MoreMenu.png" />
+    <AndroidResource Include="Resources\Drawable-xhdpi\MoreMenu.png" />
+    <AndroidResource Include="Resources\Drawable-xxhdpi\MoreMenu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BusinessObjects\MyVote.BusinessObjects.Android\MyVote.BusinessObjects.Android.csproj">
+      <Project>{e2247517-8aa8-478d-893c-2e356f75ff54}</Project>
+      <Name>MyVote.BusinessObjects.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\MyVote.Core.Android\MyVote.Core.Android.csproj">
+      <Project>{61e43d59-ba12-44ec-b2cf-b619f707d620}</Project>
+      <Name>MyVote.Core.Android</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="azure-mobile-services">
+      <Visible>False</Visible>
+      <Version>1.3.1</Version>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="xamarin.mobile">
+      <Visible>False</Visible>
+      <Version>0.7.7</Version>
+    </XamarinComponentReference>
+  </ItemGroup>
+  <Import Project="..\MyVote.UI\MyVote.UI.projitems" Label="Shared" Condition="Exists('..\MyVote.UI\MyVote.UI.projitems')" />
+  <Import Project="..\MyVote.UI.ViewModels.Shared\MyVote.UI.ViewModels.Shared.projitems" Label="Shared" Condition="Exists('..\MyVote.UI.ViewModels.Shared\MyVote.UI.ViewModels.Shared.projitems')" />
+  <Import Project="..\MyVote.UI.Views.Mobile.Shared\MyVote.UI.Views.Mobile.Shared.projitems" Label="Shared" Condition="Exists('..\MyVote.UI.Views.Mobile.Shared\MyVote.UI.Views.Mobile.Shared.projitems')" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Import Project="..\..\packages\Xamarin.Insights.1.11.2\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\..\packages\Xamarin.Insights.1.11.2\build\MonoAndroid10\Xamarin.Insights.targets')" />
+  <Import Project="..\..\packages\Xamarin.Forms.1.5.1.6471\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.1.5.1.6471\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Xamarin.Forms.1.5.1.6471\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Xamarin.Forms.1.5.1.6471\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+     Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

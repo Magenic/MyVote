@@ -1,0 +1,331 @@
+﻿<UserControl
+    x:Class="MyVote.UI.Views.PageStateViews.AddPollPageFull"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyVote.UI.Views.PageStateViews"
+    xmlns:conv="using:MyVote.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <conv:DateTimeToStringConverter x:Key="NullableDateTimeToStringConverter" IsDateTimeNullable="True" />
+        <conv:InverseBoolConverter x:Key="InverseBoolConverter" />
+
+        <Style TargetType="TextBox" BasedOn="{StaticResource BaseTextBoxStyle}">
+            <Setter Property="Width" Value="Auto" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+
+        <Style TargetType="RadioButton">
+            <Setter Property="Margin" Value="0,5,0,5" />
+        </Style>
+
+        <Style x:Key="ContentGridStyle" TargetType="Grid">
+            <Setter Property="Margin" Value="0,0,40,0" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="HeaderContainer">
+            <!--Style="{StaticResource HeaderPanelStyle}"-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <AppBarButton
+					Icon="Back"
+				    x:Name="GoBack"
+                    Command="{Binding GoBack}"
+				    />
+            <!--IsEnabled="{Binding CanGoBack}" Style="{StaticResource BackButtonStyle}"-->
+
+            <TextBlock
+				    x:Name="Header"
+                    Grid.Column="1"
+				    HorizontalAlignment="Left"
+				    Text="Create A New Poll"
+				    Style="{StaticResource MyVoteHeaderTextStyle}" />
+        </Grid>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <Grid x:Name="ContentGrid" Margin="120,20,60,60">
+                <Grid.ChildrenTransitions>
+                    <TransitionCollection>
+                        <EntranceThemeTransition IsStaggeringEnabled="False"/>
+                    </TransitionCollection>
+                </Grid.ChildrenTransitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid x:Name="ContentArea1" Grid.Column="0" Style="{StaticResource ContentGridStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock
+				            Text="Select A Category"
+				            Style="{StaticResource MyVoteBodyTextStyle}"/>
+
+                    <ComboBox x:Name="Categories"
+							ItemsSource="{Binding Categories}"
+				            DisplayMemberPath="Display"
+                            SelectedValuePath="Value"         
+				            SelectedValue="{Binding Poll.PollCategoryID, Mode=TwoWay}"
+                            HorizontalAlignment="Stretch"
+                            Width="Auto"
+                            Grid.Row="1"/>
+
+                    <TextBlock
+				            Text="What's Your Question?"
+				            Grid.Row="2"
+							Style="{StaticResource MyVoteBodyTextStyle}"/>
+                    <TextBox
+				            Text="{Binding Poll.PollQuestion, Mode=TwoWay}"
+				            Grid.Row="3"/>
+
+                    <TextBlock
+				            Text="Description"
+				            Grid.Row="4"
+							Style="{StaticResource MyVoteBodyTextStyle}"/>
+                    <TextBox
+				            Text="{Binding Poll.PollDescription, Mode=TwoWay}"
+				            Grid.Row="5"/>
+
+                    <TextBlock
+				            Text="Answer A*"
+				            Grid.Row="6"
+							Style="{StaticResource MyVoteBodyTextStyle}"/>
+                    <TextBox
+				            Text="{Binding PollOptions[0].OptionText, Mode=TwoWay}"
+				            Grid.Row="7"/>
+
+                    <TextBlock
+				            Text="Answer B*"
+				            Grid.Row="8"
+							Style="{StaticResource MyVoteBodyTextStyle}"/>
+                    <TextBox
+				            Text="{Binding PollOptions[1].OptionText, Mode=TwoWay}"
+				            Grid.Row="9"/>
+
+                    <TextBlock
+				            Text="Answer C"
+				            Grid.Row="10"
+							Style="{StaticResource MyVoteBodyTextStyle}"/>
+                    <TextBox
+				            Text="{Binding PollOptions[2].OptionText, Mode=TwoWay}"
+				            Grid.Row="11"/>
+
+                    <TextBlock
+				            Text="Answer D"
+				            Grid.Row="12"
+							Style="{StaticResource MyVoteBodyTextStyle}"/>
+                    <TextBox
+				            Text="{Binding PollOptions[3].OptionText, Mode=TwoWay}"
+				            Grid.Row="13"/>
+
+                    <TextBlock
+				            Text="Answer E"
+				            Grid.Row="14"
+							Style="{StaticResource MyVoteBodyTextStyle}"/>
+                    <TextBox
+				            Text="{Binding PollOptions[4].OptionText, Mode=TwoWay}"
+				            Grid.Row="15"
+                            Margin="0,5,0,10" />
+
+                    <TextBlock
+                            Grid.Row="16"
+                            Margin="0,0,0,15"
+                            Text="* A poll must have at least two answers before it can be posted."
+                            TextWrapping="Wrap"
+                            Style="{StaticResource MyVoteBodyTextStyle}"/>
+
+                    <Grid Grid.Row="17">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <CheckBox VerticalAlignment="Top" IsChecked="{Binding HasMultiAnswer, Mode=TwoWay}" Margin="0,2,5,0" />
+                        <TextBlock Text="Allow user to select more than one answer." 
+                                       Grid.Column="1"
+                                       VerticalAlignment="Center" 
+                                       TextWrapping="Wrap"
+									   Style="{StaticResource MyVoteBodyTextStyle}"/>
+                    </Grid>
+
+                    <Grid Grid.Row="18" Grid.RowSpan="2" Margin="0,15,0,0" Visibility="{Binding HasMultiAnswer, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+					            Text="Minimum Answers"
+								Style="{StaticResource MyVoteBodyTextStyle}"/>
+                        <TextBox
+					            Text="{Binding Poll.PollMinAnswers, Mode=TwoWay}"
+					            Grid.Row="2" 
+                                Margin="0,5,10,25" />
+
+                        <TextBlock
+					            Text="Maximum Answers"
+					            Grid.Column="1"
+								Style="{StaticResource MyVoteBodyTextStyle}"/>
+                        <TextBox
+					            Text="{Binding Poll.PollMaxAnswers, Mode=TwoWay}"
+					            Grid.Row="1"
+					            Grid.Column="1" />
+                    </Grid>
+
+                </Grid>
+
+                <Grid x:Name="ContentArea2" Grid.Column="2" Style="{StaticResource ContentGridStyle}">
+                    <Panel.Resources>
+                        <Style TargetType="ComboBox">
+                            <!--BasedOn="{StaticResource BaseComboBoxStyle}"-->
+                            <Setter Property="Margin" Value="0,0,0,5" />
+                        </Style>
+                    </Panel.Resources>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <RadioButton GroupName="BeginEndDates" 
+                                         Margin="0,2,5,0"
+                                         VerticalAlignment="Top" 
+                                         IsChecked="{Binding SpecifyBeginEndDates, Converter={StaticResource InverseBoolConverter}}" />
+                        <TextBlock Text="Post this Poll with no end date &amp; time." 
+                                       Grid.Column="1"
+                                       VerticalAlignment="Center" 
+                                       TextWrapping="Wrap"
+									   Style="{StaticResource MyVoteBodyTextStyle}"/>
+                    </Grid>
+
+                    <Grid Grid.Row="1" Margin="0,0,0,18">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <RadioButton GroupName="BeginEndDates" 
+                                         Margin="0,2,5,0"
+                                         VerticalAlignment="Top" 
+                                         IsChecked="{Binding SpecifyBeginEndDates, Mode=TwoWay}" />
+                        <TextBlock Text="Specify a start and end date and time for this poll." 
+                                       Grid.Column="1"
+                                       VerticalAlignment="Center" 
+                                       TextWrapping="Wrap"
+									   Style="{StaticResource MyVoteBodyTextStyle}"/>
+                    </Grid>
+
+                    <TextBlock
+				            Text="Start Date"
+				            Grid.Row="2"
+							Style="{StaticResource MyVoteBodyTextStyle}"/>
+                    <DatePicker Date="{Binding Poll.PollStartDate, Mode=TwoWay}" IsEnabled="{Binding SpecifyBeginEndDates}" Grid.Row="3" />
+
+                    <TextBlock
+				            Text="End Date"
+				            Grid.Row="4"
+							Style="{StaticResource MyVoteBodyTextStyle}"/>
+                    <DatePicker Date="{Binding Poll.PollEndDate, Mode=TwoWay}" IsEnabled="{Binding SpecifyBeginEndDates}" Grid.Row="5" />
+                </Grid>
+
+                <Grid x:Name="ContentArea3" Grid.Column="4" Style="{StaticResource ContentGridStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock
+				            Text="Polls Are More Interesting With Images!"
+				            TextWrapping="Wrap"
+							Style="{StaticResource MyVoteBodyTextStyle}"/>
+                    <Button
+				            Command="{Binding AddImage}"
+				            Content="+ Add Optional Image To Poll"
+				            Grid.Row="1"
+                            Padding="10,5"
+                            Margin="0,10" />
+
+                    <Image
+                            Source="{Binding PollImageViewModel.PollImage}"
+                            Grid.Row="2"
+                            HorizontalAlignment="Stretch"
+                            Stretch="Uniform" />
+                </Grid>
+
+                <Button
+				        Command="{Binding Submit}"
+				        Content="Post &amp; View My Poll!"
+				        IsEnabled="{Binding CanSave}"
+                        Margin="0"
+				        Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="6"
+				        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom" />
+
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

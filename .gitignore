@@ -79,7 +79,7 @@ publish
 *.Publish.xml
 
 # NuGet Packages Directory
-#packages
+packages
 
 # Windows Azure Build Output
 csx
@@ -122,4 +122,29 @@ $tf
 
 *.userprefs
 /docs/presentations/Thumbs.db
+/src/packages
+
+# Typescript Auto-generated files
+src/UI/MyVote.UI.Web/simpleTS.js
+src/UI/MyVote.UI.Web/simpleTS.js.map
+src/UI/MyVote.UI.Web/app/*.js
+src/UI/MyVote.UI.Web/app/*.js.map
+src/UI/MyVote.UI.Web/app/controllers/*.js
+src/UI/MyVote.UI.Web/app/controllers/*.js.map
+src/UI/MyVote.UI.Web/app/directives/*.js
+src/UI/MyVote.UI.Web/app/directives/*.js.map
+src/UI/MyVote.UI.Web/app/models/*.js
+src/UI/MyVote.UI.Web/app/models/*.js.map
+src/UI/MyVote.UI.Web/app/partials/*.js
+src/UI/MyVote.UI.Web/app/partials/*.js.map
+src/UI/MyVote.UI.Web/app/services/*.js
+src/UI/MyVote.UI.Web/app/services/*.js.map
+
+# Private Settings Files
+src/Services/MyVote.Services.MobileServices/PrivateSettings.config
+
+# VS2015
+*.lock.json
+UpgradeLog.*
+applicationhost.config
 /src/packages

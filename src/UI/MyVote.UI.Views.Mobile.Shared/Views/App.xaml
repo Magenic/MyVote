@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:MyVote.UI.Controls;assembly=MyVoteUI"
+             x:Class="MyVote.UI.Views.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Style x:Key="BackgroundStyle" TargetType="VisualElement">
+                <Setter Property="BackgroundColor" Value="#333333" />
+            </Style>
+            <Style x:Key="ButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#434342" />
+                <Setter Property="TextColor" Value="#FF6600" />
+            </Style>
+            <Style x:Key="IndividualEntryRegionStyle" TargetType="StackLayout">
+                <Setter Property="Orientation" Value="Horizontal" />
+                <Setter Property="BackgroundColor" Value="#434342" />
+                <Setter Property="Padding" Value="0,0,0,0" />
+            </Style>
+            <Style x:Key="ColumnLabelColumnStyle" TargetType="controls:ExtendedLabel">
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="YAlign" Value="Center" />
+                <Setter Property="LeftPadding" Value="20" />
+                <Setter Property="TextColor" Value="#FFFFFF" />
+                <Setter Property="WidthRequest" Value="100" />
+            </Style>
+            <Style x:Key="LabelStyle" TargetType="controls:ExtendedLabel">
+                <Setter Property="YAlign" Value="Center" />
+                <Setter Property="LeftPadding" Value="20" />
+                <Setter Property="TextColor" Value="#FFFFFF" />
+            </Style>
+            <Style x:Key="EntryColumnStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="#FFFFFF" />
+                <Setter Property="BackgroundColor" Value="#434342"></Setter>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            </Style>
+            <Style x:Key="DatePickerStyle" TargetType="controls:ExtendedDatePicker">
+                <Setter Property="TextColor" Value="#FFFFFF" />
+                <Setter Property="BackgroundColor" Value="#434342"></Setter>
+            </Style>
+            <Style x:Key="DatePickerColumnStyle" TargetType="controls:ExtendedDatePicker">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="TextColor" Value="#FFFFFF" />
+                <Setter Property="BackgroundColor" Value="#434342"></Setter>
+            </Style>
+            <Style x:Key="PickerColumnStyle" TargetType="controls:BackgroundStringExtendedPicker" >
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="TextColor" Value="#FFFFFF" />
+                <Setter Property="BackgroundColor" Value="#434342"></Setter>
+            </Style>
+            <Style x:Key="SpacerStyle" TargetType="BoxView">
+                <Setter Property="Color" Value="#333333" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
