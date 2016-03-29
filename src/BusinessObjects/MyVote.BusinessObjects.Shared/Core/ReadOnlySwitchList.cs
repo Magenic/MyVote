@@ -5,8 +5,8 @@ using Csla.Core;
 namespace MyVote.BusinessObjects.Core
 {
 	[SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses")]
-	[System.Serializable]
-	internal sealed class ReadOnlySwitchList<C>
+	[Serializable]
+	public sealed class ReadOnlySwitchList<C>
 		: ReadOnlyListBaseCore<ReadOnlySwitchList<C>, C>
 		where C : IReadOnlyObject
 	{

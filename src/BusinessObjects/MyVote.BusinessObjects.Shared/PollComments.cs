@@ -10,12 +10,12 @@ using MyVote.BusinessObjects.Attributes;
 
 namespace MyVote.BusinessObjects
 {
-	[System.Serializable]
+	[Serializable]
 	internal sealed class PollComments
-		: BusinessBaseScopeCore<PollComments>, IPollComments
+		: BusinessBaseCore<PollComments>, IPollComments
 	{
 #if !NETFX_CORE && !MOBILE
-        private void Child_Fetch(int pollId)
+		private void Child_Fetch(int pollId)
 		{
 			using (this.BypassPropertyChecks)
 			{
@@ -23,10 +23,10 @@ namespace MyVote.BusinessObjects
 				this.Comments = this.pollCommentsFactory.FetchChild();
 
 				var commentsData = (from c in this.Entities.MVPollComments
-									where c.PollID == pollId
-									join u in this.Entities.MVUsers on c.UserID equals u.UserID
-									orderby c.ParentCommentID, c.CommentDate
-									select new PollCommentData { Comment = c, UserName = u.UserName }).ToList();
+										  where c.PollID == pollId
+										  join u in this.Entities.MVUsers on c.UserID equals u.UserID
+										  orderby c.ParentCommentID, c.CommentDate
+										  select new PollCommentData { Comment = c, UserName = u.UserName }).ToList();
 
 				foreach (var commentData in
 					(from c in commentsData
@@ -44,7 +44,7 @@ namespace MyVote.BusinessObjects
 		}
 #endif
 
-		public static PropertyInfo<int> PollIdProperty =
+		public static readonly PropertyInfo<int> PollIdProperty =
 			PollComments.RegisterProperty<int>(_ => _.PollID);
 		public int PollID
 		{
@@ -52,7 +52,7 @@ namespace MyVote.BusinessObjects
 			private set { this.SetProperty(PollComments.PollIdProperty, value); }
 		}
 
-		public static PropertyInfo<IPollCommentCollection> CommentsProperty =
+		public static readonly PropertyInfo<IPollCommentCollection> CommentsProperty =
 			PollComments.RegisterProperty<IPollCommentCollection>(_ => _.Comments);
 		public IPollCommentCollection Comments
 		{
@@ -61,7 +61,7 @@ namespace MyVote.BusinessObjects
 		}
 
 #if !NETFX_CORE && !MOBILE
-        [NonSerialized]
+		[NonSerialized]
 		private IObjectFactory<IPollCommentCollection> pollCommentsFactory;
 		[Dependency]
 		public IObjectFactory<IPollCommentCollection> PollCommentsFactory

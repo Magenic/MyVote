@@ -147,4 +147,3 @@ src/Services/MyVote.Services.MobileServices/PrivateSettings.config
 *.lock.json
 UpgradeLog.*
 applicationhost.config
-/src/packages

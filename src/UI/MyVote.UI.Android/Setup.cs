@@ -1,13 +1,13 @@
 using Android.Content;
-using Cirrious.CrossCore;
-using Cirrious.CrossCore.Platform;
-using Cirrious.MvvmCross.Droid.Platform;
-using Cirrious.MvvmCross.Droid.Views;
-using Cirrious.MvvmCross.ViewModels;
 using MyVote.UI.Helpers;
 using MyVote.UI.Services;
-using System;
-using Android.Runtime;
+using MvvmCross.Core.ViewModels;
+using MvvmCross.Core.Views;
+using MvvmCross.Droid.Platform;
+using MvvmCross.Droid.Views;
+using MvvmCross.Platform;
+using MvvmCross.Platform.IoC;
+using MvvmCross.Platform.Platform;
 
 namespace MyVote.UI
 {
@@ -29,15 +29,15 @@ namespace MyVote.UI
 
 		protected override IMvxAndroidViewPresenter CreateViewPresenter()
 		{
-			var presenter = new MvxPagePresenter();
-			//Mvx.RegisterSingleton<IMvxPageNavigationHost>(presenter);
+			var presenter = new ViewPresenter();
+			Mvx.RegisterSingleton<IMvxViewPresenter>(presenter);
 			return presenter;
 		}
 
 		// Use Autofac for IoC
-		protected override Cirrious.CrossCore.IoC.IMvxIoCProvider CreateIocProvider()
-		{
-			return new AutofacMvxProvider();
-		}
+        protected override IMvxIoCProvider CreateIocProvider()
+        {
+            return new AutofacMvxProvider();
+        }
     }
 }

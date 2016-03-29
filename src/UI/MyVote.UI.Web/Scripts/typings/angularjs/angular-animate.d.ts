@@ -15,11 +15,11 @@ declare module "angular-animate" {
  */
 declare module angular.animate {
     interface IAnimateFactory extends Function {
-        enter?: (element: angular.IAugmentedJQuery, doneFn: Function) => IAnimateCssRunner|void;
-        leave?: (element: angular.IAugmentedJQuery, doneFn: Function) => IAnimateCssRunner|void;
-        addClass?: (element: angular.IAugmentedJQuery, className: string, doneFn: Function) => IAnimateCssRunner|void;
-        removeClass?: (element: angular.IAugmentedJQuery, className: string, doneFn: Function) => IAnimateCssRunner|void;
-        setClass?: (element: angular.IAugmentedJQuery, className: string, doneFn: Function) => IAnimateCssRunner|void;
+        enter?: (element: ng.IAugmentedJQuery, doneFn: Function) => IAnimateCssRunner|void;
+        leave?: (element: ng.IAugmentedJQuery, doneFn: Function) => IAnimateCssRunner|void;
+        addClass?: (element: ng.IAugmentedJQuery, className: string, doneFn: Function) => IAnimateCssRunner|void;
+        removeClass?: (element: ng.IAugmentedJQuery, className: string, doneFn: Function) => IAnimateCssRunner|void;
+        setClass?: (element: ng.IAugmentedJQuery, className: string, doneFn: Function) => IAnimateCssRunner|void;
     }
 
     /**

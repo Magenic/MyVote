@@ -27,7 +27,7 @@ module MyVote.Controllers {
             $scope.$watch('filterBy', () => {
                 $scope.pollGroups = null;
                 $scope.message = 'Loading polls...';
-                myVoteService.getPolls($scope.filterBy.value).then((result: MyVote.Services.AppServer.Models.PollSummary[][]) => {
+                myVoteService.getPolls($scope.filterBy.value).then((result: MyVote.Services.AppServer.Models.PollSummary[][]):any => {
                     $scope.message = result ? null : "There are no polls!";
                     $scope.pollGroups = result;
                 });

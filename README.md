@@ -60,3 +60,5 @@ The code in this repo has been scrubbed to remove sensitive key values for encry
 **src/Services/MyVote.Services.AppServer/Controller/PollImageController.cs**
 
 * Update "STORAGE_CONNECTION_STRING" with your Azure Storage Account Name and Account Key.
+
+* Replace imageUrl with url to your storage account and container.

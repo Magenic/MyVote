@@ -1,6 +1,7 @@
-﻿using Cirrious.CrossCore.Platform;
-using Cirrious.MvvmCross.ViewModels;
-using Cirrious.MvvmCross.WindowsUWP.Platform;
+﻿using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform.IoC;
+using MvvmCross.Platform.Platform;
+using MvvmCross.WindowsUWP.Platform;
 using MyVote.UI.Services;
 using Windows.UI.Xaml.Controls;
 
@@ -26,7 +27,7 @@ namespace MyVote.UI
         }
 
         // Use Autofac for IoC
-        protected override Cirrious.CrossCore.IoC.IMvxIoCProvider CreateIocProvider()
+        protected override IMvxIoCProvider CreateIocProvider()
         {
             return new AutofacMvxProvider();
         }

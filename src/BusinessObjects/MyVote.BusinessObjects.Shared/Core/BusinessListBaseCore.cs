@@ -8,26 +8,25 @@ using MyVote.BusinessObjects.Core.Contracts;
 
 #if !NETFX_CORE && !MOBILE
 using MyVote.Data.Entities;
-using MyVote.Core.Extensions;
 #endif
 
 namespace MyVote.BusinessObjects.Core
 {
-	[System.Serializable]
+	[Serializable]
 	internal abstract class BusinessListBaseCore<T, C>
 		: BusinessListBase<T, C>, IBusinessListBaseCore<C>
 		where T : BusinessListBaseCore<T, C>
 		where C : IEditableBusinessObject
 	{
 #if !NETFX_CORE && !MOBILE
-        [NonSerialized]
+		[NonSerialized]
 		private IEntities entities;
 #endif
 
 		protected BusinessListBaseCore() : base() { }
 
 #if !NETFX_CORE && !MOBILE
-        protected override C AddNewCore()
+		protected override C AddNewCore()
 		{
 			return base.AddNewCore();
 		}
@@ -61,10 +60,10 @@ namespace MyVote.BusinessObjects.Core
 		}
 
 #if !NETFX_CORE && !MOBILE
-        [SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists")]
+		[SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists")]
 		protected virtual List<string> IgnoredProperties
 		{
-			get { return new List<string> { this.GetPropertyName(_ => _.Entities) }; }
+			get { return new List<string> { nameof(this.Entities) }; }
 		}
 
 		public IEntities Entities

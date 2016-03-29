@@ -1,14 +1,14 @@
 ﻿{
   "dependencies": {
     "Autofac": "3.5.2",
-    "CSLA-Core": "4.6.175-Beta",
+    "CSLA-Core": "4.6.300",
     "Microsoft.ApplicationInsights": "1.0.0",
     "Microsoft.ApplicationInsights.PersistenceChannel": "1.0.0",
     "Microsoft.ApplicationInsights.WindowsApps": "1.0.0",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
-    "MvvmCross": "4.0.0-beta3",
-    "MvvmCross.HotTuna.MvvmCrossLibraries": "4.0.0-beta3",
-    "MvvmCross.HotTuna.Plugin.Json": "4.0.0-beta3",
+    "MvvmCross": "4.0.0",
+    "MvvmCross.Core": "4.0.0",
+    "MvvmCross.Plugin.Json": "4.0.0",
     "WindowsAzure.MobileServices": "1.3.2",
     "WindowsAzure.Storage": "6.1.0"
   },

@@ -9,11 +9,11 @@ namespace MyVote.BusinessObjects.Rules
 	internal sealed class PollMaxAnswersRule
 		: BusinessRule
 	{
-		internal PollMaxAnswersRule(IPropertyInfo pollMaxAnswersRule, IPropertyInfo pollOptions)
-			: base(pollMaxAnswersRule)
+		internal PollMaxAnswersRule(IPropertyInfo pollMaxAnswersProperty, IPropertyInfo pollOptionsProperty)
+			: base(pollMaxAnswersProperty)
 		{
-			this.InputProperties = new List<IPropertyInfo> { pollMaxAnswersRule, pollOptions };
-			this.AffectedProperties.Add(pollOptions);
+			this.InputProperties = new List<IPropertyInfo> { pollMaxAnswersProperty, pollOptionsProperty };
+			this.AffectedProperties.Add(pollOptionsProperty);
 		}
 
 		protected override void Execute(RuleContext context)

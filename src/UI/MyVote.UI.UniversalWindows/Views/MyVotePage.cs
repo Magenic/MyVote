@@ -1,11 +1,8 @@
-﻿using Cirrious.MvvmCross.WindowsUWP.Views;
-using MyVote.UI.ViewModels;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
+﻿using MvvmCross.WindowsUWP.Views;
 
 namespace MyVote.UI.Views
 {
-    public class MyVotePage : MvxWindowsPage
+	public class MyVotePage : MvxWindowsPage
     {
         public MyVotePage()
         {

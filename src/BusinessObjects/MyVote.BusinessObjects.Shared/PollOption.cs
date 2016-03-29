@@ -2,9 +2,9 @@
 using Csla;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
+using System;
 
 #if !NETFX_CORE && !MOBILE
-using MyVote.Core.Extensions;
 using MyVote.Data.Entities;
 using System.Data;
 using Csla.Data;
@@ -13,9 +13,9 @@ using System.Data.Entity;
 
 namespace MyVote.BusinessObjects
 {
-	[System.Serializable]
+	[Serializable]
 	internal sealed class PollOption
-		: BusinessBaseScopeCore<PollOption>, IPollOption
+		: BusinessBaseCore<PollOption>, IPollOption
 	{
 		[RunLocal]
 		protected override void Child_Create()
@@ -24,13 +24,13 @@ namespace MyVote.BusinessObjects
 		}
 
 #if !NETFX_CORE && !MOBILE
-        private void Child_Fetch(MVPollOption criteria)
+		private void Child_Fetch(MVPollOption criteria)
 		{
 			using (this.BypassPropertyChecks)
 			{
 				DataMapper.Map(criteria, this,
-					criteria.GetPropertyName(_ => _.MVPoll),
-					criteria.GetPropertyName(_ => _.MVPollResponses));
+					nameof(criteria.MVPoll),
+					nameof(criteria.MVPollResponses));
 			}
 		}
 
@@ -54,7 +54,7 @@ namespace MyVote.BusinessObjects
 		}
 #endif
 
-		public static PropertyInfo<int?> PollOptionIDProperty =
+		public static readonly PropertyInfo<int?> PollOptionIDProperty =
 			PollOption.RegisterProperty<int?>(_ => _.PollOptionID);
 		public int? PollOptionID
 		{
@@ -62,7 +62,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollOption.PollOptionIDProperty, value); }
 		}
 
-		public static PropertyInfo<int?> PollIDProperty =
+		public static readonly PropertyInfo<int?> PollIDProperty =
 			PollOption.RegisterProperty<int?>(_ => _.PollID);
 		public int? PollID
 		{
@@ -70,7 +70,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollOption.PollIDProperty, value); }
 		}
 
-		public static PropertyInfo<short?> OptionPositionProperty =
+		public static readonly PropertyInfo<short?> OptionPositionProperty =
 			PollOption.RegisterProperty<short?>(_ => _.OptionPosition);
 		[Required(ErrorMessage = "The option position value is required.")]
 		public short? OptionPosition
@@ -79,7 +79,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(PollOption.OptionPositionProperty, value); }
 		}
 
-		public static PropertyInfo<string> OptionTextProperty =
+		public static readonly PropertyInfo<string> OptionTextProperty =
 			PollOption.RegisterProperty<string>(_ => _.OptionText);
 		[Required(ErrorMessage = "The option text value is required.")]
 		[StringLength(200, ErrorMessage = "The maximum length of the option text value is 200 characters.")]

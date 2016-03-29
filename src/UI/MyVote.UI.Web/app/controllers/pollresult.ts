@@ -119,7 +119,7 @@ module MyVote.Controllers {
                 },
                 error => {
                     $log.error('PollResultCtrl load result error: ', error);
-                    $scope.errorMessage = UtilityService.FormatError(error, 'Error loading result.');
+                    $scope.errorMessage = UtilityService.formatError(error, 'Error loading result.');
                 });
 
             $scope.canDelete = () => {
@@ -138,7 +138,7 @@ module MyVote.Controllers {
                     },
                     error => {
                         $log.error(error);
-                        $scope.errorMessage = UtilityService.FormatError(error, 'Error occurred deleting your poll.');
+                        $scope.errorMessage = UtilityService.formatError(error, 'Error occurred deleting your poll.');
                     });
             };
 
@@ -170,7 +170,7 @@ module MyVote.Controllers {
                     },
                     error=> {
                         $log.error(error);
-                        $scope.errorMessage = UtilityService.FormatError(error, 'Error occurred posting a comment.');
+                        $scope.errorMessage = UtilityService.formatError(error, 'Error occurred posting a comment.');
                     });
             };
         }

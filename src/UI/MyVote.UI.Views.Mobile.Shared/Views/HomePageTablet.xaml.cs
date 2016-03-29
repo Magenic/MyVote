@@ -29,6 +29,9 @@ namespace MyVote.UI.Views
             {
                 this.Resources = new ResourceDictionary();
             }
+
+            Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, true);
+
             this.Resources.Add("vmViewPoll", ((PollsPageViewModel)this.BindingContext).ViewPoll);
             this.ApplyBindings();
         }

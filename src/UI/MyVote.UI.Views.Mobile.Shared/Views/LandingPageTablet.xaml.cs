@@ -13,12 +13,14 @@ namespace MyVote.UI.Views
 	{
 		public LandingPageTablet()
 		{
-			InitializeComponent();
+            InitializeComponent();
 
 			this.ResolveAutofacDependencies();
 
-			//Issue with PCL, need to reference something in Xamarin.Forms.Labs or it gets compiled out
-			var imageButton = btnMicrosoft;
+            Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
+
+            //Issue with PCL, need to reference something in Xamarin.Forms.Labs or it gets compiled out
+            var imageButton = btnMicrosoft;
 		}
 	}
 }

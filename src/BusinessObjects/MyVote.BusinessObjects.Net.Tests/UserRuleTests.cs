@@ -2,8 +2,8 @@
 using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Net.Tests.Extensions;
-using MyVote.Core;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
@@ -23,7 +23,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var user = DataPortal.Create<User>(profileId);
 				user.EmailAddress = emailAddress;
@@ -41,7 +42,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var user = DataPortal.Create<User>(profileId);
 				user.UserName = userName;

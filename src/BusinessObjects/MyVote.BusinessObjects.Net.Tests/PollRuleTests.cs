@@ -1,14 +1,16 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using Autofac;
+﻿using Autofac;
 using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using MyVote.BusinessObjects.Contracts;
+using MyVote.BusinessObjects.Core;
 using MyVote.BusinessObjects.Net.Tests.Extensions;
 using MyVote.BusinessObjects.Rules;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
@@ -24,8 +26,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => Mock.Of<IObjectFactory<BusinessList<IPollOption>>>());
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = DataPortal.Create<Poll>(userId);
 				poll.PollCategoryID = pollCategoryId;
@@ -43,8 +48,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => Mock.Of<IObjectFactory<BusinessList<IPollOption>>>());
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = DataPortal.Create<Poll>(userId);
 				poll.PollEndDate = endDate;
@@ -60,10 +68,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var generator = new RandomObjectGenerator();
 			var userId = generator.Generate<int>();
 
+			var pollOptions = new Mock<IObjectFactory<BusinessList<IPollOption>>>();
+			pollOptions.Setup(_ => _.CreateChild()).Returns(new BusinessList<IPollOption>());
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => pollOptions.Object);
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = DataPortal.Create<Poll>(userId);
 				poll.PollOptions.Add(DataPortal.CreateChild<PollOption>());
@@ -83,8 +97,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => Mock.Of<IObjectFactory<BusinessList<IPollOption>>>());
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = DataPortal.Create<Poll>(userId);
 				poll.PollQuestion = pollQuestion;
@@ -104,8 +121,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => Mock.Of<IObjectFactory<BusinessList<IPollOption>>>());
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = DataPortal.Create<Poll>(userId);
 				poll.PollQuestion = pollQuestion;
@@ -124,8 +144,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => Mock.Of<IObjectFactory<BusinessList<IPollOption>>>());
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = DataPortal.Create<Poll>(userId);
 				poll.PollStartDate = startDate;
@@ -148,8 +171,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => Mock.Of<IObjectFactory<BusinessList<IPollOption>>>());
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = DataPortal.Create<Poll>(userId);
 				poll.PollStartDate = startDate;
@@ -171,8 +197,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => Mock.Of<IObjectFactory<BusinessList<IPollOption>>>());
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = DataPortal.Create<Poll>(userId);
 				poll.PollStartDate = startDate;
@@ -190,8 +219,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => Mock.Of<IObjectFactory<BusinessList<IPollOption>>>());
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = DataPortal.Create<Poll>(userId);
 				poll.PollMaxAnswers = 1;
@@ -212,8 +244,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => Mock.Of<IObjectFactory<BusinessList<IPollOption>>>());
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = DataPortal.Create<Poll>(userId);
 				poll.PollMaxAnswers = 2;
@@ -234,8 +269,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => Mock.Of<IObjectFactory<BusinessList<IPollOption>>>());
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = DataPortal.Create<Poll>(userId);
 				poll.PollMaxAnswers = 0;
@@ -252,10 +290,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var generator = new RandomObjectGenerator();
 			var userId = generator.Generate<int>();
 
+			var pollOptions = new Mock<IObjectFactory<BusinessList<IPollOption>>>();
+			pollOptions.Setup(_ => _.CreateChild()).Returns(new BusinessList<IPollOption>());
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => pollOptions.Object);
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = DataPortal.Create<Poll>(userId);
 				poll.PollOptions.Add(DataPortal.CreateChild<PollOption>());
@@ -273,10 +317,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var generator = new RandomObjectGenerator();
 			var userId = generator.Generate<int>();
 
+			var pollOptions = new Mock<IObjectFactory<BusinessList<IPollOption>>>();
+			pollOptions.Setup(_ => _.CreateChild()).Returns(new BusinessList<IPollOption>());
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => pollOptions.Object);
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = DataPortal.Create<Poll>(userId);
 				poll.PollOptions.Add(DataPortal.CreateChild<PollOption>());
@@ -294,8 +344,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => Mock.Of<IObjectFactory<BusinessList<IPollOption>>>());
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = DataPortal.Create<Poll>(userId);
 				poll.PollMinAnswers = 0;
@@ -312,10 +365,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var generator = new RandomObjectGenerator();
 			var userId = generator.Generate<int>();
 
+			var pollOptions = new Mock<IObjectFactory<BusinessList<IPollOption>>>();
+			pollOptions.Setup(_ => _.CreateChild()).Returns(new BusinessList<IPollOption>());
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => pollOptions.Object);
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = DataPortal.Create<Poll>(userId);
 				poll.PollOptions.Add(DataPortal.CreateChild<PollOption>());
@@ -333,10 +392,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var generator = new RandomObjectGenerator();
 			var userId = generator.Generate<int>();
 
+			var pollOptions = new Mock<IObjectFactory<BusinessList<IPollOption>>>();
+			pollOptions.Setup(_ => _.CreateChild()).Returns(new BusinessList<IPollOption>());
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => pollOptions.Object);
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = DataPortal.Create<Poll>(userId);
 				poll.PollOptions.Add(DataPortal.CreateChild<PollOption>());

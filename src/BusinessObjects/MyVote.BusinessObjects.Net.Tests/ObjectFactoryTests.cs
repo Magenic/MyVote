@@ -1,12 +1,11 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-using Csla;
+﻿using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MyVote.BusinessObjects.Core.Contracts;
 using MyVote.BusinessObjects.Tests.Contracts;
-using MyVote.Core.Extensions;
 using Spackle;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
@@ -102,7 +101,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 		public void Create()
 		{
 			var test = new ObjectFactory<ObjectFactoryTest>().Create();
-			Assert.AreEqual(string.Empty, test.Data, test.GetPropertyName(_ => _.Data));
+			Assert.AreEqual(string.Empty, test.Data, nameof(test.Data));
 		}
 
 		[TestMethod]
@@ -110,14 +109,14 @@ namespace MyVote.BusinessObjects.Net.Tests
 		{
 			var data = new RandomObjectGenerator().Generate<string>();
 			var test = new ObjectFactory<ObjectFactoryTest>().Create(data);
-			Assert.AreEqual(data, test.Data, test.GetPropertyName(_ => _.Data));
+			Assert.AreEqual(data, test.Data, nameof(test.Data));
 		}
 
 		[TestMethod]
 		public async Task CreateAsync()
 		{
 			var test = await new ObjectFactory<ObjectFactoryTest>().CreateAsync();
-			Assert.AreEqual(string.Empty, test.Data, test.GetPropertyName(_ => _.Data));
+			Assert.AreEqual(string.Empty, test.Data, nameof(test.Data));
 		}
 
 		[TestMethod]
@@ -125,7 +124,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 		{
 			var data = new RandomObjectGenerator().Generate<string>();
 			var test = await new ObjectFactory<ObjectFactoryTest>().CreateAsync(data);
-			Assert.AreEqual(data, test.Data, test.GetPropertyName(_ => _.Data));
+			Assert.AreEqual(data, test.Data, nameof(test.Data));
 		}
 
 		[TestMethod]
@@ -146,7 +145,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 		public void Fetch()
 		{
 			var test = new ObjectFactory<ObjectFactoryTest>().Fetch();
-			Assert.AreEqual(string.Empty, test.Data, test.GetPropertyName(_ => _.Data));
+			Assert.AreEqual(string.Empty, test.Data, nameof(test.Data));
 		}
 
 		[TestMethod]
@@ -154,14 +153,14 @@ namespace MyVote.BusinessObjects.Net.Tests
 		{
 			var data = new RandomObjectGenerator().Generate<string>();
 			var test = new ObjectFactory<ObjectFactoryTest>().Fetch(data);
-			Assert.AreEqual(data, test.Data, test.GetPropertyName(_ => _.Data));
+			Assert.AreEqual(data, test.Data, nameof(test.Data));
 		}
 
 		[TestMethod]
 		public async Task FetchAsync()
 		{
 			var test = await new ObjectFactory<ObjectFactoryTest>().FetchAsync();
-			Assert.AreEqual(string.Empty, test.Data, test.GetPropertyName(_ => _.Data));
+			Assert.AreEqual(string.Empty, test.Data, nameof(test.Data));
 		}
 
 		[TestMethod]
@@ -169,7 +168,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 		{
 			var data = new RandomObjectGenerator().Generate<string>();
 			var test = await new ObjectFactory<ObjectFactoryTest>().FetchAsync(data);
-			Assert.AreEqual(data, test.Data, test.GetPropertyName(_ => _.Data));
+			Assert.AreEqual(data, test.Data, nameof(test.Data));
 		}
 
 		[TestMethod]
@@ -177,7 +176,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 		{
 			var factory = new ObjectFactory<ObjectFactoryTestCommand>();
 			var test = factory.Execute(factory.Create());
-			Assert.AreEqual("done", test.Data, test.GetPropertyName(_ => _.Data));
+			Assert.AreEqual("done", test.Data, nameof(test.Data));
 		}
 
 		[TestMethod]
@@ -185,14 +184,14 @@ namespace MyVote.BusinessObjects.Net.Tests
 		{
 			var factory = new ObjectFactory<ObjectFactoryTestCommand>();
 			var test = await factory.ExecuteAsync(factory.Create());
-			Assert.AreEqual("done", test.Data, test.GetPropertyName(_ => _.Data));
+			Assert.AreEqual("done", test.Data, nameof(test.Data));
 		}
 
 		[TestMethod]
 		public void GetGlobalContext()
 		{
 			var factory = new ObjectFactory<ObjectFactoryTestCommand>();
-			Assert.AreSame(ApplicationContext.GlobalContext, factory.GlobalContext, factory.GetPropertyName(_ => _.GlobalContext));
+			Assert.AreSame(ApplicationContext.GlobalContext, factory.GlobalContext, nameof(factory.GlobalContext));
 		}
 
 		[TestMethod]
@@ -262,7 +261,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			this.Data = data;
 		}
 
-		public static PropertyInfo<string> DataProperty =
+		public static readonly PropertyInfo<string> DataProperty =
 			ObjectFactoryTest.RegisterProperty<string>(_ => _.Data);
 		public string Data
 		{

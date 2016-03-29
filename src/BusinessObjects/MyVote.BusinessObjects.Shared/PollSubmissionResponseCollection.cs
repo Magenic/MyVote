@@ -4,11 +4,12 @@ using Csla;
 using Csla.Serialization.Mobile;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
+using MyVote.BusinessObjects.Attributes;
 
 namespace MyVote.BusinessObjects
 {
 	[SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses")]
-	[System.Serializable]
+	[Serializable]
 	internal sealed class PollSubmissionResponseCollection
 		: BusinessListBaseCore<PollSubmissionResponseCollection, IPollSubmissionResponse>, IPollSubmissionResponseCollection
 	{
@@ -20,7 +21,7 @@ namespace MyVote.BusinessObjects
 		}
 
 #if !NETFX_CORE && !MOBILE
-        protected override void Child_Create() { }
+		protected override void Child_Create() { }
 
 		private void Child_Create(BusinessList<IPollOption> options)
 		{
@@ -30,7 +31,7 @@ namespace MyVote.BusinessObjects
 			{
 				foreach (var option in options)
 				{
-					this.Add(DataPortal.CreateChild<PollSubmissionResponse>(option));
+					this.Add(this.pollSubmissionResponseFactory.CreateChild(option));
 				}
 			}
 			finally
@@ -38,10 +39,19 @@ namespace MyVote.BusinessObjects
 				this.isLoading = false;
 			}
 		}
+
+		[NonSerialized]
+		private IObjectFactory<IPollSubmissionResponse> pollSubmissionResponseFactory;
+		[Dependency]
+		public IObjectFactory<IPollSubmissionResponse> PollSubmissionResponseFactory
+		{
+			get { return this.pollSubmissionResponseFactory; }
+			set { this.pollSubmissionResponseFactory = value; }
+		}
 #endif
 
 #if !NETFX_CORE && !MOBILE
-        protected override IPollSubmissionResponse AddNewCore()
+		protected override IPollSubmissionResponse AddNewCore()
 		{
 			throw new NotSupportedException("Items cannot be added to the collection.");
 		}

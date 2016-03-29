@@ -1,14 +1,14 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using Autofac;
+﻿using Autofac;
 using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Net.Tests.Extensions;
-using MyVote.Core.Extensions;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
@@ -24,21 +24,22 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var user = new DataPortal<User>().Create(profileId);
 
-				Assert.IsNull(user.BirthDate, user.GetPropertyName(_ => _.BirthDate));
-				Assert.AreEqual(string.Empty, user.EmailAddress, user.GetPropertyName(_ => _.EmailAddress));
-				Assert.AreEqual(string.Empty, user.FirstName, user.GetPropertyName(_ => _.FirstName));
-				Assert.AreEqual(string.Empty, user.Gender, user.GetPropertyName(_ => _.Gender));
-				Assert.AreEqual(string.Empty, user.LastName, user.GetPropertyName(_ => _.LastName));
-				Assert.AreEqual(string.Empty, user.PostalCode, user.GetPropertyName(_ => _.PostalCode));
-				Assert.AreEqual(string.Empty, user.ProfileAuthToken, user.GetPropertyName(_ => _.ProfileAuthToken));
-				Assert.AreEqual(profileId, user.ProfileID, user.GetPropertyName(_ => _.ProfileID));
-				Assert.IsNull(user.UserID, user.GetPropertyName(_ => _.UserID));
-				Assert.AreEqual(string.Empty, user.UserName, user.GetPropertyName(_ => _.UserName));
-				Assert.IsNull(user.UserRoleID, user.GetPropertyName(_ => _.UserRoleID));
+				Assert.IsNull(user.BirthDate, nameof(user.BirthDate));
+				Assert.AreEqual(string.Empty, user.EmailAddress, nameof(user.EmailAddress));
+				Assert.AreEqual(string.Empty, user.FirstName, nameof(user.FirstName));
+				Assert.AreEqual(string.Empty, user.Gender, nameof(user.Gender));
+				Assert.AreEqual(string.Empty, user.LastName, nameof(user.LastName));
+				Assert.AreEqual(string.Empty, user.PostalCode, nameof(user.PostalCode));
+				Assert.AreEqual(string.Empty, user.ProfileAuthToken, nameof(user.ProfileAuthToken));
+				Assert.AreEqual(profileId, user.ProfileID, nameof(user.ProfileID));
+				Assert.IsNull(user.UserID, nameof(user.UserID));
+				Assert.AreEqual(string.Empty, user.UserName, nameof(user.UserName));
+				Assert.IsNull(user.UserRoleID, nameof(user.UserRoleID));
 
 				user.BrokenRulesCollection.AssertRuleCount(2);
 				user.BrokenRulesCollection.AssertRuleCount(User.EmailAddressProperty, 1);
@@ -77,7 +78,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var user = new DataPortal<User>().Create(profileId);
 				user.BirthDate = birthDate;
@@ -91,16 +93,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 				user.UserRoleID = userRoleId;
 				user = user.Save();
 
-				Assert.AreEqual(birthDate, user.BirthDate, user.GetPropertyName(_ => _.BirthDate));
-				Assert.AreEqual(emailAddress, user.EmailAddress, user.GetPropertyName(_ => _.EmailAddress));
-				Assert.AreEqual(firstName, user.FirstName, user.GetPropertyName(_ => _.FirstName));
-				Assert.AreEqual(gender, user.Gender, user.GetPropertyName(_ => _.Gender));
-				Assert.AreEqual(lastName, user.LastName, user.GetPropertyName(_ => _.LastName));
-				Assert.AreEqual(postalCode, user.PostalCode, user.GetPropertyName(_ => _.PostalCode));
-				Assert.AreEqual(profileAuthToken, user.ProfileAuthToken, user.GetPropertyName(_ => _.ProfileAuthToken));
-				Assert.AreEqual(userId, user.UserID, user.GetPropertyName(_ => _.UserID));
-				Assert.AreEqual(userName, user.UserName, user.GetPropertyName(_ => _.UserName));
-				Assert.AreEqual(userRoleId, user.UserRoleID, user.GetPropertyName(_ => _.UserRoleID));
+				Assert.AreEqual(birthDate, user.BirthDate, nameof(user.BirthDate));
+				Assert.AreEqual(emailAddress, user.EmailAddress, nameof(user.EmailAddress));
+				Assert.AreEqual(firstName, user.FirstName, nameof(user.FirstName));
+				Assert.AreEqual(gender, user.Gender, nameof(user.Gender));
+				Assert.AreEqual(lastName, user.LastName, nameof(user.LastName));
+				Assert.AreEqual(postalCode, user.PostalCode, nameof(user.PostalCode));
+				Assert.AreEqual(profileAuthToken, user.ProfileAuthToken, nameof(user.ProfileAuthToken));
+				Assert.AreEqual(userId, user.UserID, nameof(user.UserID));
+				Assert.AreEqual(userName, user.UserName, nameof(user.UserName));
+				Assert.AreEqual(userRoleId, user.UserRoleID, nameof(user.UserRoleID));
 			}
 
 			entities.VerifyAll();

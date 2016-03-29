@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Autofac;
+﻿using Autofac;
 using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -7,6 +6,7 @@ using MyVote.BusinessObjects.Contracts;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
+using System.Collections.Generic;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
@@ -62,7 +62,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			builder.Register<IObjectFactory<IPollCommentCollection>>(_ => pollCommentsFactory.Object);
 			builder.Register<IEntities>(_ => entities.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var results = DataPortal.FetchChild<PollComments>(pollId);
 				Assert.AreSame(pollCommentCollection.Object, results.Comments);

@@ -1,6 +1,8 @@
+using System;
 using System.ComponentModel;
 using MyVote.UI.Controls;
 using MyVote.UI.Renderers;
+using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
@@ -18,11 +20,8 @@ namespace MyVote.UI.Renderers
 			if (model != null)
 			{
 				var control = this.Control;
-				if (model.AlternateDisplay != string.Empty)
-				{
-					control.Text = model.AlternateDisplay;
-				}
-				control.TextColor = model.TextColor.ToUIColor();
+				control.TextColor = IsPlaceholderDate(model.Date) ? model.PlaceholderColor.ToUIColor() : model.TextColor.ToUIColor();
+                control.BorderStyle = UITextBorderStyle.None;;
 			}
 		}
 
@@ -33,11 +32,18 @@ namespace MyVote.UI.Renderers
 			{
 				var control = this.Control;
 				var model = this.Element as ExtendedDatePicker;
-				if (control != null && model != null && model.AlternateDisplay != string.Empty)
-				{
-					control.Text = model.AlternateDisplay;
-				}
-			}
-		}
-	}
+                control.TextColor = IsPlaceholderDate(model.Date) ? model.PlaceholderColor.ToUIColor() : model.TextColor.ToUIColor();
+            }
+        }
+
+        private bool IsPlaceholderDate(DateTime target)
+        {
+            if (target.Date == DateTime.Today.Date || target.Date == DateTime.MinValue.Date ||
+                target.Date == DateTime.MaxValue.Date || target.Date == DateTime.Parse("1/1/1900"))
+            {
+                return true;
+            }
+            return false;
+        }
+    }
 }

@@ -1,13 +1,12 @@
-﻿using System.Security.Principal;
-using Csla;
+﻿using Csla;
 using Csla.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Rules;
-using MyVote.Core.Extensions;
 using Spackle;
 using Spackle.Extensions;
+using System.Security.Principal;
 
 namespace MyVote.BusinessObjects.Net.Tests.Rules
 {
@@ -26,7 +25,7 @@ namespace MyVote.BusinessObjects.Net.Tests.Rules
 				var context = new AuthorizationContext(rule, Mock.Of<IPoll>(), typeof(IPoll));
 				(rule as IAuthorizationRule).Execute(context);
 
-				Assert.IsFalse(context.HasPermission, context.GetPropertyName(_ => _.HasPermission));
+				Assert.IsFalse(context.HasPermission, nameof(context.HasPermission));
 			}
 
 			principal.VerifyAll();
@@ -55,7 +54,7 @@ namespace MyVote.BusinessObjects.Net.Tests.Rules
 				var context = new AuthorizationContext(rule, poll.Object, typeof(IPoll));
 				(rule as IAuthorizationRule).Execute(context);
 
-				Assert.IsFalse(context.HasPermission, context.GetPropertyName(_ => _.HasPermission));
+				Assert.IsFalse(context.HasPermission, nameof(context.HasPermission));
 			}
 
 			principal.VerifyAll();
@@ -85,7 +84,7 @@ namespace MyVote.BusinessObjects.Net.Tests.Rules
 				var context = new AuthorizationContext(rule, poll.Object, typeof(IPoll));
 				(rule as IAuthorizationRule).Execute(context);
 
-				Assert.IsTrue(context.HasPermission, context.GetPropertyName(_ => _.HasPermission));
+				Assert.IsTrue(context.HasPermission, nameof(context.HasPermission));
 			}
 
 			principal.VerifyAll();
@@ -108,7 +107,7 @@ namespace MyVote.BusinessObjects.Net.Tests.Rules
 				var context = new AuthorizationContext(rule, Mock.Of<IPoll>(), typeof(IPoll));
 				(rule as IAuthorizationRule).Execute(context);
 
-				Assert.IsTrue(context.HasPermission, context.GetPropertyName(_ => _.HasPermission));
+				Assert.IsTrue(context.HasPermission, nameof(context.HasPermission));
 			}
 
 			principal.VerifyAll();

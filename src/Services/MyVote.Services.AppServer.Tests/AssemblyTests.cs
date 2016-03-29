@@ -1,8 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Autofac;
+﻿using Autofac;
 using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MyVote.BusinessObjects;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MyVote.Services.AppServer.Tests
 {
@@ -13,7 +13,8 @@ namespace MyVote.Services.AppServer.Tests
 		[AssemblyInitialize]
 		public static void AssemblyInitialize(TestContext context)
 		{
-			ApplicationContext.DataPortalActivator = new ObjectActivator(new ContainerBuilder().Build());
+			ApplicationContext.DataPortalActivator = new ObjectActivator(
+				new ContainerBuilder().Build(), new ActivatorCallContext());
 		}
 	}
 }

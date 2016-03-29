@@ -4,6 +4,11 @@ using System.Diagnostics.CodeAnalysis;
 using Csla;
 using MyVote.BusinessObjects.Core.Contracts;
 
+#if !NETFX_CORE && !MOBILE
+using MyVote.BusinessObjects.Attributes;
+using MyVote.Data.Entities;
+#endif
+
 namespace MyVote.BusinessObjects.Core
 {
 	[System.Serializable]
@@ -12,7 +17,8 @@ namespace MyVote.BusinessObjects.Core
 		where T : ReadOnlyBaseCore<T>
 	{
 		protected ReadOnlyBaseCore()
-			: base() { }
+			: base()
+		{ }
 
 		[SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
 		protected virtual void Child_Create()
@@ -39,9 +45,21 @@ namespace MyVote.BusinessObjects.Core
 		}
 
 #if !NETFX_CORE && !MOBILE
-        protected virtual List<string> IgnoredProperties
+		protected virtual List<string> IgnoredProperties
 		{
-			get { return new List<string>(); }
+			get
+			{
+				return new List<string>(new[] { nameof(this.Entities) });
+			}
+		}
+
+		[NonSerialized]
+		private IEntities entities;
+		[Dependency]
+		public IEntities Entities
+		{
+			get { return this.entities; }
+			set { this.entities = value; }
 		}
 #endif
 	}

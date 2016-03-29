@@ -1,20 +1,23 @@
 ﻿using System;
 using Csla;
 using System.Diagnostics.CodeAnalysis;
+using MyVote.BusinessObjects.Attributes;
 
 #if !NETFX_CORE && !MOBILE
+using MyVote.Data.Entities;
 using System.Collections.Generic;
 #endif
 
 namespace MyVote.BusinessObjects.Core
 {
-	[System.Serializable]
+	[Serializable]
 	internal abstract class BusinessBaseCore<T>
 		: BusinessBase<T>, IBusinessBase
 		where T : BusinessBaseCore<T>
 	{
 		protected BusinessBaseCore()
-			: base() { }
+			: base()
+		{ }
 
 		protected override void Child_Create()
 		{
@@ -72,9 +75,21 @@ namespace MyVote.BusinessObjects.Core
 		}
 
 #if !NETFX_CORE && !MOBILE
-        protected virtual List<string> IgnoredProperties
+		[NonSerialized]
+		private IEntities entities;
+		[Dependency]
+		public IEntities Entities
 		{
-			get { return new List<string>(); }
+			get { return this.entities; }
+			set { this.entities = value; }
+		}
+
+		protected virtual List<string> IgnoredProperties
+		{
+			get
+			{
+				return new List<string>(new[] { nameof(this.Entities) } );
+			}
 		}
 #endif
 	}

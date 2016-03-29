@@ -576,7 +576,10 @@
                   SelectionMode="None" 
                   ShowsScrollingPlaceholders="True"
                   ItemContainerStyle="{StaticResource CircularItemContainerStyle}"
-                  ItemTemplate="{StaticResource FullScreenItemTemplate}">
+                  ItemTemplate="{StaticResource FullScreenItemTemplate}"
+				  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+				  ScrollViewer.VerticalScrollMode="Disabled"
+				  ScrollViewer.HorizontalScrollMode="Auto">
             <GridView.ItemContainerTransitions>
                 <TransitionCollection>
                     <EntranceThemeTransition/>

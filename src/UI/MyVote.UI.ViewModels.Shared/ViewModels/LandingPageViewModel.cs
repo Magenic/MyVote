@@ -1,5 +1,4 @@
-﻿using Cirrious.MvvmCross.ViewModels;
-using Csla;
+﻿using Csla;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
 using MyVote.UI.Helpers;
@@ -8,11 +7,12 @@ using MyVote.UI.Services;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MvvmCross.Core.ViewModels;
 
 namespace MyVote.UI.ViewModels
 {
-    public sealed class LandingPageViewModel : ViewModelBase<LandingPageNavigationCriteria>
-    {
+	public sealed class LandingPageViewModel : ViewModelBase<LandingPageNavigationCriteria>
+	{
 		private readonly IMessageBox messageBox;
 		private readonly IMobileService mobileService;
 		private readonly IObjectFactory<IUserIdentity> objectFactory;
@@ -44,24 +44,24 @@ namespace MyVote.UI.ViewModels
 			string profileId;
 			if (this.appSettings.TryGetValue<string>(SettingsKeys.ProfileId, out profileId))
 			{
-                // Start an exit.
-			    StartLoadProfileAsync(profileId);
+				// Start an exit.
+				StartLoadProfileAsync(profileId);
 			}
 		}
 
-        public async Task StartLoadProfileAsync(string profileId)
-        {
-            try
-            {
-                await LoadIdentityAndGo(profileId);
-            }
-            catch (Exception ex)
-            {
-                this.logger.Log(ex);
-                this.IsBusy = false;
-                this.messageBox.ShowAsync("There was an error loading your profile.", "Error");
-            }
-        }
+		public async Task StartLoadProfileAsync(string profileId)
+		{
+			try
+			{
+				await LoadIdentityAndGo(profileId);
+			}
+			catch (Exception ex)
+			{
+				this.logger.Log(ex);
+				this.IsBusy = false;
+				this.messageBox.ShowAsync("There was an error loading your profile.", "Error");
+			}
+		}
 
 		public ICommand SignInWithTwitter
 		{
@@ -122,18 +122,18 @@ namespace MyVote.UI.ViewModels
 		{
 			IUserIdentity identity = null;
 			IsBusy = true;
-		    try
-		    {
-		        identity = await this.objectFactory.FetchAsync(profileId);
+			try
+			{
+				identity = await this.objectFactory.FetchAsync(profileId);
 
-		        var principal = new CslaPrincipalCore(identity);
-		        Csla.ApplicationContext.User = principal;
-		    }
-		    catch (DataPortalException ex)
-		    {
-		        this.logger.Log(ex);
-		        identity = null;
-		    }
+				var principal = new CslaPrincipalCore(identity);
+				Csla.ApplicationContext.User = principal;
+			}
+			catch (DataPortalException ex)
+			{
+				this.logger.Log(ex);
+				identity = null;
+			}
 
 			IsBusy = false;
 
@@ -145,11 +145,12 @@ namespace MyVote.UI.ViewModels
 			{
 #if MOBILE
 				Xamarin.Insights.Identify(profileId, Xamarin.Insights.Traits.Name, identity.UserName);
-                Xamarin.Forms.MessagingCenter.Subscribe<VmPageMappings>(this, string.Format(Constants.Navigation.PageNavigated, typeof(PollsPageViewModel)), (sender) =>
-                {
-                    Xamarin.Forms.MessagingCenter.Unsubscribe<VmPageMappings>(this, string.Format(Constants.Navigation.PageNavigated, typeof(PollsPageViewModel)));
-                    this.Close(this);
-                });
+				Xamarin.Forms.MessagingCenter.Subscribe<VmPageMappings>(this, string.Format(Constants.Navigation.PageNavigated, typeof(PollsPageViewModel)), (sender) =>
+				{
+					Xamarin.Forms.MessagingCenter.Unsubscribe<VmPageMappings>(this, string.Format(Constants.Navigation.PageNavigated, typeof(PollsPageViewModel)));
+					//this.Close(this);
+					ChangePresentation(new ClearBackstackHint());
+				});
 #endif // MOBILE
 
 				// If there is a PollId, the user is coming in from a URI.
@@ -165,11 +166,14 @@ namespace MyVote.UI.ViewModels
 					};
 
 					this.ShowViewModel<PollsPageViewModel>();
-					this.ShowViewModel<ViewPollPageViewModel>(criteria);
-#if !MOBILE
-                    this.Close(this);
+#if MOBILE
+                    ChangePresentation(new ClearBackstackHint());
 #endif
-                }
+                    this.ShowViewModel<ViewPollPageViewModel>(criteria);
+#if !MOBILE
+					this.Close(this);
+#endif
+				}
 
 				else if (this.NavigationCriteria != null && !string.IsNullOrEmpty(this.NavigationCriteria.SearchQuery))
 				{
@@ -179,19 +183,25 @@ namespace MyVote.UI.ViewModels
 					};
 
 					this.ShowViewModel<PollsPageViewModel>();
-					this.ShowViewModel<ViewPollPageViewModel>(criteria);
-#if !MOBILE
-                    this.Close(this);
+#if MOBILE
+                    ChangePresentation(new ClearBackstackHint());
 #endif
-                }
+                    this.ShowViewModel<ViewPollPageViewModel>(criteria);
+#if !MOBILE
+					this.Close(this);
+#endif
+				}
 				else
 				{
-                    this.ShowViewModel<PollsPageViewModel>();
+					this.ShowViewModel<PollsPageViewModel>();
+#if MOBILE
+                    ChangePresentation(new ClearBackstackHint());
+#endif
 #if !MOBILE
-                    this.Close(this);
+					this.Close(this);
 #endif
                 }
-			}
+            }
 			else
 			{
 				var criteria = new RegistrationPageNavigationCriteria
@@ -232,5 +242,5 @@ namespace MyVote.UI.ViewModels
 			public string UserId { get; set; }
 			public Exception Error { get; set; }
 		}
-    }
+	}
 }

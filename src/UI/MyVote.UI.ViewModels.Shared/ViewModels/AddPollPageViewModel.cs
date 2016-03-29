@@ -1,5 +1,4 @@
-﻿using Cirrious.MvvmCross.ViewModels;
-using Csla;
+﻿using Csla;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.UI.Helpers;
 using MyVote.UI.NavigationCriteria;
@@ -11,7 +10,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Cirrious.CrossCore;
+using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
 
 namespace MyVote.UI.ViewModels
 {

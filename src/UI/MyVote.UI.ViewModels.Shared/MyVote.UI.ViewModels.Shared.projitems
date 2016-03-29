@@ -14,7 +14,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\IPhotoChooser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\MvxAppStart.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\MvxPresenterHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SharedPoll.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MyVoteApp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bootstrapper.cs" />

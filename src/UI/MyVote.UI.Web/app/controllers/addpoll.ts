@@ -6,37 +6,11 @@ module MyVote.Controllers {
 
     export interface AddPollScope {
         vm: AddPollCtrl;
-
-        //Prefer instance variables as opposed to polluting this directly with variables
-        newPoll: MyVote.Services.AppServer.Models.Poll;
-        submitted: boolean;
-        busyMessage: string;
-        errorMessage: string;
-        addPollForm: any;
-        setStartEndDate: string;
-        defaultStartDate: string;
-        defaultEndDate: string;
-        startDate: string;
-        endDate: string;
-        multiAnswer: boolean;
-        pollImage: File;
-        added: boolean;
-        showAccordion: boolean;
-        dateOptions: ng.ui.bootstrap.IDatepickerConfig;
-        startDateOpened: boolean;
-        endDateOpened: boolean;
-
-        answerLetter(n: number): string;
-        invalidInput(name: string): boolean;
-        validationMessage(name: string);
-        submit(): void;
-        toggleAccordion(): void;
-        openStartDatePicker($event): void;
-        openEndDatePicker($event): void;
     }
 
     export class AddPollCtrl implements AddPollScope {
 
+        //Prefer class instance variables as opposed to polluting scope directly with variables
         newPoll: MyVote.Services.AppServer.Models.Poll;
         submitted: boolean;
         busyMessage: string;
@@ -215,7 +189,7 @@ module MyVote.Controllers {
                 .then((imageUrl: any) => {
                     this.newPoll.PollImageLink = imageUrl;
                     return this.myVoteService.savePoll(this.newPoll);
-                }).then((poll: any) => {
+                }).then((poll: MyVote.Services.AppServer.Models.Poll): any => {
                     this.added = true;
                     this.signalrService.addPoll();
                     this.busyMessage = 'Success! Viewing your poll...';
@@ -223,7 +197,7 @@ module MyVote.Controllers {
                 },
                 error => {
                     this.busyMessage = null;
-                    this.errorMessage = UtilityService.FormatError(error, "Error saving poll.");
+                    this.errorMessage = UtilityService.formatError(error, "Error saving poll.");
                 });
         };
 

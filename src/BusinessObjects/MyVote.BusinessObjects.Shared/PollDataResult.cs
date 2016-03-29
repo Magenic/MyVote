@@ -15,7 +15,7 @@ namespace MyVote.BusinessObjects
 		}
 #endif
 
-		public static PropertyInfo<string> OptionTextProperty =
+		public static readonly PropertyInfo<string> OptionTextProperty =
 			PollDataResult.RegisterProperty<string>(_ => _.OptionText);
 		public string OptionText
 		{
@@ -23,7 +23,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollDataResult.OptionTextProperty, value); }
 		}
 
-		public static PropertyInfo<int> PollOptionIDProperty =
+		public static readonly PropertyInfo<int> PollOptionIDProperty =
 			PollDataResult.RegisterProperty<int>(_ => _.PollOptionID);
 		public int PollOptionID
 		{
@@ -31,7 +31,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollDataResult.PollOptionIDProperty, value); }
 		}
 
-		public static PropertyInfo<int> ResponseCountProperty =
+		public static readonly PropertyInfo<int> ResponseCountProperty =
 			PollDataResult.RegisterProperty<int>(_ => _.ResponseCount);
 		public int ResponseCount
 		{

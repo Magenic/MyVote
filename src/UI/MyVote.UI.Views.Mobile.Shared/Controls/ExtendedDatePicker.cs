@@ -12,17 +12,11 @@ namespace MyVote.UI.Controls
 			set { SetValue(TextColorProperty, value); }
 		}
 
-		public string AlternateDisplay
-		{
-			get
-			{
-				var returnValue = string.Empty;
-				if (Date == DateTime.MinValue || Date == DateTime.MaxValue)
-				{
-					returnValue = "Select a date";
-				}
-				return returnValue;
-			}
-		}
+        public static readonly BindableProperty PlaceholderColorProperty = BindableProperty.Create<ExtendedDatePicker, Color>(p => p.PlaceholderColor, Color.Black);
+        public Color PlaceholderColor
+        {
+            get { return (Color)this.GetValue(PlaceholderColorProperty); }
+            set { SetValue(PlaceholderColorProperty, value); }
+        }
 	}
 }

@@ -1,7 +1,9 @@
-﻿using Csla;
+﻿using Autofac;
+using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MyVote.Core.Extensions;
+using Moq;
 using MyVote.Data.Entities;
+using Spackle.Extensions;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
@@ -13,10 +15,17 @@ namespace MyVote.BusinessObjects.Net.Tests
 		{
 			var entity = EntityCreator.Create<MVCategory>();
 
-			var category = DataPortal.FetchChild<Category>(entity);
+			var container = new ContainerBuilder();
+			container.RegisterInstance(Mock.Of<IEntities>()).As<IEntities>();
 
-			Assert.AreEqual(entity.CategoryID, category.ID, category.GetPropertyName(_ => _.ID));
-			Assert.AreEqual(entity.CategoryName, category.Name, category.GetPropertyName(_ => _.Name));
+			using (new ObjectActivator(container.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
+			{
+				var category = DataPortal.FetchChild<Category>(entity);
+
+				Assert.AreEqual(entity.CategoryID, category.ID, nameof(category.ID));
+				Assert.AreEqual(entity.CategoryName, category.Name, nameof(category.Name));
+			}
 		}
 	}
 }

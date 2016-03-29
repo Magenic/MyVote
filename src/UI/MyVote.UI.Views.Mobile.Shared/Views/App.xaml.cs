@@ -1,10 +1,11 @@
-﻿using MyVote.UI.Helpers;
+﻿using MvvmCross.Forms.Presenter.Core;
+using MyVote.UI.Helpers;
 using Xamarin.Forms;
 
 namespace MyVote.UI.Views
 {
-	public partial class App : Application
-	{
+	public partial class App : MvxFormsApp
+    {
 	    private static App MainApplication;
 
         public App()

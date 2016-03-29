@@ -3,6 +3,6 @@
 ///<reference path="../Scripts/typings/angularjs/angular.d.ts" />
 ///<reference path="../Scripts/typings/angularjs/angular-resource.d.ts" />
 ///<reference path="../Scripts/typings/signalr/signalr.d.ts" />
-///<reference path="../Scripts/TypeLite.d.ts" />
+///<reference path="../scripts/typelite.net4.d.ts" />
 
 var Globals: any;

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using Csla.Core;
+﻿using Csla.Core;
 using Csla.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MyVote.BusinessObjects.Rules;
-using MyVote.Core.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MyVote.BusinessObjects.Net.Tests.Rules
 {
@@ -27,15 +26,15 @@ namespace MyVote.BusinessObjects.Net.Tests.Rules
 				pollStartDateProperty.Object, isActiveProperty);
 
 			var context = new RuleContext(null, rule, null,
-				new Dictionary<IPropertyInfo, object> 
-				{ 
+				new Dictionary<IPropertyInfo, object>
+				{
 					{ pollStartDateProperty.Object, DateTime.UtcNow.AddDays(-2) },
 					{ isActiveProperty, true }
 				});
 			(rule as IBusinessRule).Execute(context);
 
-			Assert.AreEqual(0, context.Results.Count, context.GetPropertyName(_ => _.Results));
-			Assert.IsNull(context.OutputPropertyValues, context.GetPropertyName(_ => _.OutputPropertyValues));
+			Assert.AreEqual(0, context.Results.Count, nameof(context.Results));
+			Assert.IsNull(context.OutputPropertyValues, nameof(context.OutputPropertyValues));
 
 			pollStartDateProperty.VerifyAll();
 		}
@@ -53,14 +52,14 @@ namespace MyVote.BusinessObjects.Net.Tests.Rules
 				pollStartDateProperty.Object, isActiveProperty);
 
 			var context = new RuleContext(null, rule, null,
-				new Dictionary<IPropertyInfo, object> 
-				{ 
+				new Dictionary<IPropertyInfo, object>
+				{
 					{ pollStartDateProperty.Object, DateTime.UtcNow.AddDays(2) },
 					{ isActiveProperty, true }
 				});
 			(rule as IBusinessRule).Execute(context);
 
-			Assert.AreEqual(1, context.Results.Count, context.GetPropertyName(_ => _.Results));
+			Assert.AreEqual(1, context.Results.Count, nameof(context.Results));
 			Assert.IsFalse((bool)context.OutputPropertyValues[isActiveProperty]);
 
 			pollStartDateProperty.VerifyAll();

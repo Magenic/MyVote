@@ -27,7 +27,7 @@ namespace MyVote.UI.Services
 		private readonly MobileServiceClient mobileService = new MobileServiceClient(
 			"https://myapp.azure-mobile.net/",
         #region Private Key
- "**Add Your Private AMS Key Here**"
+			"MyKey"
         #endregion
 );
 #endif // DEBUG

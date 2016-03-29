@@ -1,12 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Autofac;
+﻿using Autofac;
 using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Net.Tests.Extensions;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
@@ -19,7 +20,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var generator = new RandomObjectGenerator();
 				var optionPosition = generator.Generate<short>();
@@ -37,7 +39,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var generator = new RandomObjectGenerator();
 				var optionPosition = new string(generator.Generate<string>()[0], 1001);
@@ -57,7 +60,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var generator = new RandomObjectGenerator();
 				var optionPosition = new string(generator.Generate<string>()[0], 1);

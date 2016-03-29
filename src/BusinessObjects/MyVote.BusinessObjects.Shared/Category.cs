@@ -1,4 +1,5 @@
-﻿using Csla;
+﻿using System;
+using Csla;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
 
@@ -8,7 +9,7 @@ using MyVote.Data.Entities;
 
 namespace MyVote.BusinessObjects
 {
-	[System.Serializable]
+	[Serializable]
 	internal sealed class Category
 		: ReadOnlyBaseCore<Category>, ICategory
 	{
@@ -20,7 +21,7 @@ namespace MyVote.BusinessObjects
 		}
 #endif
 
-        public static PropertyInfo<int> IDProperty =
+		public static readonly PropertyInfo<int> IDProperty =
 			Category.RegisterProperty<int>(_ => _.ID);
 		public int ID
 		{
@@ -28,7 +29,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(Category.IDProperty, value); }
 		}
 
-		public static PropertyInfo<string> NameProperty =
+		public static readonly PropertyInfo<string> NameProperty =
 			Category.RegisterProperty<string>(_ => _.Name);
 		public string Name
 		{

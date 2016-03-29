@@ -8,7 +8,21 @@ namespace MyVote.UI.Controls
 {
 	public class ExtendedPicker<T> : Picker
 	{
-		public ExtendedPicker()
+        public static readonly BindableProperty PlaceholderTextProperty = BindableProperty.Create<ExtendedPicker<T>, string>(p => p.PlaceholderText, string.Empty);
+        public string PlaceholderText
+        {
+            get { return (string)this.GetValue(PlaceholderTextProperty); }
+            set { SetValue(PlaceholderTextProperty, value); }
+        }
+
+        public static readonly BindableProperty PlaceholderColorProperty = BindableProperty.Create<ExtendedPicker<T>, Color>(p => p.PlaceholderColor, Color.Transparent);
+        public Color PlaceholderColor
+        {
+            get { return (Color)this.GetValue(PlaceholderColorProperty); }
+            set { SetValue(PlaceholderColorProperty, value); }
+        }
+
+        public ExtendedPicker()
 		{
 			this.SelectedIndexChanged += OnSelectedIndexChanged;
 		}

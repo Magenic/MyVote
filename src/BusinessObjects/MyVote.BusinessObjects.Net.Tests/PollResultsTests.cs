@@ -1,13 +1,12 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
 using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
-using MyVote.Core.Extensions;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
+using System;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
@@ -39,7 +38,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			});
 
 			var entities = new Mock<IEntities>(MockBehavior.Strict);
-			entities.Setup(_ => _.MVPolls).Returns(new InMemoryDbSet<MVPoll> 
+			entities.Setup(_ => _.MVPolls).Returns(new InMemoryDbSet<MVPoll>
 				{
 					poll
 				});
@@ -50,15 +49,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 			builder.Register<IObjectFactory<IPollComments>>(_ => pollCommentsFactory.Object);
 			builder.Register<IEntities>(_ => entities.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var pollResults = DataPortal.Fetch<PollResults>(new PollResultsCriteria(userId, pollId));
-				Assert.AreEqual(poll.PollImageLink, pollResults.PollImageLink, pollResults.GetPropertyName(_ => _.PollImageLink));
-				Assert.AreEqual(pollId, pollResults.PollID, pollResults.GetPropertyName(_ => _.PollID));
-				Assert.AreSame(pollDataResults, pollResults.PollDataResults, pollResults.GetPropertyName(_ => _.PollDataResults));
-				Assert.AreSame(pollComments, pollResults.PollComments, pollResults.GetPropertyName(_ => _.PollComments));
-				Assert.IsTrue(pollResults.IsPollOwnedByUser, pollResults.GetPropertyName(_ => _.IsPollOwnedByUser));
-				Assert.IsTrue(pollResults.IsActive, pollResults.GetPropertyName(_ => _.IsActive));
+				Assert.AreEqual(poll.PollImageLink, pollResults.PollImageLink, nameof(pollResults.PollImageLink));
+				Assert.AreEqual(pollId, pollResults.PollID, nameof(pollResults.PollID));
+				Assert.AreSame(pollDataResults, pollResults.PollDataResults, nameof(pollResults.PollDataResults));
+				Assert.AreSame(pollComments, pollResults.PollComments, nameof(pollResults.PollComments));
+				Assert.IsTrue(pollResults.IsPollOwnedByUser, nameof(pollResults.IsPollOwnedByUser));
+				Assert.IsTrue(pollResults.IsActive, nameof(pollResults.IsActive));
 			}
 
 			pollDataResultsFactory.VerifyAll();
@@ -91,7 +91,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			});
 
 			var entities = new Mock<IEntities>(MockBehavior.Strict);
-			entities.Setup(_ => _.MVPolls).Returns(new InMemoryDbSet<MVPoll> 
+			entities.Setup(_ => _.MVPolls).Returns(new InMemoryDbSet<MVPoll>
 				{
 					poll
 				});
@@ -102,15 +102,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 			builder.Register<IObjectFactory<IPollComments>>(_ => pollCommentsFactory.Object);
 			builder.Register<IEntities>(_ => entities.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var pollResults = DataPortal.Fetch<PollResults>(new PollResultsCriteria(userId, pollId));
-				Assert.AreEqual(pollId, pollResults.PollID, pollResults.GetPropertyName(_ => _.PollID));
-				Assert.AreEqual(poll.PollImageLink, pollResults.PollImageLink, pollResults.GetPropertyName(_ => _.PollImageLink));
-				Assert.AreSame(pollDataResults, pollResults.PollDataResults, pollResults.GetPropertyName(_ => _.PollDataResults));
-				Assert.AreSame(pollComments, pollResults.PollComments, pollResults.GetPropertyName(_ => _.PollComments));
-				Assert.IsFalse(pollResults.IsPollOwnedByUser, pollResults.GetPropertyName(_ => _.IsPollOwnedByUser));
-				Assert.IsTrue(pollResults.IsActive, pollResults.GetPropertyName(_ => _.IsActive));
+				Assert.AreEqual(pollId, pollResults.PollID, nameof(pollResults.PollID));
+				Assert.AreEqual(poll.PollImageLink, pollResults.PollImageLink, nameof(pollResults.PollImageLink));
+				Assert.AreSame(pollDataResults, pollResults.PollDataResults, nameof(pollResults.PollDataResults));
+				Assert.AreSame(pollComments, pollResults.PollComments, nameof(pollResults.PollComments));
+				Assert.IsFalse(pollResults.IsPollOwnedByUser, nameof(pollResults.IsPollOwnedByUser));
+				Assert.IsTrue(pollResults.IsActive, nameof(pollResults.IsActive));
 			}
 
 			pollDataResultsFactory.VerifyAll();
@@ -143,7 +144,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			});
 
 			var entities = new Mock<IEntities>(MockBehavior.Strict);
-			entities.Setup(_ => _.MVPolls).Returns(new InMemoryDbSet<MVPoll> 
+			entities.Setup(_ => _.MVPolls).Returns(new InMemoryDbSet<MVPoll>
 				{
 					poll
 				});
@@ -154,15 +155,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 			builder.Register<IObjectFactory<IPollComments>>(_ => pollCommentsFactory.Object);
 			builder.Register<IEntities>(_ => entities.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var pollResults = DataPortal.Fetch<PollResults>(new PollResultsCriteria(null, pollId));
-				Assert.AreEqual(pollId, pollResults.PollID, pollResults.GetPropertyName(_ => _.PollID));
-				Assert.AreEqual(poll.PollImageLink, pollResults.PollImageLink, pollResults.GetPropertyName(_ => _.PollImageLink));
-				Assert.AreSame(pollDataResults, pollResults.PollDataResults, pollResults.GetPropertyName(_ => _.PollDataResults));
-				Assert.AreSame(pollComments, pollResults.PollComments, pollResults.GetPropertyName(_ => _.PollComments));
-				Assert.IsFalse(pollResults.IsPollOwnedByUser, pollResults.GetPropertyName(_ => _.IsPollOwnedByUser));
-				Assert.IsTrue(pollResults.IsActive, pollResults.GetPropertyName(_ => _.IsActive));
+				Assert.AreEqual(pollId, pollResults.PollID, nameof(pollResults.PollID));
+				Assert.AreEqual(poll.PollImageLink, pollResults.PollImageLink, nameof(pollResults.PollImageLink));
+				Assert.AreSame(pollDataResults, pollResults.PollDataResults, nameof(pollResults.PollDataResults));
+				Assert.AreSame(pollComments, pollResults.PollComments, nameof(pollResults.PollComments));
+				Assert.IsFalse(pollResults.IsPollOwnedByUser, nameof(pollResults.IsPollOwnedByUser));
+				Assert.IsTrue(pollResults.IsActive, nameof(pollResults.IsActive));
 			}
 
 			pollDataResultsFactory.VerifyAll();
@@ -195,7 +197,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			});
 
 			var entities = new Mock<IEntities>(MockBehavior.Strict);
-			entities.Setup(_ => _.MVPolls).Returns(new InMemoryDbSet<MVPoll> 
+			entities.Setup(_ => _.MVPolls).Returns(new InMemoryDbSet<MVPoll>
 				{
 					poll
 				});
@@ -206,15 +208,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 			builder.Register<IObjectFactory<IPollComments>>(_ => pollCommentsFactory.Object);
 			builder.Register<IEntities>(_ => entities.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var pollResults = DataPortal.Fetch<PollResults>(new PollResultsCriteria(userId, pollId));
-				Assert.AreEqual(pollId, pollResults.PollID, pollResults.GetPropertyName(_ => _.PollID));
-				Assert.AreEqual(poll.PollImageLink, pollResults.PollImageLink, pollResults.GetPropertyName(_ => _.PollImageLink));
-				Assert.AreSame(pollDataResults, pollResults.PollDataResults, pollResults.GetPropertyName(_ => _.PollDataResults));
-				Assert.AreSame(pollComments, pollResults.PollComments, pollResults.GetPropertyName(_ => _.PollComments));
-				Assert.IsTrue(pollResults.IsPollOwnedByUser, pollResults.GetPropertyName(_ => _.IsPollOwnedByUser));
-				Assert.IsFalse(pollResults.IsActive, pollResults.GetPropertyName(_ => _.IsActive));
+				Assert.AreEqual(pollId, pollResults.PollID, nameof(pollResults.PollID));
+				Assert.AreEqual(poll.PollImageLink, pollResults.PollImageLink, nameof(pollResults.PollImageLink));
+				Assert.AreSame(pollDataResults, pollResults.PollDataResults, nameof(pollResults.PollDataResults));
+				Assert.AreSame(pollComments, pollResults.PollComments, nameof(pollResults.PollComments));
+				Assert.IsTrue(pollResults.IsPollOwnedByUser, nameof(pollResults.IsPollOwnedByUser));
+				Assert.IsFalse(pollResults.IsActive, nameof(pollResults.IsActive));
 			}
 
 			pollDataResultsFactory.VerifyAll();
@@ -247,7 +250,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			});
 
 			var entities = new Mock<IEntities>(MockBehavior.Strict);
-			entities.Setup(_ => _.MVPolls).Returns(new InMemoryDbSet<MVPoll> 
+			entities.Setup(_ => _.MVPolls).Returns(new InMemoryDbSet<MVPoll>
 				{
 					poll
 				});
@@ -258,15 +261,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 			builder.Register<IObjectFactory<IPollComments>>(_ => pollCommentsFactory.Object);
 			builder.Register<IEntities>(_ => entities.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var pollResults = DataPortal.Fetch<PollResults>(new PollResultsCriteria(userId, pollId));
-				Assert.AreEqual(pollId, pollResults.PollID, pollResults.GetPropertyName(_ => _.PollID));
-				Assert.AreEqual(poll.PollImageLink, pollResults.PollImageLink, pollResults.GetPropertyName(_ => _.PollImageLink));
-				Assert.AreSame(pollDataResults, pollResults.PollDataResults, pollResults.GetPropertyName(_ => _.PollDataResults));
-				Assert.AreSame(pollComments, pollResults.PollComments, pollResults.GetPropertyName(_ => _.PollComments));
-				Assert.IsTrue(pollResults.IsPollOwnedByUser, pollResults.GetPropertyName(_ => _.IsPollOwnedByUser));
-				Assert.IsFalse(pollResults.IsActive, pollResults.GetPropertyName(_ => _.IsActive));
+				Assert.AreEqual(pollId, pollResults.PollID, nameof(pollResults.PollID));
+				Assert.AreEqual(poll.PollImageLink, pollResults.PollImageLink, nameof(pollResults.PollImageLink));
+				Assert.AreSame(pollDataResults, pollResults.PollDataResults, nameof(pollResults.PollDataResults));
+				Assert.AreSame(pollComments, pollResults.PollComments, nameof(pollResults.PollComments));
+				Assert.IsTrue(pollResults.IsPollOwnedByUser, nameof(pollResults.IsPollOwnedByUser));
+				Assert.IsFalse(pollResults.IsActive, nameof(pollResults.IsActive));
 			}
 
 			pollDataResultsFactory.VerifyAll();
@@ -299,7 +303,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			});
 
 			var entities = new Mock<IEntities>(MockBehavior.Strict);
-			entities.Setup(_ => _.MVPolls).Returns(new InMemoryDbSet<MVPoll> 
+			entities.Setup(_ => _.MVPolls).Returns(new InMemoryDbSet<MVPoll>
 				{
 					poll
 				});
@@ -310,15 +314,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 			builder.Register<IObjectFactory<IPollComments>>(_ => pollCommentsFactory.Object);
 			builder.Register<IEntities>(_ => entities.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var pollResults = DataPortal.Fetch<PollResults>(new PollResultsCriteria(userId, pollId));
-				Assert.AreEqual(pollId, pollResults.PollID, pollResults.GetPropertyName(_ => _.PollID));
-				Assert.AreEqual(poll.PollImageLink, pollResults.PollImageLink, pollResults.GetPropertyName(_ => _.PollImageLink));
-				Assert.AreSame(pollDataResults, pollResults.PollDataResults, pollResults.GetPropertyName(_ => _.PollDataResults));
-				Assert.AreSame(pollComments, pollResults.PollComments, pollResults.GetPropertyName(_ => _.PollComments));
-				Assert.IsTrue(pollResults.IsPollOwnedByUser, pollResults.GetPropertyName(_ => _.IsPollOwnedByUser));
-				Assert.IsFalse(pollResults.IsActive, pollResults.GetPropertyName(_ => _.IsActive));
+				Assert.AreEqual(pollId, pollResults.PollID, nameof(pollResults.PollID));
+				Assert.AreEqual(poll.PollImageLink, pollResults.PollImageLink, nameof(pollResults.PollImageLink));
+				Assert.AreSame(pollDataResults, pollResults.PollDataResults, nameof(pollResults.PollDataResults));
+				Assert.AreSame(pollComments, pollResults.PollComments, nameof(pollResults.PollComments));
+				Assert.IsTrue(pollResults.IsPollOwnedByUser, nameof(pollResults.IsPollOwnedByUser));
+				Assert.IsFalse(pollResults.IsActive, nameof(pollResults.IsActive));
 			}
 
 			pollDataResultsFactory.VerifyAll();

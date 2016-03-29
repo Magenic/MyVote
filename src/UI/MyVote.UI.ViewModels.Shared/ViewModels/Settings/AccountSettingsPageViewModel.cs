@@ -1,9 +1,9 @@
-﻿using Cirrious.MvvmCross.ViewModels;
-using MyVote.UI.Helpers;
+﻿using MyVote.UI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
+using MvvmCross.Core.ViewModels;
 
 namespace MyVote.UI.ViewModels.Settings
 {

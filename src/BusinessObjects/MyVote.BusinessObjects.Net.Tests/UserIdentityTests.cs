@@ -2,7 +2,7 @@
 using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using MyVote.Core.Extensions;
+using MyVote.BusinessObjects.Contracts;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
@@ -36,14 +36,15 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var identity = DataPortal.Fetch<UserIdentity>(profileId);
 
-				Assert.AreEqual(profileId, identity.ProfileID, identity.GetPropertyName(_ => _.ProfileID));
-				Assert.AreEqual(userId, identity.UserID, identity.GetPropertyName(_ => _.UserID));
-				Assert.AreEqual(userName, identity.UserName, identity.GetPropertyName(_ => _.UserName));
-				Assert.IsTrue(identity.IsAuthenticated, identity.GetPropertyName(_ => _.IsAuthenticated));
+				Assert.AreEqual(profileId, identity.ProfileID, nameof(identity.ProfileID));
+				Assert.AreEqual(userId, identity.UserID, nameof(identity.UserID));
+				Assert.AreEqual(userName, identity.UserName, nameof(identity.UserName));
+				Assert.IsTrue(identity.IsAuthenticated, nameof(identity.IsAuthenticated));
 			}
 
 			entities.VerifyAll();
@@ -63,14 +64,15 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var identity = DataPortal.Fetch<UserIdentity>(profileId);
 
-				Assert.AreEqual(string.Empty, identity.ProfileID, identity.GetPropertyName(_ => _.ProfileID));
-				Assert.IsNull(identity.UserID, identity.GetPropertyName(_ => _.UserID));
-				Assert.AreEqual(string.Empty, identity.UserName, identity.GetPropertyName(_ => _.UserName));
-				Assert.IsFalse(identity.IsAuthenticated, identity.GetPropertyName(_ => _.IsAuthenticated));
+				Assert.AreEqual(string.Empty, identity.ProfileID, nameof(identity.ProfileID));
+				Assert.IsNull(identity.UserID, nameof(identity.UserID));
+				Assert.AreEqual(string.Empty, identity.UserName, nameof(identity.UserName));
+				Assert.IsFalse(identity.IsAuthenticated, nameof(identity.IsAuthenticated));
 			}
 
 			entities.VerifyAll();

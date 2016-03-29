@@ -1,25 +1,25 @@
-﻿using Cirrious.CrossCore;
-using Cirrious.MvvmCross.Platform;
-using Cirrious.MvvmCross.ViewModels;
-using Foundation;
-using MyVote.UI.Services;
-using MyVote.UI.Views;
+﻿using Foundation;
+using MvvmCross.Core.ViewModels;
+using MvvmCross.iOS.Platform;
+using MvvmCross.Platform;
 using UIKit;
 using Xamarin;
+using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-namespace MyVote.UI.Ios
+namespace MyVote.UI
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
     [Register("AppDelegate")]
-    public partial class AppDelegate : FormsApplicationDelegate, IMvxLifetime
+    public class AppDelegate : MvxApplicationDelegate
     {
-        // class-level declarations
-        public event System.EventHandler<MvxLifetimeEventArgs> LifetimeChanged;
-
-        UIWindow window;
+        public override UIWindow Window
+        {
+            get;
+            set;
+        }
 
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
@@ -31,48 +31,24 @@ namespace MyVote.UI.Ios
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             // create a new window instance based on the screen size
-            window = new UIWindow(UIScreen.MainScreen.Bounds);
+            Window = new UIWindow(UIScreen.MainScreen.Bounds);
 
-            var setup = new MvxFormsSetup(this, window);
+            var setup = new Setup(this, Window);
             setup.Initialize();
+            var newApp = setup.FormsApp;
 
             var startup = Mvx.Resolve<IMvxAppStart>();
-            Xamarin.Forms.Forms.Init();
             Insights.Initialize("fbe45ea4c25df48a8eeb15f1bdd929cf14482e4b");
 
-            var newApp = new App();
+            UITabBar.Appearance.SelectedImageTintColor = ((Color)newApp.Resources["AppOrange"]).ToUIColor();
+            UIPickerView.Appearance.TintColor = ((Color)newApp.Resources["AppOrange"]).ToUIColor();
+            UIDatePicker.Appearance.TintColor = ((Color)newApp.Resources["AppOrange"]).ToUIColor();
+
             startup.Start();
 
-            LoadApplication(newApp);
+            Window.MakeKeyAndVisible();
 
-            return base.FinishedLaunching(app, options);
-        }
-
-        public override void WillEnterForeground(UIApplication application)
-        {
-            FireLifetimeChanged(MvxLifetimeEvent.ActivatedFromMemory);
-        }
-
-        public override void DidEnterBackground(UIApplication application)
-        {
-            FireLifetimeChanged(MvxLifetimeEvent.Deactivated);
-        }
-
-        public override void WillTerminate(UIApplication application)
-        {
-            FireLifetimeChanged(MvxLifetimeEvent.Closing);
-        }
-
-        public override void FinishedLaunching(UIApplication application)
-        {
-            FireLifetimeChanged(MvxLifetimeEvent.Launching);
-        }
-
-        private void FireLifetimeChanged(MvxLifetimeEvent which)
-        {
-            var handler = LifetimeChanged;
-            if (handler != null)
-                handler(this, new MvxLifetimeEventArgs(which));
+            return true;
         }
     }
 }

@@ -1,11 +1,13 @@
 using Android.App;
 using Android.OS;
 using Android.Content.PM;
+using MvvmCross.Core.ViewModels;
+using MvvmCross.Core.Views;
+using MvvmCross.Forms.Presenter.Droid;
+using MvvmCross.Platform;
 using Xamarin.Forms.Platform.Android;
 using Xamarin.Forms;
 using MyVote.UI.Services;
-using Cirrious.CrossCore;
-using Cirrious.MvvmCross.ViewModels;
 using MyVote.UI.Views;
 using Xamarin;
 
@@ -14,9 +16,8 @@ namespace MyVote.UI.Helpers
 	[Activity(
         Label = "MyVote", Theme = "@style/Theme.MyVoteAll", 
 		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-	public sealed class MvxNavigationActivity
-		: FormsApplicationActivity//, IMvxPageNavigationProvider
-	{
+	public sealed class MvxNavigationActivity : FormsApplicationActivity
+    {
 		protected override void OnCreate(Bundle bundle)
 		{
 			base.OnCreate(bundle);
@@ -34,7 +35,10 @@ namespace MyVote.UI.Helpers
 			};
 
 			//Mvx.Resolve<IMvxPageNavigationHost>().NavigationProvider = this;
-            LoadApplication(new App());
+		    var formsApp = new App();
+            LoadApplication(formsApp);
+            var presenter = (MvxFormsDroidPagePresenter)Mvx.Resolve<IMvxViewPresenter>();
+            presenter.MvxFormsApp = formsApp;
             Mvx.Resolve<IMvxAppStart>().Start();
 		}
 

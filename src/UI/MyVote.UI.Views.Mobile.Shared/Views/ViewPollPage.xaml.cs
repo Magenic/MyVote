@@ -13,6 +13,6 @@ namespace MyVote.UI.Views
 		public ViewPollPage()
 		{
 			InitializeComponent();
-		}
+        }
 	}
 }

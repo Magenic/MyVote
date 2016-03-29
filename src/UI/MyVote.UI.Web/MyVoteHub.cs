@@ -8,6 +8,7 @@ namespace MyVote.Client.Web
     /// </summary>
     public class MyVoteHub : Hub
     {
+        //Method name matching is case-insensitive. For example, Clients.Others.pollAdded on the server will execute PollAdded or pollAdded on the client.
         //[Authorize(Roles = "Admin")]
         public void AddPoll()
         {

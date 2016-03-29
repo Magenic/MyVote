@@ -6,9 +6,11 @@ namespace MyVote.UI.Views
 	{
 		public LandingPagePhone()
 		{
-			InitializeComponent();
+            InitializeComponent();
 
-			this.ResolveAutofacDependencies();
+            this.ResolveAutofacDependencies();
+
+            Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
 
 			//Issue with PCL, need to reference something in Xamarin.Forms.Labs or it gets compiled out
 			var imageButton = btnMicrosoft;

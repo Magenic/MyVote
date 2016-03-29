@@ -9,11 +9,11 @@ namespace MyVote.BusinessObjects.Rules
 	internal sealed class PollMinAnswersRule
 		: BusinessRule
 	{
-		internal PollMinAnswersRule(IPropertyInfo pollMinAnswersRule, IPropertyInfo pollOptions)
-			: base(pollMinAnswersRule)
+		internal PollMinAnswersRule(IPropertyInfo pollMinAnswersProperty, IPropertyInfo pollOptionsProperty)
+			: base(pollMinAnswersProperty)
 		{
-			this.InputProperties = new List<IPropertyInfo> { pollMinAnswersRule, pollOptions };
-			this.AffectedProperties.Add(pollOptions);
+			this.InputProperties = new List<IPropertyInfo> { pollMinAnswersProperty, pollOptionsProperty };
+			this.AffectedProperties.Add(pollOptionsProperty);
 		}
 
 		protected override void Execute(RuleContext context)

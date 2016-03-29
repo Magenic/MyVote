@@ -1,5 +1,4 @@
-﻿using Cirrious.MvvmCross.ViewModels;
-using Csla;
+﻿using Csla;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
 using MyVote.UI.Helpers;
@@ -9,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MvvmCross.Core.ViewModels;
 
 namespace MyVote.UI.ViewModels
 {
@@ -75,8 +75,11 @@ namespace MyVote.UI.ViewModels
 				{
 					this.Close(this);
 				}
-			}
-			else
+#if MOBILE
+                ChangePresentation(new ClearBackstackHint());
+#endif
+            }
+            else
 			{
 				await this.messageBox.ShowAsync("There was an error saving your profile. Please try again.", "Error");
 			}

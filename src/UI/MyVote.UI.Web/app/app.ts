@@ -172,7 +172,7 @@ module MyVote {
                 // allowing through - still kick off an attempt to load saved identity
                 if (authService.foundSavedLogin()) {
                     authService.loadSavedLogin().then(
-                        login=> {
+                        (login:MyVote.Services.AppServer.Models.User):any => {
                             if (login) {
                                 $scope.authMessage = 'Signed in as ' + authService.userName + '.';
                             }
@@ -184,7 +184,7 @@ module MyVote {
     App.controller('auth', AuthCtrl);
 
     export class UtilityService {
-        public static FormatError(error: any, defaultMessage: string): string {
+        public static formatError(error: any, defaultMessage: string): string {
             if (error.data) {
                 return error.data.Message || error.data;
             }

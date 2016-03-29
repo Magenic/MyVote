@@ -3,8 +3,6 @@ using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
-using MyVote.Core;
-using MyVote.Core.Extensions;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
@@ -30,7 +28,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			builder.Register<IEntities>(_ => entities.Object);
 			builder.Register<IObjectFactory<IPollSubmission>>(_ => factory);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var command = DataPortal.Execute<PollSubmissionCommand>(
 					new PollSubmissionCommand
@@ -39,9 +38,9 @@ namespace MyVote.BusinessObjects.Net.Tests
 						UserID = submission.UserID
 					});
 
-				Assert.AreEqual(submission.PollID, command.PollID, command.GetPropertyName(_ => _.PollID));
-				Assert.AreEqual(submission.UserID, command.UserID, command.GetPropertyName(_ => _.UserID));
-				Assert.IsNull(command.Submission, command.GetPropertyName(_ => _.Submission));
+				Assert.AreEqual(submission.PollID, command.PollID, nameof(command.PollID));
+				Assert.AreEqual(submission.UserID, command.UserID, nameof(command.UserID));
+				Assert.IsNull(command.Submission, nameof(command.Submission));
 			}
 
 			entities.VerifyAll();
@@ -67,7 +66,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			builder.Register<IEntities>(_ => entities.Object);
 			builder.Register<IObjectFactory<IPollSubmission>>(_ => factory.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var command = DataPortal.Execute<PollSubmissionCommand>(
 					new PollSubmissionCommand
@@ -76,9 +76,9 @@ namespace MyVote.BusinessObjects.Net.Tests
 						UserID = userId
 					});
 
-				Assert.AreEqual(pollId, command.PollID, command.GetPropertyName(_ => _.PollID));
-				Assert.AreEqual(userId, command.UserID, command.GetPropertyName(_ => _.UserID));
-				Assert.IsNotNull(command.Submission, command.GetPropertyName(_ => _.Submission));
+				Assert.AreEqual(pollId, command.PollID, nameof(command.PollID));
+				Assert.AreEqual(userId, command.UserID, nameof(command.UserID));
+				Assert.IsNotNull(command.Submission, nameof(command.Submission));
 			}
 
 			factory.VerifyAll();

@@ -6,6 +6,7 @@ using Csla.Core;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
 using MyVote.BusinessObjects.Rules;
+using MyVote.BusinessObjects.Attributes;
 
 #if !NETFX_CORE && !MOBILE
 using MyVote.Data.Entities;
@@ -15,7 +16,7 @@ namespace MyVote.BusinessObjects
 {
 	[System.Serializable]
 	internal sealed class PollSubmission
-		: BusinessBaseScopeCore<PollSubmission>, IPollSubmission
+		: BusinessBaseCore<PollSubmission>, IPollSubmission
 	{
 		protected override void AddBusinessRules()
 		{
@@ -42,7 +43,7 @@ namespace MyVote.BusinessObjects
 		}
 
 #if !NETFX_CORE && !MOBILE
-        private void DataPortal_Fetch(PollSubmissionCriteria criteria)
+		private void DataPortal_Fetch(PollSubmissionCriteria criteria)
 		{
 			using (this.BypassPropertyChecks)
 			{
@@ -88,7 +89,7 @@ namespace MyVote.BusinessObjects
 
 		private void FillFromPoll(PollSubmissionCriteria criteria)
 		{
-			var poll = DataPortal.Fetch<Poll>(criteria.PollID);
+			var poll = this.pollFactory.Fetch(criteria.PollID);
 			var now = DateTime.UtcNow;
 
 			// The rules that will kick for the next three properties will set the active flag correctly;
@@ -107,7 +108,7 @@ namespace MyVote.BusinessObjects
 			this.PollDescription = poll.PollDescription;
 			this.PollMinAnswers = poll.PollMinAnswers.Value;
 			this.PollMaxAnswers = poll.PollMaxAnswers.Value;
-			this.Responses = DataPortal.CreateChild<PollSubmissionResponseCollection>(poll.PollOptions);
+			this.Responses = this.pollSubmissionResponsesFactory.CreateChild(poll.PollOptions);
 		}
 
 		protected override void DataPortal_Insert()
@@ -125,9 +126,27 @@ namespace MyVote.BusinessObjects
 			this.PollSubmissionID = entity.PollSubmissionID;
 			this.FieldManager.UpdateChildren(this);
 		}
+
+		[NonSerialized]
+		private IObjectFactory<IPoll> pollFactory;
+		[Dependency]
+		public IObjectFactory<IPoll> PollFactory
+		{
+			get { return this.pollFactory; }
+			set { this.pollFactory = value; }
+		}
+
+		[NonSerialized]
+		private IObjectFactory<IPollSubmissionResponseCollection> pollSubmissionResponsesFactory;
+		[Dependency]
+		public IObjectFactory<IPollSubmissionResponseCollection> PollSubmissionResponsesFactory
+		{
+			get { return this.pollSubmissionResponsesFactory; }
+			set { this.pollSubmissionResponsesFactory = value; }
+		}
 #endif
 
-		public static PropertyInfo<bool> IsActiveProperty =
+		public static readonly PropertyInfo<bool> IsActiveProperty =
 			PollSubmission.RegisterProperty<bool>(_ => _.IsActive);
 		public bool IsActive
 		{
@@ -135,7 +154,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSubmission.IsActiveProperty, value); }
 		}
 
-		public static PropertyInfo<bool> IsPollOwnedByUserProperty =
+		public static readonly PropertyInfo<bool> IsPollOwnedByUserProperty =
 			PollSubmission.RegisterProperty<bool>(_ => _.IsPollOwnedByUser);
 		public bool IsPollOwnedByUser
 		{
@@ -143,7 +162,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSubmission.IsPollOwnedByUserProperty, value); }
 		}
 
-		public static PropertyInfo<string> CategoryNameProperty =
+		public static readonly PropertyInfo<string> CategoryNameProperty =
 			PollSubmission.RegisterProperty<string>(_ => _.CategoryName);
 		public string CategoryName
 		{
@@ -151,7 +170,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSubmission.CategoryNameProperty, value); }
 		}
 
-		public static PropertyInfo<string> CommentProperty =
+		public static readonly PropertyInfo<string> CommentProperty =
 			PollSubmission.RegisterProperty<string>(_ => _.Comment);
 		[StringLength(1000, ErrorMessage = "The comment cannot be over 1000 characters in length.")]
 		public string Comment
@@ -160,7 +179,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(PollSubmission.CommentProperty, value); }
 		}
 
-		public static PropertyInfo<int> PollIDProperty =
+		public static readonly PropertyInfo<int> PollIDProperty =
 			PollSubmission.RegisterProperty<int>(_ => _.PollID);
 		public int PollID
 		{
@@ -168,7 +187,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSubmission.PollIDProperty, value); }
 		}
 
-		public static PropertyInfo<bool?> PollDeletedFlagProperty =
+		public static readonly PropertyInfo<bool?> PollDeletedFlagProperty =
 			PollSubmission.RegisterProperty<bool?>(_ => _.PollDeletedFlag);
 		public bool? PollDeletedFlag
 		{
@@ -176,7 +195,7 @@ namespace MyVote.BusinessObjects
 			private set { this.SetProperty(PollSubmission.PollDeletedFlagProperty, value); }
 		}
 
-		public static PropertyInfo<DateTime> PollStartDateProperty =
+		public static readonly PropertyInfo<DateTime> PollStartDateProperty =
 			PollSubmission.RegisterProperty<DateTime>(_ => _.PollStartDate);
 		public DateTime PollStartDate
 		{
@@ -184,7 +203,7 @@ namespace MyVote.BusinessObjects
 			private set { this.SetProperty(PollSubmission.PollStartDateProperty, value); }
 		}
 
-		public static PropertyInfo<DateTime> PollEndDateProperty =
+		public static readonly PropertyInfo<DateTime> PollEndDateProperty =
 			PollSubmission.RegisterProperty<DateTime>(_ => _.PollEndDate);
 		public DateTime PollEndDate
 		{
@@ -192,7 +211,7 @@ namespace MyVote.BusinessObjects
 			private set { this.SetProperty(PollSubmission.PollEndDateProperty, value); }
 		}
 
-		public static PropertyInfo<string> PollImageLinkProperty =
+		public static readonly PropertyInfo<string> PollImageLinkProperty =
 			PollSubmission.RegisterProperty<string>(_ => _.PollImageLink);
 		public string PollImageLink
 		{
@@ -200,7 +219,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSubmission.PollImageLinkProperty, value); }
 		}
 
-		public static PropertyInfo<short> PollMaxAnswersProperty =
+		public static readonly PropertyInfo<short> PollMaxAnswersProperty =
 			PollSubmission.RegisterProperty<short>(_ => _.PollMaxAnswers);
 		public short PollMaxAnswers
 		{
@@ -208,7 +227,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSubmission.PollMaxAnswersProperty, value); }
 		}
 
-		public static PropertyInfo<short> PollMinAnswersProperty =
+		public static readonly PropertyInfo<short> PollMinAnswersProperty =
 			PollSubmission.RegisterProperty<short>(_ => _.PollMinAnswers);
 		public short PollMinAnswers
 		{
@@ -216,7 +235,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSubmission.PollMinAnswersProperty, value); }
 		}
 
-		public static PropertyInfo<int?> PollSubmissionIDProperty =
+		public static readonly PropertyInfo<int?> PollSubmissionIDProperty =
 			PollSubmission.RegisterProperty<int?>(_ => _.PollSubmissionID);
 		public int? PollSubmissionID
 		{
@@ -224,7 +243,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSubmission.PollSubmissionIDProperty, value); }
 		}
 
-		public static PropertyInfo<IPollSubmissionResponseCollection> ResponsesProperty =
+		public static readonly PropertyInfo<IPollSubmissionResponseCollection> ResponsesProperty =
 			PollSubmission.RegisterProperty<IPollSubmissionResponseCollection>(_ => _.Responses);
 		public IPollSubmissionResponseCollection Responses
 		{
@@ -232,7 +251,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSubmission.ResponsesProperty, value); }
 		}
 
-		public static PropertyInfo<int> UserIDProperty =
+		public static readonly PropertyInfo<int> UserIDProperty =
 			PollSubmission.RegisterProperty<int>(_ => _.UserID);
 		public int UserID
 		{
@@ -240,7 +259,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSubmission.UserIDProperty, value); }
 		}
 
-		public static PropertyInfo<DateTime?> SubmissionDateProperty =
+		public static readonly PropertyInfo<DateTime?> SubmissionDateProperty =
 			PollSubmission.RegisterProperty<DateTime?>(_ => _.SubmissionDate);
 		public DateTime? SubmissionDate
 		{
@@ -248,7 +267,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSubmission.SubmissionDateProperty, value); }
 		}
 
-		public static PropertyInfo<string> PollDescriptionProperty =
+		public static readonly PropertyInfo<string> PollDescriptionProperty =
 			PollSubmission.RegisterProperty<string>(_ => _.PollDescription);
 		public string PollDescription
 		{
@@ -256,7 +275,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSubmission.PollDescriptionProperty, value); }
 		}
 
-		public static PropertyInfo<string> PollQuestionProperty =
+		public static readonly PropertyInfo<string> PollQuestionProperty =
 			PollSubmission.RegisterProperty<string>(_ => _.PollQuestion);
 		public string PollQuestion
 		{

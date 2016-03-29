@@ -19,7 +19,11 @@ namespace MyVote.UI.Renderers
 			{
 				var control = this.Control as EditText;
 				control.SetTextColor(model.TextColor.ToAndroid());
-			}
+                control.SetBackground(null);
+
+                control.Hint = model.PlaceholderText;
+                control.SetHintTextColor(model.PlaceholderColor.ToAndroid());
+            }
 		}
 	}
 }

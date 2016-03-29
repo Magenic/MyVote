@@ -45,7 +45,7 @@ module MyVote.Controllers {
                     } else {
                         return myVoteService.getPoll($scope.pollId);
                     }
-                }).then((poll: MyVote.Services.AppServer.Models.Poll) => {
+                }).then((poll: MyVote.Services.AppServer.Models.Poll): any => {
                     $scope.infoMessage = null;
                     $scope.currentPoll = poll;
                 },
@@ -90,7 +90,7 @@ module MyVote.Controllers {
                 $scope.infoMessage = 'Submitting your vote...';
                 
                 myVoteService.submitResponse(pollResponse).then(
-                    (result: string) => {
+                    (result: string):any => {
                         $log.info('ViewPoll submit: ', result);
                         $scope.infoMessage = 'Your vote has been recorded!';
                         $location.path('/pollResult/' + $scope.pollId).replace();

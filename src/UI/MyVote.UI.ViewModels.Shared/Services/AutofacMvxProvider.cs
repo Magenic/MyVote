@@ -1,10 +1,10 @@
 ﻿using Autofac;
 using Autofac.Core;
-using Cirrious.CrossCore.Core;
-using Cirrious.CrossCore.IoC;
 using MyVote.UI.Helpers;
 using System;
 using System.Linq;
+using MvvmCross.Platform.Core;
+using MvvmCross.Platform.IoC;
 
 namespace MyVote.UI.Services
 {

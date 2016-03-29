@@ -11,10 +11,10 @@ namespace MyVote.BusinessObjects
 {
 	[System.Serializable]
 	internal sealed class PollSubmissionResponse
-		: BusinessBaseScopeCore<PollSubmissionResponse>, IPollSubmissionResponse
+		: BusinessBaseCore<PollSubmissionResponse>, IPollSubmissionResponse
 	{
 #if !NETFX_CORE && !MOBILE
-        private void Child_Create(IPollOption option)
+		private void Child_Create(IPollOption option)
 		{
 			this.PollOptionID = option.PollOptionID.Value;
 			this.OptionPosition = option.OptionPosition.Value;
@@ -40,7 +40,7 @@ namespace MyVote.BusinessObjects
 		}
 #endif
 
-		public static PropertyInfo<int?> PollResponseIDProperty =
+		public static readonly PropertyInfo<int?> PollResponseIDProperty =
 			PollSubmissionResponse.RegisterProperty<int?>(_ => _.PollResponseID);
 		public int? PollResponseID
 		{
@@ -48,7 +48,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSubmissionResponse.PollResponseIDProperty, value); }
 		}
 
-		public static PropertyInfo<int> PollOptionIDProperty =
+		public static readonly PropertyInfo<int> PollOptionIDProperty =
 			PollSubmissionResponse.RegisterProperty<int>(_ => _.PollOptionID);
 		public int PollOptionID
 		{
@@ -56,7 +56,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSubmissionResponse.PollOptionIDProperty, value); }
 		}
 
-		public static PropertyInfo<bool> IsOptionSelectedProperty =
+		public static readonly PropertyInfo<bool> IsOptionSelectedProperty =
 			PollSubmissionResponse.RegisterProperty<bool>(_ => _.IsOptionSelected);
 		public bool IsOptionSelected
 		{
@@ -64,7 +64,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(PollSubmissionResponse.IsOptionSelectedProperty, value); }
 		}
 
-		public static PropertyInfo<short> OptionPositionProperty =
+		public static readonly PropertyInfo<short> OptionPositionProperty =
 			PollSubmissionResponse.RegisterProperty<short>(_ => _.OptionPosition);
 		public short OptionPosition
 		{
@@ -72,7 +72,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSubmissionResponse.OptionPositionProperty, value); }
 		}
 
-		public static PropertyInfo<string> OptionTextProperty =
+		public static readonly PropertyInfo<string> OptionTextProperty =
 			PollSubmissionResponse.RegisterProperty<string>(_ => _.OptionText);
 		public string OptionText
 		{

@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Security.Principal;
-using Autofac;
+﻿using Autofac;
 using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
+using MyVote.BusinessObjects.Core;
 using MyVote.BusinessObjects.Net.Tests.Extensions;
 using MyVote.BusinessObjects.Rules;
-using MyVote.Core.Extensions;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
+using System.Security.Principal;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
@@ -35,28 +34,34 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var generator = new RandomObjectGenerator();
 			var userId = generator.Generate<int>();
 
+			var pollOptions = new Mock<IObjectFactory<BusinessList<IPollOption>>>(MockBehavior.Strict);
+			pollOptions.Setup(_ => _.CreateChild()).Returns(new BusinessList<IPollOption>());
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => pollOptions.Object);
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = new DataPortal<Poll>().Create(userId);
 
-				Assert.IsNull(poll.PollAdminRemovedFlag, poll.GetPropertyName(_ => _.PollAdminRemovedFlag));
-				Assert.IsNull(poll.PollCategoryID, poll.GetPropertyName(_ => _.PollCategoryID));
-				Assert.IsNull(poll.PollDateRemoved, poll.GetPropertyName(_ => _.PollDateRemoved));
-				Assert.IsNull(poll.PollDeletedDate, poll.GetPropertyName(_ => _.PollDeletedDate));
-				Assert.IsNull(poll.PollDeletedFlag, poll.GetPropertyName(_ => _.PollDeletedFlag));
-				Assert.AreEqual(string.Empty, poll.PollDescription, poll.GetPropertyName(_ => _.PollDescription));
-				Assert.IsNull(poll.PollEndDate, poll.GetPropertyName(_ => _.PollEndDate));
-				Assert.IsNull(poll.PollID, poll.GetPropertyName(_ => _.PollID));
-				Assert.AreEqual(string.Empty, poll.PollImageLink, poll.GetPropertyName(_ => _.PollImageLink));
-				Assert.IsNull(poll.PollMaxAnswers, poll.GetPropertyName(_ => _.PollMaxAnswers));
-				Assert.IsNull(poll.PollMinAnswers, poll.GetPropertyName(_ => _.PollMinAnswers));
-				Assert.AreEqual(string.Empty, poll.PollQuestion, poll.GetPropertyName(_ => _.PollQuestion));
-				Assert.IsNull(poll.PollStartDate, poll.GetPropertyName(_ => _.PollStartDate));
-				Assert.AreEqual(userId, poll.UserID, poll.GetPropertyName(_ => _.UserID));
-				Assert.AreEqual(0, poll.PollOptions.Count, poll.GetPropertyName(_ => _.PollOptions));
+				Assert.IsNull(poll.PollAdminRemovedFlag, nameof(poll.PollAdminRemovedFlag));
+				Assert.IsNull(poll.PollCategoryID, nameof(poll.PollCategoryID));
+				Assert.IsNull(poll.PollDateRemoved, nameof(poll.PollDateRemoved));
+				Assert.IsNull(poll.PollDeletedDate, nameof(poll.PollDeletedDate));
+				Assert.IsNull(poll.PollDeletedFlag, nameof(poll.PollDeletedFlag));
+				Assert.AreEqual(string.Empty, poll.PollDescription, nameof(poll.PollDescription));
+				Assert.IsNull(poll.PollEndDate, nameof(poll.PollEndDate));
+				Assert.IsNull(poll.PollID, nameof(poll.PollID));
+				Assert.AreEqual(string.Empty, poll.PollImageLink, nameof(poll.PollImageLink));
+				Assert.IsNull(poll.PollMaxAnswers, nameof(poll.PollMaxAnswers));
+				Assert.IsNull(poll.PollMinAnswers, nameof(poll.PollMinAnswers));
+				Assert.AreEqual(string.Empty, poll.PollQuestion, nameof(poll.PollQuestion));
+				Assert.IsNull(poll.PollStartDate, nameof(poll.PollStartDate));
+				Assert.AreEqual(userId, poll.UserID, nameof(poll.UserID));
+				Assert.AreEqual(0, poll.PollOptions.Count, nameof(poll.PollOptions));
 
 				poll.BrokenRulesCollection.AssertRuleCount(7);
 				poll.BrokenRulesCollection.AssertRuleCount(Poll.PollStartDateProperty, 1);
@@ -81,6 +86,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 				poll.BrokenRulesCollection.AssertBusinessRuleExists<PollOptionsRule>(
 					Poll.PollOptionsProperty, true);
 			}
+
+			pollOptions.VerifyAll();
 		}
 
 		[TestMethod]
@@ -89,35 +96,47 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var entity = EntityCreator.Create<MVPoll>(_ => _.PollDeletedFlag = false);
 			entity.MVPollOptions = new List<MVPollOption> { EntityCreator.Create<MVPollOption>() };
 
+			var pollOptions = new Mock<IObjectFactory<BusinessList<IPollOption>>>(MockBehavior.Strict);
+			pollOptions.Setup(_ => _.FetchChild()).Returns(new BusinessList<IPollOption>());
+
+			var pollOption = new Mock<IObjectFactory<IPollOption>>(MockBehavior.Strict);
+			pollOption.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollOption>(_[0] as MVPollOption));
+
 			var entities = new Mock<IEntities>(MockBehavior.Strict);
 			entities.Setup(_ => _.MVPolls).Returns(new InMemoryDbSet<MVPoll> { entity });
 			entities.Setup(_ => _.Dispose());
 
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => pollOptions.Object);
+			builder.Register<IObjectFactory<IPollOption>>(_ => pollOption.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = new DataPortal<Poll>().Fetch(entity.PollID);
 
-				Assert.AreEqual(entity.PollAdminRemovedFlag, poll.PollAdminRemovedFlag, poll.GetPropertyName(_ => _.PollAdminRemovedFlag));
-				Assert.AreEqual(entity.PollCategoryID, poll.PollCategoryID, poll.GetPropertyName(_ => _.PollCategoryID));
-				Assert.AreEqual(entity.PollDateRemoved, poll.PollDateRemoved, poll.GetPropertyName(_ => _.PollDateRemoved));
-				Assert.AreEqual(entity.PollDeletedDate, poll.PollDeletedDate, poll.GetPropertyName(_ => _.PollDeletedDate));
-				Assert.AreEqual(entity.PollDeletedFlag, poll.PollDeletedFlag, poll.GetPropertyName(_ => _.PollDeletedFlag));
-				Assert.AreEqual(entity.PollDescription, poll.PollDescription, poll.GetPropertyName(_ => _.PollDescription));
-				Assert.AreEqual(entity.PollEndDate, poll.PollEndDate, poll.GetPropertyName(_ => _.PollEndDate));
-				Assert.AreEqual(entity.PollID, poll.PollID, poll.GetPropertyName(_ => _.PollID));
-				Assert.AreEqual(entity.PollImageLink, poll.PollImageLink, poll.GetPropertyName(_ => _.PollImageLink));
-				Assert.AreEqual(entity.PollMaxAnswers, poll.PollMaxAnswers, poll.GetPropertyName(_ => _.PollMaxAnswers));
-				Assert.AreEqual(entity.PollMinAnswers, poll.PollMinAnswers, poll.GetPropertyName(_ => _.PollMinAnswers));
-				Assert.AreEqual(entity.PollQuestion, poll.PollQuestion, poll.GetPropertyName(_ => _.PollQuestion));
-				Assert.AreEqual(entity.PollStartDate, poll.PollStartDate, poll.GetPropertyName(_ => _.PollStartDate));
-				Assert.AreEqual(entity.UserID, poll.UserID, poll.GetPropertyName(_ => _.UserID));
-				Assert.AreEqual(1, poll.PollOptions.Count, poll.GetPropertyName(_ => _.PollOptions));
+				Assert.AreEqual(entity.PollAdminRemovedFlag, poll.PollAdminRemovedFlag, nameof(poll.PollAdminRemovedFlag));
+				Assert.AreEqual(entity.PollCategoryID, poll.PollCategoryID, nameof(poll.PollCategoryID));
+				Assert.AreEqual(entity.PollDateRemoved, poll.PollDateRemoved, nameof(poll.PollDateRemoved));
+				Assert.AreEqual(entity.PollDeletedDate, poll.PollDeletedDate, nameof(poll.PollDeletedDate));
+				Assert.AreEqual(entity.PollDeletedFlag, poll.PollDeletedFlag, nameof(poll.PollDeletedFlag));
+				Assert.AreEqual(entity.PollDescription, poll.PollDescription, nameof(poll.PollDescription));
+				Assert.AreEqual(entity.PollEndDate, poll.PollEndDate, nameof(poll.PollEndDate));
+				Assert.AreEqual(entity.PollID, poll.PollID, nameof(poll.PollID));
+				Assert.AreEqual(entity.PollImageLink, poll.PollImageLink, nameof(poll.PollImageLink));
+				Assert.AreEqual(entity.PollMaxAnswers, poll.PollMaxAnswers, nameof(poll.PollMaxAnswers));
+				Assert.AreEqual(entity.PollMinAnswers, poll.PollMinAnswers, nameof(poll.PollMinAnswers));
+				Assert.AreEqual(entity.PollQuestion, poll.PollQuestion, nameof(poll.PollQuestion));
+				Assert.AreEqual(entity.PollStartDate, poll.PollStartDate, nameof(poll.PollStartDate));
+				Assert.AreEqual(entity.UserID, poll.UserID, nameof(poll.UserID));
+				Assert.AreEqual(1, poll.PollOptions.Count, nameof(poll.PollOptions));
 			}
 
 			entities.VerifyAll();
+			pollOptions.VerifyAll();
+			pollOption.VerifyAll();
 		}
 
 		[TestMethod]
@@ -149,10 +168,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 				.Returns(1);
 			entities.Setup(_ => _.Dispose());
 
+			var pollOptionsFactory = new Mock<IObjectFactory<BusinessList<IPollOption>>>();
+			pollOptionsFactory.Setup(_ => _.CreateChild()).Returns(new BusinessList<IPollOption>());
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => pollOptionsFactory.Object);
+			builder.Register<IObjectFactory<IPollOption>>(_ => Mock.Of<IObjectFactory<IPollOption>>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = new DataPortal<Poll>().Create(userId);
 				poll.PollAdminRemovedFlag = pollAdminRemoveFlag;
@@ -172,20 +197,20 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 				poll = poll.Save();
 
-				Assert.AreEqual(pollAdminRemoveFlag, poll.PollAdminRemovedFlag, poll.GetPropertyName(_ => _.PollAdminRemovedFlag));
-				Assert.AreEqual(pollCategoryId, poll.PollCategoryID, poll.GetPropertyName(_ => _.PollCategoryID));
-				Assert.AreEqual(pollDateRemoved, poll.PollDateRemoved, poll.GetPropertyName(_ => _.PollDateRemoved));
-				Assert.AreEqual(pollDeletedDate, poll.PollDeletedDate, poll.GetPropertyName(_ => _.PollDeletedDate));
-				Assert.AreEqual(pollDeletedFlag, poll.PollDeletedFlag, poll.GetPropertyName(_ => _.PollDeletedFlag));
-				Assert.AreEqual(pollDescription, poll.PollDescription, poll.GetPropertyName(_ => _.PollDescription));
-				Assert.AreEqual(pollEndDate.ToUniversalTime(), poll.PollEndDate, poll.GetPropertyName(_ => _.PollEndDate));
-				Assert.AreEqual(pollId, poll.PollID, poll.GetPropertyName(_ => _.PollID));
-				Assert.AreEqual(pollImageLink, poll.PollImageLink, poll.GetPropertyName(_ => _.PollImageLink));
-				Assert.AreEqual(pollMaxAnswers, poll.PollMaxAnswers, poll.GetPropertyName(_ => _.PollMaxAnswers));
-				Assert.AreEqual(pollMinAnswers, poll.PollMinAnswers, poll.GetPropertyName(_ => _.PollMinAnswers));
-				Assert.AreEqual(pollQuestion, poll.PollQuestion, poll.GetPropertyName(_ => _.PollQuestion));
-				Assert.AreEqual(pollStartDate.ToUniversalTime(), poll.PollStartDate, poll.GetPropertyName(_ => _.PollStartDate));
-				Assert.AreEqual(userId, poll.UserID, poll.GetPropertyName(_ => _.UserID));
+				Assert.AreEqual(pollAdminRemoveFlag, poll.PollAdminRemovedFlag, nameof(poll.PollAdminRemovedFlag));
+				Assert.AreEqual(pollCategoryId, poll.PollCategoryID, nameof(poll.PollCategoryID));
+				Assert.AreEqual(pollDateRemoved, poll.PollDateRemoved, nameof(poll.PollDateRemoved));
+				Assert.AreEqual(pollDeletedDate, poll.PollDeletedDate, nameof(poll.PollDeletedDate));
+				Assert.AreEqual(pollDeletedFlag, poll.PollDeletedFlag, nameof(poll.PollDeletedFlag));
+				Assert.AreEqual(pollDescription, poll.PollDescription, nameof(poll.PollDescription));
+				Assert.AreEqual(pollEndDate.ToUniversalTime(), poll.PollEndDate, nameof(poll.PollEndDate));
+				Assert.AreEqual(pollId, poll.PollID, nameof(poll.PollID));
+				Assert.AreEqual(pollImageLink, poll.PollImageLink, nameof(poll.PollImageLink));
+				Assert.AreEqual(pollMaxAnswers, poll.PollMaxAnswers, nameof(poll.PollMaxAnswers));
+				Assert.AreEqual(pollMinAnswers, poll.PollMinAnswers, nameof(poll.PollMinAnswers));
+				Assert.AreEqual(pollQuestion, poll.PollQuestion, nameof(poll.PollQuestion));
+				Assert.AreEqual(pollStartDate.ToUniversalTime(), poll.PollStartDate, nameof(poll.PollStartDate));
+				Assert.AreEqual(userId, poll.UserID, nameof(poll.UserID));
 			}
 
 			entities.VerifyAll();
@@ -204,11 +229,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 				_.PollStartDate = now;
 				_.PollEndDate = now.AddDays(2);
 			});
-			entity.MVPollOptions = new List<MVPollOption> 
-			{ 
+			entity.MVPollOptions = new List<MVPollOption>
+			{
 				EntityCreator.Create<MVPollOption>(),
 				EntityCreator.Create<MVPollOption>(),
-				EntityCreator.Create<MVPollOption>() 
+				EntityCreator.Create<MVPollOption>()
 			};
 
 			var generator = new RandomObjectGenerator();
@@ -231,10 +256,20 @@ namespace MyVote.BusinessObjects.Net.Tests
 			entities.Setup(_ => _.SaveChanges()).Returns(1);
 			entities.Setup(_ => _.Dispose());
 
+			var pollOptions = new Mock<IObjectFactory<BusinessList<IPollOption>>>();
+			pollOptions.Setup(_ => _.FetchChild()).Returns(new BusinessList<IPollOption>());
+
+			var pollOption = new Mock<IObjectFactory<IPollOption>>();
+			pollOption.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollOption>(_[0] as MVPollOption));
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => pollOptions.Object);
+			builder.Register<IObjectFactory<IPollOption>>(_ => pollOption.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var poll = new DataPortal<Poll>().Fetch(entity.PollID);
 				poll.PollAdminRemovedFlag = newPollAdminRemoveFlag;
@@ -252,18 +287,18 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 				poll = poll.Save();
 
-				Assert.AreEqual(newPollAdminRemoveFlag, poll.PollAdminRemovedFlag, poll.GetPropertyName(_ => _.PollAdminRemovedFlag));
-				Assert.AreEqual(newPollCategoryId, poll.PollCategoryID, poll.GetPropertyName(_ => _.PollCategoryID));
-				Assert.AreEqual(newPollDateRemoved, poll.PollDateRemoved, poll.GetPropertyName(_ => _.PollDateRemoved));
-				Assert.AreEqual(newPollDeletedDate, poll.PollDeletedDate, poll.GetPropertyName(_ => _.PollDeletedDate));
-				Assert.AreEqual(newPollDeletedFlag, poll.PollDeletedFlag, poll.GetPropertyName(_ => _.PollDeletedFlag));
-				Assert.AreEqual(newPollDescription, poll.PollDescription, poll.GetPropertyName(_ => _.PollDescription));
-				Assert.AreEqual(newPollEndDate.ToUniversalTime(), poll.PollEndDate, poll.GetPropertyName(_ => _.PollEndDate));
-				Assert.AreEqual(newPollImageLink, poll.PollImageLink, poll.GetPropertyName(_ => _.PollImageLink));
-				Assert.AreEqual(newPollMaxAnswers, poll.PollMaxAnswers, poll.GetPropertyName(_ => _.PollMaxAnswers));
-				Assert.AreEqual(newPollMinAnswers, poll.PollMinAnswers, poll.GetPropertyName(_ => _.PollMinAnswers));
-				Assert.AreEqual(newPollQuestion, poll.PollQuestion, poll.GetPropertyName(_ => _.PollQuestion));
-				Assert.AreEqual(newPollStartDate.ToUniversalTime(), poll.PollStartDate, poll.GetPropertyName(_ => _.PollStartDate));
+				Assert.AreEqual(newPollAdminRemoveFlag, poll.PollAdminRemovedFlag, nameof(poll.PollAdminRemovedFlag));
+				Assert.AreEqual(newPollCategoryId, poll.PollCategoryID, nameof(poll.PollCategoryID));
+				Assert.AreEqual(newPollDateRemoved, poll.PollDateRemoved, nameof(poll.PollDateRemoved));
+				Assert.AreEqual(newPollDeletedDate, poll.PollDeletedDate, nameof(poll.PollDeletedDate));
+				Assert.AreEqual(newPollDeletedFlag, poll.PollDeletedFlag, nameof(poll.PollDeletedFlag));
+				Assert.AreEqual(newPollDescription, poll.PollDescription, nameof(poll.PollDescription));
+				Assert.AreEqual(newPollEndDate.ToUniversalTime(), poll.PollEndDate, nameof(poll.PollEndDate));
+				Assert.AreEqual(newPollImageLink, poll.PollImageLink, nameof(poll.PollImageLink));
+				Assert.AreEqual(newPollMaxAnswers, poll.PollMaxAnswers, nameof(poll.PollMaxAnswers));
+				Assert.AreEqual(newPollMinAnswers, poll.PollMinAnswers, nameof(poll.PollMinAnswers));
+				Assert.AreEqual(newPollQuestion, poll.PollQuestion, nameof(poll.PollQuestion));
+				Assert.AreEqual(newPollStartDate.ToUniversalTime(), poll.PollStartDate, nameof(poll.PollStartDate));
 			}
 
 			entities.VerifyAll();
@@ -285,11 +320,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 				_.PollEndDate = now.AddDays(2);
 				_.UserID = userId;
 			});
-			entity.MVPollOptions = new List<MVPollOption> 
-			{ 
+			entity.MVPollOptions = new List<MVPollOption>
+			{
 				EntityCreator.Create<MVPollOption>(),
 				EntityCreator.Create<MVPollOption>(),
-				EntityCreator.Create<MVPollOption>() 
+				EntityCreator.Create<MVPollOption>()
 			};
 
 			var polls = new InMemoryDbSet<MVPoll> { entity };
@@ -300,8 +335,17 @@ namespace MyVote.BusinessObjects.Net.Tests
 			entities.Setup(_ => _.SaveChanges()).Returns(1);
 			entities.Setup(_ => _.Dispose());
 
+			var pollOptions = new Mock<IObjectFactory<BusinessList<IPollOption>>>();
+			pollOptions.Setup(_ => _.FetchChild()).Returns(new BusinessList<IPollOption>());
+
+			var pollOption = new Mock<IObjectFactory<IPollOption>>();
+			pollOption.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollOption>(_[0] as MVPollOption));
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => pollOptions.Object);
+			builder.Register<IObjectFactory<IPollOption>>(_ => pollOption.Object);
 
 			var identity = new Mock<IUserIdentity>(MockBehavior.Strict);
 			identity.Setup(_ => _.UserID).Returns(userId);
@@ -312,7 +356,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 			using (principal.Object.Bind(() => ApplicationContext.User))
 			{
-				using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+				using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+					.Bind(() => ApplicationContext.DataPortalActivator))
 				{
 					var poll = new DataPortal<Poll>().Fetch(entity.PollID);
 					poll.Delete();
@@ -320,8 +365,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 					Assert.AreEqual(2, polls.Local.Count);
 					var deletedPoll = polls.Local[1];
-					Assert.IsNotNull(deletedPoll.PollDeletedDate, deletedPoll.GetPropertyName(_ => _.PollDeletedDate));
-					Assert.IsTrue(deletedPoll.PollDeletedFlag.Value, deletedPoll.GetPropertyName(_ => _.PollDeletedFlag));
+					Assert.IsNotNull(deletedPoll.PollDeletedDate, nameof(deletedPoll.PollDeletedDate));
+					Assert.IsTrue(deletedPoll.PollDeletedFlag.Value, nameof(deletedPoll.PollDeletedFlag));
 				}
 			}
 

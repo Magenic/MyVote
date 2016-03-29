@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using Android.Widget;
 using MyVote.UI.Controls;
@@ -19,13 +20,10 @@ namespace MyVote.UI.Renderers
 			if (model != null)
 			{
 				var control = this.Control as EditText;
-				if (model.AlternateDisplay != string.Empty)
-				{
-					control.Text = model.AlternateDisplay;
-				}
-				control.SetTextColor(model.TextColor.ToAndroid());
-			}
-		}
+				control.SetTextColor(IsPlaceholderDate(model.Date) ? model.PlaceholderColor.ToAndroid() : model.TextColor.ToAndroid());
+                control.SetBackground(null);
+            }
+        }
 
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
@@ -34,11 +32,19 @@ namespace MyVote.UI.Renderers
 			{
 				var control = this.Control as EditText;
 				var model = this.Element as ExtendedDatePicker;
-				if (control != null && model != null && model.AlternateDisplay != string.Empty)
-				{
-					control.Text = model.AlternateDisplay;
-				}
-			}
-		}
+                control.SetTextColor(IsPlaceholderDate(model.Date) ? model.PlaceholderColor.ToAndroid() : model.TextColor.ToAndroid());
+
+            }
+        }
+
+	    private bool IsPlaceholderDate(DateTime target)
+	    {
+	        if (target.Date == DateTime.Today.Date || target.Date == DateTime.MinValue.Date ||
+	            target.Date == DateTime.MaxValue.Date || target.Date == DateTime.Parse("1/1/1900"))
+	        {
+	            return true;
+	        }
+	        return false;
+	    }
 	}
 }

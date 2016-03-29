@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using Autofac;
+﻿using Autofac;
 using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using MyVote.BusinessObjects.Contracts;
+using MyVote.BusinessObjects.Core;
 using MyVote.BusinessObjects.Net.Tests.Extensions;
 using MyVote.BusinessObjects.Rules;
-using MyVote.Core.Extensions;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
+using System;
+using System.Collections.Generic;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
@@ -23,7 +24,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var generator = new RandomObjectGenerator();
 			var userId = generator.Generate<int>();
 
-			var poll = EntityCreator.Create<MVPoll>(_ =>
+			var pollEntity = EntityCreator.Create<MVPoll>(_ =>
 			{
 				_.PollDeletedFlag = false;
 				_.PollStartDate = now.AddDays(-2);
@@ -32,42 +33,74 @@ namespace MyVote.BusinessObjects.Net.Tests
 				_.PollMaxAnswers = 3;
 			});
 
-			poll.MVPollOptions = new List<MVPollOption> 
-			{ 
+			pollEntity.MVPollOptions = new List<MVPollOption>
+			{
 				EntityCreator.Create<MVPollOption>(),
 				EntityCreator.Create<MVPollOption>(),
 				EntityCreator.Create<MVPollOption>(),
 				EntityCreator.Create<MVPollOption>()
 			};
 
-			var category = EntityCreator.Create<MVCategory>(_ => _.CategoryID = poll.PollCategoryID);
+			var category = EntityCreator.Create<MVCategory>(_ => _.CategoryID = pollEntity.PollCategoryID);
+
+			Poll poll = null;
+
+			var pollFactory = new Mock<IObjectFactory<IPoll>>(MockBehavior.Strict);
+			pollFactory.Setup(_ => _.Fetch(pollEntity.PollID))
+				.Returns<int>(_ =>
+				{
+					poll = DataPortal.Fetch<Poll>(_);
+					return poll;
+				});
+
+			var pollSubmissionResponsesFactory = new Mock<IObjectFactory<IPollSubmissionResponseCollection>>(MockBehavior.Strict);
+			pollSubmissionResponsesFactory.Setup(_ => _.CreateChild(It.IsAny<object[]>()))
+				.Callback<object[]>(_ => Assert.AreSame(poll.PollOptions, _[0]))
+				.Returns<object[]>(_ => DataPortal.CreateChild<PollSubmissionResponseCollection>(_[0] as BusinessList<IPollOption>));
 
 			var entities = new Mock<IEntities>(MockBehavior.Strict);
 			entities.Setup(_ => _.MVPolls)
-				.Returns(new InMemoryDbSet<MVPoll> { poll });
+				.Returns(new InMemoryDbSet<MVPoll> { pollEntity });
 			entities.Setup(_ => _.MVPollSubmissions)
 				.Returns(new InMemoryDbSet<MVPollSubmission>());
 			entities.Setup(_ => _.MVCategories)
 				.Returns(new InMemoryDbSet<MVCategory> { category });
 			entities.Setup(_ => _.Dispose());
 
+			var pollOptions = new Mock<IObjectFactory<BusinessList<IPollOption>>>();
+			pollOptions.Setup(_ => _.FetchChild()).Returns(new BusinessList<IPollOption>());
+
+			var pollOption = new Mock<IObjectFactory<IPollOption>>();
+			pollOption.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollOption>(_[0] as MVPollOption));
+
+			var pollSubmissionResponseFactory = new Mock<IObjectFactory<IPollSubmissionResponse>>();
+			pollSubmissionResponseFactory.Setup(_ => _.CreateChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.CreateChild<PollSubmissionResponse>(_[0] as IPollOption));
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
+			builder.Register<IObjectFactory<IPoll>>(_ => pollFactory.Object);
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => pollOptions.Object);
+			builder.Register<IObjectFactory<IPollOption>>(_ => pollOption.Object);
+			builder.Register<IObjectFactory<IPollSubmissionResponseCollection>>(_ => pollSubmissionResponsesFactory.Object);
+			builder.Register<IObjectFactory<IPollSubmissionResponse>>(_ => pollSubmissionResponseFactory.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
-				var criteria = new PollSubmissionCriteria(poll.PollID, userId);
+				var criteria = new PollSubmissionCriteria(pollEntity.PollID, userId);
 				var submission = DataPortal.Create<PollSubmission>(criteria);
 
-				Assert.AreEqual(poll.PollID, submission.PollID, submission.GetPropertyName(_ => _.PollID));
-				Assert.AreEqual(poll.PollImageLink, submission.PollImageLink, submission.GetPropertyName(_ => _.PollImageLink));
-				Assert.AreEqual(userId, submission.UserID, submission.GetPropertyName(_ => _.UserID));
-				Assert.AreEqual(poll.PollQuestion, submission.PollQuestion, submission.GetPropertyName(_ => _.PollQuestion));
-				Assert.AreEqual(category.CategoryName, submission.CategoryName, submission.GetPropertyName(_ => _.CategoryName));
-				Assert.AreEqual(poll.PollDescription, submission.PollDescription, submission.GetPropertyName(_ => _.PollDescription));
-				Assert.AreEqual(poll.PollMaxAnswers.Value, submission.PollMaxAnswers, submission.GetPropertyName(_ => _.PollMaxAnswers));
-				Assert.AreEqual(poll.PollMinAnswers.Value, submission.PollMinAnswers, submission.GetPropertyName(_ => _.PollMinAnswers));
-				Assert.AreEqual(4, submission.Responses.Count, submission.GetPropertyName(_ => _.Responses));
+				Assert.AreEqual(pollEntity.PollID, submission.PollID, nameof(submission.PollID));
+				Assert.AreEqual(pollEntity.PollImageLink, submission.PollImageLink, nameof(submission.PollImageLink));
+				Assert.AreEqual(userId, submission.UserID, nameof(submission.UserID));
+				Assert.AreEqual(pollEntity.PollQuestion, submission.PollQuestion, nameof(submission.PollQuestion));
+				Assert.AreEqual(category.CategoryName, submission.CategoryName, nameof(submission.CategoryName));
+				Assert.AreEqual(pollEntity.PollDescription, submission.PollDescription, nameof(submission.PollDescription));
+				Assert.AreEqual(pollEntity.PollMaxAnswers.Value, submission.PollMaxAnswers, nameof(submission.PollMaxAnswers));
+				Assert.AreEqual(pollEntity.PollMinAnswers.Value, submission.PollMinAnswers, nameof(submission.PollMinAnswers));
+				Assert.AreEqual(4, submission.Responses.Count, nameof(submission.Responses));
 
 				submission.BrokenRulesCollection.AssertRuleCount(1);
 				submission.BrokenRulesCollection.AssertRuleCount(PollSubmission.ResponsesProperty, 1);
@@ -76,6 +109,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 
 			entities.VerifyAll();
+			pollFactory.VerifyAll();
+			pollSubmissionResponsesFactory.VerifyAll();
 		}
 
 		[TestMethod]
@@ -92,21 +127,29 @@ namespace MyVote.BusinessObjects.Net.Tests
 				_.PollID = pollId;
 			});
 
-			var entities = new Mock<IEntities>(MockBehavior.Strict);
+			var entities = new Mock<IEntities>();
 			entities.Setup(_ => _.MVPollSubmissions)
 				.Returns(new InMemoryDbSet<MVPollSubmission> { entity });
 			entities.Setup(_ => _.Dispose());
 
+			var pollFactory = new Mock<IObjectFactory<IPoll>>();
+			pollFactory.Setup(_ => _.Fetch(pollId)).Returns<int>(_ => DataPortal.Fetch<Poll>(_));
+
+			var pollSubmissionResponsesFactory = new Mock<IObjectFactory<IPollSubmissionResponseCollection>>();
+			pollSubmissionResponsesFactory.Setup(_ => _.CreateChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.CreateChild<PollSubmissionResponseCollection>(_[0] as BusinessList<IPollOption>));
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
+			builder.Register<IObjectFactory<IPoll>>(_ => pollFactory.Object);
+			builder.Register<IObjectFactory<IPollSubmissionResponseCollection>>(_ => pollSubmissionResponsesFactory.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), Mock.Of<ICallContext>())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var criteria = new PollSubmissionCriteria(pollId, userId);
 				new DataPortal<PollSubmission>().Create(criteria);
 			}
-
-			entities.VerifyAll();
 		}
 
 		[TestMethod]
@@ -136,10 +179,34 @@ namespace MyVote.BusinessObjects.Net.Tests
 				.Returns(new InMemoryDbSet<MVCategory> { category });
 			entities.Setup(_ => _.Dispose());
 
+			var pollOptions = new Mock<IObjectFactory<BusinessList<IPollOption>>>();
+			pollOptions.Setup(_ => _.FetchChild()).Returns(new BusinessList<IPollOption>());
+
+			var pollOption = new Mock<IObjectFactory<IPollOption>>();
+			pollOption.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollOption>(_[0] as MVPollOption));
+
+			var pollFactory = new Mock<IObjectFactory<IPoll>>();
+			pollFactory.Setup(_ => _.Fetch(poll.PollID)).Returns<int>(_ => DataPortal.Fetch<Poll>(_));
+
+			var pollSubmissionResponsesFactory = new Mock<IObjectFactory<IPollSubmissionResponseCollection>>();
+			pollSubmissionResponsesFactory.Setup(_ => _.CreateChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.CreateChild<PollSubmissionResponseCollection>(_[0] as BusinessList<IPollOption>));
+
+			var pollSubmissionResponseFactory = new Mock<IObjectFactory<IPollSubmissionResponse>>();
+			pollSubmissionResponseFactory.Setup(_ => _.CreateChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.CreateChild<PollSubmissionResponse>(_[0] as IPollOption));
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => pollOptions.Object);
+			builder.Register<IObjectFactory<IPollOption>>(_ => pollOption.Object);
+			builder.Register<IObjectFactory<IPoll>>(_ => pollFactory.Object);
+			builder.Register<IObjectFactory<IPollSubmissionResponseCollection>>(_ => pollSubmissionResponsesFactory.Object);
+			builder.Register<IObjectFactory<IPollSubmissionResponse>>(_ => pollSubmissionResponseFactory.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var submission = new DataPortal<PollSubmission>().Create(
 					new PollSubmissionCriteria(poll.PollID, userId));
@@ -178,10 +245,34 @@ namespace MyVote.BusinessObjects.Net.Tests
 				.Returns(new InMemoryDbSet<MVCategory> { category });
 			entities.Setup(_ => _.Dispose());
 
+			var pollOptions = new Mock<IObjectFactory<BusinessList<IPollOption>>>();
+			pollOptions.Setup(_ => _.FetchChild()).Returns(new BusinessList<IPollOption>());
+
+			var pollOption = new Mock<IObjectFactory<IPollOption>>();
+			pollOption.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollOption>(_[0] as MVPollOption));
+
+			var pollFactory = new Mock<IObjectFactory<IPoll>>();
+			pollFactory.Setup(_ => _.Fetch(poll.PollID)).Returns<int>(_ => DataPortal.Fetch<Poll>(_));
+
+			var pollSubmissionResponsesFactory = new Mock<IObjectFactory<IPollSubmissionResponseCollection>>();
+			pollSubmissionResponsesFactory.Setup(_ => _.CreateChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.CreateChild<PollSubmissionResponseCollection>(_[0] as BusinessList<IPollOption>));
+
+			var pollSubmissionResponseFactory = new Mock<IObjectFactory<IPollSubmissionResponse>>();
+			pollSubmissionResponseFactory.Setup(_ => _.CreateChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.CreateChild<PollSubmissionResponse>(_[0] as IPollOption));
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => pollOptions.Object);
+			builder.Register<IObjectFactory<IPollOption>>(_ => pollOption.Object);
+			builder.Register<IObjectFactory<IPoll>>(_ => pollFactory.Object);
+			builder.Register<IObjectFactory<IPollSubmissionResponseCollection>>(_ => pollSubmissionResponsesFactory.Object);
+			builder.Register<IObjectFactory<IPollSubmissionResponse>>(_ => pollSubmissionResponseFactory.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var submission = new DataPortal<PollSubmission>().Create(
 					new PollSubmissionCriteria(poll.PollID, userId));
@@ -209,8 +300,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 				_.PollMaxAnswers = 3;
 			});
 
-			poll.MVPollOptions = new List<MVPollOption> 
-			{ 
+			poll.MVPollOptions = new List<MVPollOption>
+			{
 				EntityCreator.Create<MVPollOption>(),
 				EntityCreator.Create<MVPollOption>(),
 				EntityCreator.Create<MVPollOption>(),
@@ -218,6 +309,9 @@ namespace MyVote.BusinessObjects.Net.Tests
 			};
 
 			var category = EntityCreator.Create<MVCategory>(_ => _.CategoryID = poll.PollCategoryID);
+
+			var pollFactory = new Mock<IObjectFactory<IPoll>>();
+			pollFactory.Setup(_ => _.Fetch(poll.PollID)).Returns<int>(_ => DataPortal.Fetch<Poll>(_));
 
 			var entities = new Mock<IEntities>(MockBehavior.Strict);
 			entities.Setup(_ => _.MVPolls)
@@ -228,10 +322,31 @@ namespace MyVote.BusinessObjects.Net.Tests
 				.Returns(new InMemoryDbSet<MVCategory> { category });
 			entities.Setup(_ => _.Dispose());
 
+			var pollOptions = new Mock<IObjectFactory<BusinessList<IPollOption>>>();
+			pollOptions.Setup(_ => _.FetchChild()).Returns(new BusinessList<IPollOption>());
+
+			var pollOption = new Mock<IObjectFactory<IPollOption>>();
+			pollOption.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollOption>(_[0] as MVPollOption));
+
+			var pollSubmissionResponsesFactory = new Mock<IObjectFactory<IPollSubmissionResponseCollection>>();
+			pollSubmissionResponsesFactory.Setup(_ => _.CreateChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.CreateChild<PollSubmissionResponseCollection>(_[0] as BusinessList<IPollOption>));
+
+			var pollSubmissionResponseFactory = new Mock<IObjectFactory<IPollSubmissionResponse>>();
+			pollSubmissionResponseFactory.Setup(_ => _.CreateChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.CreateChild<PollSubmissionResponse>(_[0] as IPollOption));
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => pollOptions.Object);
+			builder.Register<IObjectFactory<IPollOption>>(_ => pollOption.Object);
+			builder.Register<IObjectFactory<IPoll>>(_ => pollFactory.Object);
+			builder.Register<IObjectFactory<IPollSubmissionResponseCollection>>(_ => pollSubmissionResponsesFactory.Object);
+			builder.Register<IObjectFactory<IPollSubmissionResponse>>(_ => pollSubmissionResponseFactory.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var submission = new DataPortal<PollSubmission>().Create(
 					new PollSubmissionCriteria(poll.PollID, userId));
@@ -259,8 +374,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 				_.PollMaxAnswers = 3;
 			});
 
-			poll.MVPollOptions = new List<MVPollOption> 
-			{ 
+			poll.MVPollOptions = new List<MVPollOption>
+			{
 				EntityCreator.Create<MVPollOption>(),
 				EntityCreator.Create<MVPollOption>(),
 				EntityCreator.Create<MVPollOption>(),
@@ -293,10 +408,34 @@ namespace MyVote.BusinessObjects.Net.Tests
 				}).Returns(1);
 			entities.Setup(_ => _.Dispose());
 
+			var pollOptions = new Mock<IObjectFactory<BusinessList<IPollOption>>>();
+			pollOptions.Setup(_ => _.FetchChild()).Returns(new BusinessList<IPollOption>());
+
+			var pollOption = new Mock<IObjectFactory<IPollOption>>();
+			pollOption.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollOption>(_[0] as MVPollOption));
+
+			var pollFactory = new Mock<IObjectFactory<IPoll>>();
+			pollFactory.Setup(_ => _.Fetch(poll.PollID)).Returns<int>(_ => DataPortal.Fetch<Poll>(_));
+
+			var pollSubmissionResponsesFactory = new Mock<IObjectFactory<IPollSubmissionResponseCollection>>();
+			pollSubmissionResponsesFactory.Setup(_ => _.CreateChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.CreateChild<PollSubmissionResponseCollection>(_[0] as BusinessList<IPollOption>));
+
+			var pollSubmissionResponseFactory = new Mock<IObjectFactory<IPollSubmissionResponse>>();
+			pollSubmissionResponseFactory.Setup(_ => _.CreateChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.CreateChild<PollSubmissionResponse>(_[0] as IPollOption));
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
+			builder.Register<IObjectFactory<BusinessList<IPollOption>>>(_ => pollOptions.Object);
+			builder.Register<IObjectFactory<IPollOption>>(_ => pollOption.Object);
+			builder.Register<IObjectFactory<IPoll>>(_ => pollFactory.Object);
+			builder.Register<IObjectFactory<IPollSubmissionResponseCollection>>(_ => pollSubmissionResponsesFactory.Object);
+			builder.Register<IObjectFactory<IPollSubmissionResponse>>(_ => pollSubmissionResponseFactory.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var criteria = new PollSubmissionCriteria(poll.PollID, userId);
 				var submission = new DataPortal<PollSubmission>().Create(criteria);
@@ -306,13 +445,13 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 				submission = submission.Save();
 
-				Assert.AreEqual(1, submissions.Local.Count, submissions.GetPropertyName(_ => _.Local.Count));
-				Assert.AreEqual(submissionId, submission.PollSubmissionID, submission.GetPropertyName(_ => _.PollSubmissionID));
-				Assert.AreEqual(4, responses.Local.Count, responses.GetPropertyName(_ => _.Local.Count));
-				Assert.IsFalse(responses.Local[0].OptionSelected, responses.GetPropertyName(_ => _.Local[0].OptionSelected));
-				Assert.IsTrue(responses.Local[1].OptionSelected, responses.GetPropertyName(_ => _.Local[1].OptionSelected));
-				Assert.IsFalse(responses.Local[2].OptionSelected, responses.GetPropertyName(_ => _.Local[2].OptionSelected));
-				Assert.IsTrue(responses.Local[3].OptionSelected, responses.GetPropertyName(_ => _.Local[3].OptionSelected));
+				Assert.AreEqual(1, submissions.Local.Count, nameof(submissions.Local.Count));
+				Assert.AreEqual(submissionId, submission.PollSubmissionID, nameof(submission.PollSubmissionID));
+				Assert.AreEqual(4, responses.Local.Count, nameof(responses.Local.Count));
+				Assert.IsFalse(responses.Local[0].OptionSelected, nameof(MVPollResponse.OptionSelected));
+				Assert.IsTrue(responses.Local[1].OptionSelected, nameof(MVPollResponse.OptionSelected));
+				Assert.IsFalse(responses.Local[2].OptionSelected, nameof(MVPollResponse.OptionSelected));
+				Assert.IsTrue(responses.Local[3].OptionSelected, nameof(MVPollResponse.OptionSelected));
 			}
 
 			entities.VerifyAll();

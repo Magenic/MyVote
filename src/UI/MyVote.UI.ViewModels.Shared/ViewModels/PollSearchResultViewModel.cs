@@ -1,10 +1,11 @@
-﻿using Cirrious.MvvmCross.ViewModels;
+﻿
 using MyVote.BusinessObjects.Contracts;
 using MyVote.UI.NavigationCriteria;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using MvvmCross.Core.ViewModels;
 
 namespace MyVote.UI.ViewModels
 {

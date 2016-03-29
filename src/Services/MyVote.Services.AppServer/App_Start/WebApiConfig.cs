@@ -24,7 +24,11 @@ namespace MyVote.Services.AppServer
 
             // Configure Cross-Origin Resource Sharing (CORS)
             string originsAllowed = "https://myapp.azurewebsites.net," +
-                                    "http://myapp.azurewebsites.net," +
+									"http://myapp.azurewebsites.net," +
+									"https://myapp-dev.azurewebsites.net," +
+									"http://myapp-dev.azurewebsites.net," +
+									"http://myapp.com," +
+									"https://myapp.com," +
                                     "http://localhost:55001"; //This is the web local address
             var cors = new EnableCorsAttribute(originsAllowed, "*", "*");
             config.EnableCors(cors);

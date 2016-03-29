@@ -17,15 +17,15 @@ namespace MyVote.BusinessObjects
 {
 	[System.Serializable]
 	internal sealed class PollSearchResults
-		: ReadOnlyBaseScopeCore<PollSearchResults>, IPollSearchResults
+		: ReadOnlyBaseCore<PollSearchResults>, IPollSearchResults
 	{
 		private const int MaximumResultCount = 50;
 
 #if !NETFX_CORE && !MOBILE
-        private void DataPortal_Fetch(string pollQuestion)
+		private void DataPortal_Fetch(string pollQuestion)
 		{
 			var now = DateTime.UtcNow;
-			var stringPattern = "%" + pollQuestion.ToLower() + "%";
+			var stringPattern = $"%{pollQuestion.ToLower()}%";
 
 			var polls = this.Entities.MVPolls
 				.Where(this.SearchWhereClause.WhereClause(now, stringPattern));
@@ -133,7 +133,7 @@ namespace MyVote.BusinessObjects
 			}
 			else
 			{
-				throw new InvalidEnumArgumentException("criteria", (int)criteria, typeof(PollSearchResultsQueryType));
+				throw new InvalidEnumArgumentException(nameof(criteria), (int)criteria, typeof(PollSearchResultsQueryType));
 			}
 		}
 
@@ -216,7 +216,7 @@ namespace MyVote.BusinessObjects
 
 		private void ProcessQueryResults(List<PollSearchResultsData> results)
 		{
-			var resultList = DataPortal.FetchChild<ReadOnlySwitchList<IPollSearchResultsByCategory>>();
+			var resultList = this.pollSearchResultsByCategoryFactory.FetchChild();
 			resultList.SwitchReadOnlyStatus();
 
 			var pollsByCategories = new Dictionary<string, List<PollSearchResultsData>>();
@@ -240,15 +240,33 @@ namespace MyVote.BusinessObjects
 
 			foreach (var pollDataPair in pollsByCategories)
 			{
-				resultList.Add(DataPortal.FetchChild<PollSearchResultsByCategory>(pollDataPair.Value));
+				resultList.Add(this.pollSearchResultByCategoryFactory.FetchChild(pollDataPair.Value));
 			}
 
 			resultList.SwitchReadOnlyStatus();
 			this.SearchResultsByCategory = resultList;
 		}
+
+		[NonSerialized]
+		private IObjectFactory<ReadOnlySwitchList<IPollSearchResultsByCategory>> pollSearchResultsByCategoryFactory;
+		[Dependency]
+		public IObjectFactory<ReadOnlySwitchList<IPollSearchResultsByCategory>> PollSearchResultsByCategoryFactory
+		{
+			get { return this.pollSearchResultsByCategoryFactory; }
+			set { this.pollSearchResultsByCategoryFactory = value; }
+		}
+
+		[NonSerialized]
+		private IObjectFactory<IPollSearchResultsByCategory> pollSearchResultByCategoryFactory;
+		[Dependency]
+		public IObjectFactory<IPollSearchResultsByCategory> PollSearchResultByCategoryFactory
+		{
+			get { return this.pollSearchResultByCategoryFactory; }
+			set { this.pollSearchResultByCategoryFactory = value; }
+		}
 #endif
 
-		public static PropertyInfo<ReadOnlySwitchList<IPollSearchResultsByCategory>> SearchResultsByCategoryProperty =
+		public static readonly PropertyInfo<ReadOnlySwitchList<IPollSearchResultsByCategory>> SearchResultsByCategoryProperty =
 			PollSearchResults.RegisterProperty<ReadOnlySwitchList<IPollSearchResultsByCategory>>(_ => _.SearchResultsByCategory);
 		public IReadOnlyListBaseCore<IPollSearchResultsByCategory> SearchResultsByCategory
 		{
@@ -257,7 +275,7 @@ namespace MyVote.BusinessObjects
 		}
 
 #if !NETFX_CORE && !MOBILE
-        [NonSerialized]
+		[NonSerialized]
 		private ISearchWhereClause searchWhereClause;
 		[Dependency]
 		public ISearchWhereClause SearchWhereClause

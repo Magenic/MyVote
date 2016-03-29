@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using Autofac;
-using Autofac.Core;
+﻿using Autofac;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MyVote.BusinessObjects.Attributes;
-using MyVote.BusinessObjects.Core.Contracts;
+using MyVote.BusinessObjects.Contracts;
+using System;
+using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
@@ -19,103 +17,105 @@ namespace MyVote.BusinessObjects.Net.Tests
 		[SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults", MessageId = "MyVote.BusinessObjects.ObjectActivator")]
 		public void CreateWhenContainerIsNull()
 		{
-			new ObjectActivator(null);
+			new ObjectActivator(null, Mock.Of<ICallContext>());
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void CreateWhenContextIsNull()
+		{
+			new ObjectActivator(Mock.Of<IContainer>(), null);
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void CreateInstanceWhenRequestedTypeIsNull()
 		{
-			new ObjectActivator(Mock.Of<IContainer>()).CreateInstance(null);
+			new ObjectActivator(Mock.Of<IContainer>(), Mock.Of<ICallContext>()).CreateInstance(null);
 		}
 
 		[TestMethod]
 		public void CreateInstance()
 		{
-			Assert.IsTrue(new ObjectActivator(Mock.Of<IContainer>()).CreateInstance(typeof(Target)) is Target);
+			Assert.IsTrue(new ObjectActivator(Mock.Of<IContainer>(), Mock.Of<ICallContext>())
+				.CreateInstance(typeof(Target)) is Target);
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void InitializeInstanceWhenObjIsNull()
 		{
-			new ObjectActivator(Mock.Of<IContainer>()).InitializeInstance(null);
+			new ObjectActivator(Mock.Of<IContainer>(), Mock.Of<ICallContext>())
+				.InitializeInstance(null);
 		}
 
 		[TestMethod]
 		public void InitializeInstanceWhenObjIsNotScoped()
 		{
-			new ObjectActivator(Mock.Of<IContainer>()).InitializeInstance(new Target());
+			new ObjectActivator(Mock.Of<IContainer>(), Mock.Of<ICallContext>())
+				.InitializeInstance(new Target());
 		}
 
 		[TestMethod]
 		public void InitializeInstanceWhenObjIsScoped()
 		{
 			var list = Mock.Of<IList>();
-
-			IComponentRegistration registration = null;
-
-			var registry = new Mock<IComponentRegistry>(MockBehavior.Strict);
-			registry.Setup(_ => _.TryGetRegistration(It.IsAny<Service>(), out registration)).Returns(true);
-
-			var scope = new Mock<ILifetimeScope>(MockBehavior.Strict);
-			scope.SetupGet(_ => _.ComponentRegistry).Returns(registry.Object);
-			scope.Setup(_ => _.ResolveComponent(registration, It.IsAny<IEnumerable<Parameter>>())).Returns(list);
-
-			var container = new Mock<IContainer>(MockBehavior.Strict);
-			container.Setup(_ => _.BeginLifetimeScope()).Returns(scope.Object);
+			var builder = new ContainerBuilder();
+			builder.RegisterInstance(list).As<IList>();
 
 			var target = new DependentTarget();
 
-			new ObjectActivator(container.Object).InitializeInstance(target);
+			var activator = new ObjectActivator(builder.Build(), new ActivatorCallContext());
+			activator.InitializeInstance(target);
 
 			Assert.AreSame(list, target.List);
-			Assert.AreSame(scope.Object, target.Scope);
-
-			container.VerifyAll();
-			scope.VerifyAll();
-			registry.VerifyAll();
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void FinalizeInstanceWhenObjIsNull()
 		{
-			new ObjectActivator(Mock.Of<IContainer>()).FinalizeInstance(null);
+			var target = new Target();
+			var activator = new ObjectActivator(
+				new ContainerBuilder().Build(), new ActivatorCallContext());
+			activator.InitializeInstance(target);
+			activator.FinalizeInstance(null);
 		}
 
 		[TestMethod]
 		public void FinalizeInstanceWhenObjIsNotScoped()
 		{
-			new ObjectActivator(Mock.Of<IContainer>()).FinalizeInstance(new Target());
+			var target = new Target();
+			var activator = new ObjectActivator(
+				new ContainerBuilder().Build(), new ActivatorCallContext());
+			activator.InitializeInstance(target);
+			activator.FinalizeInstance(target);
 		}
 
 		[TestMethod]
 		public void FinalizeInstanceWhenObjIsScoped()
 		{
 			var list = Mock.Of<IList>();
-			var scope = new Mock<ILifetimeScope>(MockBehavior.Strict);
-			scope.Setup(_ => _.Dispose());
 
-			var target = new DependentTarget { List = list, Scope = scope.Object };
+			var builder = new ContainerBuilder();
+			builder.RegisterInstance(list).As<IList>();
 
-			new ObjectActivator(Mock.Of<IContainer>()).FinalizeInstance(target);
+			var target = new DependentTarget { List = list };
+
+			var activator = new ObjectActivator(builder.Build(), new ActivatorCallContext());
+			activator.InitializeInstance(target);
+			activator.FinalizeInstance(target);
 
 			Assert.IsNull(target.List);
-			Assert.IsNotNull(target.Scope);
-
-			scope.VerifyAll();
 		}
 	}
 
 	public class Target { }
 
 	public class DependentTarget
-		: IBusinessScope
 	{
 		[SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		[Dependency]
 		public IList List { get; set; }
-		public ILifetimeScope Scope { get; set; }
 	}
 }

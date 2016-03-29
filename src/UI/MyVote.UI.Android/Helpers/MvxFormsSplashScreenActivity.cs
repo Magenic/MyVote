@@ -1,4 +1,6 @@
-using Cirrious.MvvmCross.Droid.Views;
+
+
+using MvvmCross.Droid.Views;
 
 namespace MyVote.UI.Helpers
 {

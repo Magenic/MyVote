@@ -1,15 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
-using Autofac;
+﻿using Autofac;
 using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Net.Tests.Extensions;
-using MyVote.Core.Extensions;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
+using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
@@ -22,14 +21,15 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var pollOption = DataPortal.CreateChild<PollOption>();
 
-				Assert.IsNull(pollOption.OptionPosition, pollOption.GetPropertyName(_ => _.OptionPosition));
-				Assert.AreEqual(string.Empty, pollOption.OptionText, pollOption.GetPropertyName(_ => _.OptionText));
-				Assert.IsNull(pollOption.PollID, pollOption.GetPropertyName(_ => _.PollID));
-				Assert.IsNull(pollOption.PollOptionID, pollOption.GetPropertyName(_ => _.PollOptionID));
+				Assert.IsNull(pollOption.OptionPosition, nameof(pollOption.OptionPosition));
+				Assert.AreEqual(string.Empty, pollOption.OptionText, nameof(pollOption.OptionText));
+				Assert.IsNull(pollOption.PollID, nameof(pollOption.PollID));
+				Assert.IsNull(pollOption.PollOptionID, nameof(pollOption.PollOptionID));
 
 				pollOption.BrokenRulesCollection.AssertRuleCount(2);
 				pollOption.BrokenRulesCollection.AssertRuleCount(PollOption.OptionPositionProperty, 1);
@@ -52,14 +52,15 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var pollOption = DataPortal.FetchChild<PollOption>(entity);
 
-				Assert.AreEqual(entity.OptionPosition, pollOption.OptionPosition, pollOption.GetPropertyName(_ => _.OptionPosition));
-				Assert.AreEqual(entity.OptionText, pollOption.OptionText, pollOption.GetPropertyName(_ => _.OptionText));
-				Assert.AreEqual(entity.PollID, pollOption.PollID, pollOption.GetPropertyName(_ => _.PollID));
-				Assert.AreEqual(entity.PollOptionID, pollOption.PollOptionID, pollOption.GetPropertyName(_ => _.PollOptionID));
+				Assert.AreEqual(entity.OptionPosition, pollOption.OptionPosition, nameof(pollOption.OptionPosition));
+				Assert.AreEqual(entity.OptionText, pollOption.OptionText, nameof(pollOption.OptionText));
+				Assert.AreEqual(entity.PollID, pollOption.PollID, nameof(pollOption.PollID));
+				Assert.AreEqual(entity.PollOptionID, pollOption.PollOptionID, nameof(pollOption.PollOptionID));
 			}
 
 			entities.VerifyAll();
@@ -89,7 +90,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var pollOption = DataPortal.CreateChild<PollOption>();
 				pollOption.OptionPosition = optionPosition;
@@ -97,10 +99,10 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 				DataPortal.UpdateChild(pollOption, poll.Object);
 
-				Assert.AreEqual(pollId, pollOption.PollID, pollOption.GetPropertyName(_ => _.PollID));
-				Assert.AreEqual(pollOptionId, pollOption.PollOptionID, pollOption.GetPropertyName(_ => _.PollOptionID));
-				Assert.AreEqual(optionPosition, pollOption.OptionPosition, pollOption.GetPropertyName(_ => _.OptionPosition));
-				Assert.AreEqual(optionText, pollOption.OptionText, pollOption.GetPropertyName(_ => _.OptionText));
+				Assert.AreEqual(pollId, pollOption.PollID, nameof(pollOption.PollID));
+				Assert.AreEqual(pollOptionId, pollOption.PollOptionID, nameof(pollOption.PollOptionID));
+				Assert.AreEqual(optionPosition, pollOption.OptionPosition, nameof(pollOption.OptionPosition));
+				Assert.AreEqual(optionText, pollOption.OptionText, nameof(pollOption.OptionText));
 			}
 
 			entities.VerifyAll();
@@ -128,7 +130,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var pollOption = DataPortal.FetchChild<PollOption>(entity);
 				pollOption.OptionPosition = newOptionPosition;
@@ -136,8 +139,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 				DataPortal.UpdateChild(pollOption, poll);
 
-				Assert.AreEqual(newOptionPosition, pollOption.OptionPosition, pollOption.GetPropertyName(_ => _.OptionPosition));
-				Assert.AreEqual(newOptionText, pollOption.OptionText, pollOption.GetPropertyName(_ => _.OptionText));
+				Assert.AreEqual(newOptionPosition, pollOption.OptionPosition, nameof(pollOption.OptionPosition));
+				Assert.AreEqual(newOptionText, pollOption.OptionText, nameof(pollOption.OptionText));
 			}
 
 			entities.VerifyAll();

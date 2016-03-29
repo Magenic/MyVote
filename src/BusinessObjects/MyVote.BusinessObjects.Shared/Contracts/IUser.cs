@@ -1,5 +1,4 @@
 ﻿using System;
-using Csla;
 using MyVote.BusinessObjects.Core.Contracts;
 
 namespace MyVote.BusinessObjects.Contracts
@@ -17,7 +16,5 @@ namespace MyVote.BusinessObjects.Contracts
 		int? UserID { get; }
 		string UserName { get; set; }
 		int? UserRoleID { get; set; }
-        [RunLocal]
-	    void DataPortal_Create(string profileId);
 	}
 }

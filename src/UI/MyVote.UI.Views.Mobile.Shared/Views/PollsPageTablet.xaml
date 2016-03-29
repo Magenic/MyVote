@@ -3,9 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyVote.UI.Views.PollsPageTablet"
 			 xmlns:views="clr-namespace:MyVote.UI.Views;assembly=MyVoteUI">
-    <TabbedPage.ToolbarItems>
-        <ToolbarItem Name="Actions" Activated="ActionsClick"  Order="Primary" Priority="1" />
-    </TabbedPage.ToolbarItems>
     <TabbedPage.Children>
         <views:HomePageTablet Title="Home"></views:HomePageTablet>
         <views:AddPollPage Title="New Poll"></views:AddPollPage>

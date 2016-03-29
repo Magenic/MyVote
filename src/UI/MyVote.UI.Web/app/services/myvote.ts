@@ -25,6 +25,8 @@ module MyVote.Services {
             this._log = $log;
             this._http = $http;
 
+            //$resource: The returned resource object has action methods which provide high-level behaviors 
+            //without the need to interact with the low level $http service.
             this._userResource = $resource(this._apiResourceUrl + '/api/User', {}, {
                 'get': { method: 'GET' },
                 'save': { method: 'PUT' }
@@ -63,7 +65,7 @@ module MyVote.Services {
                         deferred.resolve(null);
                     }
                     else {
-                        deferred.reject('Error retrieving profile: ' + UtilityService.FormatError(error, 'unknown error.'));
+                        deferred.reject('Error retrieving profile: ' + UtilityService.formatError(error, 'unknown error.'));
                     }
                 });
 
@@ -229,16 +231,26 @@ module MyVote.Services {
         public getPollResult(pollId: number): ng.IPromise<MyVote.Services.AppServer.Models.PollResult> {
             var deferred = this._q.defer();
 
-            var result = (this._resultResource.get(
-                { pollID: pollId },
-                () => {
+            //You can also access the raw $http promise via the $promise property on the object returned
+            this._resultResource.get({ pollID: pollId }).$promise
+                .then((result) => {
                     this._log.info('MyVoteService: getPollResult success');
                     deferred.resolve(result);
-                },
-                error => {
+                }, (error) => {
                     this._log.error('MyVoteService: getPollResponse error: ', error);
                     deferred.reject(error);
-                }));
+                });
+
+            //var result = (this._resultResource.get(
+            //    { pollID: pollId },
+            //    () => {
+            //        this._log.info('MyVoteService: getPollResult success');
+            //        deferred.resolve(result);
+            //    },
+            //    error => {
+            //        this._log.error('MyVoteService: getPollResponse error: ', error);
+            //        deferred.reject(error);
+            //    }));
 
             return deferred.promise;
         }

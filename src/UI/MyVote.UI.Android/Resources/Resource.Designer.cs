@@ -26,27 +26,27 @@ namespace MyVote.UI
 		
 		public static void UpdateIdValues()
 		{
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Attribute.MvxBind = global::MyVote.UI.Resource.Attribute.MvxBind;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Attribute.MvxDropDownItemTemplate = global::MyVote.UI.Resource.Attribute.MvxDropDownItemTemplate;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Attribute.MvxGroupItemTemplate = global::MyVote.UI.Resource.Attribute.MvxGroupItemTemplate;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Attribute.MvxItemTemplate = global::MyVote.UI.Resource.Attribute.MvxItemTemplate;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Attribute.MvxLang = global::MyVote.UI.Resource.Attribute.MvxLang;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Attribute.MvxSource = global::MyVote.UI.Resource.Attribute.MvxSource;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Attribute.MvxTemplate = global::MyVote.UI.Resource.Attribute.MvxTemplate;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Id.MvvmCrossTagId = global::MyVote.UI.Resource.Id.MvvmCrossTagId;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Id.MvxBindingTagUnique = global::MyVote.UI.Resource.Id.MvxBindingTagUnique;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Styleable.MvxBinding = global::MyVote.UI.Resource.Styleable.MvxBinding;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Styleable.MvxBinding_MvxBind = global::MyVote.UI.Resource.Styleable.MvxBinding_MvxBind;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Styleable.MvxBinding_MvxLang = global::MyVote.UI.Resource.Styleable.MvxBinding_MvxLang;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Styleable.MvxControl = global::MyVote.UI.Resource.Styleable.MvxControl;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Styleable.MvxControl_MvxTemplate = global::MyVote.UI.Resource.Styleable.MvxControl_MvxTemplate;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Styleable.MvxExpandableListView = global::MyVote.UI.Resource.Styleable.MvxExpandableListView;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Styleable.MvxExpandableListView_MvxGroupItemTemplate = global::MyVote.UI.Resource.Styleable.MvxExpandableListView_MvxGroupItemTemplate;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Styleable.MvxImageView = global::MyVote.UI.Resource.Styleable.MvxImageView;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Styleable.MvxImageView_MvxSource = global::MyVote.UI.Resource.Styleable.MvxImageView_MvxSource;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Styleable.MvxListView = global::MyVote.UI.Resource.Styleable.MvxListView;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Styleable.MvxListView_MvxDropDownItemTemplate = global::MyVote.UI.Resource.Styleable.MvxListView_MvxDropDownItemTemplate;
-			global::Cirrious.MvvmCross.Binding.Droid.Resource.Styleable.MvxListView_MvxItemTemplate = global::MyVote.UI.Resource.Styleable.MvxListView_MvxItemTemplate;
+			global::MvvmCross.Binding.Droid.Resource.Attribute.MvxBind = global::MyVote.UI.Resource.Attribute.MvxBind;
+			global::MvvmCross.Binding.Droid.Resource.Attribute.MvxDropDownItemTemplate = global::MyVote.UI.Resource.Attribute.MvxDropDownItemTemplate;
+			global::MvvmCross.Binding.Droid.Resource.Attribute.MvxGroupItemTemplate = global::MyVote.UI.Resource.Attribute.MvxGroupItemTemplate;
+			global::MvvmCross.Binding.Droid.Resource.Attribute.MvxItemTemplate = global::MyVote.UI.Resource.Attribute.MvxItemTemplate;
+			global::MvvmCross.Binding.Droid.Resource.Attribute.MvxLang = global::MyVote.UI.Resource.Attribute.MvxLang;
+			global::MvvmCross.Binding.Droid.Resource.Attribute.MvxSource = global::MyVote.UI.Resource.Attribute.MvxSource;
+			global::MvvmCross.Binding.Droid.Resource.Attribute.MvxTemplate = global::MyVote.UI.Resource.Attribute.MvxTemplate;
+			global::MvvmCross.Binding.Droid.Resource.Id.MvvmCrossTagId = global::MyVote.UI.Resource.Id.MvvmCrossTagId;
+			global::MvvmCross.Binding.Droid.Resource.Id.MvxBindingTagUnique = global::MyVote.UI.Resource.Id.MvxBindingTagUnique;
+			global::MvvmCross.Binding.Droid.Resource.Styleable.MvxBinding = global::MyVote.UI.Resource.Styleable.MvxBinding;
+			global::MvvmCross.Binding.Droid.Resource.Styleable.MvxBinding_MvxBind = global::MyVote.UI.Resource.Styleable.MvxBinding_MvxBind;
+			global::MvvmCross.Binding.Droid.Resource.Styleable.MvxBinding_MvxLang = global::MyVote.UI.Resource.Styleable.MvxBinding_MvxLang;
+			global::MvvmCross.Binding.Droid.Resource.Styleable.MvxControl = global::MyVote.UI.Resource.Styleable.MvxControl;
+			global::MvvmCross.Binding.Droid.Resource.Styleable.MvxControl_MvxTemplate = global::MyVote.UI.Resource.Styleable.MvxControl_MvxTemplate;
+			global::MvvmCross.Binding.Droid.Resource.Styleable.MvxExpandableListView = global::MyVote.UI.Resource.Styleable.MvxExpandableListView;
+			global::MvvmCross.Binding.Droid.Resource.Styleable.MvxExpandableListView_MvxGroupItemTemplate = global::MyVote.UI.Resource.Styleable.MvxExpandableListView_MvxGroupItemTemplate;
+			global::MvvmCross.Binding.Droid.Resource.Styleable.MvxImageView = global::MyVote.UI.Resource.Styleable.MvxImageView;
+			global::MvvmCross.Binding.Droid.Resource.Styleable.MvxImageView_MvxSource = global::MyVote.UI.Resource.Styleable.MvxImageView_MvxSource;
+			global::MvvmCross.Binding.Droid.Resource.Styleable.MvxListView = global::MyVote.UI.Resource.Styleable.MvxListView;
+			global::MvvmCross.Binding.Droid.Resource.Styleable.MvxListView_MvxDropDownItemTemplate = global::MyVote.UI.Resource.Styleable.MvxListView_MvxDropDownItemTemplate;
+			global::MvvmCross.Binding.Droid.Resource.Styleable.MvxListView_MvxItemTemplate = global::MyVote.UI.Resource.Styleable.MvxListView_MvxItemTemplate;
 			global::MyVote.BusinessObjects.Resource.String.ApplicationName = global::MyVote.UI.Resource.String.ApplicationName;
 			global::MyVote.BusinessObjects.Resource.String.Hello = global::MyVote.UI.Resource.String.Hello;
 			global::MyVote.Core.Resource.String.ApplicationName = global::MyVote.UI.Resource.String.ApplicationName;
@@ -3362,16 +3362,16 @@ namespace MyVote.UI
 			public const int icon = 2130837603;
 			
 			// aapt resource value: 0x7f020064
-			public const int icon_facebook = 2130837604;
+			public const int IconFacebook = 2130837604;
 			
 			// aapt resource value: 0x7f020065
-			public const int icon_google = 2130837605;
+			public const int IconGoogle = 2130837605;
 			
 			// aapt resource value: 0x7f020066
-			public const int icon_microsoft = 2130837606;
+			public const int IconMicrosoft = 2130837606;
 			
 			// aapt resource value: 0x7f020067
-			public const int icon_twitter = 2130837607;
+			public const int IconTwitter = 2130837607;
 			
 			// aapt resource value: 0x7f020068
 			public const int list_focused_myvote = 2130837608;
@@ -3380,103 +3380,106 @@ namespace MyVote.UI
 			public const int list_pressed_myvote = 2130837609;
 			
 			// aapt resource value: 0x7f02006a
-			public const int menu_dropdown_panel_myvote = 2130837610;
+			public const int logo = 2130837610;
 			
 			// aapt resource value: 0x7f02006b
-			public const int MoreMenu = 2130837611;
+			public const int menu_dropdown_panel_myvote = 2130837611;
 			
 			// aapt resource value: 0x7f02006c
-			public const int mr_ic_cast_dark = 2130837612;
+			public const int MoreMenu = 2130837612;
 			
 			// aapt resource value: 0x7f02006d
-			public const int mr_ic_cast_light = 2130837613;
+			public const int mr_ic_cast_dark = 2130837613;
 			
 			// aapt resource value: 0x7f02006e
-			public const int mr_ic_media_route_connecting_mono_dark = 2130837614;
+			public const int mr_ic_cast_light = 2130837614;
 			
 			// aapt resource value: 0x7f02006f
-			public const int mr_ic_media_route_connecting_mono_light = 2130837615;
+			public const int mr_ic_media_route_connecting_mono_dark = 2130837615;
 			
 			// aapt resource value: 0x7f020070
-			public const int mr_ic_media_route_mono_dark = 2130837616;
+			public const int mr_ic_media_route_connecting_mono_light = 2130837616;
 			
 			// aapt resource value: 0x7f020071
-			public const int mr_ic_media_route_mono_light = 2130837617;
+			public const int mr_ic_media_route_mono_dark = 2130837617;
 			
 			// aapt resource value: 0x7f020072
-			public const int mr_ic_pause_dark = 2130837618;
+			public const int mr_ic_media_route_mono_light = 2130837618;
 			
 			// aapt resource value: 0x7f020073
-			public const int mr_ic_pause_light = 2130837619;
+			public const int mr_ic_pause_dark = 2130837619;
 			
 			// aapt resource value: 0x7f020074
-			public const int mr_ic_play_dark = 2130837620;
+			public const int mr_ic_pause_light = 2130837620;
 			
 			// aapt resource value: 0x7f020075
-			public const int mr_ic_play_light = 2130837621;
+			public const int mr_ic_play_dark = 2130837621;
 			
 			// aapt resource value: 0x7f020076
-			public const int mr_ic_settings_dark = 2130837622;
+			public const int mr_ic_play_light = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int mr_ic_settings_light = 2130837623;
+			public const int mr_ic_settings_dark = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int NoImage = 2130837624;
-			
-			// aapt resource value: 0x7f02008a
-			public const int notification_template_icon_bg = 2130837642;
+			public const int mr_ic_settings_light = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int progress_bg_myvote = 2130837625;
+			public const int NoImage = 2130837625;
+			
+			// aapt resource value: 0x7f02008b
+			public const int notification_template_icon_bg = 2130837643;
 			
 			// aapt resource value: 0x7f02007a
-			public const int progress_horizontal_myvote = 2130837626;
+			public const int progress_bg_myvote = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int progress_primary_myvote = 2130837627;
+			public const int progress_horizontal_myvote = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
-			public const int progress_secondary_myvote = 2130837628;
+			public const int progress_primary_myvote = 2130837628;
 			
 			// aapt resource value: 0x7f02007d
-			public const int selectable_background_myvote = 2130837629;
+			public const int progress_secondary_myvote = 2130837629;
 			
 			// aapt resource value: 0x7f02007e
-			public const int spinner_ab_default_myvote = 2130837630;
+			public const int selectable_background_myvote = 2130837630;
 			
 			// aapt resource value: 0x7f02007f
-			public const int spinner_ab_disabled_myvote = 2130837631;
+			public const int spinner_ab_default_myvote = 2130837631;
 			
 			// aapt resource value: 0x7f020080
-			public const int spinner_ab_focused_myvote = 2130837632;
+			public const int spinner_ab_disabled_myvote = 2130837632;
 			
 			// aapt resource value: 0x7f020081
-			public const int spinner_ab_pressed_myvote = 2130837633;
+			public const int spinner_ab_focused_myvote = 2130837633;
 			
 			// aapt resource value: 0x7f020082
-			public const int spinner_background_ab_myvote = 2130837634;
+			public const int spinner_ab_pressed_myvote = 2130837634;
 			
 			// aapt resource value: 0x7f020083
-			public const int tab_indicator_ab_myvote = 2130837635;
+			public const int spinner_background_ab_myvote = 2130837635;
 			
 			// aapt resource value: 0x7f020084
-			public const int tab_selected_focused_myvote = 2130837636;
+			public const int tab_indicator_ab_myvote = 2130837636;
 			
 			// aapt resource value: 0x7f020085
-			public const int tab_selected_myvote = 2130837637;
+			public const int tab_selected_focused_myvote = 2130837637;
 			
 			// aapt resource value: 0x7f020086
-			public const int tab_selected_pressed_myvote = 2130837638;
+			public const int tab_selected_myvote = 2130837638;
 			
 			// aapt resource value: 0x7f020087
-			public const int tab_unselected_focused_myvote = 2130837639;
+			public const int tab_selected_pressed_myvote = 2130837639;
 			
 			// aapt resource value: 0x7f020088
-			public const int tab_unselected_myvote = 2130837640;
+			public const int tab_unselected_focused_myvote = 2130837640;
 			
 			// aapt resource value: 0x7f020089
-			public const int tab_unselected_pressed_myvote = 2130837641;
+			public const int tab_unselected_myvote = 2130837641;
+			
+			// aapt resource value: 0x7f02008a
+			public const int tab_unselected_pressed_myvote = 2130837642;
 			
 			static Drawable()
 			{

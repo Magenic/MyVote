@@ -1,9 +1,9 @@
-﻿using Cirrious.CrossCore;
-using Cirrious.CrossCore.Platform;
-using Cirrious.MvvmCross.ViewModels;
-using MyVote.UI.NavigationCriteria;
+﻿using MyVote.UI.NavigationCriteria;
 using MyVote.UI.ViewModels;
 using System.Collections.Generic;
+using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
+using MvvmCross.Platform.Platform;
 
 namespace MyVote.UI.Helpers
 {

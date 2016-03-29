@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BackgroundIntExtendedPicker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BackgroundStringExtendedPicker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ExtendedDatePicker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\ExtendedEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ExtendedImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ExtendedLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ExtendedPicker.cs" />
@@ -31,9 +32,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\NullableIntConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ImageOrientation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\AppSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ClearBackstackHint.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\MessageBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\MvxPresenterHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\PhotoChooser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\VmPageMappings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewPresenter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\AddPollPage.xaml.cs">
       <DependentUpon>AddPollPage.xaml</DependentUpon>
       <SubType>Code</SubType>

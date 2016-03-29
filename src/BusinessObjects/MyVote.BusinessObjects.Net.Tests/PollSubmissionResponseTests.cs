@@ -3,7 +3,6 @@ using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
-using MyVote.Core.Extensions;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
@@ -29,15 +28,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var response = DataPortal.CreateChild<PollSubmissionResponse>(option.Object);
 
-				Assert.AreEqual(optionId, response.PollOptionID, response.GetPropertyName(_ => _.PollOptionID));
-				Assert.AreEqual(optionPosition, response.OptionPosition, response.GetPropertyName(_ => _.OptionPosition));
-				Assert.AreEqual(optionText, response.OptionText, response.GetPropertyName(_ => _.OptionText));
-				Assert.IsFalse(response.IsOptionSelected, response.GetPropertyName(_ => _.IsOptionSelected));
-				Assert.IsNull(response.PollResponseID, response.GetPropertyName(_ => _.PollResponseID));
+				Assert.AreEqual(optionId, response.PollOptionID, nameof(response.PollOptionID));
+				Assert.AreEqual(optionPosition, response.OptionPosition, nameof(response.OptionPosition));
+				Assert.AreEqual(optionText, response.OptionText, nameof(response.OptionText));
+				Assert.IsFalse(response.IsOptionSelected, nameof(response.IsOptionSelected));
+				Assert.IsNull(response.PollResponseID, nameof(response.PollResponseID));
 			}
 
 			option.VerifyAll();

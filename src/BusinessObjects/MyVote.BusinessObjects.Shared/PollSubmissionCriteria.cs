@@ -17,7 +17,7 @@ namespace MyVote.BusinessObjects
 			this.UserID = userId;
 		}
 
-		public static PropertyInfo<int> PollIDProperty =
+		public static readonly PropertyInfo<int> PollIDProperty =
 			PollSubmissionCriteria.RegisterProperty<int>(_ => _.PollID);
 		public int PollID
 		{
@@ -25,7 +25,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSubmissionCriteria.PollIDProperty, value); }
 		}
 
-		public static PropertyInfo<int> UserIDProperty =
+		public static readonly PropertyInfo<int> UserIDProperty =
 			PollSubmissionCriteria.RegisterProperty<int>(_ => _.UserID);
 		public int UserID
 		{

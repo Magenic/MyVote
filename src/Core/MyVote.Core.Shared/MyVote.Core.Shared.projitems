@@ -9,7 +9,6 @@
     <Import_RootNamespace>MyVote.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SystemTime.cs" />
   </ItemGroup>
 </Project>

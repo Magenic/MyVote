@@ -1,5 +1,4 @@
-﻿using Cirrious.MvvmCross.ViewModels;
-using MyVote.BusinessObjects;
+﻿using MyVote.BusinessObjects;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.UI.Helpers;
 using MyVote.UI.NavigationCriteria;
@@ -8,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Linq;
 using Csla.Security;
+using MvvmCross.Core.ViewModels;
 
 namespace MyVote.UI.ViewModels
 {
@@ -254,6 +254,7 @@ namespace MyVote.UI.ViewModels
 
                 this.ShowViewModel<PollResultsPageViewModel>(navigationCriteria);
             }
+            this.IsEnabled = true;
         }
     }
 }

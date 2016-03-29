@@ -1,4 +1,4 @@
-﻿using Cirrious.MvvmCross.ViewModels;
+﻿
 using Csla;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.UI.Helpers;
@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MvvmCross.Core.ViewModels;
 
 namespace MyVote.UI.ViewModels
 {

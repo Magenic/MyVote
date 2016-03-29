@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Xamarin.Forms;
 
 namespace MyVote.UI.Controls
 {
 	public sealed class BackgroundStringExtendedPicker : ExtendedPicker<string>
 	{
-	}
+    }
 }

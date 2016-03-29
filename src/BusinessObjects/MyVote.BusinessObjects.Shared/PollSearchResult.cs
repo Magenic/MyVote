@@ -1,26 +1,23 @@
 ﻿using Csla;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
-
-#if !NETFX_CORE && !MOBILE
-using MyVote.Core.Extensions;
-#endif
+using System;
 
 namespace MyVote.BusinessObjects
 {
-	[System.Serializable]
+	[Serializable]
 	internal sealed class PollSearchResult
 		: ReadOnlyBaseCore<PollSearchResult>, IPollSearchResult
 	{
 #if !NETFX_CORE && !MOBILE
-        private void Child_Fetch(PollSearchResultsData data)
+		private void Child_Fetch(PollSearchResultsData data)
 		{
 			Csla.Data.DataMapper.Map(data, this,
-				data.GetPropertyName(_ => _.Category));
+				nameof(data.Category));
 		}
 #endif
 
-		public static PropertyInfo<int> IdProperty =
+		public static readonly PropertyInfo<int> IdProperty =
 			PollSearchResult.RegisterProperty<int>(_ => _.Id);
 		public int Id
 		{
@@ -28,7 +25,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSearchResult.IdProperty, value); }
 		}
 
-		public static PropertyInfo<string> ImageLinkProperty =
+		public static readonly PropertyInfo<string> ImageLinkProperty =
 			PollSearchResult.RegisterProperty<string>(_ => _.ImageLink);
 		public string ImageLink
 		{
@@ -36,7 +33,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSearchResult.ImageLinkProperty, value); }
 		}
 
-		public static PropertyInfo<string> QuestionProperty =
+		public static readonly PropertyInfo<string> QuestionProperty =
 			PollSearchResult.RegisterProperty<string>(_ => _.Question);
 		public string Question
 		{
@@ -44,7 +41,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSearchResult.QuestionProperty, value); }
 		}
 
-		public static PropertyInfo<int> SubmissionCountProperty =
+		public static readonly PropertyInfo<int> SubmissionCountProperty =
 			PollSearchResult.RegisterProperty<int>(_ => _.SubmissionCount);
 		public int SubmissionCount
 		{

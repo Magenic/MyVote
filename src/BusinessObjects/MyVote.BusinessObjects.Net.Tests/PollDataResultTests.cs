@@ -1,7 +1,8 @@
 ﻿using Autofac;
 using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MyVote.Core.Extensions;
+using Moq;
+using MyVote.Data.Entities;
 using Spackle.Extensions;
 
 namespace MyVote.BusinessObjects.Net.Tests
@@ -14,12 +15,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 		{
 			var data = EntityCreator.Create<PollData>();
 
-			using (new ObjectActivator(new ContainerBuilder().Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			var container = new ContainerBuilder();
+			container.RegisterInstance(Mock.Of<IEntities>()).As<IEntities>();
+
+			using (new ObjectActivator(container.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var result = DataPortal.FetchChild<PollDataResult>(data);
 
-				Assert.AreEqual(data.PollOptionID, result.PollOptionID, result.GetPropertyName(_ => _.PollOptionID));
-				Assert.AreEqual(data.ResponseCount, result.ResponseCount, result.GetPropertyName(_ => _.ResponseCount));
+				Assert.AreEqual(data.PollOptionID, result.PollOptionID, nameof(result.PollOptionID));
+				Assert.AreEqual(data.ResponseCount, result.ResponseCount, nameof(result.ResponseCount));
 			}
 		}
 	}

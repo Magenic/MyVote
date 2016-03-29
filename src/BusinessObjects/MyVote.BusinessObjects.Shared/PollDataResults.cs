@@ -3,15 +3,17 @@ using Csla;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
 using MyVote.BusinessObjects.Core.Contracts;
+using System;
+using MyVote.BusinessObjects.Attributes;
 
 namespace MyVote.BusinessObjects
 {
 	[System.Serializable]
 	internal sealed class PollDataResults
-		: ReadOnlyBaseScopeCore<PollDataResults>, IPollDataResults
+		: ReadOnlyBaseCore<PollDataResults>, IPollDataResults
 	{
 #if !NETFX_CORE && !MOBILE
-        private void Child_Fetch(int pollID)
+		  private void Child_Fetch(int pollID)
 		{
 			this.PollID = pollID;
 			this.Question = this.Entities.MVPolls.Single(
@@ -34,21 +36,39 @@ namespace MyVote.BusinessObjects
 								 ResponseCount = data.ResponseCount
 							 }).ToList();
 
-			var resultList = DataPortal.FetchChild<ReadOnlySwitchList<IPollDataResult>>();
+			var resultList = this.pollDataResultsFactory.FetchChild();
 
 			resultList.SwitchReadOnlyStatus();
 
 			foreach (var data in datum)
 			{
-				resultList.Add(DataPortal.FetchChild<PollDataResult>(data));
+				resultList.Add(this.pollDataResultFactory.FetchChild(data));
 			}
 
 			resultList.SwitchReadOnlyStatus();
 			this.Results = resultList;
 		}
+
+		[NonSerialized]
+		private IObjectFactory<ReadOnlySwitchList<IPollDataResult>> pollDataResultsFactory;
+		[Dependency]
+		public IObjectFactory<ReadOnlySwitchList<IPollDataResult>> PollDataResultsFactory
+		{
+			get { return this.pollDataResultsFactory; }
+			set { this.pollDataResultsFactory = value; }
+		}
+
+		[NonSerialized]
+		private IObjectFactory<IPollDataResult> pollDataResultFactory;
+		[Dependency]
+		public IObjectFactory<IPollDataResult> PollDataResultFactory
+		{
+			get { return this.pollDataResultFactory; }
+			set { this.pollDataResultFactory = value; }
+		}
 #endif
 
-		public static PropertyInfo<int> PollIDProperty =
+		public static readonly PropertyInfo<int> PollIDProperty =
 			PollDataResults.RegisterProperty<int>(_ => _.PollID);
 		public int PollID
 		{
@@ -56,7 +76,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollDataResults.PollIDProperty, value); }
 		}
 
-		public static PropertyInfo<string> QuestionProperty =
+		public static readonly PropertyInfo<string> QuestionProperty =
 			PollDataResults.RegisterProperty<string>(_ => _.Question);
 		public string Question
 		{
@@ -64,7 +84,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollDataResults.QuestionProperty, value); }
 		}
 
-		public static PropertyInfo<ReadOnlySwitchList<IPollDataResult>> ResultsProperty =
+		public static readonly PropertyInfo<ReadOnlySwitchList<IPollDataResult>> ResultsProperty =
 			PollDataResults.RegisterProperty<ReadOnlySwitchList<IPollDataResult>>(_ => _.Results);
 		public IReadOnlyListBaseCore<IPollDataResult> Results
 		{

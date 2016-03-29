@@ -1,107 +1,117 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Reflection;
-using Autofac;
+﻿using Autofac;
+using Csla.Reflection;
 using Csla.Server;
 using MyVote.BusinessObjects.Attributes;
-using MyVote.BusinessObjects.Core.Contracts;
-using MyVote.BusinessObjects.Extensions;
+using MyVote.BusinessObjects.Contracts;
+using System;
+using System.Linq;
+using System.Reflection;
 
 namespace MyVote.BusinessObjects
 {
 	public sealed class ObjectActivator
 		: IDataPortalActivator
 	{
-		[SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
-		private IContainer container;
+		private const string CounterID = "deea6f50-f1e6-41b6-8440-632e0db98394";
+		private readonly ICallContext context;
+		private readonly IContainer container;
 
-		public ObjectActivator(IContainer container)
+		public ObjectActivator(IContainer container, ICallContext context)
 		{
 			if (container == null)
 			{
-				throw new ArgumentNullException("container");
+				throw new ArgumentNullException(nameof(container));
+			}
+
+			if (context == null)
+			{
+				throw new ArgumentNullException(nameof(context));
 			}
 
 			this.container = container;
+			this.context = context;
 		}
 
 		public object CreateInstance(Type requestedType)
 		{
 			if (requestedType == null)
 			{
-				throw new ArgumentNullException("requestedType");
+				throw new ArgumentNullException(nameof(requestedType));
 			}
 
-			return Activator.CreateInstance(requestedType.GetConcreteType());
+			return MethodCaller.CreateInstance(requestedType);
 		}
 
 		public void InitializeInstance(object obj)
 		{
 			if (obj == null)
 			{
-				throw new ArgumentNullException("obj");
+				throw new ArgumentNullException(nameof(obj));
 			}
 
-			var scopedObject = obj as IBusinessScope;
+			var counter = this.context.GetData<ScopeCounter>(ObjectActivator.CounterID);
 
-			if (scopedObject != null)
+			if (counter == null)
 			{
-				var scope = this.container.BeginLifetimeScope();
-				scopedObject.Scope = scope;
+				counter = new ScopeCounter(this.container.BeginLifetimeScope());
+				this.context.SetData(ObjectActivator.CounterID, counter);
+			}
+			else
+			{
+				counter.Add();
+			}
 
 #if !NETFX_CORE && !MOBILE
-                foreach (var property in
-					(from _ in scopedObject.GetType().GetProperties(
-							BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-					 where _.GetCustomAttribute<DependencyAttribute>() != null
-					 select _))
-				{
-					property.SetValue(scopedObject, scope.Resolve(property.PropertyType));
+			foreach (var property in
+				  (from _ in obj.GetType().GetProperties(
+						  BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+					where _.GetCustomAttribute<DependencyAttribute>() != null
+					select _))
+			{
+				property.SetValue(obj, counter.Scope.Resolve(property.PropertyType));
 				}
 #else
-				foreach (var property in
-					(from _ in scopedObject.GetType().GetRuntimeProperties()
-					 where !_.GetMethod.IsStatic &&
-					 _.GetCustomAttribute<DependencyAttribute>() != null
-					 select _))
-				{
-					property.SetValue(scopedObject, scope.Resolve(property.PropertyType));
-				}
-#endif
+			foreach (var property in
+				(from _ in obj.GetType().GetRuntimeProperties()
+					where !_.GetMethod.IsStatic &&
+					_.GetCustomAttribute<DependencyAttribute>() != null
+					select _))
+			{
+				property.SetValue(obj, counter.Scope.Resolve(property.PropertyType));
 			}
+#endif
 		}
 
 		public void FinalizeInstance(object obj)
 		{
 			if (obj == null)
 			{
-				throw new ArgumentNullException("obj");
+				throw new ArgumentNullException(nameof(obj));
 			}
 
-			var scopedObject = obj as IBusinessScope;
+			var counter = this.context.GetData<ScopeCounter>(ObjectActivator.CounterID);
+			counter.Release();
 
-			if (scopedObject != null)
+			if (counter.Scope == null)
 			{
-				scopedObject.Scope.Dispose();
-
+				this.context.FreeNamedDataSlot(ObjectActivator.CounterID);
 #if !NETFX_CORE
 				foreach (var property in
-					(from _ in scopedObject.GetType().GetProperties(
+					(from _ in obj.GetType().GetProperties(
 							BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
 					 where _.GetCustomAttribute<DependencyAttribute>() != null
 					 select _))
 				{
-					property.SetValue(scopedObject, null);
+					property.SetValue(obj, null);
 				}
 #else
 				foreach (var property in
-					(from _ in scopedObject.GetType().GetRuntimeProperties()
+					(from _ in obj.GetType().GetRuntimeProperties()
 					 where !_.GetMethod.IsStatic &&
 					 _.GetCustomAttribute<DependencyAttribute>() != null
 					 select _))
 				{
-					property.SetValue(scopedObject, null);
+					property.SetValue(obj, null);
 				}
 #endif
 			}

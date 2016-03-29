@@ -14,7 +14,7 @@ namespace MyVote.BusinessObjects
 			this.ArePollsActive = arePollsActive;
 		}
 
-		public static PropertyInfo<bool> ArePollsActiveProperty =
+		public static readonly PropertyInfo<bool> ArePollsActiveProperty =
 			PollSearchResultsByUserCriteria.RegisterProperty<bool>(_ => _.ArePollsActive);
 		public bool ArePollsActive
 		{
@@ -22,7 +22,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSearchResultsByUserCriteria.ArePollsActiveProperty, value); }
 		}
 
-		public static PropertyInfo<int> UserIDProperty =
+		public static readonly PropertyInfo<int> UserIDProperty =
 			PollSearchResultsByUserCriteria.RegisterProperty<int>(_ => _.UserID);
 		public int UserID
 		{

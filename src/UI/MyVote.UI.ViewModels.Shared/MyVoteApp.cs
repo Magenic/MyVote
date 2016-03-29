@@ -1,7 +1,6 @@
-﻿using Cirrious.MvvmCross.ViewModels;
-using MyVote.UI.Helpers;
+﻿using MyVote.UI.Helpers;
+using MvvmCross.Core.ViewModels;
 using MyVote.UI.ViewModels;
-using System;
 
 namespace MyVote.UI
 {
@@ -9,7 +8,7 @@ namespace MyVote.UI
 	{
 		public override void Initialize()
 		{
-			RegisterAppStart(new MvxAppStart());
+		    RegisterAppStart(new MvxAppStart());
 		}
 	}
 }

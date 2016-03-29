@@ -7,9 +7,9 @@ using Csla.Rules;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
 using MyVote.BusinessObjects.Rules;
+using MyVote.BusinessObjects.Attributes;
 
 #if !NETFX_CORE && !MOBILE
-using MyVote.Core.Extensions;
 using MyVote.Data.Entities;
 using System.Data;
 using System.Data.Entity;
@@ -19,15 +19,15 @@ using System.Collections.Generic;
 
 namespace MyVote.BusinessObjects
 {
-	[System.Serializable]
+	[Serializable]
 	internal sealed class Poll
-		: BusinessBaseScopeCore<Poll>, IPoll
+		: BusinessBaseCore<Poll>, IPoll
 	{
 #if !NETFX_CORE && !MOBILE
-        private void DataPortal_Create(int userId)
+		private void DataPortal_Create(int userId)
 		{
 			this.UserID = userId;
-			this.PollOptions = DataPortal.CreateChild<BusinessList<IPollOption>>();
+			this.PollOptions = this.pollOptionsFactory.CreateChild();
 			this.BusinessRules.CheckRules();
 		}
 
@@ -39,22 +39,22 @@ namespace MyVote.BusinessObjects
 								  where p.PollID == pollId
 								  select p).Single();
 				DataMapper.Map(entity, this,
-					entity.GetPropertyName(_ => _.AuditDateCreated),
-					entity.GetPropertyName(_ => _.AuditDateModified),
-					entity.GetPropertyName(_ => _.MVPollOptions),
-					entity.GetPropertyName(_ => _.MVPollResponses),
-					entity.GetPropertyName(_ => _.MVPollSubmissions),
-					entity.GetPropertyName(_ => _.MVUser),
-					entity.GetPropertyName(_ => _.MVCategory),
-					entity.GetPropertyName(_ => _.MVReportedPolls),
-					entity.GetPropertyName(_ => _.MVReportedPollStateLogs),
-					entity.GetPropertyName(_ => _.MVPollComments));
+					nameof(entity.AuditDateCreated),
+					nameof(entity.AuditDateModified),
+					nameof(entity.MVPollOptions),
+					nameof(entity.MVPollResponses),
+					nameof(entity.MVPollSubmissions),
+					nameof(entity.MVUser),
+					nameof(entity.MVCategory),
+					nameof(entity.MVReportedPolls),
+					nameof(entity.MVReportedPollStateLogs),
+					nameof(entity.MVPollComments));
 
-				this.PollOptions = DataPortal.FetchChild<BusinessList<IPollOption>>();
+				this.PollOptions = this.pollOptionsFactory.FetchChild();
 
 				foreach (var option in entity.MVPollOptions)
 				{
-					this.PollOptions.Add(DataPortal.FetchChild<PollOption>(option));
+					this.PollOptions.Add(this.pollOptionFactory.FetchChild(option));
 				}
 			}
 		}
@@ -125,18 +125,37 @@ namespace MyVote.BusinessObjects
 		}
 
 #if !NETFX_CORE && !MOBILE
-        protected override List<string> IgnoredProperties
+		protected override List<string> IgnoredProperties
 		{
 			get
 			{
 				var properties = base.IgnoredProperties;
-				properties.Add(this.GetPropertyName(_ => _.PollOptions));
+				properties.AddRange(new[] { nameof(this.PollOptions),
+					nameof(this.PollOptionsFactory), nameof(this.PollOptionFactory) });
 				return properties;
 			}
 		}
+
+		[NonSerialized]
+		private IObjectFactory<BusinessList<IPollOption>> pollOptionsFactory;
+		[Dependency]
+		public IObjectFactory<BusinessList<IPollOption>> PollOptionsFactory
+		{
+			get { return this.pollOptionsFactory; }
+			set { this.pollOptionsFactory = value; }
+		}
+
+		[NonSerialized]
+		private IObjectFactory<IPollOption> pollOptionFactory;
+		[Dependency]
+		public IObjectFactory<IPollOption> PollOptionFactory
+		{
+			get { return this.pollOptionFactory; }
+			set { this.pollOptionFactory = value; }
+		}
 #endif
 
-		public static PropertyInfo<BusinessList<IPollOption>> PollOptionsProperty =
+		public static readonly PropertyInfo<BusinessList<IPollOption>> PollOptionsProperty =
 			Poll.RegisterProperty<BusinessList<IPollOption>>(_ => _.PollOptions);
 		public BusinessList<IPollOption> PollOptions
 		{
@@ -144,7 +163,7 @@ namespace MyVote.BusinessObjects
 			private set { this.SetProperty(Poll.PollOptionsProperty, value); }
 		}
 
-		public static PropertyInfo<int?> PollIDProperty =
+		public static readonly PropertyInfo<int?> PollIDProperty =
 			Poll.RegisterProperty<int?>(_ => _.PollID);
 		public int? PollID
 		{
@@ -152,7 +171,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(Poll.PollIDProperty, value); }
 		}
 
-		public static PropertyInfo<int> UserIDProperty =
+		public static readonly PropertyInfo<int> UserIDProperty =
 			Poll.RegisterProperty<int>(_ => _.UserID);
 		public int UserID
 		{
@@ -160,7 +179,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(Poll.UserIDProperty, value); }
 		}
 
-		public static PropertyInfo<int?> PollCategoryIDProperty =
+		public static readonly PropertyInfo<int?> PollCategoryIDProperty =
 			Poll.RegisterProperty<int?>(_ => _.PollCategoryID);
 		[Required(ErrorMessage = "The category is required.")]
 		public int? PollCategoryID
@@ -169,7 +188,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(Poll.PollCategoryIDProperty, value); }
 		}
 
-		public static PropertyInfo<string> PollDescriptionProperty =
+		public static readonly PropertyInfo<string> PollDescriptionProperty =
 			Poll.RegisterProperty<string>(_ => _.PollDescription);
 		public string PollDescription
 		{
@@ -177,7 +196,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(Poll.PollDescriptionProperty, value); }
 		}
 
-		public static PropertyInfo<string> PollQuestionProperty =
+		public static readonly PropertyInfo<string> PollQuestionProperty =
 			Poll.RegisterProperty<string>(_ => _.PollQuestion);
 		[Required(ErrorMessage = "The question is required.")]
 		[StringLength(1000, ErrorMessage = "The question cannot be over 1000 characters in length.")]
@@ -187,7 +206,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(Poll.PollQuestionProperty, value); }
 		}
 
-		public static PropertyInfo<string> PollImageLinkProperty =
+		public static readonly PropertyInfo<string> PollImageLinkProperty =
 			Poll.RegisterProperty<string>(_ => _.PollImageLink);
 		public string PollImageLink
 		{
@@ -195,7 +214,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(Poll.PollImageLinkProperty, value); }
 		}
 
-		public static PropertyInfo<short?> PollMaxAnswersProperty =
+		public static readonly PropertyInfo<short?> PollMaxAnswersProperty =
 			Poll.RegisterProperty<short?>(_ => _.PollMaxAnswers);
 		[Required(ErrorMessage = "The maximum answers value is required.")]
 		public short? PollMaxAnswers
@@ -204,7 +223,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(Poll.PollMaxAnswersProperty, value); }
 		}
 
-		public static PropertyInfo<short?> PollMinAnswersProperty =
+		public static readonly PropertyInfo<short?> PollMinAnswersProperty =
 			Poll.RegisterProperty<short?>(_ => _.PollMinAnswers);
 		[Required(ErrorMessage = "The minimum answers value is required.")]
 		public short? PollMinAnswers
@@ -213,7 +232,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(Poll.PollMinAnswersProperty, value); }
 		}
 
-		public static PropertyInfo<DateTime?> PollStartDateProperty =
+		public static readonly PropertyInfo<DateTime?> PollStartDateProperty =
 			Poll.RegisterProperty<DateTime?>(_ => _.PollStartDate);
 		[Required(ErrorMessage = "The start date value is required.")]
 		public DateTime? PollStartDate
@@ -222,7 +241,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(Poll.PollStartDateProperty, value); }
 		}
 
-		public static PropertyInfo<DateTime?> PollEndDateProperty =
+		public static readonly PropertyInfo<DateTime?> PollEndDateProperty =
 			Poll.RegisterProperty<DateTime?>(_ => _.PollEndDate);
 		[Required(ErrorMessage = "The end date value is required.")]
 		public DateTime? PollEndDate
@@ -231,7 +250,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(Poll.PollEndDateProperty, value); }
 		}
 
-		public static PropertyInfo<bool?> PollAdminRemovedFlagProperty =
+		public static readonly PropertyInfo<bool?> PollAdminRemovedFlagProperty =
 			Poll.RegisterProperty<bool?>(_ => _.PollAdminRemovedFlag);
 		public bool? PollAdminRemovedFlag
 		{
@@ -239,7 +258,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(Poll.PollAdminRemovedFlagProperty, value); }
 		}
 
-		public static PropertyInfo<DateTime?> PollDateRemovedProperty =
+		public static readonly PropertyInfo<DateTime?> PollDateRemovedProperty =
 			Poll.RegisterProperty<DateTime?>(_ => _.PollDateRemoved);
 		public DateTime? PollDateRemoved
 		{
@@ -247,7 +266,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(Poll.PollDateRemovedProperty, value); }
 		}
 
-		public static PropertyInfo<bool?> PollDeletedFlagProperty =
+		public static readonly PropertyInfo<bool?> PollDeletedFlagProperty =
 			Poll.RegisterProperty<bool?>(_ => _.PollDeletedFlag);
 		public bool? PollDeletedFlag
 		{
@@ -255,7 +274,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(Poll.PollDeletedFlagProperty, value); }
 		}
 
-		public static PropertyInfo<DateTime?> PollDeletedDateProperty =
+		public static readonly PropertyInfo<DateTime?> PollDeletedDateProperty =
 			Poll.RegisterProperty<DateTime?>(_ => _.PollDeletedDate);
 		public DateTime? PollDeletedDate
 		{

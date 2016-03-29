@@ -3,11 +3,11 @@ using MyVote.UI.Helpers;
 using MyVote.UI.Services;
 using MyVote.UI.ViewModels;
 using MvvmCross.Plugins.Json;
-using Cirrious.CrossCore.Platform;
+using MvvmCross.Core.Platform;
 
 #if NETFX_CORE
 using System.Reflection;
-using Cirrious.MvvmCross.ViewModels;
+using MvvmCross.Core.ViewModels;
 #endif // NETFX_CORE
 
 namespace MyVote.UI

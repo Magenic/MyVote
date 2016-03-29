@@ -4,16 +4,25 @@
              xmlns:controls="clr-namespace:MyVote.UI.Controls;assembly=MyVoteUI"
              xmlns:vm="clr-namespace:MyVote.UI.ViewModels;assembly=MyVoteUI"
              x:Class="MyVote.UI.Views.HomePageTablet">
-    <ScrollView Style="{StaticResource BackgroundStyle}" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-        <controls:RepeaterView x:TypeArguments="vm:PollResultsByCategoryViewModel" x:Name="Repeater" Orientation="Vertical" ItemsSource="{Binding PollSearchResults}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+  <RelativeLayout x:Name="lytMain" Style="{StaticResource BackgroundStyle}">
+    <ScrollView Style="{StaticResource BackgroundStyle}" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+            RelativeLayout.WidthConstraint=
+                "{ConstraintExpression Type=RelativeToParent, 
+                                    Property=Width,
+                                    Factor=1}"
+            RelativeLayout.HeightConstraint=
+                "{ConstraintExpression Type=RelativeToParent,
+                                    Property=Height,
+                                    Factor=1}">
+        <controls:RepeaterView x:TypeArguments="vm:PollResultsByCategoryViewModel" x:Name="Repeater" Spacing="10" Orientation="Vertical" ItemsSource="{Binding PollSearchResults}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
             <controls:RepeaterView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.View>
-                            <StackLayout Orientation="Vertical" Spacing="2" VerticalOptions="FillAndExpand">
+                            <StackLayout Orientation="Vertical" Spacing="10" VerticalOptions="FillAndExpand">
                                 <StackLayout Orientation="Horizontal" Spacing="0" VerticalOptions="FillAndExpand">
-                                    <Label Text="{Binding Category}" TextColor="#000000" Font="Bold" />
-                                    <Label Text="{Binding SearchResults.Count, StringFormat=' ({0})'}" TextColor="#000000" Font="Bold" />
+                                    <Label Text="{Binding Category}" TextColor="{StaticResource AppOrange}" />
+                                    <Label Text="{Binding SearchResults.Count, StringFormat=' ({0})'}" TextColor="{StaticResource AppOrange}" />
                                 </StackLayout>
                                 <controls:ExtendedScrollView Orientation="Horizontal" HeightRequest="175">
                                     <controls:RepeaterView x:TypeArguments="vm:PollSearchResultViewModel" Spacing="2" Orientation="Horizontal" ItemsSource="{Binding SearchResults}" HorizontalOptions="StartAndExpand">
@@ -47,7 +56,7 @@
                                                                         "{ConstraintExpression Type=RelativeToParent,
                                                                                             Property=Height,
                                                                                             Factor=0,
-                                                                                            Constant=95}" />
+                                                                                            Constant=100}" />
                                                         </RelativeLayout>
                                                     </ViewCell.View>
                                                 </ViewCell>
@@ -62,4 +71,21 @@
             </controls:RepeaterView.ItemTemplate>
         </controls:RepeaterView>
     </ScrollView>
+    <ActivityIndicator IsVisible="{Binding IsBusy}"
+                   IsRunning="{Binding IsBusy}"
+                   BackgroundColor="#75949494"
+                   Color="Black"
+                   WidthRequest="50"
+                   HeightRequest="50"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="CenterAndExpand"
+                   RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                                    Property=Width,
+                                    Factor=0.5,
+                                    Constant=-25}"
+                   RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                                    Property=Height,
+                                    Factor=0.5,
+                                    Constant=-25}" />
+  </RelativeLayout>
 </ContentPage>

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Cirrious.CrossCore;
-using Cirrious.MvvmCross.ViewModels;
-using MyVote.BusinessObjects;
+using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
 using MyVote.UI.ViewModels;
 using Xamarin.Forms;
 
@@ -13,18 +12,20 @@ namespace MyVote.UI.Views
 		public PollsPagePhone()
 		{
             InitializeComponent();
-            var toolbar = this.ToolbarItems.FirstOrDefault();
-            if (toolbar != null)
-            {
-#if ANDROID
-                toolbar.Icon = "MoreMenu.png";
-#elif IOS
-		        toolbar.Text = "...";
-#endif
-            }
-		}
 
-	    protected override void OnBindingContextChanged()
+            Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, true);
+
+            Device.OnPlatform(
+		        iOS: () => ToolbarItems.Add(new ToolbarItem("More", "", ActionsClick, ToolbarItemOrder.Primary, 1)),
+                Android: () =>
+                {
+                    ToolbarItems.Add(new ToolbarItem("Edit Profile", "", () => { }, ToolbarItemOrder.Secondary, 1));
+                    ToolbarItems.Add(new ToolbarItem("Logout", "", () => { }, ToolbarItemOrder.Secondary, 2));
+                }
+            );
+        }
+
+        protected override void OnBindingContextChanged()
 	    {
 	        if (Children != null && this.BindingContext != null)
 	        {
@@ -40,9 +41,17 @@ namespace MyVote.UI.Views
                 var addPollPage = Children.Single(c => c.Title == "New Poll");
                 addPollPage.PropertyChanged += Child_PropertyChanged;
 #if IOS
-                SetIconPictures();
+                homePage.Icon = "Home.png";
+                categoriesPage.Icon = "Categories.png";
+                searchPage.Icon = "Search.png";
+                addPollPage.Icon = "New.png";
+
 #endif
                 SetupNewPollViewModel();
+
+#if ANDROID
+                SetupToolbar();
+#endif
 	        }
             else if (Children != null)
             {
@@ -55,7 +64,16 @@ namespace MyVote.UI.Views
             }
 	    }
 
-        private void Child_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+	    private void SetupToolbar()
+	    {
+	        var viewModel = ((PollsPageViewModel) this.BindingContext);
+	        var toolbar = this.ToolbarItems.Single(t => t.Text == "Edit Profile");
+	        toolbar.Command = viewModel.EditProfile;
+	        toolbar = this.ToolbarItems.Single(t => t.Text == "Logout");
+	        toolbar.Command = viewModel.Logout;
+	    }
+
+	    private void Child_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsBusy")
 			{
@@ -81,7 +99,7 @@ namespace MyVote.UI.Views
             });
 	    }
 
-        public async void ActionsClick(object sender, EventArgs e)
+        public async void ActionsClick()
         {
             const string editProfile = "Edit Profile";
             const string logout = "Logout";
@@ -99,19 +117,5 @@ namespace MyVote.UI.Views
                     break;
             }
         }
-
-	    private void SetIconPictures()
-	    {
-            var homePage = Children.Single(c => c.Title == "Home");
-            var categoriesPage = Children.Single(c => c.Title == "Categories");
-            var searchPage = Children.Single(c => c.Title == "Search");
-            var addPollPage = Children.Single(c => c.Title == "New Poll");
-#if IOS
-            homePage.Icon = categoriesPage.IsFocused? "HomeSelected.png": "Home.png";
-            categoriesPage.Icon = categoriesPage.IsFocused? "CategoriesSelected.png": "Categories.png";
-            searchPage.Icon = searchPage.IsFocused?  "SearchSelected.png" : "Search.png";
-            addPollPage.Icon = addPollPage.IsFocused? "NewSelected.png": "New.png";
-#endif
-        }
-	}
+    }
 }

@@ -2,8 +2,11 @@
 using Csla;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
+using System;
 
 #if !NETFX_CORE && !MOBILE
+using MyVote.BusinessObjects.Attributes;
+using MyVote.Data.Entities;
 using System.Data.Entity;
 using Csla.Core;
 #endif
@@ -12,10 +15,10 @@ namespace MyVote.BusinessObjects
 {
 	[System.Serializable]
 	internal sealed class UserIdentity
-		: CslaIdentityScopeCore<UserIdentity>, IUserIdentity
+		: CslaIdentityCore<UserIdentity>, IUserIdentity
 	{
 #if !NETFX_CORE && !MOBILE
-        private void DataPortal_Fetch(string profileId)
+		  private void DataPortal_Fetch(string profileId)
 		{
 			var entity = (from u in this.Entities.MVUsers.Include(_ => _.MVUserRole)
 							  where u.ProfileID == profileId
@@ -37,7 +40,7 @@ namespace MyVote.BusinessObjects
 		}
 #endif
 
-		public static PropertyInfo<string> ProfileIDProperty =
+		public static readonly PropertyInfo<string> ProfileIDProperty =
 			UserIdentity.RegisterProperty<string>(_ => _.ProfileID);
 		public string ProfileID
 		{
@@ -45,7 +48,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(UserIdentity.ProfileIDProperty, value); }
 		}
 
-		public static PropertyInfo<int?> UserIDProperty =
+		public static readonly PropertyInfo<int?> UserIDProperty =
 			UserIdentity.RegisterProperty<int?>(_ => _.UserID);
 		public int? UserID
 		{
@@ -53,12 +56,23 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(UserIdentity.UserIDProperty, value); }
 		}
 
-		public static PropertyInfo<string> UserNameProperty =
+		public static readonly PropertyInfo<string> UserNameProperty =
 			UserIdentity.RegisterProperty<string>(_ => _.UserName);
 		public string UserName
 		{
 			get { return this.ReadProperty(UserIdentity.UserNameProperty); }
 			private set { this.LoadProperty(UserIdentity.UserNameProperty, value); }
 		}
+
+#if !NETFX_CORE && !MOBILE
+		[NonSerialized]
+		private IEntities entities;
+		[Dependency]
+		public IEntities Entities
+		{
+			get { return this.entities; }
+			set { this.entities = value; }
+		}
+#endif
 	}
 }

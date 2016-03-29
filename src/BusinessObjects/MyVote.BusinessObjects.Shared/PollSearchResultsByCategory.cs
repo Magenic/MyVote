@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-using Csla;
+﻿using Csla;
+using MyVote.BusinessObjects.Attributes;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
 using MyVote.BusinessObjects.Core.Contracts;
+using System;
+using System.Collections.Generic;
 
 namespace MyVote.BusinessObjects
 {
@@ -11,24 +13,42 @@ namespace MyVote.BusinessObjects
 		: ReadOnlyBaseCore<PollSearchResultsByCategory>, IPollSearchResultsByCategory
 	{
 #if !NETFX_CORE && !MOBILE
-        private void Child_Fetch(List<PollSearchResultsData> results)
+		private void Child_Fetch(List<PollSearchResultsData> results)
 		{
 			this.Category = results[0].Category;
-			var resultList = DataPortal.FetchChild<ReadOnlySwitchList<IPollSearchResult>>();
+			var resultList = this.pollSearchResultsFactory.FetchChild();
 
 			resultList.SwitchReadOnlyStatus();
 
 			foreach (var result in results)
 			{
-				resultList.Add(DataPortal.FetchChild<PollSearchResult>(result));
+				resultList.Add(this.pollSearchResultFactory.FetchChild(result));
 			}
 
 			resultList.SwitchReadOnlyStatus();
 			this.SearchResults = resultList;
 		}
+
+		[NonSerialized]
+		private IObjectFactory<ReadOnlySwitchList<IPollSearchResult>> pollSearchResultsFactory;
+		[Dependency]
+		public IObjectFactory<ReadOnlySwitchList<IPollSearchResult>> PollSearchResultsFactory
+		{
+			get { return this.pollSearchResultsFactory; }
+			set { this.pollSearchResultsFactory = value; }
+		}
+
+		[NonSerialized]
+		private IObjectFactory<IPollSearchResult> pollSearchResultFactory;
+		[Dependency]
+		public IObjectFactory<IPollSearchResult> PollSearchResultFactory
+		{
+			get { return this.pollSearchResultFactory; }
+			set { this.pollSearchResultFactory = value; }
+		}
 #endif
 
-		public static PropertyInfo<string> CategoryProperty =
+		public static readonly PropertyInfo<string> CategoryProperty =
 			PollSearchResultsByCategory.RegisterProperty<string>(_ => _.Category);
 		public string Category
 		{
@@ -36,7 +56,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollSearchResultsByCategory.CategoryProperty, value); }
 		}
 
-		public static PropertyInfo<ReadOnlySwitchList<IPollSearchResult>> SearchResultsProperty =
+		public static readonly PropertyInfo<ReadOnlySwitchList<IPollSearchResult>> SearchResultsProperty =
 			PollSearchResultsByCategory.RegisterProperty<ReadOnlySwitchList<IPollSearchResult>>(_ => _.SearchResults);
 		public IReadOnlyListBaseCore<IPollSearchResult> SearchResults
 		{

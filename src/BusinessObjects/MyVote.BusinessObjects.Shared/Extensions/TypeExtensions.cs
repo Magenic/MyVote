@@ -15,8 +15,9 @@ namespace MyVote.BusinessObjects.Extensions
 				return @this;
 			}
 
-			return Type.GetType(@this.Namespace.Replace(".Contracts", string.Empty) +
-				"." + @this.Name.Substring(1) + ", " + @this.Assembly.FullName);
+			var @namespace = @this.Namespace.Replace(".Contracts", string.Empty);
+
+			return Type.GetType($"{@namespace}.{@this.Name.Substring(1)}, {@this.Assembly.FullName}");
 #else
 			if (@this == null)
 			{
@@ -30,8 +31,9 @@ namespace MyVote.BusinessObjects.Extensions
 					return @this;
 				}
 
-				return Type.GetType(@this.Namespace.Replace(".Contracts", string.Empty) +
-					"." + @this.Name.Substring(1) + ", " + thisTypeInfo.Assembly.FullName);
+				var @namespace = @this.Namespace.Replace(".Contracts", string.Empty);
+
+				return Type.GetType($"{@namespace}.{@this.Name.Substring(1)}, {thisTypeInfo.Assembly.FullName}");
 			}
 #endif
 		}

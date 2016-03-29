@@ -1,9 +1,9 @@
-﻿using Cirrious.MvvmCross.ViewModels;
-using MyVote.BusinessObjects.Contracts;
+﻿using MyVote.BusinessObjects.Contracts;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MvvmCross.Core.ViewModels;
 
 namespace MyVote.UI.ViewModels
 {

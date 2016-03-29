@@ -1,8 +1,7 @@
 ﻿using MyVote.UI.ViewModels;
-using System;
 using System.Linq;
-using Cirrious.CrossCore;
-using Cirrious.MvvmCross.ViewModels;
+using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
 using Xamarin.Forms;
 
 namespace MyVote.UI.Views
@@ -12,17 +11,18 @@ namespace MyVote.UI.Views
 		public PollsPageTablet()
 		{
             InitializeComponent();
-		    var toolbar = this.ToolbarItems.FirstOrDefault();
-		    if (toolbar != null)
-		    {
-#if ANDROID
-		        toolbar.Icon = "MoreMenu.png";
-#elif IOS
-		        toolbar.Text = "...";
-#endif
-		    }
 
-		}
+            Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, true);
+
+            Device.OnPlatform(
+                iOS: () => ToolbarItems.Add(new ToolbarItem("More", "", ActionsClick, ToolbarItemOrder.Primary, 1)),
+                Android: () =>
+                {
+                    ToolbarItems.Add(new ToolbarItem("Edit Profile", "", () => { }, ToolbarItemOrder.Secondary, 1));
+                    ToolbarItems.Add(new ToolbarItem("Logout", "", () => { }, ToolbarItemOrder.Secondary, 2));
+                }
+            );
+        }
 
         protected override void OnBindingContextChanged()
         {
@@ -47,6 +47,10 @@ namespace MyVote.UI.Views
 
 #endif
                 SetupNewPollViewModel();
+
+#if ANDROID
+                SetupToolbar();
+#endif
             }
             else if (Children != null)
             {
@@ -57,6 +61,15 @@ namespace MyVote.UI.Views
                     addPollviewModel.PollAdded -= AddPollviewModel_PollAdded;
                 }
             }
+        }
+
+        private void SetupToolbar()
+        {
+            var viewModel = ((PollsPageViewModel)this.BindingContext);
+            var toolbar = this.ToolbarItems.Single(t => t.Text == "Edit Profile");
+            toolbar.Command = viewModel.EditProfile;
+            toolbar = this.ToolbarItems.Single(t => t.Text == "Logout");
+            toolbar.Command = viewModel.Logout;
         }
 
         private void Child_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -84,24 +97,24 @@ namespace MyVote.UI.Views
                 this.SelectedItem = home;
             });
         }
-        
-        public async void ActionsClick(object sender, EventArgs e)
-		{
-			const string editProfile = "Edit Profile";
-			const string logout = "Logout";
 
-			var result = await this.DisplayActionSheet(null, null, null, editProfile, logout);
-			var viewModel = ((PollsPageViewModel)this.BindingContext);
+        public async void ActionsClick()
+        {
+            const string editProfile = "Edit Profile";
+            const string logout = "Logout";
 
-			switch (result)
-			{
-				case editProfile:
-					viewModel.EditProfile.Execute(null);
-					break;
-				case logout:
-					viewModel.Logout.Execute(null);
-					break;
-			}
-		}
- 	}
+            var result = await this.DisplayActionSheet(null, null, null, editProfile, logout);
+            var viewModel = ((PollsPageViewModel)this.BindingContext);
+
+            switch (result)
+            {
+                case editProfile:
+                    viewModel.EditProfile.Execute(null);
+                    break;
+                case logout:
+                    viewModel.Logout.Execute(null);
+                    break;
+            }
+        }
+    }
 }

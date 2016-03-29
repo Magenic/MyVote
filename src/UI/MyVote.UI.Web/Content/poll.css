@@ -140,8 +140,13 @@
     visibility: hidden;
   }
 
-  .poll-new-comment-input:focus + .poll-new-comment-button,
+  .poll-new-comment-input:focus + .poll-new-comment-button, 
   .poll-new-comment-button:focus {
+    visibility: visible;
+  }
+
+ .poll-new-comment-input:active + .poll-new-comment-button,
+  .poll-new-comment-button:active {
     visibility: visible;
   }
 

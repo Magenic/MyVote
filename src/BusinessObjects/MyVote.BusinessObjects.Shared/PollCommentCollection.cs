@@ -13,7 +13,7 @@ namespace MyVote.BusinessObjects
 		[RunLocal]
 		protected override void Child_Create() { }
 #if !NETFX_CORE && !MOBILE
-        protected override void Child_Fetch() { }
+		protected override void Child_Fetch() { }
 #endif
 	}
 }

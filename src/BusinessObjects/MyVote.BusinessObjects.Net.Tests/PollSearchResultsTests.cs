@@ -1,11 +1,14 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
 using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using MyVote.Core.Extensions;
+using MyVote.BusinessObjects.Contracts;
+using MyVote.BusinessObjects.Core;
 using MyVote.Data.Entities;
 using Spackle.Extensions;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
@@ -70,24 +73,45 @@ namespace MyVote.BusinessObjects.Net.Tests
 			entities.Setup(_ => _.MVPollSubmissions).Returns(new InMemoryDbSet<MVPollSubmission> { submission1, submission2, submission3, submission4 });
 			entities.Setup(_ => _.Dispose());
 
+			var pollSearchResultsByCategoryFactory = new Mock<IObjectFactory<ReadOnlySwitchList<IPollSearchResultsByCategory>>>(MockBehavior.Strict);
+			pollSearchResultsByCategoryFactory.Setup(_ => _.FetchChild()).Returns(DataPortal.FetchChild<ReadOnlySwitchList<IPollSearchResultsByCategory>>());
+
+			var pollSearchResultByCategoryFactory = new Mock<IObjectFactory<IPollSearchResultsByCategory>>(MockBehavior.Strict);
+			pollSearchResultByCategoryFactory.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollSearchResultsByCategory>(_[0] as List<PollSearchResultsData>));
+
+			var pollSearchResultsFactory = new Mock<IObjectFactory<ReadOnlySwitchList<IPollSearchResult>>>();
+			pollSearchResultsFactory.Setup(_ => _.FetchChild()).Returns(() => DataPortal.FetchChild<ReadOnlySwitchList<IPollSearchResult>>());
+
+			var pollSearchResultFactory = new Mock<IObjectFactory<IPollSearchResult>>();
+			pollSearchResultFactory.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollSearchResult>(_[0] as PollSearchResultsData));
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
 			builder.Register<ISearchWhereClause>(_ => Mock.Of<ISearchWhereClause>());
+			builder.Register<IObjectFactory<ReadOnlySwitchList<IPollSearchResultsByCategory>>>(_ => pollSearchResultsByCategoryFactory.Object);
+			builder.Register<IObjectFactory<IPollSearchResultsByCategory>>(_ => pollSearchResultByCategoryFactory.Object);
+			builder.Register<IObjectFactory<ReadOnlySwitchList<IPollSearchResult>>>(_ => pollSearchResultsFactory.Object);
+			builder.Register<IObjectFactory<IPollSearchResult>>(_ => pollSearchResultFactory.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var result = DataPortal.Fetch<PollSearchResults>(PollSearchResultsQueryType.MostPopular);
 				Assert.AreEqual(1, result.SearchResultsByCategory.Count,
-					result.GetPropertyName(_ => _.SearchResultsByCategory));
+					nameof(result.SearchResultsByCategory));
 				Assert.AreEqual(3, result.SearchResultsByCategory[0].SearchResults.Count,
-					result.SearchResultsByCategory[0].GetPropertyName(_ => _.SearchResults));
+					nameof(IPollSearchResultsByCategory.SearchResults));
 				Assert.AreEqual(poll2.PollQuestion, result.SearchResultsByCategory[0].SearchResults[0].Question,
-					result.GetPropertyName(_ => _.SearchResultsByCategory[0].SearchResults[0].Question) + " 0");
+					$"{nameof(IPollSearchResult.Question)} 0");
 				Assert.AreEqual(poll1.PollQuestion, result.SearchResultsByCategory[0].SearchResults[1].Question,
-					result.GetPropertyName(_ => _.SearchResultsByCategory[0].SearchResults[1].Question) + " 1");
+					$"{nameof(IPollSearchResult.Question)} 1");
 			}
 
 			entities.VerifyAll();
+			pollSearchResultsByCategoryFactory.VerifyAll();
+			pollSearchResultByCategoryFactory.VerifyAll();
 		}
 
 		[TestMethod]
@@ -153,39 +177,58 @@ namespace MyVote.BusinessObjects.Net.Tests
 			entities.Setup(_ => _.MVPollSubmissions).Returns(new InMemoryDbSet<MVPollSubmission>());
 			entities.Setup(_ => _.Dispose());
 
+			var pollSearchResultsByCategoryFactory = new Mock<IObjectFactory<ReadOnlySwitchList<IPollSearchResultsByCategory>>>();
+			pollSearchResultsByCategoryFactory.Setup(_ => _.FetchChild()).Returns(DataPortal.FetchChild<ReadOnlySwitchList<IPollSearchResultsByCategory>>());
+
+			var pollSearchResultByCategoryFactory = new Mock<IObjectFactory<IPollSearchResultsByCategory>>();
+			pollSearchResultByCategoryFactory.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollSearchResultsByCategory>(_[0] as List<PollSearchResultsData>));
+
+			var pollSearchResultsFactory = new Mock<IObjectFactory<ReadOnlySwitchList<IPollSearchResult>>>();
+			pollSearchResultsFactory.Setup(_ => _.FetchChild()).Returns(() => DataPortal.FetchChild<ReadOnlySwitchList<IPollSearchResult>>());
+
+			var pollSearchResultFactory = new Mock<IObjectFactory<IPollSearchResult>>();
+			pollSearchResultFactory.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollSearchResult>(_[0] as PollSearchResultsData));
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
 			builder.Register<ISearchWhereClause>(_ => Mock.Of<ISearchWhereClause>());
+			builder.Register<IObjectFactory<ReadOnlySwitchList<IPollSearchResultsByCategory>>>(_ => pollSearchResultsByCategoryFactory.Object);
+			builder.Register<IObjectFactory<IPollSearchResultsByCategory>>(_ => pollSearchResultByCategoryFactory.Object);
+			builder.Register<IObjectFactory<ReadOnlySwitchList<IPollSearchResult>>>(_ => pollSearchResultsFactory.Object);
+			builder.Register<IObjectFactory<IPollSearchResult>>(_ => pollSearchResultFactory.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var result = DataPortal.Fetch<PollSearchResults>(PollSearchResultsQueryType.Newest);
 				Assert.AreEqual(2, result.SearchResultsByCategory.Count,
-					result.GetPropertyName(_ => _.SearchResultsByCategory));
+					nameof(result.SearchResultsByCategory));
 
 				var firstCategory = result.SearchResultsByCategory[0];
 				Assert.AreEqual("a", firstCategory.Category,
-					firstCategory.GetPropertyName(_ => _.Category) + " a");
+					$"{nameof(firstCategory.Category)} a");
 				Assert.AreEqual(3, firstCategory.SearchResults.Count,
-					firstCategory.GetPropertyName(_ => _.SearchResults) + " a");
+					$"{nameof(firstCategory.SearchResults)} a");
 				Assert.AreEqual(poll6.PollQuestion, firstCategory.SearchResults[0].Question,
-					firstCategory.GetPropertyName(_ => _.SearchResults[0].Question) + " a 0");
+					$"{nameof(IPollSearchResult.Question)} a 0");
 				Assert.AreEqual(poll2.PollQuestion, firstCategory.SearchResults[1].Question,
-					firstCategory.GetPropertyName(_ => _.SearchResults[1].Question) + " a 1");
+					$"{nameof(IPollSearchResult.Question)} a 1");
 				Assert.AreEqual(poll4.PollQuestion, firstCategory.SearchResults[2].Question,
-					firstCategory.GetPropertyName(_ => _.SearchResults[2].Question) + " a 2");
+					$"{nameof(IPollSearchResult.Question)} a 2");
 
 				var secondCategory = result.SearchResultsByCategory[1];
 				Assert.AreEqual("b", secondCategory.Category,
-					secondCategory.GetPropertyName(_ => _.Category) + " b");
+					$"{nameof(secondCategory.Category)} b");
 				Assert.AreEqual(3, secondCategory.SearchResults.Count,
-					secondCategory.GetPropertyName(_ => _.SearchResults) + " b");
+					$"{nameof(secondCategory.SearchResults)} b");
 				Assert.AreEqual(poll5.PollQuestion, secondCategory.SearchResults[0].Question,
-					secondCategory.GetPropertyName(_ => _.SearchResults[0].Question) + " b 0");
+					$"{nameof(IPollSearchResult.Question)} b 0");
 				Assert.AreEqual(poll1.PollQuestion, secondCategory.SearchResults[1].Question,
-					secondCategory.GetPropertyName(_ => _.SearchResults[1].Question) + " b 1");
+					$"{nameof(IPollSearchResult.Question)} b 1");
 				Assert.AreEqual(poll3.PollQuestion, secondCategory.SearchResults[2].Question,
-					secondCategory.GetPropertyName(_ => _.SearchResults[2].Question) + " b 2");
+					nameof(IPollSearchResult.Question));
 			}
 
 			entities.VerifyAll();
@@ -248,19 +291,38 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var searchWhereClause = new Mock<ISearchWhereClause>(MockBehavior.Strict);
 			searchWhereClause.Setup(_ => _.WhereClause(It.IsAny<DateTime>(), "%bcd%")).Returns(_ => _.PollQuestion == "AbCdE");
 
+			var pollSearchResultsByCategoryFactory = new Mock<IObjectFactory<ReadOnlySwitchList<IPollSearchResultsByCategory>>>();
+			pollSearchResultsByCategoryFactory.Setup(_ => _.FetchChild()).Returns(DataPortal.FetchChild<ReadOnlySwitchList<IPollSearchResultsByCategory>>());
+
+			var pollSearchResultByCategoryFactory = new Mock<IObjectFactory<IPollSearchResultsByCategory>>();
+			pollSearchResultByCategoryFactory.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollSearchResultsByCategory>(_[0] as List<PollSearchResultsData>));
+
+			var pollSearchResultsFactory = new Mock<IObjectFactory<ReadOnlySwitchList<IPollSearchResult>>>();
+			pollSearchResultsFactory.Setup(_ => _.FetchChild()).Returns(() => DataPortal.FetchChild<ReadOnlySwitchList<IPollSearchResult>>());
+
+			var pollSearchResultFactory = new Mock<IObjectFactory<IPollSearchResult>>();
+			pollSearchResultFactory.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollSearchResult>(_[0] as PollSearchResultsData));
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
 			builder.Register<ISearchWhereClause>(_ => searchWhereClause.Object);
+			builder.Register<IObjectFactory<ReadOnlySwitchList<IPollSearchResultsByCategory>>>(_ => pollSearchResultsByCategoryFactory.Object);
+			builder.Register<IObjectFactory<IPollSearchResultsByCategory>>(_ => pollSearchResultByCategoryFactory.Object);
+			builder.Register<IObjectFactory<ReadOnlySwitchList<IPollSearchResult>>>(_ => pollSearchResultsFactory.Object);
+			builder.Register<IObjectFactory<IPollSearchResult>>(_ => pollSearchResultFactory.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var result = DataPortal.Fetch<PollSearchResults>("bCd");
 				Assert.AreEqual(1, result.SearchResultsByCategory.Count,
-					result.GetPropertyName(_ => _.SearchResultsByCategory));
+					nameof(result.SearchResultsByCategory));
 				Assert.AreEqual(1, result.SearchResultsByCategory[0].SearchResults.Count,
-					result.GetPropertyName(_ => _.SearchResultsByCategory[0].SearchResults.Count));
+					nameof(ICollection.Count));
 				Assert.AreEqual(poll2.PollQuestion, result.SearchResultsByCategory[0].SearchResults[0].Question,
-					result.GetPropertyName(_ => _.SearchResultsByCategory[0].SearchResults[0].Question));
+					nameof(IPollSearchResult.Question));
 			}
 
 			searchWhereClause.VerifyAll();
@@ -313,16 +375,35 @@ namespace MyVote.BusinessObjects.Net.Tests
 			entities.Setup(_ => _.MVPollSubmissions).Returns(new InMemoryDbSet<MVPollSubmission>());
 			entities.Setup(_ => _.Dispose());
 
+			var pollSearchResultsByCategoryFactory = new Mock<IObjectFactory<ReadOnlySwitchList<IPollSearchResultsByCategory>>>();
+			pollSearchResultsByCategoryFactory.Setup(_ => _.FetchChild()).Returns(DataPortal.FetchChild<ReadOnlySwitchList<IPollSearchResultsByCategory>>());
+
+			var pollSearchResultByCategoryFactory = new Mock<IObjectFactory<IPollSearchResultsByCategory>>();
+			pollSearchResultByCategoryFactory.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollSearchResultsByCategory>(_[0] as List<PollSearchResultsData>));
+
+			var pollSearchResultsFactory = new Mock<IObjectFactory<ReadOnlySwitchList<IPollSearchResult>>>();
+			pollSearchResultsFactory.Setup(_ => _.FetchChild()).Returns(() => DataPortal.FetchChild<ReadOnlySwitchList<IPollSearchResult>>());
+
+			var pollSearchResultFactory = new Mock<IObjectFactory<IPollSearchResult>>();
+			pollSearchResultFactory.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollSearchResult>(_[0] as PollSearchResultsData));
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
 			builder.Register<ISearchWhereClause>(_ => Mock.Of<ISearchWhereClause>());
+			builder.Register<IObjectFactory<ReadOnlySwitchList<IPollSearchResultsByCategory>>>(_ => pollSearchResultsByCategoryFactory.Object);
+			builder.Register<IObjectFactory<IPollSearchResultsByCategory>>(_ => pollSearchResultByCategoryFactory.Object);
+			builder.Register<IObjectFactory<ReadOnlySwitchList<IPollSearchResult>>>(_ => pollSearchResultsFactory.Object);
+			builder.Register<IObjectFactory<IPollSearchResult>>(_ => pollSearchResultFactory.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var result = DataPortal.Fetch<PollSearchResults>(
 					new PollSearchResultsByUserCriteria(1, true));
 				Assert.AreEqual(2, result.SearchResultsByCategory.Count,
-					result.GetPropertyName(_ => _.SearchResultsByCategory));
+					nameof(result.SearchResultsByCategory));
 			}
 
 			entities.VerifyAll();
@@ -374,16 +455,35 @@ namespace MyVote.BusinessObjects.Net.Tests
 			entities.Setup(_ => _.MVPollSubmissions).Returns(new InMemoryDbSet<MVPollSubmission>());
 			entities.Setup(_ => _.Dispose());
 
+			var pollSearchResultsByCategoryFactory = new Mock<IObjectFactory<ReadOnlySwitchList<IPollSearchResultsByCategory>>>();
+			pollSearchResultsByCategoryFactory.Setup(_ => _.FetchChild()).Returns(DataPortal.FetchChild<ReadOnlySwitchList<IPollSearchResultsByCategory>>());
+
+			var pollSearchResultByCategoryFactory = new Mock<IObjectFactory<IPollSearchResultsByCategory>>();
+			pollSearchResultByCategoryFactory.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollSearchResultsByCategory>(_[0] as List<PollSearchResultsData>));
+
+			var pollSearchResultsFactory = new Mock<IObjectFactory<ReadOnlySwitchList<IPollSearchResult>>>();
+			pollSearchResultsFactory.Setup(_ => _.FetchChild()).Returns(() => DataPortal.FetchChild<ReadOnlySwitchList<IPollSearchResult>>());
+
+			var pollSearchResultFactory = new Mock<IObjectFactory<IPollSearchResult>>();
+			pollSearchResultFactory.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollSearchResult>(_[0] as PollSearchResultsData));
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
 			builder.Register<ISearchWhereClause>(_ => Mock.Of<ISearchWhereClause>());
+			builder.Register<IObjectFactory<ReadOnlySwitchList<IPollSearchResultsByCategory>>>(_ => pollSearchResultsByCategoryFactory.Object);
+			builder.Register<IObjectFactory<IPollSearchResultsByCategory>>(_ => pollSearchResultByCategoryFactory.Object);
+			builder.Register<IObjectFactory<ReadOnlySwitchList<IPollSearchResult>>>(_ => pollSearchResultsFactory.Object);
+			builder.Register<IObjectFactory<IPollSearchResult>>(_ => pollSearchResultFactory.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var result = DataPortal.Fetch<PollSearchResults>(
 					new PollSearchResultsByUserCriteria(1, false));
 				Assert.AreEqual(2, result.SearchResultsByCategory.Count,
-					result.GetPropertyName(_ => _.SearchResultsByCategory));
+					nameof(result.SearchResultsByCategory));
 			}
 
 			entities.VerifyAll();

@@ -12,10 +12,10 @@ namespace MyVote.BusinessObjects
 {
 	[System.Serializable]
 	internal sealed class PollResults
-		: BusinessBaseScopeCore<PollResults>, IPollResults
+		: BusinessBaseCore<PollResults>, IPollResults
 	{
 #if !NETFX_CORE && !MOBILE
-        private void DataPortal_Fetch(PollResultsCriteria criteria)
+		  private void DataPortal_Fetch(PollResultsCriteria criteria)
 		{
 			using (this.BypassPropertyChecks)
 			{
@@ -50,7 +50,7 @@ namespace MyVote.BusinessObjects
 		}
 #endif // !NETFX_CORE && !MOBILE
 
-        public static PropertyInfo<int> PollIDProperty =
+		  public static readonly PropertyInfo<int> PollIDProperty =
 			PollResults.RegisterProperty<int>(_ => _.PollID);
 		public int PollID
 		{
@@ -58,7 +58,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollResults.PollIDProperty, value); }
 		}
 
-		public static PropertyInfo<bool> IsActiveProperty =
+		public static readonly PropertyInfo<bool> IsActiveProperty =
 			PollResults.RegisterProperty<bool>(_ => _.IsActive);
 		public bool IsActive
 		{
@@ -66,7 +66,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollResults.IsActiveProperty, value); }
 		}
 
-		public static PropertyInfo<bool> IsPollOwnedByUserProperty =
+		public static readonly PropertyInfo<bool> IsPollOwnedByUserProperty =
 			PollResults.RegisterProperty<bool>(_ => _.IsPollOwnedByUser);
 		public bool IsPollOwnedByUser
 		{
@@ -74,7 +74,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollResults.IsPollOwnedByUserProperty, value); }
 		}
 
-		public static PropertyInfo<IPollDataResults> PollDataResultsProperty =
+		public static readonly PropertyInfo<IPollDataResults> PollDataResultsProperty =
 			PollResults.RegisterProperty<IPollDataResults>(_ => _.PollDataResults);
 		public IPollDataResults PollDataResults
 		{
@@ -82,7 +82,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollResults.PollDataResultsProperty, value); }
 		}
 
-		public static PropertyInfo<string> PollImageLinkProperty =
+		public static readonly PropertyInfo<string> PollImageLinkProperty =
 			PollResults.RegisterProperty<string>(_ => _.PollImageLink);
 		public string PollImageLink
 		{
@@ -90,7 +90,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollResults.PollImageLinkProperty, value); }
 		}
 
-		public static PropertyInfo<IPollComments> PollCommentsProperty =
+		public static readonly PropertyInfo<IPollComments> PollCommentsProperty =
 			PollResults.RegisterProperty<IPollComments>(_ => _.PollComments);
 		public IPollComments PollComments
 		{
@@ -99,7 +99,7 @@ namespace MyVote.BusinessObjects
 		}
 
 #if !NETFX_CORE && !MOBILE
-        [NonSerialized]
+		  [NonSerialized]
 		private IObjectFactory<IPollDataResults> pollDataResultsFactory;
 		[Dependency]
 		public IObjectFactory<IPollDataResults> PollDataResultsFactory

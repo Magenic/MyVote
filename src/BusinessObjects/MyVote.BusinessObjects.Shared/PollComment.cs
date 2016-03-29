@@ -14,7 +14,7 @@ namespace MyVote.BusinessObjects
 {
 	[System.Serializable]
 	internal sealed class PollComment
-		: BusinessBaseScopeCore<PollComment>, IPollComment
+		: BusinessBaseCore<PollComment>, IPollComment
 	{
 		[RunLocal]
 		private void Child_Create(int userId, string userName)
@@ -26,7 +26,7 @@ namespace MyVote.BusinessObjects
 		}
 
 #if !NETFX_CORE && !MOBILE
-        private void Child_Fetch(PollCommentData commentData, List<PollCommentData> commentsData)
+		private void Child_Fetch(PollCommentData commentData, List<PollCommentData> commentsData)
 		{
 			using (this.BypassPropertyChecks)
 			{
@@ -64,14 +64,14 @@ namespace MyVote.BusinessObjects
 			this.FieldManager.UpdateChildren(pollId, this.PollCommentID);
 		}
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "parentCommentId")]
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "parentCommentId")]
 		private void Child_Update(int pollId, int? parentCommentId)
 		{
 			this.FieldManager.UpdateChildren(pollId, this.PollCommentID);
 		}
 #endif
 
-		public static PropertyInfo<DateTime?> CommentDateProperty =
+		public static readonly PropertyInfo<DateTime?> CommentDateProperty =
 			PollComment.RegisterProperty<DateTime?>(_ => _.CommentDate);
 		public DateTime? CommentDate
 		{
@@ -79,7 +79,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollComment.CommentDateProperty, value); }
 		}
 
-		public static PropertyInfo<IPollCommentCollection> CommentsProperty =
+		public static readonly PropertyInfo<IPollCommentCollection> CommentsProperty =
 			PollComment.RegisterProperty<IPollCommentCollection>(_ => _.Comments);
 		public IPollCommentCollection Comments
 		{
@@ -87,7 +87,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollComment.CommentsProperty, value); }
 		}
 
-		public static PropertyInfo<string> CommentTextProperty =
+		public static readonly PropertyInfo<string> CommentTextProperty =
 			PollComment.RegisterProperty<string>(_ => _.CommentText);
 		public string CommentText
 		{
@@ -95,7 +95,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(PollComment.CommentTextProperty, value); }
 		}
 
-		public static PropertyInfo<int?> PollCommentIDProperty =
+		public static readonly PropertyInfo<int?> PollCommentIDProperty =
 			PollComment.RegisterProperty<int?>(_ => _.PollCommentID);
 		public int? PollCommentID
 		{
@@ -103,7 +103,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(PollComment.PollCommentIDProperty, value); }
 		}
 
-		public static PropertyInfo<int> UserIDProperty =
+		public static readonly PropertyInfo<int> UserIDProperty =
 			PollComment.RegisterProperty<int>(_ => _.UserID);
 		public int UserID
 		{
@@ -120,7 +120,7 @@ namespace MyVote.BusinessObjects
 		}
 
 #if !NETFX_CORE && !MOBILE
-        [NonSerialized]
+		[NonSerialized]
 #endif
 		private IObjectFactory<IPollCommentCollection> pollCommentsFactory;
 		[Dependency]
@@ -131,7 +131,7 @@ namespace MyVote.BusinessObjects
 		}
 
 #if !NETFX_CORE && !MOBILE
-        [NonSerialized]
+		[NonSerialized]
 		private IObjectFactory<IPollComment> pollCommentFactory;
 		[Dependency]
 		public IObjectFactory<IPollComment> PollCommentFactory

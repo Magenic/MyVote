@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BusinessObjectsModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Category.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CategoryCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\ICallContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Contracts\ICategory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Contracts\ICategoryCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Contracts\IObjectFactory.cs" />
@@ -36,15 +37,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Contracts\IUserIdentity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\AuthorizationRuleCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\BusinessBaseCore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\BusinessBaseScopeCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\BusinessList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\BusinessListBaseCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\BusinessRuleCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\CommandBaseCore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\CommandBaseScopeCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Contracts\IBusinessBaseCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Contracts\IBusinessListBaseCore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\Contracts\IBusinessScope.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Contracts\ICommandBaseCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Contracts\ICslaIdentityCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Contracts\ICslaPrincipalCore.cs" />
@@ -53,13 +51,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core\CoreMessages.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\CriteriaBaseCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\CslaIdentityCore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\CslaIdentityScopeCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\CslaPrincipalCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReadOnlyBaseCore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\ReadOnlyBaseScopeCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReadOnlyListBaseCore.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Core\ReadOnlyListBaseScopeCore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\ReadOnlySwitchList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExecutionCallContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TaskExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectActivator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectFactory.cs" />
@@ -94,6 +91,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Rules\PollSubmissionPollStartDateRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Rules\StartAndEndDateRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Rules\UtcDateRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ScopeCounter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserIdentity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserRoles.cs" />

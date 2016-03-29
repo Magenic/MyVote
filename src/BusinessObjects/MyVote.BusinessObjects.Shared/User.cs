@@ -8,27 +8,26 @@ using MyVote.BusinessObjects.Core;
 #if !NETFX_CORE && !MOBILE
 using MyVote.Data.Entities;
 using Csla.Data;
-using MyVote.Core.Extensions;
 #endif
 
 namespace MyVote.BusinessObjects
 {
-	[System.Serializable]
+	[Serializable]
 #if ANDROID
-    [Android.Runtime.Preserve(AllMembers=true)]
+	 [Android.Runtime.Preserve(AllMembers=true)]
 #endif
 	internal sealed class User
-	  : BusinessBaseScopeCore<User>, IUser
+	  : BusinessBaseCore<User>, IUser
 	{
 		[RunLocal]
-		public void DataPortal_Create(string profileId)
+		private void DataPortal_Create(string profileId)
 		{
 			this.ProfileID = profileId;
 			this.BusinessRules.CheckRules();
 		}
 
 #if !NETFX_CORE && !MOBILE
-        private void DataPortal_Fetch(string profileId)
+		private void DataPortal_Fetch(string profileId)
 		{
 			using (this.BypassPropertyChecks)
 			{
@@ -49,7 +48,7 @@ namespace MyVote.BusinessObjects
 		protected override void DataPortal_Insert()
 		{
 			var entity = new MVUser();
-			DataMapper.Map(this, entity, this.GetPropertyName(_ => _.Entities));
+			DataMapper.Map(this, entity, nameof(this.Entities));
 			this.Entities.MVUsers.Add(entity);
 			this.Entities.SaveChanges();
 			this.UserID = entity.UserID;
@@ -58,13 +57,13 @@ namespace MyVote.BusinessObjects
 		protected override void DataPortal_Update()
 		{
 			var entity = this.Entities.MVUsers.Where(_ => _.ProfileID == this.ProfileID).First();
-			DataMapper.Map(this, entity, this.GetPropertyName(_ => _.Entities));
+			DataMapper.Map(this, entity, nameof(this.Entities));
 			this.Entities.SaveChanges();
 			this.UserID = entity.UserID;
 		}
 #endif
 
-		public static PropertyInfo<DateTime?> BirthDateProperty =
+		public static readonly PropertyInfo<DateTime?> BirthDateProperty =
 		  User.RegisterProperty<DateTime?>(_ => _.BirthDate);
 		public DateTime? BirthDate
 		{
@@ -72,7 +71,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(User.BirthDateProperty, value); }
 		}
 
-		public static PropertyInfo<string> EmailAddressProperty =
+		public static readonly PropertyInfo<string> EmailAddressProperty =
 		  User.RegisterProperty<string>(_ => _.EmailAddress);
 		[Required(ErrorMessage = "The e-mail address is required.")]
 		public string EmailAddress
@@ -81,7 +80,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(User.EmailAddressProperty, value); }
 		}
 
-		public static PropertyInfo<string> FirstNameProperty =
+		public static readonly PropertyInfo<string> FirstNameProperty =
 		  User.RegisterProperty<string>(_ => _.FirstName);
 		public string FirstName
 		{
@@ -89,7 +88,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(User.FirstNameProperty, value); }
 		}
 
-		public static PropertyInfo<string> GenderProperty =
+		public static readonly PropertyInfo<string> GenderProperty =
 		  User.RegisterProperty<string>(_ => _.Gender);
 		public string Gender
 		{
@@ -97,7 +96,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(User.GenderProperty, value); }
 		}
 
-		public static PropertyInfo<string> LastNameProperty =
+		public static readonly PropertyInfo<string> LastNameProperty =
 		  User.RegisterProperty<string>(_ => _.LastName);
 		public string LastName
 		{
@@ -105,7 +104,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(User.LastNameProperty, value); }
 		}
 
-		public static PropertyInfo<string> PostalCodeProperty =
+		public static readonly PropertyInfo<string> PostalCodeProperty =
 		  User.RegisterProperty<string>(_ => _.PostalCode);
 		public string PostalCode
 		{
@@ -113,7 +112,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(User.PostalCodeProperty, value); }
 		}
 
-		public static PropertyInfo<string> ProfileAuthTokenProperty =
+		public static readonly PropertyInfo<string> ProfileAuthTokenProperty =
 		  User.RegisterProperty<string>(_ => _.ProfileAuthToken);
 		public string ProfileAuthToken
 		{
@@ -121,7 +120,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(User.ProfileAuthTokenProperty, value); }
 		}
 
-		public static PropertyInfo<string> ProfileIDProperty =
+		public static readonly PropertyInfo<string> ProfileIDProperty =
 		  User.RegisterProperty<string>(_ => _.ProfileID);
 		public string ProfileID
 		{
@@ -129,7 +128,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(User.ProfileIDProperty, value); }
 		}
 
-		public static PropertyInfo<int?> UserIDProperty =
+		public static readonly PropertyInfo<int?> UserIDProperty =
 		  User.RegisterProperty<int?>(_ => _.UserID);
 		public int? UserID
 		{
@@ -137,7 +136,7 @@ namespace MyVote.BusinessObjects
 			private set { this.LoadProperty(User.UserIDProperty, value); }
 		}
 
-		public static PropertyInfo<string> UserNameProperty =
+		public static readonly PropertyInfo<string> UserNameProperty =
 		  User.RegisterProperty<string>(_ => _.UserName);
 		[Required(ErrorMessage = "The user name is required.")]
 		public string UserName
@@ -146,7 +145,7 @@ namespace MyVote.BusinessObjects
 			set { this.SetProperty(User.UserNameProperty, value); }
 		}
 
-		public static PropertyInfo<int?> UserRoleIDProperty =
+		public static readonly PropertyInfo<int?> UserRoleIDProperty =
 		  User.RegisterProperty<int?>(_ => _.UserRoleID);
 		public int? UserRoleID
 		{

@@ -1,12 +1,13 @@
 ﻿//Modules act as naming containers that encapsulate other things like 
 //'classes, 'interfaces', etc.
-module test
+module Test
 {
     export class MyTest {
         name = "hello";
         private ab = new PrivateTest();
         
-        public myPublicMethod() : string {
+        public myPublicMethod(): string {
+            //Use instance of non exported TS class, but still within scope of this module
             return this.ab.myMethod();
         }
 
@@ -26,11 +27,11 @@ interface ISimple {
     name: string;
 }
 
-class MyTest implements ISimple {
+class MyTestWithInterface implements ISimple {
     name = "hello";
 }
 
-//var a = new test.PrivateTest(); //Not accessible - it's not exported on 'test'
-var b = new MyTest();
+//var a = new Test.PrivateTest(); //Not accessible - it's not exported on 'test'
+var b = new Test.MyTest();
 
 

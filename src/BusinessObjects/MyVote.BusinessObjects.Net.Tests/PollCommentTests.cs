@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using Autofac;
+﻿using Autofac;
 using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -8,6 +6,8 @@ using MyVote.BusinessObjects.Contracts;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
@@ -32,7 +32,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			builder.Register<IObjectFactory<IPollCommentCollection>>(_ => pollCommentsFactory.Object);
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var result = DataPortal.CreateChild<PollComment>(userId, userName);
 				Assert.IsNotNull(result.CommentDate);
@@ -95,7 +96,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			builder.Register<IObjectFactory<IPollCommentCollection>>(_ => pollCommentsFactory.Object);
 			builder.Register<IEntities>(_ => Mock.Of<IEntities>());
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var result = DataPortal.FetchChild<PollComment>(pollComment, comments);
 				Assert.AreEqual(pollComment.Comment.CommentDate, result.CommentDate);
@@ -141,7 +143,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			builder.Register<IObjectFactory<IPollCommentCollection>>(_ => pollCommentsFactory.Object);
 			builder.Register<IEntities>(_ => entities.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var result = DataPortal.CreateChild<PollComment>(userId, userName);
 				result.CommentText = commentText;

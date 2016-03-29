@@ -1,12 +1,13 @@
-﻿using System.Linq;
-using Autofac;
+﻿using Autofac;
 using Csla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using MyVote.Core.Extensions;
+using MyVote.BusinessObjects.Contracts;
+using MyVote.BusinessObjects.Core;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
+using System.Linq;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
@@ -79,33 +80,45 @@ namespace MyVote.BusinessObjects.Net.Tests
 			});
 
 			var entities = new Mock<IEntities>(MockBehavior.Strict);
-			entities.Setup(_ => _.MVPollResponses).Returns(new InMemoryDbSet<MVPollResponse> 
+			entities.Setup(_ => _.MVPollResponses).Returns(new InMemoryDbSet<MVPollResponse>
 				{
 					response1, response2, response3, response4, response5, response6
 				});
-			entities.Setup(_ => _.MVPollOptions).Returns(new InMemoryDbSet<MVPollOption> 
+			entities.Setup(_ => _.MVPollOptions).Returns(new InMemoryDbSet<MVPollOption>
 				{
 					option1, option2, option3
 				});
 			entities.Setup(_ => _.MVPolls).Returns(new InMemoryDbSet<MVPoll> { poll });
 			entities.Setup(_ => _.Dispose());
 
+			var pollDataResultsFactory = new Mock<IObjectFactory<ReadOnlySwitchList<IPollDataResult>>>(MockBehavior.Strict);
+			pollDataResultsFactory.Setup(_ => _.FetchChild()).Returns(DataPortal.FetchChild<ReadOnlySwitchList<IPollDataResult>>());
+
+			var pollDataResultFactory = new Mock<IObjectFactory<IPollDataResult>>(MockBehavior.Strict);
+			pollDataResultFactory.Setup(_ => _.FetchChild(It.IsAny<object[]>()))
+				.Returns<object[]>(_ => DataPortal.FetchChild<PollDataResult>(_[0] as PollData));
+
 			var builder = new ContainerBuilder();
 			builder.Register<IEntities>(_ => entities.Object);
+			builder.Register<IObjectFactory<ReadOnlySwitchList<IPollDataResult>>>(_ => pollDataResultsFactory.Object);
+			builder.Register<IObjectFactory<IPollDataResult>>(_ => pollDataResultFactory.Object);
 
-			using (new ObjectActivator(builder.Build()).Bind(() => ApplicationContext.DataPortalActivator))
+			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
+				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var results = DataPortal.FetchChild<PollDataResults>(pollID);
 
-				Assert.AreEqual(pollID, results.PollID, results.GetPropertyName(_ => _.PollID));
-				Assert.AreEqual(poll.PollQuestion, results.Question, results.GetPropertyName(_ => _.Question));
-				Assert.AreEqual(3, results.Results.Count, results.GetPropertyName(_ => _.Results));
+				Assert.AreEqual(pollID, results.PollID, nameof(results.PollID));
+				Assert.AreEqual(poll.PollQuestion, results.Question, nameof(results.Question));
+				Assert.AreEqual(3, results.Results.Count, nameof(results.Results));
 				Assert.AreEqual(1, results.Results.First(_ => _.PollOptionID == 1).ResponseCount);
 				Assert.AreEqual(2, results.Results.First(_ => _.PollOptionID == 2).ResponseCount);
 				Assert.AreEqual(0, results.Results.First(_ => _.PollOptionID == 3).ResponseCount);
 			}
 
 			entities.VerifyAll();
+			pollDataResultsFactory.VerifyAll();
+			pollDataResultFactory.VerifyAll();
 		}
 	}
 }

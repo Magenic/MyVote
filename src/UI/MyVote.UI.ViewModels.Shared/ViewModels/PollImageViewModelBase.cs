@@ -1,6 +1,5 @@
-﻿using Cirrious.MvvmCross.ViewModels;
-using System.Threading.Tasks;
-
+﻿using System.Threading.Tasks;
+using MvvmCross.Core.ViewModels;
 #if WINDOWS_PHONE
 using System.Windows.Media.Imaging;
 #elif __MOBILE__

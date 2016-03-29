@@ -6,19 +6,23 @@ using MyVote.BusinessObjects.Attributes;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
 
+#if !NETFX_CORE && !MOBILE
+using MyVote.Data.Entities;
+#endif
+
 namespace MyVote.BusinessObjects
 {
-	[System.Serializable]
+	[Serializable]
 	internal sealed class PollSubmissionCommand
-		: CommandBaseScopeCore<PollSubmissionCommand>, IPollSubmissionCommand
+		: CommandBaseCore<PollSubmissionCommand>, IPollSubmissionCommand
 	{
 
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        [RunLocal]
-        private void DataPortal_Create() { }
+		[SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
+		[RunLocal]
+		private void DataPortal_Create() { }
 
 #if !NETFX_CORE && !MOBILE
-        protected override void DataPortal_Execute()
+		protected override void DataPortal_Execute()
 		{
 			var submissionExists = (from s in this.Entities.MVPollSubmissions
 											where (s.UserID == this.UserID &&
@@ -27,13 +31,13 @@ namespace MyVote.BusinessObjects
 
 			if (!submissionExists)
 			{
-				this.Submission = this.Factory.Create(
+				this.Submission = this.PollSubmissionFactory.Create(
 					new PollSubmissionCriteria(this.PollID, this.UserID));
 			}
 		}
 #endif
 
-		public static PropertyInfo<int> PollIDProperty =
+		public static readonly PropertyInfo<int> PollIDProperty =
 			PollSubmissionCommand.RegisterProperty<int>(_ => _.PollID);
 		public int PollID
 		{
@@ -41,7 +45,7 @@ namespace MyVote.BusinessObjects
 			set { this.LoadProperty(PollSubmissionCommand.PollIDProperty, value); }
 		}
 
-		public static PropertyInfo<int> UserIDProperty =
+		public static readonly PropertyInfo<int> UserIDProperty =
 			PollSubmissionCommand.RegisterProperty<int>(_ => _.UserID);
 		public int UserID
 		{
@@ -49,7 +53,7 @@ namespace MyVote.BusinessObjects
 			set { this.LoadProperty(PollSubmissionCommand.UserIDProperty, value); }
 		}
 
-		public static PropertyInfo<IPollSubmission> SubmissionProperty =
+		public static readonly PropertyInfo<IPollSubmission> SubmissionProperty =
 			PollSubmissionCommand.RegisterProperty<IPollSubmission>(_ => _.Submission);
 		public IPollSubmission Submission
 		{
@@ -58,13 +62,21 @@ namespace MyVote.BusinessObjects
 		}
 
 #if !NETFX_CORE && !MOBILE
-        [NonSerialized]
-		private IObjectFactory<IPollSubmission> factory;
+		[NonSerialized]
+		private IObjectFactory<IPollSubmission> pollSubmissionFactory;
 		[Dependency]
-		public IObjectFactory<IPollSubmission> Factory
+		public IObjectFactory<IPollSubmission> PollSubmissionFactory
 		{
-			get { return this.factory; }
-			set { this.factory = value; }
+			get { return this.pollSubmissionFactory; }
+			set { this.pollSubmissionFactory = value; }
+		}
+		[NonSerialized]
+		private IEntities entities;
+		[Dependency]
+		public IEntities Entities
+		{
+			get { return this.entities; }
+			set { this.entities = value; }
 		}
 #endif
 	}

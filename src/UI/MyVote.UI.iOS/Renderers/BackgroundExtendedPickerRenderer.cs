@@ -1,3 +1,4 @@
+using Foundation;
 using MyVote.UI.Controls;
 using MyVote.UI.Renderers;
 using UIKit;
@@ -19,7 +20,14 @@ namespace MyVote.UI.Renderers
 			{
 				var control = this.Control as UITextField;
 				control.TextColor = model.TextColor.ToUIColor();
-			}
+                control.BorderStyle = UITextBorderStyle.None;
+
+                control.Placeholder = model.PlaceholderText;
+                control.AttributedPlaceholder = new NSAttributedString(model.PlaceholderText, new UIStringAttributes()
+                {
+                    ForegroundColor = ColorExtensions.ToUIColor(model.PlaceholderColor)
+                });
+            }
 		}
 	}
 }

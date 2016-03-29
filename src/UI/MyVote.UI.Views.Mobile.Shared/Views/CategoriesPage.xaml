@@ -5,7 +5,7 @@
     <ListView ItemsSource="{Binding PollSearchResults}" Style="{StaticResource BackgroundStyle}">
         <ListView.ItemTemplate>
             <DataTemplate>
-                <TextCell Text="{Binding Category}"></TextCell>
+                <TextCell Text="{Binding Category}" TextColor="{StaticResource AppOrange}"></TextCell>
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>

@@ -1,56 +1,85 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Application xmlns="http://xamarin.com/schemas/2014/forms"
+<core:MvxFormsApp xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:MyVote.UI.Controls;assembly=MyVoteUI"
+             xmlns:core="clr-namespace:MvvmCross.Forms.Presenter.Core;assembly=MvvmCross.Forms.Presenter.Core"
              x:Class="MyVote.UI.Views.App">
-    <Application.Resources>
+    <core:MvxFormsApp.Resources>
         <ResourceDictionary>
+            <Color x:Key="AppGrayLight">#434342</Color>
+            <Color x:Key="AppGrayDark">#333333</Color>
+            <Color x:Key="AppOrange">#FF6600</Color>
+
             <Style x:Key="BackgroundStyle" TargetType="VisualElement">
-                <Setter Property="BackgroundColor" Value="#333333" />
+                <Setter Property="BackgroundColor" Value="{StaticResource AppGrayDark}" />
             </Style>
             <Style x:Key="ButtonStyle" TargetType="Button">
-                <Setter Property="BackgroundColor" Value="#434342" />
-                <Setter Property="TextColor" Value="#FF6600" />
+                <Setter Property="BackgroundColor" Value="{StaticResource AppGrayLight}" />
+                <Setter Property="TextColor" Value="{StaticResource AppOrange}" />
             </Style>
             <Style x:Key="IndividualEntryRegionStyle" TargetType="StackLayout">
                 <Setter Property="Orientation" Value="Horizontal" />
-                <Setter Property="BackgroundColor" Value="#434342" />
-                <Setter Property="Padding" Value="0,0,0,0" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="Padding" Value="20,0,20,0" />
             </Style>
             <Style x:Key="ColumnLabelColumnStyle" TargetType="controls:ExtendedLabel">
                 <Setter Property="HorizontalOptions" Value="Start" />
-                <Setter Property="YAlign" Value="Center" />
-                <Setter Property="LeftPadding" Value="20" />
-                <Setter Property="TextColor" Value="#FFFFFF" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="TextColor" Value="White" />
                 <Setter Property="WidthRequest" Value="100" />
             </Style>
             <Style x:Key="LabelStyle" TargetType="controls:ExtendedLabel">
-                <Setter Property="YAlign" Value="Center" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
                 <Setter Property="LeftPadding" Value="20" />
-                <Setter Property="TextColor" Value="#FFFFFF" />
+                <Setter Property="TextColor" Value="White" />
             </Style>
-            <Style x:Key="EntryColumnStyle" TargetType="Entry">
-                <Setter Property="TextColor" Value="#FFFFFF" />
-                <Setter Property="BackgroundColor" Value="#434342"></Setter>
+            <Style x:Key="EntryColumnStyle" TargetType="controls:ExtendedEntry">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="HasBorder" Value="False" />
+                <Setter Property="PlaceholderColor" Value="{StaticResource AppGrayLight}" />
             </Style>
             <Style x:Key="DatePickerStyle" TargetType="controls:ExtendedDatePicker">
-                <Setter Property="TextColor" Value="#FFFFFF" />
-                <Setter Property="BackgroundColor" Value="#434342"></Setter>
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="PlaceholderColor" Value="{StaticResource AppGrayLight}" />
             </Style>
             <Style x:Key="DatePickerColumnStyle" TargetType="controls:ExtendedDatePicker">
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-                <Setter Property="TextColor" Value="#FFFFFF" />
-                <Setter Property="BackgroundColor" Value="#434342"></Setter>
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BackgroundColor" Value="Transparent"></Setter>
+                <Setter Property="PlaceholderColor" Value="{StaticResource AppGrayLight}" />
             </Style>
             <Style x:Key="PickerColumnStyle" TargetType="controls:BackgroundStringExtendedPicker" >
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-                <Setter Property="TextColor" Value="#FFFFFF" />
-                <Setter Property="BackgroundColor" Value="#434342"></Setter>
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BackgroundColor" Value="Transparent"></Setter>
+                <Setter Property="PlaceholderColor" Value="{StaticResource AppGrayLight}" />
+            </Style>
+            <Style x:Key="IntPickerColumnStyle" TargetType="controls:BackgroundIntExtendedPicker" >
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BackgroundColor" Value="Transparent"></Setter>
+                <Setter Property="PlaceholderColor" Value="{StaticResource AppGrayLight}" />
             </Style>
             <Style x:Key="SpacerStyle" TargetType="BoxView">
-                <Setter Property="Color" Value="#333333" />
+                <Setter Property="Color" Value="Transparent" />
+            </Style>
+            <Style x:Key="LineStyle" TargetType="BoxView">
+                <Setter Property="Color" Value="{StaticResource AppGrayLight}" />
+                <Setter Property="HeightRequest" Value="1" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            </Style>
+            <Style x:Key="LoginImageStye" TargetType="Image">
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+            </Style>
+            <Style x:Key="LoginTextStye" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="10" />
             </Style>
         </ResourceDictionary>
-    </Application.Resources>
-</Application>
+    </core:MvxFormsApp.Resources>
+</core:MvxFormsApp>
