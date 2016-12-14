@@ -38,12 +38,13 @@ namespace MyVote.UI.Services
 
             using (var fileStream = await uploadViewModel.PictureFile.OpenAsync(FileAccessMode.Read))
             {
-                await blob.UploadFromStreamAsync(fileStream);
+				// TODO: Make this work with the new Azure Storage package
+                //await blob.UploadFromStreamAsync(fileStream);
             }
 #else
             // strangely it expects /pollimages/pollimages
-		    sasUrl = sasUrl.Replace("/pollimages", String.Format("/pollimages/pollimages/{0}", uploadViewModel.ImageIdentifier));
-
+		    sasUrl = sasUrl.Replace("/pollimages", String.Format("/pollimages/{0}", uploadViewModel.ImageIdentifier));
+            sasUrl = sasUrl.Replace("\"", "");
 			var request = (HttpWebRequest)WebRequest.Create(sasUrl);
 			request.Method = "PUT";
 			uploadViewModel.PictureStream.Position = 0;
@@ -60,7 +61,7 @@ namespace MyVote.UI.Services
 				await requestStream.WriteAsync(pictureData, 0, pictureData.Length).ConfigureAwait(false);
 			}
 
-			var response = await Task.Factory.FromAsync<WebResponse>(request.BeginGetResponse, request.EndGetResponse, null).ConfigureAwait(false);
+			await Task.Factory.FromAsync<WebResponse>(request.BeginGetResponse, request.EndGetResponse, null).ConfigureAwait(false);
 #endif // NETFX_CORE
 		}
     }

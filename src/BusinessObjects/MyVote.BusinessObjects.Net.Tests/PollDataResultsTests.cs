@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Csla;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
@@ -8,51 +8,51 @@ using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
 using System.Linq;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class PollDataResultsTests
 	{
-		[TestMethod]
+		[Fact]
 		public void Fetch()
 		{
 			var generator = new RandomObjectGenerator();
-			var pollID = generator.Generate<int>();
+			var pollId = generator.Generate<int>();
 
 			var response1 = EntityCreator.Create<MVPollResponse>(_ =>
 			{
-				_.PollID = pollID;
+				_.PollID = pollId;
 				_.PollOptionID = 1;
 				_.OptionSelected = true;
 			});
 			var response2 = EntityCreator.Create<MVPollResponse>(_ =>
 			{
-				_.PollID = pollID;
+				_.PollID = pollId;
 				_.PollOptionID = 2;
 				_.OptionSelected = true;
 			});
 			var response3 = EntityCreator.Create<MVPollResponse>(_ =>
 			{
-				_.PollID = pollID;
+				_.PollID = pollId;
 				_.PollOptionID = 3;
 				_.OptionSelected = false;
 			});
 			var response4 = EntityCreator.Create<MVPollResponse>(_ =>
 			{
-				_.PollID = pollID;
+				_.PollID = pollId;
 				_.PollOptionID = 1;
 				_.OptionSelected = false;
 			});
 			var response5 = EntityCreator.Create<MVPollResponse>(_ =>
 			{
-				_.PollID = pollID;
+				_.PollID = pollId;
 				_.PollOptionID = 2;
 				_.OptionSelected = true;
 			});
 			var response6 = EntityCreator.Create<MVPollResponse>(_ =>
 			{
-				_.PollID = pollID;
+				_.PollID = pollId;
 				_.PollOptionID = 1;
 				_.OptionSelected = false;
 			});
@@ -60,23 +60,23 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var option1 = EntityCreator.Create<MVPollOption>(_ =>
 			{
 				_.PollOptionID = 1;
-				_.PollID = pollID;
+				_.PollID = pollId;
 			});
 			var option2 = EntityCreator.Create<MVPollOption>(_ =>
 			{
 				_.PollOptionID = 2;
-				_.PollID = pollID;
+				_.PollID = pollId;
 			});
 			var option3 = EntityCreator.Create<MVPollOption>(_ =>
 			{
 				_.PollOptionID = 3;
-				_.PollID = pollID;
+				_.PollID = pollId;
 			});
 
 			var poll = EntityCreator.Create<MVPoll>(_ =>
 			{
 				_.PollDeletedFlag = false;
-				_.PollID = pollID;
+				_.PollID = pollId;
 			});
 
 			var entities = new Mock<IEntities>(MockBehavior.Strict);
@@ -106,14 +106,14 @@ namespace MyVote.BusinessObjects.Net.Tests
 			using (new ObjectActivator(builder.Build(), new ActivatorCallContext())
 				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
-				var results = DataPortal.FetchChild<PollDataResults>(pollID);
+				var results = DataPortal.FetchChild<PollDataResults>(pollId);
 
-				Assert.AreEqual(pollID, results.PollID, nameof(results.PollID));
-				Assert.AreEqual(poll.PollQuestion, results.Question, nameof(results.Question));
-				Assert.AreEqual(3, results.Results.Count, nameof(results.Results));
-				Assert.AreEqual(1, results.Results.First(_ => _.PollOptionID == 1).ResponseCount);
-				Assert.AreEqual(2, results.Results.First(_ => _.PollOptionID == 2).ResponseCount);
-				Assert.AreEqual(0, results.Results.First(_ => _.PollOptionID == 3).ResponseCount);
+				results.PollID.Should().Be(pollId);
+				results.Question.Should().Be(poll.PollQuestion);
+				results.Results.Count.Should().Be(3);
+				results.Results.First(_ => _.PollOptionID == 1).ResponseCount.Should().Be(1);
+				results.Results.First(_ => _.PollOptionID == 2).ResponseCount.Should().Be(2);
+				results.Results.First(_ => _.PollOptionID == 3).ResponseCount.Should().Be(0);
 			}
 
 			entities.VerifyAll();

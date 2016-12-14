@@ -61,25 +61,14 @@ namespace MyVote.BusinessObjects
 				counter.Add();
 			}
 
-#if !NETFX_CORE && !MOBILE
-			foreach (var property in
-				  (from _ in obj.GetType().GetProperties(
-						  BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-					where _.GetCustomAttribute<DependencyAttribute>() != null
-					select _))
-			{
-				property.SetValue(obj, counter.Scope.Resolve(property.PropertyType));
-				}
-#else
 			foreach (var property in
 				(from _ in obj.GetType().GetRuntimeProperties()
-					where !_.GetMethod.IsStatic &&
-					_.GetCustomAttribute<DependencyAttribute>() != null
-					select _))
+				 where !_.GetMethod.IsStatic &&
+				 _.GetCustomAttribute<DependencyAttribute>() != null
+				 select _))
 			{
 				property.SetValue(obj, counter.Scope.Resolve(property.PropertyType));
 			}
-#endif
 		}
 
 		public void FinalizeInstance(object obj)
@@ -95,16 +84,7 @@ namespace MyVote.BusinessObjects
 			if (counter.Scope == null)
 			{
 				this.context.FreeNamedDataSlot(ObjectActivator.CounterID);
-#if !NETFX_CORE
-				foreach (var property in
-					(from _ in obj.GetType().GetProperties(
-							BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-					 where _.GetCustomAttribute<DependencyAttribute>() != null
-					 select _))
-				{
-					property.SetValue(obj, null);
-				}
-#else
+
 				foreach (var property in
 					(from _ in obj.GetType().GetRuntimeProperties()
 					 where !_.GetMethod.IsStatic &&
@@ -113,7 +93,6 @@ namespace MyVote.BusinessObjects
 				{
 					property.SetValue(obj, null);
 				}
-#endif
 			}
 		}
 	}

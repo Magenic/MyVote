@@ -1,6 +1,5 @@
-﻿using MyVote.UI.Helpers;
-using MvvmCross.Core.ViewModels;
-using MyVote.UI.ViewModels;
+﻿using MvvmCross.Core.ViewModels;
+using MyVote.UI.Helpers;
 
 namespace MyVote.UI
 {
@@ -8,7 +7,7 @@ namespace MyVote.UI
 	{
 		public override void Initialize()
 		{
-		    RegisterAppStart(new MvxAppStart());
+			RegisterAppStart(new MvxAppStart());
 		}
 	}
 }

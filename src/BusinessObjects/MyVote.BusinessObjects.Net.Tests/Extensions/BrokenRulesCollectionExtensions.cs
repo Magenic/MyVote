@@ -2,7 +2,7 @@
 using System.Linq;
 using Csla.Core;
 using Csla.Rules;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 
 namespace MyVote.BusinessObjects.Net.Tests.Extensions
 {
@@ -10,7 +10,7 @@ namespace MyVote.BusinessObjects.Net.Tests.Extensions
 	{
 		public static void AssertRuleCount(this BrokenRulesCollection @this, int expectedRuleCount)
 		{
-			Assert.AreEqual(expectedRuleCount, @this.Count);
+			@this.Count.Should().Be(expectedRuleCount);
 		}
 
 		public static void AssertRuleCount(this BrokenRulesCollection @this, IPropertyInfo property, int expectedRuleCount)
@@ -25,11 +25,9 @@ namespace MyVote.BusinessObjects.Net.Tests.Extensions
 				 where brokenRule.Property == property.FriendlyName
 				 select brokenRule).Count();
 			var assertMessage = string.IsNullOrWhiteSpace(message) ?
-				string.Format(
-					"Rule count was unexpected for property {0}", property.FriendlyName) :
-				string.Format(
-					"Rule count was unexpected for property {0} : {1}", property.FriendlyName, message);
-			Assert.AreEqual(expectedRuleCount, ruleCount, assertMessage);
+				$"rule count was unexpected for property {property.FriendlyName}" :
+				$"rule count was unexpected for property {property.FriendlyName} : {message}";
+			ruleCount.Should().Be(expectedRuleCount, assertMessage);
 		}
 
 		public static void AssertValidationRuleExists<T>(this BrokenRulesCollection @this, IPropertyInfo property, bool shouldExist)
@@ -45,13 +43,11 @@ namespace MyVote.BusinessObjects.Net.Tests.Extensions
 
 			if (shouldExist)
 			{
-				Assert.IsNotNull(foundRule, string.Format(
-					"Property {0} does not contain rule {1}", property.Name, ruleTypeName));
+				foundRule.Should().NotBeNull($"property {property.Name} does not contain rule {ruleTypeName}");
 			}
 			else
 			{
-				Assert.IsNull(foundRule, string.Format(
-					"Property {0} contains rule {1}", property.Name, ruleTypeName));
+				foundRule.Should().BeNull($"property {property.Name} contains rule {ruleTypeName}");
 			}
 		}
 
@@ -68,13 +64,11 @@ namespace MyVote.BusinessObjects.Net.Tests.Extensions
 
 			if (shouldExist)
 			{
-				Assert.IsNotNull(foundRule, string.Format(
-					"Property {0} does not contain rule {1}", property.FriendlyName, ruleTypeName));
+				foundRule.Should().NotBeNull($"property {property.FriendlyName} does not contain rule {ruleTypeName}");
 			}
 			else
 			{
-				Assert.IsNull(foundRule, string.Format(
-					"Property {0} contains rule {1}", property.FriendlyName, ruleTypeName));
+				foundRule.Should().BeNull($"property {property.FriendlyName} contains rule {ruleTypeName}");
 			}
 		}
 	}

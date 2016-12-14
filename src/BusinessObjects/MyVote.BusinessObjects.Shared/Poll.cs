@@ -12,8 +12,8 @@ using MyVote.BusinessObjects.Attributes;
 #if !NETFX_CORE && !MOBILE
 using MyVote.Data.Entities;
 using System.Data;
-using System.Data.Entity;
 using Csla.Data;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 #endif
 
@@ -35,45 +35,88 @@ namespace MyVote.BusinessObjects
 		{
 			using (this.BypassPropertyChecks)
 			{
-				var entity = (from p in this.Entities.MVPolls.Include(_ => _.MVPollOptions)
-								  where p.PollID == pollId
-								  select p).Single();
-				DataMapper.Map(entity, this,
-					nameof(entity.AuditDateCreated),
-					nameof(entity.AuditDateModified),
-					nameof(entity.MVPollOptions),
-					nameof(entity.MVPollResponses),
-					nameof(entity.MVPollSubmissions),
-					nameof(entity.MVUser),
-					nameof(entity.MVCategory),
-					nameof(entity.MVReportedPolls),
-					nameof(entity.MVReportedPollStateLogs),
-					nameof(entity.MVPollComments));
+				var entity = (from p in this.Entities.Mvpoll
+								  where p.PollId == pollId
+								  select new
+								  {
+									  PollAdminRemovedFlag = p.PollAdminRemovedFlag,
+									  PollCategoryId = p.PollCategoryId,
+									  PollOptions = p.MvpollOption,
+									  PollDateRemoved = p.PollDateRemoved,
+									  PollDeletedDate = p.PollDeletedDate,
+									  PollDeletedFlag = p.PollDeletedFlag,
+									  PollDescription = p.PollDescription,
+									  PollEndDate = p.PollEndDate,
+									  PollId = p.PollId,
+									  PollImageLink = p.PollImageLink,
+									  PollMaxAnswers = p.PollMaxAnswers,
+									  PollMinAnswers = p.PollMinAnswers,
+									  PollQuestion = p.PollQuestion,
+									  PollStartDate = p.PollStartDate,
+									  UserId = p.UserId
+								  }).Single();
+
+				this.PollAdminRemovedFlag = entity.PollAdminRemovedFlag;
+				this.PollCategoryID = entity.PollCategoryId;
+				this.PollDateRemoved = entity.PollDateRemoved;
+				this.PollDeletedDate = entity.PollDeletedDate;
+				this.PollDeletedFlag = entity.PollDeletedFlag;
+				this.PollDescription = entity.PollDescription;
+				this.PollEndDate = entity.PollEndDate;
+				this.PollID = entity.PollId;
+				this.PollImageLink = entity.PollImageLink;
+				this.PollMaxAnswers = entity.PollMaxAnswers;
+				this.PollMinAnswers = entity.PollMinAnswers;
+				this.PollQuestion = entity.PollQuestion;
+				this.PollStartDate = entity.PollStartDate;
+				this.UserID = entity.UserId;
 
 				this.PollOptions = this.pollOptionsFactory.FetchChild();
 
-				foreach (var option in entity.MVPollOptions)
+				foreach (var option in entity.PollOptions)
 				{
 					this.PollOptions.Add(this.pollOptionFactory.FetchChild(option));
 				}
 			}
 		}
 
+		private Mvpoll MapTo()
+		{
+			var entity = new Mvpoll();
+
+			entity.PollAdminRemovedFlag = this.PollAdminRemovedFlag;
+			entity.PollCategoryId = this.PollCategoryID.Value;
+			entity.PollDateRemoved = this.PollDateRemoved;
+			entity.PollDeletedDate = this.PollDeletedDate;
+			entity.PollDeletedFlag = this.PollDeletedFlag;
+			entity.PollDescription = this.PollDescription;
+			entity.PollEndDate = this.PollEndDate.Value;
+			entity.PollImageLink = this.PollImageLink;
+			entity.PollMaxAnswers = this.PollMaxAnswers;
+			entity.PollMinAnswers = this.PollMinAnswers;
+			entity.PollQuestion = this.PollQuestion;
+			entity.PollStartDate = this.PollStartDate.Value;
+			entity.UserId = this.UserID;
+
+			return entity;
+		}
+
 		protected override void DataPortal_Insert()
 		{
-			var entity = new MVPoll();
-			DataMapper.Map(this, entity, this.IgnoredProperties.ToArray());
-			this.Entities.MVPolls.Add(entity);
+			var entity = this.MapTo();
+
+			this.Entities.Mvpoll.Add(entity);
 			this.Entities.SaveChanges();
-			this.PollID = entity.PollID;
+			this.PollID = entity.PollId;
 			this.FieldManager.UpdateChildren(this);
 		}
 
 		protected override void DataPortal_Update()
 		{
-			var entity = new MVPoll();
-			DataMapper.Map(this, entity, this.IgnoredProperties.ToArray());
-			this.Entities.MVPolls.Attach(entity);
+			var entity = this.MapTo();
+			entity.PollId = (int)this.PollID;
+
+			this.Entities.Mvpoll.Attach(entity);
 			this.Entities.SetState(entity, EntityState.Modified);
 			this.Entities.SaveChanges();
 			this.FieldManager.UpdateChildren(this);
@@ -81,11 +124,11 @@ namespace MyVote.BusinessObjects
 
 		protected override void DataPortal_DeleteSelf()
 		{
-			var entity = new MVPoll();
-			DataMapper.Map(this, entity, this.IgnoredProperties.ToArray());
+			var entity = this.MapTo();
+
 			entity.PollDeletedFlag = true;
 			entity.PollDeletedDate = DateTime.UtcNow;
-			this.Entities.MVPolls.Attach(entity);
+			this.Entities.Mvpoll.Attach(entity);
 			this.Entities.SetState(entity, EntityState.Modified);
 			this.Entities.SaveChanges();
 		}

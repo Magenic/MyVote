@@ -8,7 +8,7 @@ using System;
 using MyVote.Data.Entities;
 using System.Data;
 using Csla.Data;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 #endif
 
 namespace MyVote.BusinessObjects
@@ -24,31 +24,42 @@ namespace MyVote.BusinessObjects
 		}
 
 #if !NETFX_CORE && !MOBILE
-		private void Child_Fetch(MVPollOption criteria)
+		private void Child_Fetch(MvpollOption criteria)
 		{
 			using (this.BypassPropertyChecks)
 			{
-				DataMapper.Map(criteria, this,
-					nameof(criteria.MVPoll),
-					nameof(criteria.MVPollResponses));
+				this.OptionPosition = criteria.OptionPosition;
+				this.OptionText = criteria.OptionText;
+				this.PollID = criteria.PollId;
+				this.PollOptionID = criteria.PollOptionId;
 			}
 		}
 
+		private MvpollOption MapTo()
+		{
+			var entity = new MvpollOption();
+
+			entity.OptionPosition = this.OptionPosition.Value;
+			entity.OptionText = this.OptionText;
+			entity.PollId = this.PollID.Value;
+			entity.PollOptionId = this.PollOptionID != null ? 
+				this.PollOptionID.Value : entity.PollOptionId;
+
+			return entity;
+		}
 		private void Child_Insert(IPoll parent)
 		{
 			this.PollID = parent.PollID;
-			var entity = new MVPollOption();
-			DataMapper.Map(this, entity, this.IgnoredProperties.ToArray());
-			this.Entities.MVPollOptions.Add(entity);
+			var entity = this.MapTo();
+			this.Entities.MvpollOption.Add(entity);
 			this.Entities.SaveChanges();
-			this.PollOptionID = entity.PollOptionID;
+			this.PollOptionID = entity.PollOptionId;
 		}
 
 		private void Child_Update(IPoll parent)
 		{
-			var entity = new MVPollOption();
-			DataMapper.Map(this, entity, this.IgnoredProperties.ToArray());
-			this.Entities.MVPollOptions.Attach(entity);
+			var entity = this.MapTo();
+			this.Entities.MvpollOption.Attach(entity);
 			this.Entities.SetState(entity, EntityState.Modified);
 			this.Entities.SaveChanges();
 		}

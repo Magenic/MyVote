@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MyVote.Services.AppServer.Auth;
 using MyVote.Services.AppServer.Controllers;
@@ -8,13 +7,14 @@ using MyVote.BusinessObjects;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core.Contracts;
 using Spackle;
+using Xunit;
+using FluentAssertions;
 
 namespace MyVote.Services.AppServer.Tests
 {
-	[TestClass]
 	public sealed class PollResultControllerTests
 	{
-		[TestMethod]
+		[Fact]
 		public void GetResult()
 		{
 			var generator = new RandomObjectGenerator();
@@ -75,11 +75,11 @@ namespace MyVote.Services.AppServer.Tests
 			controller.MyVoteAuthentication = myVoteAuth.Object;
 
 			var pollResult = controller.Get(pollID);
-			Assert.AreEqual(pollID, pollResult.PollID, pollResult.GetPropertyName(_ => _.PollID));
-			Assert.AreEqual(question, pollResult.Question, pollResult.GetPropertyName(_ => _.Question));
-			Assert.AreEqual(pollDataResult.Object.OptionText, pollResult.Results[0].OptionText);
-			Assert.AreEqual(parentComment.Object.CommentText, pollResult.Comments[0].CommentText);
-			Assert.AreEqual(childComment.Object.CommentText, pollResult.Comments[0].Comments[0].CommentText);
+			pollResult.PollID.Should().Be(pollID);
+			pollResult.Question.Should().Be(question);
+			pollResult.Results[0].OptionText.Should().Be(pollDataResult.Object.OptionText);
+			pollResult.Comments[0].CommentText.Should().Be(parentComment.Object.CommentText);
+			pollResult.Comments[0].Comments[0].CommentText.Should().Be(childComment.Object.CommentText);
 
 			pollResultsFactory.VerifyAll();
 			pollComments.VerifyAll();

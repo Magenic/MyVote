@@ -1,213 +1,221 @@
 ﻿using Csla;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using MyVote.BusinessObjects.Core.Contracts;
 using MyVote.BusinessObjects.Tests.Contracts;
 using Spackle;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class ObjectFactoryTests
 	{
-		[TestMethod]
-		[ExpectedException(typeof(NotImplementedException))]
+		[Fact]
 		public void BeginCreate()
 		{
-			new ObjectFactory<ObjectFactoryTest>().BeginCreate();
+			new Action(() => new ObjectFactory<ObjectFactoryTest>().BeginCreate()).ShouldThrow<NotImplementedException>();
 		}
 
-		[TestMethod, ExpectedException(typeof(NotImplementedException))]
+		[Fact]
 		public void BeginCreateWithCriteria()
 		{
-			new ObjectFactory<ObjectFactoryTest>().BeginCreate(null);
+			new Action(() => new ObjectFactory<ObjectFactoryTest>().BeginCreate(null)).ShouldThrow<NotImplementedException>();
 		}
 
-		[TestMethod, ExpectedException(typeof(NotImplementedException))]
+		[Fact]
 		public void BeginCreateWithCriteriaAndUserState()
 		{
-			new ObjectFactory<ObjectFactoryTest>().BeginCreate(null, null);
+			new Action(() => new ObjectFactory<ObjectFactoryTest>().BeginCreate(null, null)).ShouldThrow<NotImplementedException>();
 		}
 
-		[TestMethod, ExpectedException(typeof(NotImplementedException))]
+		[Fact]
 		public void BeginDeleteWithCriteria()
 		{
-			new ObjectFactory<ObjectFactoryTest>().BeginDelete(null);
+			new Action(() => new ObjectFactory<ObjectFactoryTest>().BeginDelete(null)).ShouldThrow<NotImplementedException>();
 		}
 
-		[TestMethod, ExpectedException(typeof(NotImplementedException))]
+		[Fact]
 		public void BeginDeleteWithCriteriaAndUserState()
 		{
-			new ObjectFactory<ObjectFactoryTest>().BeginDelete(null, null);
+			new Action(() => new ObjectFactory<ObjectFactoryTest>().BeginDelete(null, null)).ShouldThrow<NotImplementedException>();
 		}
 
-		[TestMethod, ExpectedException(typeof(NotImplementedException))]
+		[Fact]
 		public void BeginExecuteWithObject()
 		{
-			new ObjectFactory<ObjectFactoryTest>().BeginExecute(null);
+			new Action(() => new ObjectFactory<ObjectFactoryTest>().BeginExecute(null)).ShouldThrow<NotImplementedException>();
 		}
 
-		[TestMethod, ExpectedException(typeof(NotImplementedException))]
+		[Fact]
 		public void BeginExecuteWithObjectAndUserState()
 		{
-			new ObjectFactory<ObjectFactoryTest>().BeginExecute(null, null);
+			new Action(() => new ObjectFactory<ObjectFactoryTest>().BeginExecute(null, null)).ShouldThrow<NotImplementedException>();
 		}
 
-		[TestMethod, ExpectedException(typeof(NotImplementedException))]
+		[Fact]
 		public void BeginFetch()
 		{
-			new ObjectFactory<ObjectFactoryTest>().BeginFetch();
+			new Action(() => new ObjectFactory<ObjectFactoryTest>().BeginFetch()).ShouldThrow<NotImplementedException>();
 		}
 
-		[TestMethod, ExpectedException(typeof(NotImplementedException))]
+		[Fact]
 		public void BeginFetchWithCriteria()
 		{
-			new ObjectFactory<ObjectFactoryTest>().BeginFetch(null);
+			new Action(() => new ObjectFactory<ObjectFactoryTest>().BeginFetch(null)).ShouldThrow<NotImplementedException>();
 		}
 
-		[TestMethod, ExpectedException(typeof(NotImplementedException))]
+		[Fact]
 		public void BeginFetchWithCriteriaAndUserState()
 		{
-			new ObjectFactory<ObjectFactoryTest>().BeginFetch(null, null);
+			new Action(() => new ObjectFactory<ObjectFactoryTest>().BeginFetch(null, null)).ShouldThrow<NotImplementedException>();
 		}
 
-		[TestMethod, ExpectedException(typeof(NotImplementedException))]
+		[Fact]
 		public void BeginFetchWithObject()
 		{
-			new ObjectFactory<ObjectFactoryTest>().BeginUpdate(null);
+			new Action(() => new ObjectFactory<ObjectFactoryTest>().BeginUpdate(null)).ShouldThrow<NotImplementedException>();
 		}
 
-		[TestMethod, ExpectedException(typeof(NotImplementedException))]
+		[Fact]
 		public void BeginFetchWithObjectAndUserState()
 		{
-			new ObjectFactory<ObjectFactoryTest>().BeginUpdate(null, null);
+			new Action(() => new ObjectFactory<ObjectFactoryTest>().BeginUpdate(null, null)).ShouldThrow<NotImplementedException>();
 		}
 
-		[TestMethod, ExpectedException(typeof(NotImplementedException))]
+		[Fact]
 		public void BeginUpdateWithObject()
 		{
-			new ObjectFactory<ObjectFactoryTest>().BeginUpdate(null);
+			new Action(() => new ObjectFactory<ObjectFactoryTest>().BeginUpdate(null)).ShouldThrow<NotImplementedException>();
 		}
 
-		[TestMethod, ExpectedException(typeof(NotImplementedException))]
+		[Fact]
 		public void BeginUpdateWithObjectAndUserState()
 		{
-			new ObjectFactory<ObjectFactoryTest>().BeginUpdate(null, null);
+			new Action(() => new ObjectFactory<ObjectFactoryTest>().BeginUpdate(null, null)).ShouldThrow<NotImplementedException>();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Create()
 		{
 			var test = new ObjectFactory<ObjectFactoryTest>().Create();
-			Assert.AreEqual(string.Empty, test.Data, nameof(test.Data));
+			test.Data.Should().BeEmpty();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void CreateWithCriteria()
 		{
 			var data = new RandomObjectGenerator().Generate<string>();
 			var test = new ObjectFactory<ObjectFactoryTest>().Create(data);
-			Assert.AreEqual(data, test.Data, nameof(test.Data));
+			test.Data.Should().Be(data);
 		}
 
-		[TestMethod]
+		[Fact]
 		public async Task CreateAsync()
 		{
 			var test = await new ObjectFactory<ObjectFactoryTest>().CreateAsync();
-			Assert.AreEqual(string.Empty, test.Data, nameof(test.Data));
+			test.Data.Should().BeEmpty();
 		}
 
-		[TestMethod]
+		[Fact]
 		public async Task CreateAsyncWithCriteria()
 		{
 			var data = new RandomObjectGenerator().Generate<string>();
 			var test = await new ObjectFactory<ObjectFactoryTest>().CreateAsync(data);
-			Assert.AreEqual(data, test.Data, nameof(test.Data));
+			test.Data.Should().Be(data);
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Delete()
 		{
 			var data = new RandomObjectGenerator().Generate<string>();
-			new ObjectFactory<ObjectFactoryTest>().Delete(data);
+			new Action(() => new ObjectFactory<ObjectFactoryTest>().Delete(data)).ShouldNotThrow();
 		}
 
-		[TestMethod]
-		public async Task DeleteAsync()
+		[Fact]
+		public void DeleteAsync()
 		{
 			var data = new RandomObjectGenerator().Generate<string>();
-			await new ObjectFactory<ObjectFactoryTest>().DeleteAsync(data);
+			var func = new Func<Task>(async () => await new ObjectFactory<ObjectFactoryTest>().DeleteAsync(data));
+			func.ShouldNotThrow();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Fetch()
 		{
 			var test = new ObjectFactory<ObjectFactoryTest>().Fetch();
-			Assert.AreEqual(string.Empty, test.Data, nameof(test.Data));
+			test.Data.Should().BeEmpty();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void FetchWithCriteria()
 		{
 			var data = new RandomObjectGenerator().Generate<string>();
 			var test = new ObjectFactory<ObjectFactoryTest>().Fetch(data);
-			Assert.AreEqual(data, test.Data, nameof(test.Data));
+			test.Data.Should().Be(data);
 		}
 
-		[TestMethod]
+		[Fact]
 		public async Task FetchAsync()
 		{
 			var test = await new ObjectFactory<ObjectFactoryTest>().FetchAsync();
-			Assert.AreEqual(string.Empty, test.Data, nameof(test.Data));
+			test.Data.Should().BeEmpty();
 		}
 
-		[TestMethod]
+		[Fact]
 		public async Task FetchAsyncWithCriteria()
 		{
 			var data = new RandomObjectGenerator().Generate<string>();
 			var test = await new ObjectFactory<ObjectFactoryTest>().FetchAsync(data);
-			Assert.AreEqual(data, test.Data, nameof(test.Data));
+			test.Data.Should().Be(data);
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Execute()
 		{
 			var factory = new ObjectFactory<ObjectFactoryTestCommand>();
 			var test = factory.Execute(factory.Create());
-			Assert.AreEqual("done", test.Data, nameof(test.Data));
+			test.Data.Should().Be("done");
 		}
 
-		[TestMethod]
+		[Fact]
 		public async Task ExecuteAsync()
 		{
 			var factory = new ObjectFactory<ObjectFactoryTestCommand>();
 			var test = await factory.ExecuteAsync(factory.Create());
-			Assert.AreEqual("done", test.Data, nameof(test.Data));
+			test.Data.Should().Be("done");
 		}
 
-		[TestMethod]
+		[Fact]
 		public void GetGlobalContext()
 		{
 			var factory = new ObjectFactory<ObjectFactoryTestCommand>();
-			Assert.AreSame(ApplicationContext.GlobalContext, factory.GlobalContext, nameof(factory.GlobalContext));
+			factory.GlobalContext.Should().BeSameAs(ApplicationContext.GlobalContext);
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Update()
 		{
-			var factory = new ObjectFactory<ObjectFactoryTest>();
-			var test = factory.Fetch();
-			factory.Update(test);
+			new Action(() =>
+			{
+				var factory = new ObjectFactory<ObjectFactoryTest>();
+				var test = factory.Fetch();
+				factory.Update(test);
+			}).ShouldNotThrow();
 		}
 
-		[TestMethod]
-		public async Task UpdateAsync()
+		[Fact]
+		public void UpdateAsync()
 		{
-			var factory = new ObjectFactory<ObjectFactoryTest>();
-			var test = factory.Fetch();
-			await factory.UpdateAsync(test);
+			var func = new Func<Task>(async () =>
+			{
+				var factory = new ObjectFactory<ObjectFactoryTest>();
+				var test = factory.Fetch();
+				await factory.UpdateAsync(test);
+			});
+
+			func.ShouldNotThrow();
 		}
 	}
 

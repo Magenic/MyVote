@@ -1,19 +1,19 @@
 ﻿using Autofac;
 using Csla;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
 using System.Collections.Generic;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class PollCommentsTests
 	{
-		[TestMethod]
+		[Fact]
 		public void Fetch()
 		{
 			var generator = new RandomObjectGenerator();
@@ -66,9 +66,9 @@ namespace MyVote.BusinessObjects.Net.Tests
 				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var results = DataPortal.FetchChild<PollComments>(pollId);
-				Assert.AreSame(pollCommentCollection.Object, results.Comments);
-				Assert.AreEqual(1, pollCommentFactoryCount);
-				Assert.AreEqual(1, addCount);
+				results.Comments.Should().BeSameAs(pollCommentCollection.Object);
+				pollCommentFactoryCount.Should().Be(1);
+				addCount.Should().Be(1);
 			}
 
 			entities.VerifyAll();

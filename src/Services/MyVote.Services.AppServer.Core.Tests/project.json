@@ -1,0 +1,35 @@
+{
+	"title": "MyVote.Services.AppServer.Core.Tests",
+	"version": "1.0.0-*",
+	"testRunner": "xunit",
+
+	"buildOptions": {
+		"outputName": "MyVote.Services.AppServer.Core.Tests"
+	},
+
+	"dependencies": {
+      "xunit": "2.2.0-beta3-build3402",
+		"dotnet-test-xunit": "2.2.0-preview2-build1029",
+		"FluentAssertions": "4.12.0",
+		"Moq": "4.6.36-alpha",
+		"Spackle": "8.1.0",
+		"MyVote.BusinessObjects.Core": "1.0.0-*",
+		"MyVote.Services.AppServer.Core": "1.0.0-*"
+	},
+
+	"frameworks": {
+		"netcoreapp1.0": {
+			"imports": [
+				"dnxcore50",
+				"netcoreapp1.0",
+				"portable-net45+netcore45+wp8+wp81+wpa81"
+			],
+			"dependencies": {
+				"Microsoft.NETCore.App": {
+					"type": "platform",
+					"version": "1.0.0"
+				}
+			}
+		}
+	}
+}

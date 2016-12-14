@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Csla;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
@@ -11,13 +11,13 @@ using Spackle;
 using Spackle.Extensions;
 using System;
 using System.Collections.Generic;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class PollSubmissionLifecycleTests
 	{
-		[TestMethod]
+		[Fact]
 		public void Create()
 		{
 			var now = DateTime.UtcNow;
@@ -55,7 +55,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 			var pollSubmissionResponsesFactory = new Mock<IObjectFactory<IPollSubmissionResponseCollection>>(MockBehavior.Strict);
 			pollSubmissionResponsesFactory.Setup(_ => _.CreateChild(It.IsAny<object[]>()))
-				.Callback<object[]>(_ => Assert.AreSame(poll.PollOptions, _[0]))
+				.Callback<object[]>(_ => _[0].Should().BeSameAs(poll.PollOptions))
 				.Returns<object[]>(_ => DataPortal.CreateChild<PollSubmissionResponseCollection>(_[0] as BusinessList<IPollOption>));
 
 			var entities = new Mock<IEntities>(MockBehavior.Strict);
@@ -92,15 +92,15 @@ namespace MyVote.BusinessObjects.Net.Tests
 				var criteria = new PollSubmissionCriteria(pollEntity.PollID, userId);
 				var submission = DataPortal.Create<PollSubmission>(criteria);
 
-				Assert.AreEqual(pollEntity.PollID, submission.PollID, nameof(submission.PollID));
-				Assert.AreEqual(pollEntity.PollImageLink, submission.PollImageLink, nameof(submission.PollImageLink));
-				Assert.AreEqual(userId, submission.UserID, nameof(submission.UserID));
-				Assert.AreEqual(pollEntity.PollQuestion, submission.PollQuestion, nameof(submission.PollQuestion));
-				Assert.AreEqual(category.CategoryName, submission.CategoryName, nameof(submission.CategoryName));
-				Assert.AreEqual(pollEntity.PollDescription, submission.PollDescription, nameof(submission.PollDescription));
-				Assert.AreEqual(pollEntity.PollMaxAnswers.Value, submission.PollMaxAnswers, nameof(submission.PollMaxAnswers));
-				Assert.AreEqual(pollEntity.PollMinAnswers.Value, submission.PollMinAnswers, nameof(submission.PollMinAnswers));
-				Assert.AreEqual(4, submission.Responses.Count, nameof(submission.Responses));
+				submission.PollID.Should().Be(pollEntity.PollID);
+				submission.PollImageLink.Should().Be(pollEntity.PollImageLink);
+				submission.UserID.Should().Be(userId);
+				submission.PollQuestion.Should().Be(pollEntity.PollQuestion);
+				submission.CategoryName.Should().Be(category.CategoryName);
+				submission.PollDescription.Should().Be(pollEntity.PollDescription);
+				submission.PollMaxAnswers.Should().Be(pollEntity.PollMaxAnswers.Value);
+				submission.PollMinAnswers.Should().Be(pollEntity.PollMinAnswers.Value);
+				submission.Responses.Count.Should().Be(4);
 
 				submission.BrokenRulesCollection.AssertRuleCount(1);
 				submission.BrokenRulesCollection.AssertRuleCount(PollSubmission.ResponsesProperty, 1);
@@ -113,8 +113,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			pollSubmissionResponsesFactory.VerifyAll();
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(DataPortalException))]
+		[Fact]
 		public void CreateWhenUserHasSubmittedAnswersBefore()
 		{
 			var generator = new RandomObjectGenerator();
@@ -148,11 +147,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var criteria = new PollSubmissionCriteria(pollId, userId);
-				new DataPortal<PollSubmission>().Create(criteria);
+				new Action(() => new DataPortal<PollSubmission>().Create(criteria)).ShouldThrow<DataPortalException>();
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void CreateWithStartDateInTheFuture()
 		{
 			var now = DateTime.UtcNow;
@@ -218,7 +217,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			entities.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void CreateWithEndDateInThePast()
 		{
 			var now = DateTime.UtcNow;
@@ -284,7 +283,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			entities.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void CreateWhenPollIsDeleted()
 		{
 			var now = DateTime.UtcNow;
@@ -358,7 +357,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			entities.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Insert()
 		{
 			var now = DateTime.UtcNow;
@@ -445,13 +444,13 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 				submission = submission.Save();
 
-				Assert.AreEqual(1, submissions.Local.Count, nameof(submissions.Local.Count));
-				Assert.AreEqual(submissionId, submission.PollSubmissionID, nameof(submission.PollSubmissionID));
-				Assert.AreEqual(4, responses.Local.Count, nameof(responses.Local.Count));
-				Assert.IsFalse(responses.Local[0].OptionSelected, nameof(MVPollResponse.OptionSelected));
-				Assert.IsTrue(responses.Local[1].OptionSelected, nameof(MVPollResponse.OptionSelected));
-				Assert.IsFalse(responses.Local[2].OptionSelected, nameof(MVPollResponse.OptionSelected));
-				Assert.IsTrue(responses.Local[3].OptionSelected, nameof(MVPollResponse.OptionSelected));
+				submissions.Local.Count.Should().Be(1);
+				submission.PollSubmissionID.Should().Be(submissionId);
+				responses.Local.Count.Should().Be(4);
+				responses.Local[0].OptionSelected.Should().BeFalse();
+				responses.Local[1].OptionSelected.Should().BeTrue();
+				responses.Local[2].OptionSelected.Should().BeFalse();
+				responses.Local[3].OptionSelected.Should().BeTrue();
 			}
 
 			entities.VerifyAll();

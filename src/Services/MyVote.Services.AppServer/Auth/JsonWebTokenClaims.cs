@@ -29,7 +29,8 @@ namespace MyVote.Services.AppServer.Auth
         [DataMember(Name = "aud")]
         public string Audience { get; set; }
 
-        [DataMember(Name = "uid")]
+        //[DataMember(Name = "uid")]
+        [DataMember(Name = "sub")]
         public string UserId { get; set; }
 
         [DataMember(Name = "ver")]

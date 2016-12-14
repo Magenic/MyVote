@@ -1,18 +1,17 @@
 ﻿using Autofac;
 using Csla;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
-using MyVote.BusinessObjects.Contracts;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class UserIdentityTests
 	{
-		[TestMethod]
+		[Fact]
 		public void Fetch()
 		{
 			var generator = new RandomObjectGenerator();
@@ -41,16 +40,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 			{
 				var identity = DataPortal.Fetch<UserIdentity>(profileId);
 
-				Assert.AreEqual(profileId, identity.ProfileID, nameof(identity.ProfileID));
-				Assert.AreEqual(userId, identity.UserID, nameof(identity.UserID));
-				Assert.AreEqual(userName, identity.UserName, nameof(identity.UserName));
-				Assert.IsTrue(identity.IsAuthenticated, nameof(identity.IsAuthenticated));
+				identity.ProfileID.Should().Be(profileId);
+				identity.UserID.Should().Be(userId);
+				identity.UserName.Should().Be(userName);
+				identity.IsAuthenticated.Should().BeTrue();
 			}
 
 			entities.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void FetchWhenUserDoesNotExist()
 		{
 			var generator = new RandomObjectGenerator();
@@ -69,10 +68,10 @@ namespace MyVote.BusinessObjects.Net.Tests
 			{
 				var identity = DataPortal.Fetch<UserIdentity>(profileId);
 
-				Assert.AreEqual(string.Empty, identity.ProfileID, nameof(identity.ProfileID));
-				Assert.IsNull(identity.UserID, nameof(identity.UserID));
-				Assert.AreEqual(string.Empty, identity.UserName, nameof(identity.UserName));
-				Assert.IsFalse(identity.IsAuthenticated, nameof(identity.IsAuthenticated));
+				identity.ProfileID.Should().BeEmpty();
+				identity.UserID.Should().NotHaveValue();
+				identity.UserName.Should().BeEmpty();
+				identity.IsAuthenticated.Should().BeFalse();
 			}
 
 			entities.VerifyAll();

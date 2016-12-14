@@ -50,17 +50,10 @@ namespace MyVote.BusinessObjects
 		}
 #endif
 
-#if !NETFX_CORE && !MOBILE
-		protected override IPollSubmissionResponse AddNewCore()
-		{
-			throw new NotSupportedException("Items cannot be added to the collection.");
-		}
-#else
 		protected override void AddNewCore()
 		{
 			throw new NotSupportedException("Items cannot be added to the collection.");
 		}
-#endif
 
 		protected override void ClearItems()
 		{

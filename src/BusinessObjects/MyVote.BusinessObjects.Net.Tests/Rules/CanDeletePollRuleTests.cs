@@ -1,19 +1,19 @@
 ﻿using Csla;
 using Csla.Rules;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Rules;
 using Spackle;
 using Spackle.Extensions;
 using System.Security.Principal;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests.Rules
 {
-	[TestClass]
 	public sealed class CanDeletePollRuleTests
 	{
-		[TestMethod]
+		[Fact]
 		public void ExecuteWhenApplicationContextUserIsNotIUserIdentity()
 		{
 			var principal = new Mock<IPrincipal>(MockBehavior.Strict);
@@ -25,13 +25,13 @@ namespace MyVote.BusinessObjects.Net.Tests.Rules
 				var context = new AuthorizationContext(rule, Mock.Of<IPoll>(), typeof(IPoll));
 				(rule as IAuthorizationRule).Execute(context);
 
-				Assert.IsFalse(context.HasPermission, nameof(context.HasPermission));
+				context.HasPermission.Should().BeFalse();
 			}
 
 			principal.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ExecuteWhenCurrentUserDidNotCreatePoll()
 		{
 			var generator = new RandomObjectGenerator();
@@ -54,7 +54,7 @@ namespace MyVote.BusinessObjects.Net.Tests.Rules
 				var context = new AuthorizationContext(rule, poll.Object, typeof(IPoll));
 				(rule as IAuthorizationRule).Execute(context);
 
-				Assert.IsFalse(context.HasPermission, nameof(context.HasPermission));
+				context.HasPermission.Should().BeFalse();
 			}
 
 			principal.VerifyAll();
@@ -62,7 +62,7 @@ namespace MyVote.BusinessObjects.Net.Tests.Rules
 			poll.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ExecuteWhenCurrentUserCreatedPoll()
 		{
 			var generator = new RandomObjectGenerator();
@@ -84,7 +84,7 @@ namespace MyVote.BusinessObjects.Net.Tests.Rules
 				var context = new AuthorizationContext(rule, poll.Object, typeof(IPoll));
 				(rule as IAuthorizationRule).Execute(context);
 
-				Assert.IsTrue(context.HasPermission, nameof(context.HasPermission));
+				context.HasPermission.Should().BeTrue();
 			}
 
 			principal.VerifyAll();
@@ -92,7 +92,7 @@ namespace MyVote.BusinessObjects.Net.Tests.Rules
 			poll.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ExecuteWhenCurrentUserIsInAdminRole()
 		{
 			var identity = new Mock<IUserIdentity>(MockBehavior.Strict);
@@ -107,7 +107,7 @@ namespace MyVote.BusinessObjects.Net.Tests.Rules
 				var context = new AuthorizationContext(rule, Mock.Of<IPoll>(), typeof(IPoll));
 				(rule as IAuthorizationRule).Execute(context);
 
-				Assert.IsTrue(context.HasPermission, nameof(context.HasPermission));
+				context.HasPermission.Should().BeTrue();
 			}
 
 			principal.VerifyAll();

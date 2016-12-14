@@ -1,62 +1,57 @@
 ﻿using Autofac;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
 using MyVote.BusinessObjects.Attributes;
 using MyVote.BusinessObjects.Contracts;
 using System;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class ObjectActivatorTests
 	{
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
-		[SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults", MessageId = "MyVote.BusinessObjects.ObjectActivator")]
+		[Fact]
 		public void CreateWhenContainerIsNull()
 		{
-			new ObjectActivator(null, Mock.Of<ICallContext>());
+			new Action(() => new ObjectActivator(null, Mock.Of<ICallContext>())).ShouldThrow<ArgumentNullException>();
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
+		[Fact]
 		public void CreateWhenContextIsNull()
 		{
-			new ObjectActivator(Mock.Of<IContainer>(), null);
+			new Action(() => new ObjectActivator(Mock.Of<IContainer>(), null)).ShouldThrow<ArgumentNullException>();
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
+		[Fact]
 		public void CreateInstanceWhenRequestedTypeIsNull()
 		{
-			new ObjectActivator(Mock.Of<IContainer>(), Mock.Of<ICallContext>()).CreateInstance(null);
+			new Action(() => new ObjectActivator(Mock.Of<IContainer>(), Mock.Of<ICallContext>()).CreateInstance(null)).ShouldThrow<ArgumentNullException>();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void CreateInstance()
 		{
-			Assert.IsTrue(new ObjectActivator(Mock.Of<IContainer>(), Mock.Of<ICallContext>())
-				.CreateInstance(typeof(Target)) is Target);
+			(new ObjectActivator(Mock.Of<IContainer>(), Mock.Of<ICallContext>())
+				.CreateInstance(typeof(Target)) is Target).Should().BeTrue();
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
+		[Fact]
 		public void InitializeInstanceWhenObjIsNull()
 		{
-			new ObjectActivator(Mock.Of<IContainer>(), Mock.Of<ICallContext>())
-				.InitializeInstance(null);
+			new Action(() => new ObjectActivator(Mock.Of<IContainer>(), Mock.Of<ICallContext>())
+				.InitializeInstance(null)).ShouldThrow<ArgumentNullException>();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void InitializeInstanceWhenObjIsNotScoped()
 		{
-			new ObjectActivator(Mock.Of<IContainer>(), Mock.Of<ICallContext>())
-				.InitializeInstance(new Target());
+			new Action(() => new ObjectActivator(Mock.Of<IContainer>(), Mock.Of<ICallContext>())
+				.InitializeInstance(new Target())).ShouldNotThrow();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void InitializeInstanceWhenObjIsScoped()
 		{
 			var list = Mock.Of<IList>();
@@ -68,31 +63,33 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var activator = new ObjectActivator(builder.Build(), new ActivatorCallContext());
 			activator.InitializeInstance(target);
 
-			Assert.AreSame(list, target.List);
+			target.List.Should().BeSameAs(list);
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
+		[Fact]
 		public void FinalizeInstanceWhenObjIsNull()
 		{
 			var target = new Target();
 			var activator = new ObjectActivator(
 				new ContainerBuilder().Build(), new ActivatorCallContext());
 			activator.InitializeInstance(target);
-			activator.FinalizeInstance(null);
+			new Action(() => activator.FinalizeInstance(null)).ShouldThrow<ArgumentNullException>();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void FinalizeInstanceWhenObjIsNotScoped()
 		{
-			var target = new Target();
-			var activator = new ObjectActivator(
-				new ContainerBuilder().Build(), new ActivatorCallContext());
-			activator.InitializeInstance(target);
-			activator.FinalizeInstance(target);
+			new Action(() =>
+			{
+				var target = new Target();
+				var activator = new ObjectActivator(
+					new ContainerBuilder().Build(), new ActivatorCallContext());
+				activator.InitializeInstance(target);
+				activator.FinalizeInstance(target);
+			}).ShouldNotThrow();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void FinalizeInstanceWhenObjIsScoped()
 		{
 			var list = Mock.Of<IList>();
@@ -106,7 +103,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			activator.InitializeInstance(target);
 			activator.FinalizeInstance(target);
 
-			Assert.IsNull(target.List);
+			target.List.Should().BeNull();
 		}
 	}
 

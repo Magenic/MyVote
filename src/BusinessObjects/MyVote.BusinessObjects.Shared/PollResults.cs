@@ -1,21 +1,21 @@
-﻿using Csla;
+﻿using System;
+using Csla;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
 using System.Linq;
 
 #if !NETFX_CORE && !MOBILE
-using System;
 using MyVote.BusinessObjects.Attributes;
 #endif
 
 namespace MyVote.BusinessObjects
 {
-	[System.Serializable]
+	[Serializable]
 	internal sealed class PollResults
 		: BusinessBaseCore<PollResults>, IPollResults
 	{
 #if !NETFX_CORE && !MOBILE
-		  private void DataPortal_Fetch(PollResultsCriteria criteria)
+		private void DataPortal_Fetch(PollResultsCriteria criteria)
 		{
 			using (this.BypassPropertyChecks)
 			{
@@ -23,12 +23,12 @@ namespace MyVote.BusinessObjects
 				this.PollDataResults = this.PollDataResultsFactory.FetchChild(criteria.PollID);
 				this.PollComments = this.PollCommentsFactory.FetchChild(criteria.PollID);
 
-				var pollData = (from p in this.Entities.MVPolls
-									 where p.PollID == criteria.PollID
+				var pollData = (from p in this.Entities.Mvpoll
+									 where p.PollId == criteria.PollID
 									 select new
 									 {
-										 p.UserID,
-										 IsDeleted = (bool)(p.PollDeletedFlag ?? false),
+										 p.UserId,
+										 IsDeleted = p.PollDeletedFlag != (bool?)false,
 										 p.PollStartDate,
 										 p.PollEndDate,
 										 p.PollImageLink
@@ -39,7 +39,7 @@ namespace MyVote.BusinessObjects
 
 				if (criteria.UserID != null)
 				{
-					this.IsPollOwnedByUser = pollData.UserID == criteria.UserID.Value;
+					this.IsPollOwnedByUser = pollData.UserId == criteria.UserID.Value;
 				}
 			}
 		}
@@ -50,8 +50,8 @@ namespace MyVote.BusinessObjects
 		}
 #endif // !NETFX_CORE && !MOBILE
 
-		  public static readonly PropertyInfo<int> PollIDProperty =
-			PollResults.RegisterProperty<int>(_ => _.PollID);
+		public static readonly PropertyInfo<int> PollIDProperty =
+		 PollResults.RegisterProperty<int>(_ => _.PollID);
 		public int PollID
 		{
 			get { return this.ReadProperty(PollResults.PollIDProperty); }
@@ -99,7 +99,7 @@ namespace MyVote.BusinessObjects
 		}
 
 #if !NETFX_CORE && !MOBILE
-		  [NonSerialized]
+		[NonSerialized]
 		private IObjectFactory<IPollDataResults> pollDataResultsFactory;
 		[Dependency]
 		public IObjectFactory<IPollDataResults> PollDataResultsFactory

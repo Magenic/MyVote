@@ -16,19 +16,19 @@ namespace MyVote.BusinessObjects
 		  private void Child_Fetch(int pollID)
 		{
 			this.PollID = pollID;
-			this.Question = this.Entities.MVPolls.Single(
-				_ => _.PollID == pollID && (_.PollDeletedFlag == null || !_.PollDeletedFlag.Value)).PollQuestion;
+			this.Question = this.Entities.Mvpoll.Single(
+				_ => _.PollId == pollID && (_.PollDeletedFlag != (bool?)true)).PollQuestion;
 
-			var datum = (from option in this.Entities.MVPollOptions
+			var datum = (from option in this.Entities.MvpollOption
 							 join data in
-								 (from response in this.Entities.MVPollResponses
-								  where response.PollID == pollID
-								  group response by response.PollOptionID into responseCount
+								 (from response in this.Entities.MvpollResponse
+								  where response.PollId == pollID
+								  group response by response.PollOptionId into responseCount
 								  select new
 								  {
 									  PollOptionID = responseCount.Key,
 									  ResponseCount = responseCount.Count(_ => _.OptionSelected)
-								  }) on option.PollOptionID equals data.PollOptionID
+								  }) on option.PollOptionId equals data.PollOptionID
 							 select new PollData
 							 {
 								 OptionText = option.OptionText,

@@ -1,16 +1,16 @@
 ﻿using Autofac;
 using Csla;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
 using MyVote.Data.Entities;
 using Spackle.Extensions;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class PollDataResultTests
 	{
-		[TestMethod]
+		[Fact]
 		public void Fetch()
 		{
 			var data = EntityCreator.Create<PollData>();
@@ -23,8 +23,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			{
 				var result = DataPortal.FetchChild<PollDataResult>(data);
 
-				Assert.AreEqual(data.PollOptionID, result.PollOptionID, nameof(result.PollOptionID));
-				Assert.AreEqual(data.ResponseCount, result.ResponseCount, nameof(result.ResponseCount));
+				result.PollOptionID.Should().Be(data.PollOptionID);
+				result.ResponseCount.Should().Be(data.ResponseCount);
 			}
 		}
 	}

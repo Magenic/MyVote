@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MyVote.Services.AppServer.Auth;
 using MyVote.Services.AppServer.Controllers;
@@ -11,13 +10,14 @@ using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
 using MyVote.BusinessObjects.Core.Contracts;
 using Spackle;
+using Xunit;
+using FluentAssertions;
 
 namespace MyVote.Services.AppServer.Tests
 {
-	[TestClass]
 	public sealed class PollControllerTests
 	{
-		[TestMethod]
+		[Fact]
 		public void GetPollDefault()
 		{
 			var generator = new RandomObjectGenerator();
@@ -53,13 +53,13 @@ namespace MyVote.Services.AppServer.Tests
 			controller.PollSearchResultsFactory = new Lazy<IObjectFactory<IPollSearchResults>>(() => pollSearchResultsFactory.Object);
 			var polls = controller.Get();
 
-			Assert.AreEqual(1, polls.Count());
+			polls.Count().Should().Be(1);
 			var poll = polls.First();
-			Assert.AreEqual(category, poll.Category);
-			Assert.AreEqual(id, poll.Id);
-			Assert.AreEqual(imageLink, poll.ImageLink);
-			Assert.AreEqual(question, poll.Question);
-			Assert.AreEqual(submissionCount, poll.SubmissionCount);
+			poll.Category.Should().Be(category);
+			poll.Id.Should().Be(id);
+			poll.ImageLink.Should().Be(imageLink);
+			poll.Question.Should().Be(question);
+			poll.SubmissionCount.Should().Be(submissionCount);
 
 			pollSearchResultsFactory.VerifyAll();
 			pollSearchResults.VerifyAll();
@@ -69,7 +69,7 @@ namespace MyVote.Services.AppServer.Tests
 			pollSearchResult.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void GetPollNewest()
 		{
 			var searchResultsByCategory = new Mock<IReadOnlyListBaseCore<IPollSearchResultsByCategory>>(MockBehavior.Strict);
@@ -85,14 +85,14 @@ namespace MyVote.Services.AppServer.Tests
 			controller.PollSearchResultsFactory = new Lazy<IObjectFactory<IPollSearchResults>>(() => pollSearchResultsFactory.Object);
 			var polls = controller.Get("newest");
 
-			Assert.AreEqual(0, polls.Count());
+			polls.Count().Should().Be(0);
 
 			pollSearchResultsFactory.VerifyAll();
 			pollSearchResults.VerifyAll();
 			searchResultsByCategory.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void GetSinglePoll()
 		{
 			var generator = new RandomObjectGenerator();
@@ -148,26 +148,27 @@ namespace MyVote.Services.AppServer.Tests
 			controller.PollFactory = new Lazy<IObjectFactory<IPoll>>(() => pollFactory.Object);
 			var pollResult = controller.Get(pollId);
 
-			Assert.AreEqual(pollId, pollResult.PollID);
-			Assert.AreEqual(userId, pollResult.UserID);
-			Assert.AreEqual(pollCategoryID, pollResult.PollCategoryID);
-			Assert.AreEqual(pollQuestion, pollResult.PollQuestion);
-			Assert.AreEqual(pollImageLink, pollResult.PollImageLink);
-			Assert.AreEqual(pollMaxAnswers, pollResult.PollMaxAnswers);
-			Assert.AreEqual(pollMinAnswers, pollResult.PollMinAnswers);
-			Assert.AreEqual(pollStartDate, pollResult.PollStartDate);
-			Assert.AreEqual(pollEndDate, pollResult.PollEndDate);
-			Assert.AreEqual(pollAdminRemovedFlag, pollResult.PollAdminRemovedFlag);
-			Assert.AreEqual(pollDateRemoved, pollResult.PollDateRemoved);
-			Assert.AreEqual(pollDeletedFlag, pollResult.PollDeletedFlag);
-			Assert.AreEqual(pollDeletedDate, pollResult.PollDeletedDate);
-			Assert.AreEqual(pollDescription, pollResult.PollDescription);
-			Assert.AreEqual(1, pollResult.PollOptions.Count);
+			pollResult.PollID.Should().Be(pollId);
+			pollResult.UserID.Should().Be(userId);
+			pollResult.PollCategoryID.Should().Be(pollCategoryID);
+			pollResult.PollQuestion.Should().Be(pollQuestion);
+			pollResult.PollImageLink.Should().Be(pollImageLink);
+			pollResult.PollMaxAnswers.Should().Be(pollMaxAnswers);
+			pollResult.PollMinAnswers.Should().Be(pollMinAnswers);
+			pollResult.PollStartDate.Should().Be(pollStartDate);
+			pollResult.PollEndDate.Should().Be(pollEndDate);
+			pollResult.PollAdminRemovedFlag.Should().Be(pollAdminRemovedFlag);
+			pollResult.PollDateRemoved.Should().Be(pollDateRemoved);
+			pollResult.PollDeletedFlag.Should().Be(pollDeletedFlag);
+			pollResult.PollDeletedDate.Should().Be(pollDeletedDate);
+			pollResult.PollDescription.Should().Be(pollDescription);
+			pollResult.PollOptions.Count.Should().Be(1);
+
 			var pollOptionResult = pollResult.PollOptions[0];
-			Assert.AreEqual(pollOptionId, pollOptionResult.PollOptionID);
-			Assert.AreEqual(pollId, pollOptionResult.PollID);
-			Assert.AreEqual(optionPosition, pollOptionResult.OptionPosition);
-			Assert.AreEqual(optionText, pollOptionResult.OptionText);
+			pollOptionResult.PollOptionID.Should().Be(pollOptionId);
+			pollOptionResult.PollID.Should().Be(pollId);
+			pollOptionResult.OptionPosition.Should().Be(optionPosition);
+			pollOptionResult.OptionText.Should().Be(optionText);
 
 			pollFactory.VerifyAll();
 			pollOption.VerifyAll();
@@ -226,7 +227,7 @@ namespace MyVote.Services.AppServer.Tests
 			poll.Verify();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void CreatePoll()
 		{
 			PollControllerTests.TestPollPut((pollFactory, pollModel, poll) =>
@@ -238,7 +239,7 @@ namespace MyVote.Services.AppServer.Tests
 			});
 		}
 
-		[TestMethod]
+		[Fact]
 		public void UpdatePoll()
 		{
 			PollControllerTests.TestPollPut((pollFactory, pollModel, poll) =>

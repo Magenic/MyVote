@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Csla;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
@@ -9,13 +9,13 @@ using Spackle.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class PollSearchResultsTests
 	{
-		[TestMethod]
+		[Fact]
 		public void FetchMostPopular()
 		{
 			var now = DateTime.UtcNow;
@@ -99,14 +99,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var result = DataPortal.Fetch<PollSearchResults>(PollSearchResultsQueryType.MostPopular);
-				Assert.AreEqual(1, result.SearchResultsByCategory.Count,
-					nameof(result.SearchResultsByCategory));
-				Assert.AreEqual(3, result.SearchResultsByCategory[0].SearchResults.Count,
-					nameof(IPollSearchResultsByCategory.SearchResults));
-				Assert.AreEqual(poll2.PollQuestion, result.SearchResultsByCategory[0].SearchResults[0].Question,
-					$"{nameof(IPollSearchResult.Question)} 0");
-				Assert.AreEqual(poll1.PollQuestion, result.SearchResultsByCategory[0].SearchResults[1].Question,
-					$"{nameof(IPollSearchResult.Question)} 1");
+
+				result.SearchResultsByCategory.Count.Should().Be(1);
+				result.SearchResultsByCategory[0].SearchResults.Count.Should().Be(3);
+				result.SearchResultsByCategory[0].SearchResults[0].Question.Should().Be(poll2.PollQuestion);
+				result.SearchResultsByCategory[0].SearchResults[1].Question.Should().Be(poll1.PollQuestion);
 			}
 
 			entities.VerifyAll();
@@ -114,7 +111,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			pollSearchResultByCategoryFactory.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void FetchByNewest()
 		{
 			var now = DateTime.UtcNow;
@@ -203,38 +200,28 @@ namespace MyVote.BusinessObjects.Net.Tests
 				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var result = DataPortal.Fetch<PollSearchResults>(PollSearchResultsQueryType.Newest);
-				Assert.AreEqual(2, result.SearchResultsByCategory.Count,
-					nameof(result.SearchResultsByCategory));
+
+				result.SearchResultsByCategory.Count.Should().Be(2);
 
 				var firstCategory = result.SearchResultsByCategory[0];
-				Assert.AreEqual("a", firstCategory.Category,
-					$"{nameof(firstCategory.Category)} a");
-				Assert.AreEqual(3, firstCategory.SearchResults.Count,
-					$"{nameof(firstCategory.SearchResults)} a");
-				Assert.AreEqual(poll6.PollQuestion, firstCategory.SearchResults[0].Question,
-					$"{nameof(IPollSearchResult.Question)} a 0");
-				Assert.AreEqual(poll2.PollQuestion, firstCategory.SearchResults[1].Question,
-					$"{nameof(IPollSearchResult.Question)} a 1");
-				Assert.AreEqual(poll4.PollQuestion, firstCategory.SearchResults[2].Question,
-					$"{nameof(IPollSearchResult.Question)} a 2");
+				firstCategory.Category.Should().Be("a");
+				firstCategory.SearchResults.Count.Should().Be(3);
+				firstCategory.SearchResults[0].Question.Should().Be(poll6.PollQuestion);
+				firstCategory.SearchResults[1].Question.Should().Be(poll2.PollQuestion);
+				firstCategory.SearchResults[2].Question.Should().Be(poll4.PollQuestion);
 
 				var secondCategory = result.SearchResultsByCategory[1];
-				Assert.AreEqual("b", secondCategory.Category,
-					$"{nameof(secondCategory.Category)} b");
-				Assert.AreEqual(3, secondCategory.SearchResults.Count,
-					$"{nameof(secondCategory.SearchResults)} b");
-				Assert.AreEqual(poll5.PollQuestion, secondCategory.SearchResults[0].Question,
-					$"{nameof(IPollSearchResult.Question)} b 0");
-				Assert.AreEqual(poll1.PollQuestion, secondCategory.SearchResults[1].Question,
-					$"{nameof(IPollSearchResult.Question)} b 1");
-				Assert.AreEqual(poll3.PollQuestion, secondCategory.SearchResults[2].Question,
-					nameof(IPollSearchResult.Question));
+				secondCategory.Category.Should().Be("b");
+				secondCategory.SearchResults.Count.Should().Be(3);
+				secondCategory.SearchResults[0].Question.Should().Be(poll5.PollQuestion);
+				secondCategory.SearchResults[1].Question.Should().Be(poll1.PollQuestion);
+				secondCategory.SearchResults[2].Question.Should().Be(poll3.PollQuestion);
 			}
 
 			entities.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void FetchByPollQuestion()
 		{
 			var now = DateTime.UtcNow;
@@ -317,19 +304,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var result = DataPortal.Fetch<PollSearchResults>("bCd");
-				Assert.AreEqual(1, result.SearchResultsByCategory.Count,
-					nameof(result.SearchResultsByCategory));
-				Assert.AreEqual(1, result.SearchResultsByCategory[0].SearchResults.Count,
-					nameof(ICollection.Count));
-				Assert.AreEqual(poll2.PollQuestion, result.SearchResultsByCategory[0].SearchResults[0].Question,
-					nameof(IPollSearchResult.Question));
+				result.SearchResultsByCategory.Count.Should().Be(1);
+				result.SearchResultsByCategory[0].SearchResults.Count.Should().Be(1);
+				result.SearchResultsByCategory[0].SearchResults[0].Question.Should().Be(poll2.PollQuestion);
 			}
 
 			searchWhereClause.VerifyAll();
 			entities.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void FetchByUserForPollsThatAreActive()
 		{
 			var now = DateTime.UtcNow;
@@ -402,14 +386,13 @@ namespace MyVote.BusinessObjects.Net.Tests
 			{
 				var result = DataPortal.Fetch<PollSearchResults>(
 					new PollSearchResultsByUserCriteria(1, true));
-				Assert.AreEqual(2, result.SearchResultsByCategory.Count,
-					nameof(result.SearchResultsByCategory));
+				result.SearchResultsByCategory.Count.Should().Be(2);
 			}
 
 			entities.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void FetchByUserForPollsThatAreNotActive()
 		{
 			var now = DateTime.UtcNow;
@@ -482,8 +465,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			{
 				var result = DataPortal.Fetch<PollSearchResults>(
 					new PollSearchResultsByUserCriteria(1, false));
-				Assert.AreEqual(2, result.SearchResultsByCategory.Count,
-					nameof(result.SearchResultsByCategory));
+				result.SearchResultsByCategory.Count.Should().Be(2);
 			}
 
 			entities.VerifyAll();

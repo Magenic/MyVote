@@ -31,6 +31,7 @@ namespace MyVote.UI
 		{
 			var presenter = new ViewPresenter();
 			Mvx.RegisterSingleton<IMvxViewPresenter>(presenter);
+            Mvx.RegisterType<IImageResize, ImageResize>();
 			return presenter;
 		}
 

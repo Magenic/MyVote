@@ -24,15 +24,16 @@ namespace MyVote.BusinessObjects
 #if !NETFX_CORE && !MOBILE
 		protected override void DataPortal_Execute()
 		{
-			var submissionExists = (from s in this.Entities.MVPollSubmissions
-											where (s.UserID == this.UserID &&
-											s.PollID == this.PollID)
-											select s.PollSubmissionID).Any();
+			var submissionExists = (from s in this.Entities.MvpollSubmission
+											where (s.UserId == this.UserID &&
+											s.PollId == this.PollID)
+											select s.PollSubmissionId).Any();
 
 			if (!submissionExists)
 			{
-				this.Submission = this.PollSubmissionFactory.Create(
-					new PollSubmissionCriteria(this.PollID, this.UserID));
+				// TODO: Should be sync call or awaited.
+				this.Submission = this.PollSubmissionFactory.CreateAsync(
+					new PollSubmissionCriteria(this.PollID, this.UserID)).Result;
 			}
 		}
 #endif
@@ -71,9 +72,9 @@ namespace MyVote.BusinessObjects
 			set { this.pollSubmissionFactory = value; }
 		}
 		[NonSerialized]
-		private IEntities entities;
+		private IEntitiesContext entities;
 		[Dependency]
-		public IEntities Entities
+		public IEntitiesContext Entities
 		{
 			get { return this.entities; }
 			set { this.entities = value; }

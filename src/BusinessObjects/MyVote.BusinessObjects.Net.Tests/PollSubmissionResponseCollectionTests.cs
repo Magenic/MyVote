@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Csla;
 using Csla.Serialization.Mobile;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
@@ -10,10 +10,10 @@ using Spackle;
 using Spackle.Extensions;
 using System;
 using System.IO;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class PollSubmissionResponseCollectionTests
 	{
 		private static BusinessList<IPollOption> CreateOptions()
@@ -35,7 +35,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			return options;
 		}
 
-		[TestMethod]
+		[Fact]
 		public void EnsureCollectionCanBeSerialized()
 		{
 			var pollSubmissionResponseFactory = new Mock<IObjectFactory<IPollSubmissionResponse>>();
@@ -58,13 +58,13 @@ namespace MyVote.BusinessObjects.Net.Tests
 					formatter.Serialize(stream, responses);
 					stream.Position = 0;
 					var newResponses = formatter.Deserialize(stream) as PollSubmissionResponseCollection;
-					Assert.AreEqual(1, newResponses.Count, nameof(newResponses.Count));
-					Assert.AreEqual(responses[0].OptionText, newResponses[0].OptionText, nameof(IPollSubmissionResponse.OptionText));
+					newResponses.Count.Should().Be(1);
+					newResponses[0].OptionText.Should().Be(responses[0].OptionText);
 				}
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Create()
 		{
 			var pollSubmissionResponseFactory = new Mock<IObjectFactory<IPollSubmissionResponse>>(MockBehavior.Strict);
@@ -81,14 +81,13 @@ namespace MyVote.BusinessObjects.Net.Tests
 				var responses = DataPortal.CreateChild<PollSubmissionResponseCollection>(
 					PollSubmissionResponseCollectionTests.CreateOptions());
 
-				Assert.AreEqual(1, responses.Count, nameof(responses.Count));
+				responses.Count.Should().Be(1);
 			}
 
 			pollSubmissionResponseFactory.VerifyAll();
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(NotSupportedException))]
+		[Fact]
 		public void Clear()
 		{
 			var pollSubmissionResponseFactory = new Mock<IObjectFactory<IPollSubmissionResponse>>();
@@ -104,12 +103,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 			{
 				var responses = DataPortal.CreateChild<PollSubmissionResponseCollection>(
 					PollSubmissionResponseCollectionTests.CreateOptions());
-				responses.Clear();
+				new Action(() => responses.Clear()).ShouldThrow<NotSupportedException>();
 			}
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(NotSupportedException))]
+		[Fact]
 		public void Insert()
 		{
 			var pollSubmissionResponseFactory = new Mock<IObjectFactory<IPollSubmissionResponse>>();
@@ -125,12 +123,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 			{
 				var responses = DataPortal.CreateChild<PollSubmissionResponseCollection>(
 					PollSubmissionResponseCollectionTests.CreateOptions());
-				responses.Insert(1, Mock.Of<IPollSubmissionResponse>());
+				new Action(() => responses.Insert(1, Mock.Of<IPollSubmissionResponse>())).ShouldThrow<NotSupportedException>();
 			}
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(NotSupportedException))]
+		[Fact]
 		public void Move()
 		{
 			var pollSubmissionResponseFactory = new Mock<IObjectFactory<IPollSubmissionResponse>>();
@@ -146,12 +143,11 @@ namespace MyVote.BusinessObjects.Net.Tests
 			{
 				var responses = DataPortal.CreateChild<PollSubmissionResponseCollection>(
 					PollSubmissionResponseCollectionTests.CreateOptions());
-				responses.Move(0, 0);
+				new Action(() => responses.Move(0, 0)).ShouldThrow<NotSupportedException>();
 			}
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(NotSupportedException))]
+		[Fact]
 		public void Remove()
 		{
 			var pollSubmissionResponseFactory = new Mock<IObjectFactory<IPollSubmissionResponse>>();
@@ -167,7 +163,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			{
 				var responses = DataPortal.CreateChild<PollSubmissionResponseCollection>(
 					PollSubmissionResponseCollectionTests.CreateOptions());
-				responses.RemoveAt(0);
+				new Action(() => responses.RemoveAt(0)).ShouldThrow<NotSupportedException>();
 			}
 		}
 	}

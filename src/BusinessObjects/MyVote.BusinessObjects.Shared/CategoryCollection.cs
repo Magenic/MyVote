@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Csla;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
 using System;
@@ -24,7 +23,7 @@ namespace MyVote.BusinessObjects
 
 			try
 			{
-				foreach (var category in (from c in this.Entities.MVCategories
+				foreach (var category in (from c in this.Entities.Mvcategory
 												  select c).ToList())
 				{
 					this.Add(this.categoryFactory.FetchChild(category));
@@ -37,9 +36,9 @@ namespace MyVote.BusinessObjects
 		}
 
 		[NonSerialized]
-		private IEntities entities;
+		private IEntitiesContext entities;
 		[Dependency]
-		public IEntities Entities
+		public IEntitiesContext Entities
 		{
 			get { return this.entities; }
 			set { this.entities = value; }

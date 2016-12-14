@@ -53,5 +53,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewModelBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\UploadViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewPollPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IImageResize.cs" />
   </ItemGroup>
 </Project>

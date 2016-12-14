@@ -1,16 +1,16 @@
 ﻿using Autofac;
 using Csla;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
 using MyVote.Data.Entities;
 using Spackle.Extensions;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class CategoryTests
 	{
-		[TestMethod]
+		[Fact]
 		public void Fetch()
 		{
 			var entity = EntityCreator.Create<MVCategory>();
@@ -23,8 +23,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			{
 				var category = DataPortal.FetchChild<Category>(entity);
 
-				Assert.AreEqual(entity.CategoryID, category.ID, nameof(category.ID));
-				Assert.AreEqual(entity.CategoryName, category.Name, nameof(category.Name));
+				category.ID.Should().Be(entity.CategoryID);
+				category.Name.Should().Be(entity.CategoryName);
 			}
 		}
 	}

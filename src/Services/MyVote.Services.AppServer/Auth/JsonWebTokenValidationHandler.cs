@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -51,6 +52,9 @@ namespace MyVote.Services.AppServer.Auth
                     try
                     {
                         var jwt = new JsonWebToken(token, new Dictionary<int, string> {{0, _masterKey}});
+
+                        //var jwtToken = new JwtSecurityToken(token);
+
                         jwt.Validate(validateExpiration: true);
 
                         MyVoteAuthentication.SetCurrentPrincipal(new MyVotePrincipal(jwt.Claims.UserId));

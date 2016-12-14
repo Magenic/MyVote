@@ -8,14 +8,14 @@ namespace MyVote.UI.Controls
 {
 	public class ExtendedPicker<T> : Picker
 	{
-        public static readonly BindableProperty PlaceholderTextProperty = BindableProperty.Create<ExtendedPicker<T>, string>(p => p.PlaceholderText, string.Empty);
+        public static readonly BindableProperty PlaceholderTextProperty = BindableProperty.Create(nameof(PlaceholderText), typeof(string), typeof(ExtendedPicker<T>), string.Empty);
         public string PlaceholderText
         {
             get { return (string)this.GetValue(PlaceholderTextProperty); }
             set { SetValue(PlaceholderTextProperty, value); }
         }
 
-        public static readonly BindableProperty PlaceholderColorProperty = BindableProperty.Create<ExtendedPicker<T>, Color>(p => p.PlaceholderColor, Color.Transparent);
+        public static readonly BindableProperty PlaceholderColorProperty = BindableProperty.Create(nameof(PlaceholderColor), typeof(Color), typeof(ExtendedPicker<T>), Color.Transparent);
         public Color PlaceholderColor
         {
             get { return (Color)this.GetValue(PlaceholderColorProperty); }
@@ -27,21 +27,11 @@ namespace MyVote.UI.Controls
 			this.SelectedIndexChanged += OnSelectedIndexChanged;
 		}
 
-		public static BindableProperty ItemsSourceProperty =
-			BindableProperty.Create<ExtendedPicker<T>, ObservableCollection<SelectOptionViewModel<T>>>(
-				o => o.ItemsSource,
-				default(ObservableCollection<SelectOptionViewModel<T>>),
-				propertyChanged: OnItemsSourceChanged);
+        public static BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(ObservableCollection<SelectOptionViewModel<T>>), typeof(ExtendedPicker<T>), default(ObservableCollection<SelectOptionViewModel<T>>), propertyChanged: OnItemsSourceChanged);
 
-		public static BindableProperty SelectedItemProperty =
-			BindableProperty.Create<ExtendedPicker<T>, T>(
-				o => o.SelectedItem,
-				default(T),
-				propertyChanged: OnSelectedItemChanged);
+        public static BindableProperty SelectedItemProperty = BindableProperty.Create(nameof(SelectedItem), typeof(T), typeof(ExtendedPicker<T>), default(T), propertyChanged: OnSelectedItemChanged);
 
-		public static readonly BindableProperty TextColorProperty =
-			BindableProperty.Create<ExtendedDatePicker, Color>(
-				p => p.TextColor, Color.Black);
+        public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(ExtendedDatePicker), Color.Black);
 
 		public ObservableCollection<SelectOptionViewModel<T>> ItemsSource
 		{
@@ -67,12 +57,12 @@ namespace MyVote.UI.Controls
 			}
 		}
 
-		private static void OnItemsSourceChanged(BindableObject bindable, ObservableCollection<SelectOptionViewModel<T>> oldvalue, ObservableCollection<SelectOptionViewModel<T>> newvalue)
+        private static void OnItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
 		{
-			var picker = bindable as ExtendedPicker<T>;
-			var bindingList = newvalue as ObservableCollection<SelectOptionViewModel<T>>;
+            var picker = (ExtendedPicker<T>)bindable;
+			var bindingList = newValue as ObservableCollection<SelectOptionViewModel<T>>;
 			picker.Items.Clear();
-			if (newvalue != null && bindingList != null)
+			if (newValue != null && bindingList != null)
 			{
 				//now it works like "subscribe once" but you can improve
 				foreach (var item in bindingList)
@@ -107,12 +97,12 @@ namespace MyVote.UI.Controls
 			}
 		}
 
-		private static void OnSelectedItemChanged(BindableObject bindable, T oldvalue, T newvalue)
+		private static void OnSelectedItemChanged(BindableObject bindable, object oldValue, object newValue)
 		{
 			var picker = bindable as ExtendedPicker<T>;
-			if (newvalue != null && picker != null && picker.ItemsSource != null)
+			if (newValue != null && picker != null && picker.ItemsSource != null)
 			{
-				var item = picker.ItemsSource.FirstOrDefault(i => i.Value.Equals(newvalue));
+				var item = picker.ItemsSource.FirstOrDefault(i => i.Value.Equals(newValue));
 				if (item != null)
 				{
 					picker.SelectedIndex = picker.Items.IndexOf(item.Display);

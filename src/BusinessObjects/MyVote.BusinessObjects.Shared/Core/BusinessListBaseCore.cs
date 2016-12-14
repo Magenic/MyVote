@@ -20,22 +20,15 @@ namespace MyVote.BusinessObjects.Core
 	{
 #if !NETFX_CORE && !MOBILE
 		[NonSerialized]
-		private IEntities entities;
+		private IEntitiesContext entities;
 #endif
 
 		protected BusinessListBaseCore() : base() { }
 
-#if !NETFX_CORE && !MOBILE
-		protected override C AddNewCore()
-		{
-			return base.AddNewCore();
-		}
-#else
 		protected override void AddNewCore()
 		{
 			base.AddNewCore();
 		}
-#endif
 
 		protected override void Child_Create()
 		{
@@ -66,7 +59,7 @@ namespace MyVote.BusinessObjects.Core
 			get { return new List<string> { nameof(this.Entities) }; }
 		}
 
-		public IEntities Entities
+		public IEntitiesContext Entities
 		{
 			get { return this.entities; }
 			set { this.entities = value; }

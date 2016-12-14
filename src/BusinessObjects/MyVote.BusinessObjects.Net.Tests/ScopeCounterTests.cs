@@ -1,23 +1,23 @@
 ﻿using Autofac;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
 using System;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class ScopeCounterTests
 	{
-		[TestMethod]
+		[Fact]
 		public void Create()
 		{
 			var scope = Mock.Of<ILifetimeScope>();
 			var counter = new ScopeCounter(scope);
 
-			Assert.AreSame(scope, counter.Scope);
+			counter.Scope.Should().BeSameAs(scope);
 		}
 
-		[TestMethod]
+		[Fact]
 		public void AddAndRelease()
 		{
 			var scope = new Mock<ILifetimeScope>(MockBehavior.Strict);
@@ -30,26 +30,24 @@ namespace MyVote.BusinessObjects.Net.Tests
 			counter.Release();
 			counter.Release();
 
-			Assert.IsNull(counter.Scope);
+			counter.Scope.Should().BeNull();
 			scope.VerifyAll();
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(ObjectDisposedException))]
+		[Fact]
 		public void AddAfterDisposed()
 		{
 			var counter = new ScopeCounter(Mock.Of<ILifetimeScope>());
 			counter.Release();
-			counter.Add();
+			new Action(() => counter.Add()).ShouldThrow<ObjectDisposedException>();
 		}
 
-		[TestMethod]
-		[ExpectedException(typeof(ObjectDisposedException))]
+		[Fact]
 		public void ReleaseAfterDisposed()
 		{
 			var counter = new ScopeCounter(Mock.Of<ILifetimeScope>());
 			counter.Release();
-			counter.Release();
+			new Action(() => counter.Release()).ShouldThrow<ObjectDisposedException>();
 		}
 	}
 }

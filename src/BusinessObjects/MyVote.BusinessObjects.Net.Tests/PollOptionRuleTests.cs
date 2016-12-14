@@ -1,20 +1,18 @@
 ﻿using Autofac;
 using Csla;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Net.Tests.Extensions;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
 using System.ComponentModel.DataAnnotations;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class PollOptionRuleTests
 	{
-		[TestMethod]
+		[Fact]
 		public void ChangeOptionPositionToValidValue()
 		{
 			var builder = new ContainerBuilder();
@@ -33,7 +31,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ChangeOptionTextToInvalidValue()
 		{
 			var builder = new ContainerBuilder();
@@ -54,7 +52,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ChangeOptionTextToValidValue()
 		{
 			var builder = new ContainerBuilder();

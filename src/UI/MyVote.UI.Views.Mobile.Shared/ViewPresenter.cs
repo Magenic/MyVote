@@ -24,13 +24,13 @@ namespace MyVote.UI
 
             var viewModel = MvvmCross.Forms.Presenter.Core.MvxPresenterHelpers.LoadViewModel(request);
 
-            var mainPage = _mvxFormsApp.MainPage as NavigationPage;
+            var mainPage = MvxFormsApp.MainPage as NavigationPage;
             page.BindingContext = viewModel;
 
             if (mainPage == null)
             {
-                _mvxFormsApp.MainPage = new NavigationPage(page);
-                mainPage = (NavigationPage)_mvxFormsApp.MainPage;
+                MvxFormsApp.MainPage = new NavigationPage(page);
+                mainPage = MvxFormsApp.MainPage as NavigationPage;
                 CustomPlatformInitialization(mainPage);
             }
             else
@@ -52,7 +52,7 @@ namespace MyVote.UI
         {
             if (hint is ClearBackstackHint)
             {
-                var mainPage = _mvxFormsApp.MainPage as NavigationPage;
+                var mainPage = MvxFormsApp.MainPage as NavigationPage;
                 if (mainPage != null && mainPage.CurrentPage != null)
                 {
                     var navigation = mainPage.CurrentPage.Navigation;

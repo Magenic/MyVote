@@ -1,0 +1,117 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "administratorLogin": {
+            "type": "string"
+        },
+        "administratorLoginPassword": {
+            "type": "securestring"
+        },
+        "collation": {
+            "type": "string"
+        },
+        "databaseName": {
+            "type": "string"
+        },
+        "edition": {
+            "type": "string"
+        },
+        "requestedServiceObjectiveId": {
+            "type": "string"
+        },
+        "location": {
+            "type": "string"
+        },
+        "maxSizeBytes": {
+            "type": "string"
+        },
+        "serverName": {
+            "type": "string"
+        },
+        "version": {
+            "type": "string"
+        },
+        "diagnosticStorageAccountId": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "diagnosticsTemplate": {
+            "type": "string",
+            "defaultValue": "DiagnosticsWithNoStorageAccount.json"
+        }
+    },
+    "variables": {
+        "templateLink": "[uri('https://gallery.azure.com/artifact/20151001/Microsoft.SQLDatabase.1.0.57/DeploymentTemplates/NewDatabaseNewServerV3.json', parameters('diagnosticsTemplate'))]"
+    },
+    "resources": [
+        {
+            "apiVersion": "2014-04-01-preview",
+            "location": "[parameters('location')]",
+            "name": "[parameters('serverName')]",
+            "properties": {
+                "administratorLogin": "[parameters('administratorLogin')]",
+                "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
+                "version": "[parameters('version')]"
+            },
+            "resources": [
+                {
+                    "apiVersion": "2014-04-01-preview",
+                    "dependsOn": [
+                        "[concat('Microsoft.Sql/servers/', parameters('serverName'))]"
+                    ],
+                    "location": "[parameters('location')]",
+                    "name": "[parameters('databaseName')]",
+                    "properties": {
+                        "collation": "[parameters('collation')]",
+                        "edition": "[parameters('edition')]",
+                        "maxSizeBytes": "[parameters('maxSizeBytes')]",
+                        "requestedServiceObjectiveId": "[parameters('requestedServiceObjectiveId')]"
+                    },
+                    "type": "databases"
+                },
+                {
+                    "apiVersion": "2014-04-01-preview",
+                    "dependsOn": [
+                        "[concat('Microsoft.Sql/servers/', parameters('serverName'))]"
+                    ],
+                    "location": "[parameters('location')]",
+                    "name": "AllowAllWindowsAzureIps",
+                    "properties": {
+                        "endIpAddress": "0.0.0.0",
+                        "startIpAddress": "0.0.0.0"
+                    },
+                    "type": "firewallrules"
+                },
+                {
+                    "apiVersion": "2015-01-01",
+                    "name": "[concat('diagnosticsSettings_', uniqueString(deployment().name))]",
+                    "type": "Microsoft.Resources/deployments",
+                    "dependsOn": [
+                        "[concat('Microsoft.Sql/servers/', parameters('serverName'))]",
+                        "[concat('Microsoft.Sql/servers/', parameters('serverName'), '/databases/', parameters('databaseName'))]"
+                    ],
+                    "properties": {
+                        "mode": "incremental",
+                        "templateLink": {
+                            "uri": "[variables('templateLink')]",
+                            "contentVersion": "1.0.0.0"
+                        },
+                        "parameters": {
+                            "storageAccountId": {
+                                "value": "[parameters('diagnosticStorageAccountId')]"
+                            },
+                            "storageAccountLocation": {
+                                "value": "[parameters('location')]"
+                            },
+                            "parentResource": {
+                                "value": "[concat(parameters('serverName'), '/', parameters('databaseName'))]"
+                            }
+                        }
+                    }
+                }
+            ],
+            "type": "Microsoft.Sql/servers"
+        }
+    ]
+}

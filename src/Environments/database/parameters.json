@@ -1,0 +1,39 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "administratorLogin": {
+            "value": "myvote"
+        },
+        "collation": {
+            "value": "SQL_Latin1_General_CP1_CI_AS"
+        },
+        "databaseName": {
+            "value": "myvote_data_db"
+        },
+        "diagnosticsTemplate": {
+            "value": "DiagnosticsWithNoStorageAccount.json"
+        },
+        "diagnosticStorageAccountId": {
+            "value": ""
+        },
+        "edition": {
+            "value": "Standard"
+        },
+        "location": {
+            "value": "centralus"
+        },
+        "maxSizeBytes": {
+            "value": "268435456000"
+        },
+        "requestedServiceObjectiveId": {
+            "value": "455330e1-00cd-488b-b5fa-177c226f28b7"
+        },
+        "serverName": {
+            "value": "myvote"
+        },
+        "version": {
+            "value": "12.0"
+        }
+    }
+}

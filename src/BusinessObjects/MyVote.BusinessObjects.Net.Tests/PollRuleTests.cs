@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using Csla;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
@@ -11,13 +10,13 @@ using Spackle;
 using Spackle.Extensions;
 using System;
 using System.ComponentModel.DataAnnotations;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class PollRuleTests
 	{
-		[TestMethod]
+		[Fact]
 		public void ChangePollCategoryIdToValidValue()
 		{
 			var generator = new RandomObjectGenerator();
@@ -39,7 +38,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ChangePollEndDateToValidValue()
 		{
 			var generator = new RandomObjectGenerator();
@@ -62,7 +61,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ChangePollOptionsToValidValue()
 		{
 			var generator = new RandomObjectGenerator();
@@ -88,7 +87,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 		}
 
 
-		[TestMethod]
+		[Fact]
 		public void ChangePollQuestionToInvalidValue()
 		{
 			var generator = new RandomObjectGenerator();
@@ -112,7 +111,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ChangePollQuestionToValidValue()
 		{
 			var generator = new RandomObjectGenerator();
@@ -134,7 +133,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ChangePollStartDateAfterEndDate()
 		{
 			var generator = new RandomObjectGenerator();
@@ -161,7 +160,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ChangePollStartDateBeforeEndDate()
 		{
 			var generator = new RandomObjectGenerator();
@@ -188,7 +187,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ChangePollStartDateToValidValue()
 		{
 			var generator = new RandomObjectGenerator();
@@ -211,7 +210,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ChangePollMinAndMaxAnswersToInvalidValue()
 		{
 			var generator = new RandomObjectGenerator();
@@ -236,7 +235,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ChangePollMinAndMaxAnswersToValidValue()
 		{
 			var generator = new RandomObjectGenerator();
@@ -261,7 +260,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ChangePollMaxAnswersToZero()
 		{
 			var generator = new RandomObjectGenerator();
@@ -284,7 +283,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ChangePollMaxAnswersToPositiveValueAndAnswerCountIsGreater()
 		{
 			var generator = new RandomObjectGenerator();
@@ -311,7 +310,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ChangePollMaxAnswersToPositiveValueAndAnswerCountIsEqual()
 		{
 			var generator = new RandomObjectGenerator();
@@ -336,7 +335,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ChangePollMinAnswersToZero()
 		{
 			var generator = new RandomObjectGenerator();
@@ -359,7 +358,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ChangePollMinAnswersToPositiveValueAndAnswerCountIsGreater()
 		{
 			var generator = new RandomObjectGenerator();
@@ -386,7 +385,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ChangePollMinAnswersToPositiveValueAndAnswerCountIsEqual()
 		{
 			var generator = new RandomObjectGenerator();

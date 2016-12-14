@@ -10,7 +10,7 @@ namespace MyVote.Services.AppServer.Controllers
 {
 	public class PollImageController : ApiController
 	{
-        const string STORAGE_CONNECTION_STRING = "My Storage Connection String";
+        const string STORAGE_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=myvoteapp;AccountKey=XszpX17ZNRRWUt7D5+ESo04eUZ9gEvLrEW9XvUIgZfnLDcNIKQkpCs8feLLSFDLmeUvfVEEnE4kyKWeRPpbQug==";
 
 		[Authorize]
 		public HttpResponseMessage Put(HttpRequestMessage request)
@@ -31,7 +31,7 @@ namespace MyVote.Services.AppServer.Controllers
 
 			return request.CreateResponse(
 				HttpStatusCode.OK,
-				new { imageUrl = "https://myapp.blob.core.windows.net/pollimages/" + imageId});
+				new { imageUrl = "https://myvoteapp.blob.core.windows.net/pollimages/" + imageId});
 		}
 	}
 }

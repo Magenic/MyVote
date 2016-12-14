@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "TestAutomation\Models\Models.csproj", "{8158F5B9-73E7-4124-8DA7-309EAAF22292}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "TestAutomation\Tests\Tests.csproj", "{61C67F6E-03AF-4A83-886B-FAE9B02C051B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4882DFFA-7337-4E20-B124-40B87BF47E91}"
+	ProjectSection(SolutionItems) = preProject
+		Externals\Magenic.MaqsFramework.3.2.0.nupkg = Externals\Magenic.MaqsFramework.3.2.0.nupkg
+		Externals\test.jpg = Externals\test.jpg
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Azure|Any CPU = Azure|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Google|Any CPU = Google|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8158F5B9-73E7-4124-8DA7-309EAAF22292}.Azure|Any CPU.ActiveCfg = Azure|Any CPU
+		{8158F5B9-73E7-4124-8DA7-309EAAF22292}.Azure|Any CPU.Build.0 = Azure|Any CPU
+		{8158F5B9-73E7-4124-8DA7-309EAAF22292}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8158F5B9-73E7-4124-8DA7-309EAAF22292}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8158F5B9-73E7-4124-8DA7-309EAAF22292}.Google|Any CPU.ActiveCfg = Google|Any CPU
+		{8158F5B9-73E7-4124-8DA7-309EAAF22292}.Google|Any CPU.Build.0 = Google|Any CPU
+		{8158F5B9-73E7-4124-8DA7-309EAAF22292}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8158F5B9-73E7-4124-8DA7-309EAAF22292}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61C67F6E-03AF-4A83-886B-FAE9B02C051B}.Azure|Any CPU.ActiveCfg = Azure|Any CPU
+		{61C67F6E-03AF-4A83-886B-FAE9B02C051B}.Azure|Any CPU.Build.0 = Azure|Any CPU
+		{61C67F6E-03AF-4A83-886B-FAE9B02C051B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61C67F6E-03AF-4A83-886B-FAE9B02C051B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61C67F6E-03AF-4A83-886B-FAE9B02C051B}.Google|Any CPU.ActiveCfg = Google|Any CPU
+		{61C67F6E-03AF-4A83-886B-FAE9B02C051B}.Google|Any CPU.Build.0 = Google|Any CPU
+		{61C67F6E-03AF-4A83-886B-FAE9B02C051B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61C67F6E-03AF-4A83-886B-FAE9B02C051B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

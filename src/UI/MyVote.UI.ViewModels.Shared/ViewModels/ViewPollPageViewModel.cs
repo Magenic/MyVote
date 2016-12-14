@@ -170,7 +170,7 @@ namespace MyVote.UI.ViewModels
 		}
 #endif // NETFX_CORE
 
-        public async override void Start()
+        public override void Start()
         {
             var task = this.LoadPollAsync();
             var awaiter = task.GetAwaiter();

@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "mbl-myvote"
+        },
+        "hostingPlanName": {
+            "value": "ServicePlanc395206e-a787"
+        },
+        "hostingEnvironment": {
+            "value": ""
+        },
+        "location": {
+            "value": "South Central US"
+        },
+        "serverFarmResourceGroup": {
+            "value": "MyVote"
+        },
+        "subscriptionId": {
+            "value": "66c4f5ab-9e62-44e5-ad6c-8d4f222dfbae"
+        }
+    }
+}

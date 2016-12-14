@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-#if !NETFX_CORE && !MOBILE
-using System.Data.Entity.SqlServer;
-using MyVote.Data.Entities;
-#endif
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Csla;
@@ -12,6 +7,10 @@ using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
 using MyVote.BusinessObjects.Core.Contracts;
 using MyVote.BusinessObjects.Attributes;
+
+#if !NETFX_CORE && !MOBILE
+using MyVote.Data.Entities;
+#endif
 
 namespace MyVote.BusinessObjects
 {
@@ -27,26 +26,26 @@ namespace MyVote.BusinessObjects
 			var now = DateTime.UtcNow;
 			var stringPattern = $"%{pollQuestion.ToLower()}%";
 
-			var polls = this.Entities.MVPolls
+			var polls = this.Entities.Mvpoll
 				.Where(this.SearchWhereClause.WhereClause(now, stringPattern));
 
 			var results = (from poll in polls
-								join category in this.Entities.MVCategories on poll.PollCategoryID equals category.CategoryID
+								join category in this.Entities.Mvcategory on poll.PollCategoryId equals category.CategoryId
 								orderby category.CategoryName ascending
 								join popular in
-									(from submission in this.Entities.MVPollSubmissions
-									 group submission by submission.PollID into submissionCount
+									(from submission in this.Entities.MvpollSubmission
+									 group submission by submission.PollId into submissionCount
 									 select new
 									 {
 										 PollId = submissionCount.Key,
 										 Count = submissionCount.Count()
-									 }) on poll.PollID equals popular.PollId into pollCounts
-								from pollCount in pollCounts.DefaultIfEmpty(new { PollId = poll.PollID, Count = 0 })
+									 }) on poll.PollId equals popular.PollId into pollCounts
+								from pollCount in pollCounts.DefaultIfEmpty(new { PollId = poll.PollId, Count = 0 })
 								orderby pollCount.Count descending
 								select new PollSearchResultsData
 								{
 									Category = category.CategoryName,
-									Id = poll.PollID,
+									Id = poll.PollId,
 									ImageLink = poll.PollImageLink,
 									Question = poll.PollQuestion,
 									SubmissionCount = pollCount.Count
@@ -63,25 +62,25 @@ namespace MyVote.BusinessObjects
 			{
 				this.ProcessQueryResults(
 					(from result in
-						 ((from poll in this.Entities.MVPolls
+						 ((from poll in this.Entities.Mvpoll
 							where (poll.PollStartDate < now && poll.PollEndDate > now &&
-							  (poll.PollDeletedFlag == null || !poll.PollDeletedFlag.Value))
-							join category in this.Entities.MVCategories on poll.PollCategoryID equals category.CategoryID
+								(poll.PollDeletedFlag != (bool?)true))
+							join category in this.Entities.Mvcategory on poll.PollCategoryId equals category.CategoryId
 							orderby category.CategoryName ascending
 							join popular in
-								(from submission in this.Entities.MVPollSubmissions
-								 group submission by submission.PollID into submissionCount
+								(from submission in this.Entities.MvpollSubmission
+								 group submission by submission.PollId into submissionCount
 								 select new
 								 {
 									 PollId = submissionCount.Key,
 									 Count = submissionCount.Count()
-								 }) on poll.PollID equals popular.PollId into pollCounts
-							from pollCount in pollCounts.DefaultIfEmpty(new { PollId = poll.PollID, Count = 0 })
+								 }) on poll.PollId equals popular.PollId into pollCounts
+							from pollCount in pollCounts.DefaultIfEmpty(new { PollId = poll.PollId, Count = 0 })
 							orderby pollCount.Count descending
 							select new
 							{
 								Category = category.CategoryName,
-								Id = poll.PollID,
+								Id = poll.PollId,
 								ImageLink = poll.PollImageLink,
 								Question = poll.PollQuestion,
 								Count = pollCount
@@ -99,25 +98,25 @@ namespace MyVote.BusinessObjects
 			{
 				this.ProcessQueryResults(
 					(from result in
-						 ((from poll in this.Entities.MVPolls
+						 ((from poll in this.Entities.Mvpoll
 							where (poll.PollStartDate < now && poll.PollEndDate > now &&
-								(poll.PollDeletedFlag == null || !poll.PollDeletedFlag.Value))
-							join category in this.Entities.MVCategories on poll.PollCategoryID equals category.CategoryID
+								(poll.PollDeletedFlag != (bool?)true))
+							join category in this.Entities.Mvcategory on poll.PollCategoryId equals category.CategoryId
 							orderby category.CategoryName ascending
 							join counts in
-								(from submission in this.Entities.MVPollSubmissions
-								 group submission by submission.PollID into submissionCount
+								(from submission in this.Entities.MvpollSubmission
+								 group submission by submission.PollId into submissionCount
 								 select new
 								 {
 									 PollId = submissionCount.Key,
 									 Count = submissionCount.Count()
-								 }) on poll.PollID equals counts.PollId into pollCounts
-							from pollCount in pollCounts.DefaultIfEmpty(new { PollId = poll.PollID, Count = 0 })
+								 }) on poll.PollId equals counts.PollId into pollCounts
+							from pollCount in pollCounts.DefaultIfEmpty(new { PollId = poll.PollId, Count = 0 })
 							orderby poll.PollStartDate descending
 							select new
 							{
 								Category = category.CategoryName,
-								Id = poll.PollID,
+								Id = poll.PollId,
 								ImageLink = poll.PollImageLink,
 								Question = poll.PollQuestion,
 								Count = pollCount
@@ -133,7 +132,7 @@ namespace MyVote.BusinessObjects
 			}
 			else
 			{
-				throw new InvalidEnumArgumentException(nameof(criteria), (int)criteria, typeof(PollSearchResultsQueryType));
+				throw new ArgumentException(nameof(criteria));
 			}
 		}
 
@@ -146,24 +145,25 @@ namespace MyVote.BusinessObjects
 			{
 				this.ProcessQueryResults(
 					(from result in
-						 ((from poll in this.Entities.MVPolls
+						 ((from poll in this.Entities.Mvpoll
 							where (poll.PollStartDate < now && poll.PollEndDate > now &&
-							poll.UserID == criteria.UserID && (poll.PollDeletedFlag == null || !poll.PollDeletedFlag.Value))
-							join category in this.Entities.MVCategories on poll.PollCategoryID equals category.CategoryID
+								poll.UserId == criteria.UserID &&
+								(poll.PollDeletedFlag != (bool?)true))
+							join category in this.Entities.Mvcategory on poll.PollCategoryId equals category.CategoryId
 							orderby category.CategoryName ascending
 							join counts in
-								(from submission in this.Entities.MVPollSubmissions
-								 group submission by submission.PollID into submissionCount
+								(from submission in this.Entities.MvpollSubmission
+								 group submission by submission.PollId into submissionCount
 								 select new
 								 {
 									 PollId = submissionCount.Key,
 									 Count = submissionCount.Count()
-								 }) on poll.PollID equals counts.PollId into pollCounts
-							from pollCount in pollCounts.DefaultIfEmpty(new { PollId = poll.PollID, Count = 0 })
+								 }) on poll.PollId equals counts.PollId into pollCounts
+							from pollCount in pollCounts.DefaultIfEmpty(new { PollId = poll.PollId, Count = 0 })
 							select new
 							{
 								Category = category.CategoryName,
-								Id = poll.PollID,
+								Id = poll.PollId,
 								ImageLink = poll.PollImageLink,
 								Question = poll.PollQuestion,
 								Count = pollCount
@@ -181,24 +181,25 @@ namespace MyVote.BusinessObjects
 			{
 				this.ProcessQueryResults(
 					(from result in
-						 ((from poll in this.Entities.MVPolls
-							where (poll.UserID == criteria.UserID && (poll.PollDeletedFlag == null || !poll.PollDeletedFlag.Value))
+						 ((from poll in this.Entities.Mvpoll
+							where (poll.UserId == criteria.UserID &&
+								(poll.PollDeletedFlag != (bool?)true))
 							where poll.PollEndDate < now
-							join category in this.Entities.MVCategories on poll.PollCategoryID equals category.CategoryID
+							join category in this.Entities.Mvcategory on poll.PollCategoryId equals category.CategoryId
 							orderby category.CategoryName ascending
 							join counts in
-								(from submission in this.Entities.MVPollSubmissions
-								 group submission by submission.PollID into submissionCount
+								(from submission in this.Entities.MvpollSubmission
+								 group submission by submission.PollId into submissionCount
 								 select new
 								 {
 									 PollId = submissionCount.Key,
 									 Count = submissionCount.Count()
-								 }) on poll.PollID equals counts.PollId into pollCounts
-							from pollCount in pollCounts.DefaultIfEmpty(new { PollId = poll.PollID, Count = 0 })
+								 }) on poll.PollId equals counts.PollId into pollCounts
+							from pollCount in pollCounts.DefaultIfEmpty(new { PollId = poll.PollId, Count = 0 })
 							select new
 							{
 								Category = category.CategoryName,
-								Id = poll.PollID,
+								Id = poll.PollId,
 								ImageLink = poll.PollImageLink,
 								Question = poll.PollQuestion,
 								Count = pollCount

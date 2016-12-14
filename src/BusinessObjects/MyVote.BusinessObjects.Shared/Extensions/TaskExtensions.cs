@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Threading.Tasks;
 
 namespace MyVote.BusinessObjects.Extensions
@@ -15,13 +14,9 @@ namespace MyVote.BusinessObjects.Extensions
 			}
 			else
 			{
-#if !NETFX_CORE
-				return @this.GetType().GetProperty(nameof(Task<int>.Result))
+				return @this.GetType().GetTypeInfo()
+					.GetDeclaredProperty(nameof(Task<int>.Result))
 					.GetValue(@this) as T;
-#else
-				return @this.GetType().GetTypeInfo().GetDeclaredProperty(nameof(Task<int>.Result))
-					.GetValue(@this) as T;
-#endif
 			}
 		}
 	}

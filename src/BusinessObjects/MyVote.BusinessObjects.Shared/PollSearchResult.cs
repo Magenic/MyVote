@@ -3,6 +3,10 @@ using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
 using System;
 
+#if !NETFX_CORE && !MOBILE
+using Csla.Data;
+#endif
+
 namespace MyVote.BusinessObjects
 {
 	[Serializable]
@@ -12,8 +16,10 @@ namespace MyVote.BusinessObjects
 #if !NETFX_CORE && !MOBILE
 		private void Child_Fetch(PollSearchResultsData data)
 		{
-			Csla.Data.DataMapper.Map(data, this,
-				nameof(data.Category));
+			this.Id = data.Id;
+			this.ImageLink = data.ImageLink;
+			this.Question = data.Question;
+			this.SubmissionCount = data.SubmissionCount;
 		}
 #endif
 

@@ -58,9 +58,9 @@ namespace MyVote.BusinessObjects
 
 				this.SubmissionDate = submission.PollSubmissionDate;
 
-				foreach (var response in submission.MVPollResponses)
+				foreach (var response in submission.MvpollResponse)
 				{
-					this.Responses.Single(r => r.PollOptionID == response.PollOptionID)
+					this.Responses.Single(r => r.PollOptionID == response.PollOptionId)
 						.IsOptionSelected = response.OptionSelected;
 				}
 			}
@@ -79,11 +79,11 @@ namespace MyVote.BusinessObjects
 			this.BusinessRules.CheckRules();
 		}
 
-		private IQueryable<MVPollSubmission> GetSubmissions(PollSubmissionCriteria criteria)
+		private IQueryable<MvpollSubmission> GetSubmissions(PollSubmissionCriteria criteria)
 		{
-			return from submission in this.Entities.MVPollSubmissions
-					 where (submission.PollID == criteria.PollID &&
-							 submission.UserID == criteria.UserID)
+			return from submission in this.Entities.MvpollSubmission
+					 where (submission.PollId == criteria.PollID &&
+							 submission.UserId == criteria.UserID)
 					 select submission;
 		}
 
@@ -98,8 +98,8 @@ namespace MyVote.BusinessObjects
 			this.PollDeletedFlag = poll.PollDeletedFlag;
 			this.PollStartDate = poll.PollStartDate.Value;
 			this.PollEndDate = poll.PollEndDate.Value;
-			this.CategoryName = (from category in this.Entities.MVCategories
-										where category.CategoryID == poll.PollCategoryID
+			this.CategoryName = (from category in this.Entities.Mvcategory
+										where category.CategoryId == poll.PollCategoryID
 										select category.CategoryName).Single();
 			this.PollImageLink = poll.PollImageLink;
 			this.PollID = criteria.PollID;
@@ -113,17 +113,17 @@ namespace MyVote.BusinessObjects
 
 		protected override void DataPortal_Insert()
 		{
-			var entity = new MVPollSubmission
+			var entity = new MvpollSubmission
 			{
-				PollID = this.PollID,
+				PollId = this.PollID,
 				PollSubmissionComment = this.Comment,
 				PollSubmissionDate = DateTime.UtcNow,
-				UserID = this.UserID
+				UserId = this.UserID
 			};
 
-			this.Entities.MVPollSubmissions.Add(entity);
+			this.Entities.MvpollSubmission.Add(entity);
 			this.Entities.SaveChanges();
-			this.PollSubmissionID = entity.PollSubmissionID;
+			this.PollSubmissionID = entity.PollSubmissionId;
 			this.FieldManager.UpdateChildren(this);
 		}
 

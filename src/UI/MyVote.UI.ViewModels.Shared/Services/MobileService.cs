@@ -1,10 +1,10 @@
-﻿using Microsoft.WindowsAzure.MobileServices;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace MyVote.UI.Services
 {
@@ -12,7 +12,7 @@ namespace MyVote.UI.Services
     public sealed class MobileService : IMobileService
     {
 #if MOBILE
-		private IUiContext currentUiContext { get; set; }
+        private IUiContext currentUiContext { get; set; }
 
 		public MobileService(IUiContext uiContext)
 		{
@@ -24,12 +24,12 @@ namespace MyVote.UI.Services
 		private readonly MobileServiceClient mobileService = new MobileServiceClient(
 			"https://localhost:44305/");
 #else
-		private readonly MobileServiceClient mobileService = new MobileServiceClient(
-			"https://myapp.azure-mobile.net/",
+	    private readonly MobileServiceClient mobileService = new MobileServiceClient(
+            "https://mbl-myvote.azurewebsites.net/");
         #region Private Key
-			"MyKey"
+ //"heZNtCPzxAcMZxWlLRzxfuhVQPLaeB41"
         #endregion
-);
+//);
 #endif // DEBUG
 
 		public async Task<string> AuthenticateAsync(AuthenticationProvider provider)
@@ -51,10 +51,10 @@ namespace MyVote.UI.Services
 #if DEBUG_OFF && !MOBILE
 				client.BaseAddress = new Uri("https://localhost:44305/");
 #else
-				client.BaseAddress = new Uri("https://myapp.azure-mobile.net/");
+				client.BaseAddress = new Uri("http://mbl-myvote.azurewebsites.net/");
 #endif // DEBUG
 
-				var response = await client.GetAsync("api/SasGenerator").ConfigureAwait(false);
+				var response = await client.GetAsync("api/SasGenerator?ZUMO-API-VERSION=2.0.0").ConfigureAwait(false);
 
 				if (response.IsSuccessStatusCode)
 				{

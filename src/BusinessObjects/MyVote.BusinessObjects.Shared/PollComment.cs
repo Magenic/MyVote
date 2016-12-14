@@ -33,14 +33,14 @@ namespace MyVote.BusinessObjects
 				var comment = commentData.Comment;
 				this.CommentDate = comment.CommentDate;
 				this.CommentText = comment.CommentText;
-				this.PollCommentID = comment.PollCommentID;
-				this.UserID = comment.UserID;
+				this.PollCommentID = comment.PollCommentId;
+				this.UserID = comment.UserId;
 				this.UserName = commentData.UserName;
 				this.Comments = this.pollCommentsFactory.FetchChild();
 
 				foreach (var childComment in
 					(from c in commentsData
-					 where c.Comment.ParentCommentID == comment.PollCommentID
+					 where c.Comment.ParentCommentId == comment.PollCommentId
 					 select c).ToList())
 				{
 					this.Comments.Add(this.pollCommentFactory.FetchChild(childComment, commentsData));
@@ -50,16 +50,16 @@ namespace MyVote.BusinessObjects
 
 		private void Child_Insert(int pollId, int? parentCommentId)
 		{
-			var entity = new MVPollComment();
+			var entity = new MvpollComment();
 			entity.CommentDate = this.CommentDate;
 			entity.CommentText = this.CommentText;
-			entity.ParentCommentID = parentCommentId;
-			entity.PollID = pollId;
-			entity.UserID = this.UserID;
+			entity.ParentCommentId = parentCommentId;
+			entity.PollId = pollId;
+			entity.UserId = this.UserID;
 
-			this.Entities.MVPollComments.Add(entity);
+			this.Entities.MvpollComment.Add(entity);
 			this.Entities.SaveChanges();
-			this.PollCommentID = entity.PollCommentID;
+			this.PollCommentID = entity.PollCommentId;
 
 			this.FieldManager.UpdateChildren(pollId, this.PollCommentID);
 		}

@@ -7,7 +7,6 @@ using MyVote.BusinessObjects.Core;
 
 #if !NETFX_CORE && !MOBILE
 using MyVote.Data.Entities;
-using Csla.Data;
 #endif
 
 namespace MyVote.BusinessObjects
@@ -31,13 +30,13 @@ namespace MyVote.BusinessObjects
 		{
 			using (this.BypassPropertyChecks)
 			{
-				var entity = this.Entities.MVUsers.Where(_ => _.ProfileID == profileId).First();
-				this.ProfileID = entity.ProfileID;
+				var entity = this.Entities.Mvuser.Where(_ => _.ProfileId == profileId).First();
+				this.ProfileID = entity.ProfileId;
 				this.BirthDate = entity.BirthDate;
 				this.EmailAddress = entity.EmailAddress;
 				this.PostalCode = entity.PostalCode;
-				this.UserID = entity.UserID;
-				this.UserRoleID = entity.UserRoleID;
+				this.UserID = entity.UserId;
+				this.UserRoleID = entity.UserRoleId;
 				this.UserName = entity.UserName;
 				this.LastName = entity.LastName;
 				this.FirstName = entity.FirstName;
@@ -45,21 +44,37 @@ namespace MyVote.BusinessObjects
 			}
 		}
 
+		private void MapTo(Mvuser entity)
+		{
+			entity.ProfileId = this.ProfileID;
+			entity.BirthDate = this.BirthDate;
+			entity.EmailAddress = this.EmailAddress;
+			entity.PostalCode = this.PostalCode;
+			entity.UserRoleId = this.UserRoleID;
+			entity.UserName = this.UserName;
+			entity.LastName = this.LastName;
+			entity.FirstName = this.FirstName;
+			entity.Gender = this.Gender;
+			entity.UserId = this.UserID != null ? this.UserID.Value : entity.UserId;
+		}
+
 		protected override void DataPortal_Insert()
 		{
-			var entity = new MVUser();
-			DataMapper.Map(this, entity, nameof(this.Entities));
-			this.Entities.MVUsers.Add(entity);
+			var entity = new Mvuser();
+
+			this.MapTo(entity);
+			this.Entities.Mvuser.Add(entity);
 			this.Entities.SaveChanges();
-			this.UserID = entity.UserID;
+			this.UserID = entity.UserId;
 		}
 
 		protected override void DataPortal_Update()
 		{
-			var entity = this.Entities.MVUsers.Where(_ => _.ProfileID == this.ProfileID).First();
-			DataMapper.Map(this, entity, nameof(this.Entities));
+			var entity = this.Entities.Mvuser.Where(_ => _.ProfileId == this.ProfileID).First();
+
+			this.MapTo(entity);
 			this.Entities.SaveChanges();
-			this.UserID = entity.UserID;
+			this.UserID = entity.UserId;
 		}
 #endif
 

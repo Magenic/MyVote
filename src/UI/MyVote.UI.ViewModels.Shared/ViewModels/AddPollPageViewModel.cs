@@ -196,7 +196,16 @@ namespace MyVote.UI.ViewModels
 			}
 		}
 
-        public PollImageViewModel PollImageViewModel { get; private set; }
+        private PollImageViewModel pollImageViewModel;
+        public PollImageViewModel PollImageViewModel 
+        { 
+            get { return pollImageViewModel; }
+            private set
+            {
+                pollImageViewModel = value;
+                RaisePropertyChanged(nameof(PollImageViewModel));
+            }
+        }
 
         private IPoll poll;
         public IPoll Poll
@@ -215,7 +224,7 @@ namespace MyVote.UI.ViewModels
                 {
                     value.PropertyChanged += PollPropertyChanged;
                 }
-                this.RaisePropertyChanged(() => this.Poll);
+                this.RaisePropertyChanged(nameof(Poll));
             }
         }
 

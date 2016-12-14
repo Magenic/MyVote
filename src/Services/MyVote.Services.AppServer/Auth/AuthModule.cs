@@ -1,7 +1,4 @@
-﻿using System;
-using Autofac;
-using MyVote.Core;
-
+﻿using Autofac;
 namespace MyVote.Services.AppServer.Auth
 {
 	public sealed class AuthModule

@@ -1,0 +1,19 @@
+﻿{
+	"title": "MyVote.Data.Entities",
+
+	"dependencies": {
+		"Autofac.Extensions.DependencyInjection": "4.0.0-rc3-280",
+		"Microsoft.EntityFrameworkCore": "1.0.0",
+		"Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
+		"NETStandard.Library": "1.6.0",
+		"Microsoft.Extensions.Configuration": "1.0.0",
+		"Microsoft.Extensions.Configuration.Json": "1.0.0"
+	},
+	"frameworks": {
+		"netstandard1.6": {
+			"imports": "dnxcore50"
+		},
+		"net461": {}
+	},
+	"version": "1.0.0-*"
+}

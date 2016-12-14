@@ -14,9 +14,9 @@ namespace MyVote.BusinessObjects
 		: ReadOnlyBaseCore<Category>, ICategory
 	{
 #if !NETFX_CORE && !MOBILE
-		private void Child_Fetch(MVCategory criteria)
+		private void Child_Fetch(Mvcategory criteria)
 		{
-			this.ID = criteria.CategoryID;
+			this.ID = criteria.CategoryId;
 			this.Name = criteria.CategoryName;
 		}
 #endif

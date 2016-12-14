@@ -6,10 +6,10 @@ namespace MyVote.UI
 {
 	public class Bootstrapper
 	{
-#if DEBUG && !__MOBILE__
+#if DEBUG_OFF && !__MOBILE__
 		private static string DataPortalUrl = "http://localhost:55130/api/DataPortal/PostAsync";
 #else
-		private static string DataPortalUrl =  "http://myappapi.azurewebsites.net/api/DataPortal/PostAsync";
+		private static string DataPortalUrl =  "http://myvoteapi.azurewebsites.net/api/DataPortal";
 #endif
 
 		public IContainer Bootstrap()

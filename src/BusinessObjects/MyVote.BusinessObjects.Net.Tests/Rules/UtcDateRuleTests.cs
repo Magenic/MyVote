@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using Csla.Core;
 using Csla.Rules;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MyVote.BusinessObjects.Rules;
+using Xunit;
+using FluentAssertions;
 
 namespace MyVote.BusinessObjects.Net.Tests.Rules
 {
-	[TestClass]
 	public sealed class UtcDateRuleTests
 	{
-		[TestMethod]
+		[Fact]
 		public void ExecuteWithDateTime()
 		{
 			var property = new Mock<IPropertyInfo>(MockBehavior.Strict);
@@ -24,13 +24,13 @@ namespace MyVote.BusinessObjects.Net.Tests.Rules
 			var context = new RuleContext(null, rule, null,
 				new Dictionary<IPropertyInfo, object> { { property.Object, currentDate } });
 			(rule as IBusinessRule).Execute(context);
-			Assert.AreEqual(currentDate.ToUniversalTime(),
-				(DateTime)context.OutputPropertyValues[property.Object]);
 
+			((DateTime)context.OutputPropertyValues[property.Object])
+				.Should().Be(currentDate.ToUniversalTime());
 			property.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ExecuteWithNullableDateTime()
 		{
 			var property = new Mock<IPropertyInfo>(MockBehavior.Strict);
@@ -43,8 +43,9 @@ namespace MyVote.BusinessObjects.Net.Tests.Rules
 			var context = new RuleContext(null, rule, null,
 				new Dictionary<IPropertyInfo, object> { { property.Object, currentDate } });
 			(rule as IBusinessRule).Execute(context);
-			Assert.AreEqual(currentDate.Value.ToUniversalTime(),
-				(DateTime)context.OutputPropertyValues[property.Object]);
+
+			((DateTime)context.OutputPropertyValues[property.Object])
+				.Should().Be(currentDate.Value.ToUniversalTime());
 
 			property.VerifyAll();
 		}

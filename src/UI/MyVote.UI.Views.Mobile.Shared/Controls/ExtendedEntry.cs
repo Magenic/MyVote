@@ -2,12 +2,12 @@
 
 namespace MyVote.UI.Controls
 {
-    public sealed class ExtendedEntry : Xamarin.Forms.Entry
+    public sealed class ExtendedEntry : Entry
     {
-        public static readonly BindableProperty HasBorderProperty = BindableProperty.Create<ExtendedEntry, bool>(p => p.HasBorder, true);
+        public static readonly BindableProperty HasBorderProperty = BindableProperty.Create(nameof(HasBorder), typeof(bool), typeof(ExtendedEntry), true);
         public bool HasBorder
         {
-            get { return (bool)this.GetValue(HasBorderProperty); }
+            get { return (bool)GetValue(HasBorderProperty); }
             set { SetValue(HasBorderProperty, value); }
         }
     }

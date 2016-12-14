@@ -1,14 +1,14 @@
 ﻿using Autofac;
 using Csla.Serialization.Mobile;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using MyVote.BusinessObjects.Contracts;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class BusinessObjectsModuleTests
 	{
-		[TestMethod]
+		[Fact]
 		public void Load()
 		{
 			var module = new BusinessObjectsModule();
@@ -18,7 +18,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			var container = builder.Build();
 			var factory = container.Resolve<IObjectFactory<IMobileObject>>();
 
-			Assert.AreEqual(typeof(ObjectFactory<IMobileObject>), factory.GetType());
+			factory.Should().BeOfType<ObjectFactory<IMobileObject>>();
 		}
 	}
 }

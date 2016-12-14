@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Csla;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.Data.Entities;
@@ -8,13 +8,13 @@ using Spackle;
 using Spackle.Extensions;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class PollCommentTests
 	{
-		[TestMethod]
+		[Fact]
 		public void Create()
 		{
 			var generator = new RandomObjectGenerator();
@@ -36,18 +36,18 @@ namespace MyVote.BusinessObjects.Net.Tests
 				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var result = DataPortal.CreateChild<PollComment>(userId, userName);
-				Assert.IsNotNull(result.CommentDate);
-				Assert.AreSame(pollComments, result.Comments);
-				Assert.AreEqual(string.Empty, result.CommentText);
-				Assert.IsNull(result.PollCommentID);
-				Assert.AreEqual(userId, result.UserID);
-				Assert.AreEqual(userName, result.UserName);
+				result.CommentDate.Should().HaveValue();
+				result.Comments.Should().BeSameAs(pollComments);
+				result.CommentText.Should().BeEmpty();
+				result.PollCommentID.Should().NotHaveValue();
+				result.UserID.Should().Be(userId);
+				result.UserName.Should().Be(userName);
 			}
 
 			pollCommentsFactory.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Fetch()
 		{
 			var generator = new RandomObjectGenerator();
@@ -100,12 +100,12 @@ namespace MyVote.BusinessObjects.Net.Tests
 				.Bind(() => ApplicationContext.DataPortalActivator))
 			{
 				var result = DataPortal.FetchChild<PollComment>(pollComment, comments);
-				Assert.AreEqual(pollComment.Comment.CommentDate, result.CommentDate);
-				Assert.AreEqual(pollComment.Comment.CommentText, result.CommentText);
-				Assert.AreEqual(pollComment.Comment.PollCommentID, result.PollCommentID);
-				Assert.AreEqual(pollComment.Comment.UserID, result.UserID);
-				Assert.AreEqual(pollComment.UserName, result.UserName);
-				Assert.AreSame(pollComments.Object, result.Comments);
+				result.CommentDate.Should().Be(pollComment.Comment.CommentDate);
+				result.CommentText.Should().Be(pollComment.Comment.CommentText);
+				result.PollCommentID.Should().Be(pollComment.Comment.PollCommentID);
+				result.UserID.Should().Be(pollComment.Comment.UserID);
+				result.UserName.Should().Be(pollComment.UserName);
+				result.Comments.Should().BeSameAs(pollComments.Object);
 			}
 
 			pollCommentsFactory.VerifyAll();
@@ -113,7 +113,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			pollCommentFactory.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Insert()
 		{
 			var generator = new RandomObjectGenerator();
@@ -149,16 +149,17 @@ namespace MyVote.BusinessObjects.Net.Tests
 				var result = DataPortal.CreateChild<PollComment>(userId, userName);
 				result.CommentText = commentText;
 				DataPortal.UpdateChild(result, pollId, new int?(parentCommentId));
-				Assert.AreEqual(commentText, result.CommentText);
-				Assert.AreEqual(pollCommentId, result.PollCommentID);
+
+				result.CommentText.Should().Be(commentText);
+				result.PollCommentID.Should().Be(pollCommentId);
 
 				var savedEntity = commentEntities.Local[0];
 
-				Assert.IsNotNull(savedEntity.CommentDate);
-				Assert.AreEqual(userId, savedEntity.UserID);
-				Assert.AreEqual(pollId, savedEntity.PollID);
-				Assert.AreEqual(parentCommentId, savedEntity.ParentCommentID.Value);
-				Assert.AreEqual(commentText, savedEntity.CommentText);
+				savedEntity.CommentDate.Should().HaveValue();
+				savedEntity.UserID.Should().Be(userId);
+				savedEntity.PollID.Should().Be(pollId);
+				savedEntity.ParentCommentID.Value.Should().Be(parentCommentId);
+				savedEntity.CommentText.Should().Be(commentText);
 			}
 
 			pollCommentsFactory.VerifyAll();

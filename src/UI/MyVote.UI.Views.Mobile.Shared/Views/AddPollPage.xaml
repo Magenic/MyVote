@@ -64,8 +64,9 @@
                 <controls:ExtendedDatePicker Date="{Binding Poll.PollEndDate, Converter={StaticResource nullableDateConverter}, Mode=TwoWay}" HorizontalOptions="End" WidthRequest="200" Style="{StaticResource DatePickerStyle}" />
 			</StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
-            <StackLayout Orientation="Horizontal" Style="{StaticResource IndividualEntryRegionStyle}">
-            <Button Text="Add Image" BackgroundColor="Transparent" HorizontalOptions="Start" Style="{StaticResource ButtonStyle}" Command="{Binding AddImage}" />
+            <StackLayout Orientation="Vertical" Style="{StaticResource IndividualEntryRegionStyle}">
+                <Button Text="Add Image" BackgroundColor="Transparent" HorizontalOptions="Start" Style="{StaticResource ButtonStyle}" Command="{Binding AddImage}" />
+				<Image Source="{Binding PollImageViewModel.PollImage.Source}" HorizontalOptions="StartAndExpand" />
             </StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
             <StackLayout Orientation="Horizontal" Style="{StaticResource IndividualEntryRegionStyle}">

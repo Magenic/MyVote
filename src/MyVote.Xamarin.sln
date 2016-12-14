@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BusinessObjects", "BusinessObjects", "{345A0B02-B7F2-4D82-8ACE-F43252A736DF}"
 EndProject
@@ -45,20 +45,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyVote.Data.Entities", "Dat
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		BusinessObjects\MyVote.BusinessObjects.Shared\MyVote.BusinessObjects.Shared.projitems*{7ed36904-7f92-4157-9054-811ace723582}*SharedItemsImports = 13
-		Core\MyVote.Core.Shared\MyVote.Core.Shared.projitems*{95125f50-fe49-42ac-850e-e554f119fa34}*SharedItemsImports = 4
-		UI\MyVote.UI.Views.Mobile.Shared\MyVote.UI.Views.Mobile.Shared.projitems*{de7076f2-7d68-4adf-a89e-38d6a9463250}*SharedItemsImports = 13
-		BusinessObjects\MyVote.BusinessObjects.Shared\MyVote.BusinessObjects.Shared.projitems*{8e6b1340-fa0d-476b-9342-ca9813c1bf16}*SharedItemsImports = 4
-		Core\MyVote.Core.Shared\MyVote.Core.Shared.projitems*{fb1d0577-1f75-4915-b00a-21cb7515c38c}*SharedItemsImports = 4
-		UI\MyVote.UI.ViewModels.Shared\MyVote.UI.ViewModels.Shared.projitems*{0f1d7658-e133-4114-9920-f4ac16f41383}*SharedItemsImports = 13
-		UI\MyVote.UI.ViewModels.Shared\MyVote.UI.ViewModels.Shared.projitems*{d2e9feb6-9feb-41a9-a189-7ab9e9c646c3}*SharedItemsImports = 4
-		UI\MyVote.UI.Views.Mobile.Shared\MyVote.UI.Views.Mobile.Shared.projitems*{d2e9feb6-9feb-41a9-a189-7ab9e9c646c3}*SharedItemsImports = 4
-		Core\MyVote.Core.Shared\MyVote.Core.Shared.projitems*{6c450845-3038-499e-a359-6049a81d512a}*SharedItemsImports = 13
-		BusinessObjects\MyVote.BusinessObjects.Shared\MyVote.BusinessObjects.Shared.projitems*{e2247517-8aa8-478d-893c-2e356f75ff54}*SharedItemsImports = 4
 		BusinessObjects\MyVote.BusinessObjects.Shared\MyVote.BusinessObjects.Shared.projitems*{0890b67c-5d87-4cd2-9e00-00764e190633}*SharedItemsImports = 4
+		UI\MyVote.UI.ViewModels.Shared\MyVote.UI.ViewModels.Shared.projitems*{0f1d7658-e133-4114-9920-f4ac16f41383}*SharedItemsImports = 13
 		UI\MyVote.UI.ViewModels.Shared\MyVote.UI.ViewModels.Shared.projitems*{3aa3f586-e7a2-4f6e-a885-bf9c2c2a609a}*SharedItemsImports = 4
 		UI\MyVote.UI.Views.Mobile.Shared\MyVote.UI.Views.Mobile.Shared.projitems*{3aa3f586-e7a2-4f6e-a885-bf9c2c2a609a}*SharedItemsImports = 4
 		Core\MyVote.Core.Shared\MyVote.Core.Shared.projitems*{61e43d59-ba12-44ec-b2cf-b619f707d620}*SharedItemsImports = 4
+		Core\MyVote.Core.Shared\MyVote.Core.Shared.projitems*{6c450845-3038-499e-a359-6049a81d512a}*SharedItemsImports = 13
+		BusinessObjects\MyVote.BusinessObjects.Shared\MyVote.BusinessObjects.Shared.projitems*{7ed36904-7f92-4157-9054-811ace723582}*SharedItemsImports = 13
+		BusinessObjects\MyVote.BusinessObjects.Shared\MyVote.BusinessObjects.Shared.projitems*{8e6b1340-fa0d-476b-9342-ca9813c1bf16}*SharedItemsImports = 4
+		Core\MyVote.Core.Shared\MyVote.Core.Shared.projitems*{95125f50-fe49-42ac-850e-e554f119fa34}*SharedItemsImports = 4
+		UI\MyVote.UI.ViewModels.Shared\MyVote.UI.ViewModels.Shared.projitems*{d2e9feb6-9feb-41a9-a189-7ab9e9c646c3}*SharedItemsImports = 4
+		UI\MyVote.UI.Views.Mobile.Shared\MyVote.UI.Views.Mobile.Shared.projitems*{d2e9feb6-9feb-41a9-a189-7ab9e9c646c3}*SharedItemsImports = 4
+		UI\MyVote.UI.Views.Mobile.Shared\MyVote.UI.Views.Mobile.Shared.projitems*{de7076f2-7d68-4adf-a89e-38d6a9463250}*SharedItemsImports = 13
+		BusinessObjects\MyVote.BusinessObjects.Shared\MyVote.BusinessObjects.Shared.projitems*{e2247517-8aa8-478d-893c-2e356f75ff54}*SharedItemsImports = 4
+		Core\MyVote.Core.Shared\MyVote.Core.Shared.projitems*{fb1d0577-1f75-4915-b00a-21cb7515c38c}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
@@ -345,7 +345,6 @@ Global
 		{9F189E7B-35A9-4F05-B84A-73B2227563B9}.AppStore|Mixed Platforms.Build.0 = Release|Any CPU
 		{9F189E7B-35A9-4F05-B84A-73B2227563B9}.AppStore|x86.ActiveCfg = Release|Any CPU
 		{9F189E7B-35A9-4F05-B84A-73B2227563B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F189E7B-35A9-4F05-B84A-73B2227563B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F189E7B-35A9-4F05-B84A-73B2227563B9}.Debug|ARM.ActiveCfg = Debug|Any CPU
 		{9F189E7B-35A9-4F05-B84A-73B2227563B9}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{9F189E7B-35A9-4F05-B84A-73B2227563B9}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU

@@ -1,21 +1,20 @@
 ﻿using Autofac;
 using Csla;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
-using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Net.Tests.Extensions;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
 using System;
 using System.ComponentModel.DataAnnotations;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class UserLifecycleTests
 	{
-		[TestMethod]
+		[Fact]
 		public void Create()
 		{
 			var generator = new RandomObjectGenerator();
@@ -29,17 +28,17 @@ namespace MyVote.BusinessObjects.Net.Tests
 			{
 				var user = new DataPortal<User>().Create(profileId);
 
-				Assert.IsNull(user.BirthDate, nameof(user.BirthDate));
-				Assert.AreEqual(string.Empty, user.EmailAddress, nameof(user.EmailAddress));
-				Assert.AreEqual(string.Empty, user.FirstName, nameof(user.FirstName));
-				Assert.AreEqual(string.Empty, user.Gender, nameof(user.Gender));
-				Assert.AreEqual(string.Empty, user.LastName, nameof(user.LastName));
-				Assert.AreEqual(string.Empty, user.PostalCode, nameof(user.PostalCode));
-				Assert.AreEqual(string.Empty, user.ProfileAuthToken, nameof(user.ProfileAuthToken));
-				Assert.AreEqual(profileId, user.ProfileID, nameof(user.ProfileID));
-				Assert.IsNull(user.UserID, nameof(user.UserID));
-				Assert.AreEqual(string.Empty, user.UserName, nameof(user.UserName));
-				Assert.IsNull(user.UserRoleID, nameof(user.UserRoleID));
+				user.BirthDate.Should().NotHaveValue();
+				user.EmailAddress.Should().BeEmpty();
+				user.FirstName.Should().BeEmpty();
+				user.Gender.Should().BeEmpty();
+				user.LastName.Should().BeEmpty();
+				user.PostalCode.Should().BeEmpty();
+				user.ProfileAuthToken.Should().BeEmpty();
+				user.ProfileID.Should().Be(profileId);
+				user.UserID.Should().NotHaveValue();
+				user.UserName.Should().BeEmpty();
+				user.UserRoleID.Should().NotHaveValue();
 
 				user.BrokenRulesCollection.AssertRuleCount(2);
 				user.BrokenRulesCollection.AssertRuleCount(User.EmailAddressProperty, 1);
@@ -51,7 +50,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Insert()
 		{
 			var generator = new RandomObjectGenerator();
@@ -93,16 +92,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 				user.UserRoleID = userRoleId;
 				user = user.Save();
 
-				Assert.AreEqual(birthDate, user.BirthDate, nameof(user.BirthDate));
-				Assert.AreEqual(emailAddress, user.EmailAddress, nameof(user.EmailAddress));
-				Assert.AreEqual(firstName, user.FirstName, nameof(user.FirstName));
-				Assert.AreEqual(gender, user.Gender, nameof(user.Gender));
-				Assert.AreEqual(lastName, user.LastName, nameof(user.LastName));
-				Assert.AreEqual(postalCode, user.PostalCode, nameof(user.PostalCode));
-				Assert.AreEqual(profileAuthToken, user.ProfileAuthToken, nameof(user.ProfileAuthToken));
-				Assert.AreEqual(userId, user.UserID, nameof(user.UserID));
-				Assert.AreEqual(userName, user.UserName, nameof(user.UserName));
-				Assert.AreEqual(userRoleId, user.UserRoleID, nameof(user.UserRoleID));
+				user.BirthDate.Should().Be(birthDate);
+				user.EmailAddress.Should().Be(emailAddress);
+				user.FirstName.Should().Be(firstName);
+				user.Gender.Should().Be(gender);
+				user.LastName.Should().Be(lastName);
+				user.PostalCode.Should().Be(postalCode);
+				user.ProfileAuthToken.Should().Be(profileAuthToken);
+				user.UserID.Should().Be(userId);
+				user.UserName.Should().Be(userName);
+				user.UserRoleID.Should().Be(userRoleId);
 			}
 
 			entities.VerifyAll();

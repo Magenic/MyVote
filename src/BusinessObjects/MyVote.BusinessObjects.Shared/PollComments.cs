@@ -22,15 +22,15 @@ namespace MyVote.BusinessObjects
 				this.PollID = pollId;
 				this.Comments = this.pollCommentsFactory.FetchChild();
 
-				var commentsData = (from c in this.Entities.MVPollComments
-										  where c.PollID == pollId
-										  join u in this.Entities.MVUsers on c.UserID equals u.UserID
-										  orderby c.ParentCommentID, c.CommentDate
+				var commentsData = (from c in this.Entities.MvpollComment
+										  where c.PollId == pollId
+										  join u in this.Entities.Mvuser on c.UserId equals u.UserId
+										  orderby c.ParentCommentId, c.CommentDate
 										  select new PollCommentData { Comment = c, UserName = u.UserName }).ToList();
 
 				foreach (var commentData in
 					(from c in commentsData
-					 where c.Comment.ParentCommentID == null
+					 where c.Comment.ParentCommentId == null
 					 select c).ToList())
 				{
 					this.Comments.Add(this.pollCommentFactory.FetchChild(commentData, commentsData));

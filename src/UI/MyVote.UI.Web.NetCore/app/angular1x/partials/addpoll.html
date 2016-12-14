@@ -1,0 +1,86 @@
+﻿<section class="left-view">
+    <h2>Create A New Poll</h2>
+    <form name="vm.addPollForm"
+          class="stacked-form"
+          ng-submit="vm.submit()"
+          novalidate
+          autocomplete="off">
+
+        <div class="clear-fix">
+            <div class="stacked-form-column">
+                <fieldset>
+                    <legend>Poll</legend>
+                    
+                    <mv-select name="vm.newPoll.PollCategoryID" , data-description="Select A Category" ng-model="vm.newPoll.PollCategoryID" required="true" autofocus="true" data-optionsExpr="c.id as c.name for c in vm.pollCategories"></mv-select>
+                    <!--@FormHelpers.Select("vm.newPoll.PollCategoryID", "Select A Category", MyVoteData.GetCategories(), required: true, autoFocus: true)-->
+                    
+                    
+                    <mv-input name="vm.newPoll.PollQuestion" data-description="What's Your Question?" ng-Model="vm.newPoll.PollQuestion" type="text" required="true" style='padding:14px'></mv-input>
+                    <!--@FormHelpers.Input("vm.newPoll.PollQuestion", "What's Your Question?", "text", required: true, attribs: "style='padding:14px' ")-->
+                    
+                    <mv-input name="vm.newPoll.PollDescription" data-description="Description" ng-Model="vm.newPoll.PollDescription" type="text"></mv-input>
+                    <!--@FormHelpers.Input("vm.newPoll.PollDescription", "Description", "text")-->
+
+                    <div ng-repeat="pollOption in vm.newPoll.PollOptions">
+                        <mv-input name="pollOption.OptionText" data-description="Answer {{vm.answerLetter($index)}}" ng-Model="pollOption.OptionText" type="text" ng-required='$index < 2'></mv-input>
+                        <!--@FormHelpers.Input("pollOption.OptionText", "Answer {{vm.answerLetter($index)}}", "text", attribs: "ng-required='$index < 2'", includeErrorBlock: false)-->
+                    </div>
+                    <mv-error-block name="pollOption.OptionText"></mv-error-block>
+                    <!--@FormHelpers.ErrorBlock("pollOption.OptionText")-->
+                </fieldset>
+            </div>
+            <div class="stacked-form-column">
+                <fieldset>
+                    <legend>Image</legend>
+                    <label for="pollImage">Polls are more interesting with an image!</label>
+                    <file id="pollImage" file-model="vm.pollImage" accept="image/png,image/jpg,image/jpeg,image/gif" />
+                </fieldset>
+                <button class="clear-fix" type="submit" ng-disabled="vm.busyMessage">Post & View My Poll!</button>
+                <a class="block-link" href="/#/polls">Back to polls</a>
+
+                <h3 class="accordionHead" ng-click="vm.toggleAccordion()">Advanced</h3>
+                <div class="accordion" ng-show="vm.showAccordion">
+                    <fieldset>
+                        <legend>Start and End</legend>
+                        <label for="setDateTrue"><input id="setDateTrue" name="setStartEndDate" type="radio" ng-model="vm.setStartEndDate" value="no" /> Post this Poll with no end date & time.</label>
+                        <label for="setDateFalse"><input id="setDateFalse" name="setStartEndDate" type="radio" ng-model="vm.setStartEndDate" value="yes" /> Specify a start and end date and time for this poll.</label>
+                        <!--@*@FormHelpers.Input("startDate", "Start Date", "date", attribs: "ng-required=\"setStartEndDate == 'yes'\" ng-disabled=\"setStartEndDate == 'no'\"")*@-->
+                        <label for="startDate">
+                            Start Date
+                        </label>
+                        <div class="input-group my-datepicker">
+                            <input type="text" id="startDate" name="startDate" ng-model="vm.startDate" class="form-control" datepicker-popup="yyyy-MM-dd" show-button-bar="false" datepicker-options="dateOptions" ng-model="vm.dtStart" is-open="vm.startDateOpened" close-text="Close" ng-required="vm.setStartEndDate =='yes'" ng-disabled="vm.setStartEndDate =='no'" />
+                            <!--@*@FormHelpers.Input("startDate", "Start Date", "text", attribs: "datepicker-popup='yyyy-MM-dd' show-button-bar='false' is-open='opened' close-text='Close' ng-required=\"setStartEndDate == 'yes'\" ng-disabled=\"setStartEndDate == 'no'\"")*@-->
+                            <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="vm.openStartDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button></span>
+                        </div>
+                        <mv-error-block name="startDate"></mv-error-block>
+                        <!--@FormHelpers.ErrorBlock("startDate")-->
+
+                        <!--@*@FormHelpers.Input("endDate", "End Date", "date", attribs: "ng-required=\"setStartEndDate == 'yes'\" ng-disabled=\"setStartEndDate == 'no'\"")*@-->
+                        <label for="endDate">
+                            End Date
+                        </label>
+                        <div class="input-group my-datepicker">
+                            <input type="text" id="endDate" name="endDate" ng-model="vm.endDate" class="form-control" datepicker-popup="yyyy-MM-dd" show-button-bar="false" datepicker-options="dateOptions" ng-model="vm.dtEnd" is-open="vm.endDateOpened" close-text="Close" ng-required="vm.setStartEndDate =='yes'" ng-disabled="vm.setStartEndDate =='no'" />
+                            <!--@*@FormHelpers.Input("endDate", "End Date", "text", attribs: "datepicker-popup='yyyy-MM-dd' show-button-bar='false' is-open='opened' close-text='Close' ng-required=\"setStartEndDate == 'yes'\" ng-disabled=\"setStartEndDate == 'no'\"")*@-->
+                            <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="vm.openEndDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button></span>
+                        </div>
+                        <mv-error-block name="endDate"></mv-error-block>
+                        <!--@FormHelpers.ErrorBlock("endDate")-->
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Answer Count</legend>
+                        <label for="multiAnswer"><input id="multiAnswer" name="multiAnswer" type="checkbox" ng-model="vm.multiAnswer" /> Allow user to select more than one answer.</label>
+                        <mv-input name="vm.newPoll.PollMinAnswers" data-description="Min answers" ng-Model="vm.newPoll.PollMinAnswers" type="number" ng-required='vm.multiAnswer' ng-disabled='!vm.multiAnswer' min="1" max="5"></mv-input>
+                        <!--@FormHelpers.Input("vm.newPoll.PollMinAnswers", "Min answers", "number", attribs: "ng-required='vm.multiAnswer' ng-disabled='!vm.multiAnswer' min='1' max='5'")-->
+                        <mv-input name="vm.newPoll.PollMaxAnswers" data-description="Max answers" ng-Model="vm.newPoll.PollMaxAnswers" type="number" ng-required='vm.multiAnswer' ng-disabled='!vm.multiAnswer' min="1" max="5"></mv-input>
+                        <!--@FormHelpers.Input("vm.newPoll.PollMaxAnswers", "Max answers", "number", attribs: "ng-required='vm.multiAnswer' ng-disabled='!vm.multiAnswer' min='1' max='5'")-->
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="topbar topbar-error" ng-show="vm.errorMessage"><span ng-bind="vm.errorMessage"></span></div>
+    <div class="progress" ng-show="vm.busyMessage"><span ng-bind="vm.busyMessage"></span></div>
+</section>

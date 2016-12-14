@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Csla;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Net.Tests.Extensions;
@@ -9,13 +9,13 @@ using Spackle;
 using Spackle.Extensions;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class PollOptionLifecycleTests
 	{
-		[TestMethod]
+		[Fact]
 		public void Create()
 		{
 			var builder = new ContainerBuilder();
@@ -26,10 +26,10 @@ namespace MyVote.BusinessObjects.Net.Tests
 			{
 				var pollOption = DataPortal.CreateChild<PollOption>();
 
-				Assert.IsNull(pollOption.OptionPosition, nameof(pollOption.OptionPosition));
-				Assert.AreEqual(string.Empty, pollOption.OptionText, nameof(pollOption.OptionText));
-				Assert.IsNull(pollOption.PollID, nameof(pollOption.PollID));
-				Assert.IsNull(pollOption.PollOptionID, nameof(pollOption.PollOptionID));
+				pollOption.OptionPosition.Should().NotHaveValue();
+				pollOption.OptionText.Should().BeEmpty();
+				pollOption.PollID.Should().NotHaveValue();
+				pollOption.PollOptionID.Should().NotHaveValue();
 
 				pollOption.BrokenRulesCollection.AssertRuleCount(2);
 				pollOption.BrokenRulesCollection.AssertRuleCount(PollOption.OptionPositionProperty, 1);
@@ -41,7 +41,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Fetch()
 		{
 			var entity = EntityCreator.Create<MVPollOption>();
@@ -57,16 +57,16 @@ namespace MyVote.BusinessObjects.Net.Tests
 			{
 				var pollOption = DataPortal.FetchChild<PollOption>(entity);
 
-				Assert.AreEqual(entity.OptionPosition, pollOption.OptionPosition, nameof(pollOption.OptionPosition));
-				Assert.AreEqual(entity.OptionText, pollOption.OptionText, nameof(pollOption.OptionText));
-				Assert.AreEqual(entity.PollID, pollOption.PollID, nameof(pollOption.PollID));
-				Assert.AreEqual(entity.PollOptionID, pollOption.PollOptionID, nameof(pollOption.PollOptionID));
+				pollOption.OptionPosition.Should().Be(entity.OptionPosition);
+				pollOption.OptionText.Should().Be(entity.OptionText);
+				pollOption.PollID.Should().Be(entity.PollID);
+				pollOption.PollOptionID.Should().Be(entity.PollOptionID);
 			}
 
 			entities.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Insert()
 		{
 			var generator = new RandomObjectGenerator();
@@ -99,17 +99,17 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 				DataPortal.UpdateChild(pollOption, poll.Object);
 
-				Assert.AreEqual(pollId, pollOption.PollID, nameof(pollOption.PollID));
-				Assert.AreEqual(pollOptionId, pollOption.PollOptionID, nameof(pollOption.PollOptionID));
-				Assert.AreEqual(optionPosition, pollOption.OptionPosition, nameof(pollOption.OptionPosition));
-				Assert.AreEqual(optionText, pollOption.OptionText, nameof(pollOption.OptionText));
+				pollOption.PollID.Should().Be(pollId);
+				pollOption.PollOptionID.Should().Be(pollOptionId);
+				pollOption.OptionPosition.Should().Be(optionPosition);
+				pollOption.OptionText.Should().Be(optionText);
 			}
 
 			entities.VerifyAll();
 			poll.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Update()
 		{
 			var generator = new RandomObjectGenerator();
@@ -139,8 +139,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 				DataPortal.UpdateChild(pollOption, poll);
 
-				Assert.AreEqual(newOptionPosition, pollOption.OptionPosition, nameof(pollOption.OptionPosition));
-				Assert.AreEqual(newOptionText, pollOption.OptionText, nameof(pollOption.OptionText));
+				pollOption.OptionPosition.Should().Be(newOptionPosition);
+				pollOption.OptionText.Should().Be(newOptionText);
 			}
 
 			entities.VerifyAll();

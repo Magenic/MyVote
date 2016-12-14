@@ -12,7 +12,7 @@ namespace MyVote.UI.ViewModels
 {
     public abstract class PollImageViewModelBase : MvxViewModel
     {
-		public const string PollPicturesUrlBase = "https://myapp.blob.core.windows.net/pollimages/pollimages/";
+		public const string PollPicturesUrlBase = "https://myvoteapp.blob.core.windows.net/pollimages/";
 
 		public abstract Task AddImage();
 		public abstract Task<string> UploadImage();

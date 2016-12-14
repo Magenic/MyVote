@@ -33,19 +33,19 @@ namespace MyVote.UI.ViewModels
 			this.logger = logger;
 		}
 
-		public override void RealInit(LandingPageNavigationCriteria criteria)
+		public override void RealInit(LandingPageNavigationCriteria parameter)
 		{
-			this.NavigationCriteria = criteria;
+			NavigationCriteria = parameter;
 		}
 
-		public override void Start()
+		public async override void Start()
 		{
 			base.Start();
 			string profileId;
-			if (this.appSettings.TryGetValue<string>(SettingsKeys.ProfileId, out profileId))
+			if (appSettings.TryGetValue(SettingsKeys.ProfileId, out profileId))
 			{
 				// Start an exit.
-				StartLoadProfileAsync(profileId);
+				await StartLoadProfileAsync(profileId);
 			}
 		}
 
@@ -59,7 +59,7 @@ namespace MyVote.UI.ViewModels
 			{
 				this.logger.Log(ex);
 				this.IsBusy = false;
-				this.messageBox.ShowAsync("There was an error loading your profile.", "Error");
+				messageBox.ShowAsync("There was an error loading your profile.", "Error");
 			}
 		}
 
@@ -107,12 +107,12 @@ namespace MyVote.UI.ViewModels
 			{
 				if (result.Error.HResult != -2146233079) // Cancelled by user
 				{
-					await this.messageBox.ShowAsync("Error authenticating.", "Error");
+					await messageBox.ShowAsync("Error authenticating.", "Error");
 				}
 			}
 			else
 			{
-				this.appSettings.Add(SettingsKeys.ProfileId, result.UserId);
+				appSettings.Add(SettingsKeys.ProfileId, result.UserId);
 
 				await LoadIdentityAndGo(result.UserId);
 			}
@@ -122,24 +122,24 @@ namespace MyVote.UI.ViewModels
 		{
 			IUserIdentity identity = null;
 			IsBusy = true;
-			try
-			{
-				identity = await this.objectFactory.FetchAsync(profileId);
+            try
+            {
+                identity = await objectFactory.FetchAsync(profileId);
 
-				var principal = new CslaPrincipalCore(identity);
-				Csla.ApplicationContext.User = principal;
-			}
-			catch (DataPortalException ex)
-			{
-				this.logger.Log(ex);
-				identity = null;
-			}
+                var principal = new CslaPrincipalCore(identity);
+                ApplicationContext.User = principal;
+            }
+            catch (DataPortalException ex)
+            {
+                logger.Log(ex);
+                identity = null;
+            }
 
 			IsBusy = false;
 
 			if (identity == null)
 			{
-				await this.messageBox.ShowAsync("There was an error retrieving your profile.", "Error");
+				await messageBox.ShowAsync("There was an error retrieving your profile.", "Error");
 			}
 			else if (identity.IsAuthenticated)
 			{
@@ -158,42 +158,42 @@ namespace MyVote.UI.ViewModels
 				// Then, navigate to the View Poll page. This allows the user to be able
 				// to back out of the View Poll page and land on the Polls page, rather than
 				// leaving the app.
-				if (this.NavigationCriteria != null && this.NavigationCriteria.PollId.HasValue)
+				if (NavigationCriteria != null && NavigationCriteria.PollId.HasValue)
 				{
 					var criteria = new ViewPollPageNavigationCriteria
 					{
-						PollId = this.NavigationCriteria.PollId.Value
+						PollId = NavigationCriteria.PollId.Value
 					};
 
-					this.ShowViewModel<PollsPageViewModel>();
+					ShowViewModel<PollsPageViewModel>();
 #if MOBILE
                     ChangePresentation(new ClearBackstackHint());
 #endif
-                    this.ShowViewModel<ViewPollPageViewModel>(criteria);
+                    ShowViewModel<ViewPollPageViewModel>(criteria);
 #if !MOBILE
 					this.Close(this);
 #endif
 				}
 
-				else if (this.NavigationCriteria != null && !string.IsNullOrEmpty(this.NavigationCriteria.SearchQuery))
+				else if (NavigationCriteria != null && !string.IsNullOrEmpty(NavigationCriteria.SearchQuery))
 				{
 					var criteria = new PollsPageSearchNavigationCriteria
 					{
-						SearchQuery = this.NavigationCriteria.SearchQuery
+						SearchQuery = NavigationCriteria.SearchQuery
 					};
 
-					this.ShowViewModel<PollsPageViewModel>();
+					ShowViewModel<PollsPageViewModel>();
 #if MOBILE
                     ChangePresentation(new ClearBackstackHint());
 #endif
-                    this.ShowViewModel<ViewPollPageViewModel>(criteria);
+                    ShowViewModel<ViewPollPageViewModel>(criteria);
 #if !MOBILE
 					this.Close(this);
 #endif
 				}
 				else
 				{
-					this.ShowViewModel<PollsPageViewModel>();
+					ShowViewModel<PollsPageViewModel>();
 #if MOBILE
                     ChangePresentation(new ClearBackstackHint());
 #endif
@@ -209,12 +209,12 @@ namespace MyVote.UI.ViewModels
 					ProfileId = profileId
 				};
 
-				if (this.NavigationCriteria != null)
+				if (NavigationCriteria != null)
 				{
-					criteria.PollId = this.NavigationCriteria.PollId;
+					criteria.PollId = NavigationCriteria.PollId;
 				}
 
-				this.ShowViewModel<RegistrationPageViewModel>(criteria);
+				ShowViewModel<RegistrationPageViewModel>(criteria);
 			}
 		}
 
@@ -224,11 +224,11 @@ namespace MyVote.UI.ViewModels
 
 			try
 			{
-				result.UserId = await this.mobileService.AuthenticateAsync(provider);
+				result.UserId = await mobileService.AuthenticateAsync(provider);
 			}
 			catch (InvalidOperationException ex)
 			{
-				this.logger.Log(ex);
+				logger.Log(ex);
 				result.Error = ex;
 			}
 

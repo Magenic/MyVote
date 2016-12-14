@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MyVote.Services.AppServer.Auth;
 using MyVote.Services.AppServer.Controllers;
 using MyVote.BusinessObjects.Contracts;
 using Spackle;
+using Xunit;
+using FluentAssertions;
 
 namespace MyVote.Services.AppServer.Tests
 {
-	[TestClass]
 	public sealed class RespondControllerTests
 	{
-		[TestMethod]
+		[Fact]
 		public void GetPollInfo()
 		{
 			var generator = new RandomObjectGenerator();
@@ -65,22 +65,23 @@ namespace MyVote.Services.AppServer.Tests
 			controller.MyVoteAuthentication = auth.Object;
 
 			var result = controller.Get(pollId, userId);
-			Assert.AreEqual(pollId, result.PollID);
-			Assert.AreEqual(pollDescription, result.PollDescription);
-			Assert.AreEqual(pollMaxAnswers, result.MaxAnswers);
-			Assert.AreEqual(pollMinAnswers, result.MinAnswers);
-			Assert.AreEqual(comment, result.Comment);
-			Assert.AreEqual(pollQuestion, result.PollQuestion);
-			Assert.AreEqual(pollSubmissionId, result.PollSubmissionID);
-			Assert.AreEqual(submissionDate, result.SubmissionDate);
-			Assert.AreEqual(userId, result.UserID);
-			Assert.AreEqual(1, result.PollOptions.Count);
+			result.PollID.Should().Be(pollId);
+			result.PollDescription.Should().Be(pollDescription);
+			result.MaxAnswers.Should().Be(pollMaxAnswers);
+			result.MinAnswers.Should().Be(pollMinAnswers);
+			result.Comment.Should().Be(comment);
+			result.PollQuestion.Should().Be(pollQuestion);
+			result.PollSubmissionID.Should().Be(pollSubmissionId);
+			result.SubmissionDate.Should().Be(submissionDate);
+			result.UserID.Should().Be(userId);
+			result.PollOptions.Count.Should().Be(1);
+
 			var option = result.PollOptions[0];
-			Assert.AreEqual(isOptionSelected, option.IsOptionSelected);
-			Assert.AreEqual(optionPosition, option.OptionPosition);
-			Assert.AreEqual(optionText, option.OptionText);
-			Assert.AreEqual(pollOptionId, option.PollOptionID);
-			Assert.AreEqual(pollResponseId, option.PollResponseID);
+			option.IsOptionSelected.Should().Be(isOptionSelected);
+			option.OptionPosition.Should().Be(optionPosition);
+			option.OptionText.Should().Be(optionText);
+			option.PollOptionID.Should().Be(pollOptionId);
+			option.PollResponseID.Should().Be(pollResponseId);
 
 			pollSubmissionFactory.VerifyAll();
 			pollSubmission.VerifyAll();
@@ -88,7 +89,7 @@ namespace MyVote.Services.AppServer.Tests
 			pollSubmissionResponse.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Respond()
 		{
 			var generator = new RandomObjectGenerator();

@@ -1,18 +1,18 @@
 ﻿using Autofac;
 using Csla;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class PollSubmissionCommandTests
 	{
-		[TestMethod]
+		[Fact]
 		public void ExecuteWhenUserHasSubmittedAnswersForThePoll()
 		{
 			var submission = EntityCreator.Create<MVPollSubmission>();
@@ -38,15 +38,15 @@ namespace MyVote.BusinessObjects.Net.Tests
 						UserID = submission.UserID
 					});
 
-				Assert.AreEqual(submission.PollID, command.PollID, nameof(command.PollID));
-				Assert.AreEqual(submission.UserID, command.UserID, nameof(command.UserID));
-				Assert.IsNull(command.Submission, nameof(command.Submission));
+				command.PollID.Should().Be(submission.PollID);
+				command.UserID.Should().Be(submission.UserID);
+				command.Submission.Should().BeNull();
 			}
 
 			entities.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ExecuteWhenUserHasNotSubmittedAnswersForThePoll()
 		{
 			var generator = new RandomObjectGenerator();
@@ -76,9 +76,9 @@ namespace MyVote.BusinessObjects.Net.Tests
 						UserID = userId
 					});
 
-				Assert.AreEqual(pollId, command.PollID, nameof(command.PollID));
-				Assert.AreEqual(userId, command.UserID, nameof(command.UserID));
-				Assert.IsNotNull(command.Submission, nameof(command.Submission));
+				command.PollID.Should().Be(pollId);
+				command.UserID.Should().Be(userId);
+				command.Submission.Should().NotBeNull();
 			}
 
 			factory.VerifyAll();

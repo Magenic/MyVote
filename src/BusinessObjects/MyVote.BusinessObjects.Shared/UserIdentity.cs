@@ -5,36 +5,36 @@ using MyVote.BusinessObjects.Core;
 using System;
 
 #if !NETFX_CORE && !MOBILE
+using Microsoft.EntityFrameworkCore;
 using MyVote.BusinessObjects.Attributes;
 using MyVote.Data.Entities;
-using System.Data.Entity;
 using Csla.Core;
 #endif
 
 namespace MyVote.BusinessObjects
 {
-	[System.Serializable]
+	[Serializable]
 	internal sealed class UserIdentity
 		: CslaIdentityCore<UserIdentity>, IUserIdentity
 	{
 #if !NETFX_CORE && !MOBILE
-		  private void DataPortal_Fetch(string profileId)
+		private void DataPortal_Fetch(string profileId)
 		{
-			var entity = (from u in this.Entities.MVUsers.Include(_ => _.MVUserRole)
-							  where u.ProfileID == profileId
-							  select u).SingleOrDefault();
+			var entity = (from u in this.Entities.Mvuser
+							  where u.ProfileId == profileId
+							  select new { User = u, UserRole = u.UserRole }).SingleOrDefault();
 			this.IsAuthenticated = entity != null;
 
 			if (this.IsAuthenticated)
 			{
 				this.ProfileID = profileId;
-				this.UserID = entity.UserID;
-				this.UserName = entity.UserName;
+				this.UserID = entity.User.UserId;
+				this.UserName = entity.User.UserName;
 
-				if (entity.MVUserRole != null)
+				if (entity.UserRole != null)
 				{
 					this.Roles = new MobileList<string>();
-					this.Roles.Add(entity.MVUserRole.UserRoleName);
+					this.Roles.Add(entity.UserRole.UserRoleName);
 				}
 			}
 		}
@@ -66,9 +66,9 @@ namespace MyVote.BusinessObjects
 
 #if !NETFX_CORE && !MOBILE
 		[NonSerialized]
-		private IEntities entities;
+		private IEntitiesContext entities;
 		[Dependency]
-		public IEntities Entities
+		public IEntitiesContext Entities
 		{
 			get { return this.entities; }
 			set { this.entities = value; }

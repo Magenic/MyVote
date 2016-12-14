@@ -1,19 +1,17 @@
 ﻿using Autofac;
 using Csla;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Net.Tests.Extensions;
 using MyVote.Data.Entities;
 using Spackle;
 using Spackle.Extensions;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class UserRuleTests
 	{
-		[TestMethod]
+		[Fact]
 		public void ChangeEmailAddressToValidValue()
 		{
 			var generator = new RandomObjectGenerator();
@@ -32,7 +30,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			}
 		}
 
-		[TestMethod]
+		[Fact]
 		public void ChangeUserNameToValidValue()
 		{
 			var generator = new RandomObjectGenerator();

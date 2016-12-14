@@ -54,9 +54,9 @@ namespace MyVote.BusinessObjects.Core
 		}
 
 		[NonSerialized]
-		private IEntities entities;
+		private IEntitiesContext entities;
 		[Dependency]
-		public IEntities Entities
+		public IEntitiesContext Entities
 		{
 			get { return this.entities; }
 			set { this.entities = value; }

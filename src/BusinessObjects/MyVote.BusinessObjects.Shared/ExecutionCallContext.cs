@@ -11,11 +11,11 @@ namespace MyVote.BusinessObjects
         private static readonly Dictionary<int, Dictionary<string, object>> context =
 			new Dictionary<int, Dictionary<string, object>>();
 #else
-        private static readonly Dictionary<ExecutionContext, Dictionary<string, object>> context =
-            new Dictionary<ExecutionContext, Dictionary<string, object>>();
+		private static readonly Dictionary<ExecutionContext, Dictionary<string, object>> context =
+			 new Dictionary<ExecutionContext, Dictionary<string, object>>();
 #endif
 
-        public void FreeNamedDataSlot(string name)
+		public void FreeNamedDataSlot(string name)
 		{
 #if MOBILE
             var threadId = Thread.CurrentThread.ManagedThreadId;
@@ -30,22 +30,23 @@ namespace MyVote.BusinessObjects
 		    	}
 		    }
 #else
-            var executionContext = ExecutionContext.Capture();
+			var executionContext = ExecutionContext.Capture();
 
 			if (ExecutionCallContext.context.ContainsKey(executionContext))
 			{
 				var items = ExecutionCallContext.context[executionContext];
 				items.Remove(name);
 
-				if(items.Count == 0)
+				if (items.Count == 0)
 				{
 					ExecutionCallContext.context.Remove(executionContext);
 				}
 			}
 #endif
-        }
+		}
 
-        public T GetData<T>(string name)
+		public T GetData<T>(string name)
+			where T: class
 		{
 #if MOBILE
             var threadId = Thread.CurrentThread.ManagedThreadId;
@@ -69,7 +70,7 @@ namespace MyVote.BusinessObjects
             	}
             }
 #else
-            var executionContext = ExecutionContext.Capture();
+			var executionContext = ExecutionContext.Capture();
 
 			if (!ExecutionCallContext.context.ContainsKey(executionContext))
 			{
@@ -80,7 +81,7 @@ namespace MyVote.BusinessObjects
 			{
 				var items = ExecutionCallContext.context[executionContext];
 
-				if(items.ContainsKey(name))
+				if (items.ContainsKey(name))
 				{
 					return (T)items[name];
 				}
@@ -90,9 +91,10 @@ namespace MyVote.BusinessObjects
 				}
 			}
 #endif
-        }
+		}
 
-        public void SetData<T>(string name, T value)
+		public void SetData<T>(string name, T value)
+			where T: class
 		{
 #if MOBILE
             var threadId = Thread.CurrentThread.ManagedThreadId;
@@ -104,7 +106,7 @@ namespace MyVote.BusinessObjects
 
             ExecutionCallContext.context[threadId][name] = value;
 #else
-            var executionContext = ExecutionContext.Capture();
+			var executionContext = ExecutionContext.Capture();
 
 			if (!ExecutionCallContext.context.ContainsKey(executionContext))
 			{
@@ -113,6 +115,6 @@ namespace MyVote.BusinessObjects
 
 			ExecutionCallContext.context[executionContext][name] = value;
 #endif
-        }
-    }
+		}
+	}
 }

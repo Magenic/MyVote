@@ -24,19 +24,19 @@ namespace MyVote.BusinessObjects
 
 		private void Child_Insert(IPollSubmission parent)
 		{
-			var entity = new MVPollResponse
+			var entity = new MvpollResponse
 			{
 				OptionSelected = this.IsOptionSelected,
-				PollID = parent.PollID,
-				PollSubmissionID = parent.PollSubmissionID.Value,
-				PollOptionID = this.PollOptionID,
+				PollId = parent.PollID,
+				PollSubmissionId = parent.PollSubmissionID.Value,
+				PollOptionId = this.PollOptionID,
 				ResponseDate = DateTime.UtcNow,
-				UserID = parent.UserID
+				UserId = parent.UserID
 			};
 
-			this.Entities.MVPollResponses.Add(entity);
+			this.Entities.MvpollResponse.Add(entity);
 			this.Entities.SaveChanges();
-			this.PollResponseID = entity.PollResponseID;
+			this.PollResponseID = entity.PollResponseId;
 		}
 #endif
 

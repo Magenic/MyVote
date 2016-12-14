@@ -1,17 +1,17 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MyVote.Services.AppServer.Auth;
 using MyVote.Services.AppServer.Controllers;
 using MyVote.BusinessObjects.Contracts;
 using Spackle;
+using Xunit;
+using FluentAssertions;
 
 namespace MyVote.Services.AppServer.Tests
 {
-	[TestClass]
 	public class UserControllerTests
 	{
-		[TestMethod]
+		[Fact]
 		public void GetUser()
 		{
 			var generator = new RandomObjectGenerator();
@@ -48,22 +48,22 @@ namespace MyVote.Services.AppServer.Tests
 
 			var result = controller.Get(profileId);
 
-			Assert.IsFalse(string.IsNullOrWhiteSpace(result.UserName));
-			Assert.AreEqual(userId, result.UserID);
-			Assert.AreEqual(profileId, result.ProfileID);
-			Assert.AreEqual(emailAddress, result.EmailAddress);
-			Assert.AreEqual(firstName, result.FirstName);
-			Assert.AreEqual(lastName, result.LastName);
-			Assert.AreEqual(gender, result.Gender);
-			Assert.AreEqual(birthDate, result.BirthDate);
-			Assert.AreEqual(postalCode, result.PostalCode);
-			Assert.AreEqual(userName, result.UserName);
+			result.UserName.Should().NotBeNullOrWhiteSpace();
+			result.UserID.Should().Be(userId);
+			result.ProfileID.Should().Be(profileId);
+			result.EmailAddress.Should().Be(emailAddress);
+			result.FirstName.Should().Be(firstName);
+			result.LastName.Should().Be(lastName);
+			result.Gender.Should().Be(gender);
+			result.BirthDate.Should().Be(birthDate);
+			result.PostalCode.Should().Be(postalCode);
+			result.UserName.Should().Be(userName);
 
 			userFactory.VerifyAll();
 			user.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void CreateUser()
 		{
 			var generator = new RandomObjectGenerator();
@@ -91,7 +91,7 @@ namespace MyVote.Services.AppServer.Tests
 			user.VerifyAll(); 
 		}
 
-		[TestMethod]
+		[Fact]
 		public void UpdateUser()
 		{
 			var generator = new RandomObjectGenerator();

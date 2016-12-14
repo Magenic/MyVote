@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
-using MyVote.UI.Enums;
+﻿using MyVote.UI.Enums;
 using Xamarin.Forms;
 
 namespace MyVote.UI.Controls
@@ -14,7 +12,7 @@ namespace MyVote.UI.Controls
         /// <summary>
         /// Backing field for the Image property.
         /// </summary>
-        public static readonly BindableProperty SourceProperty = BindableProperty.Create<ImageButton, ImageSource>((Expression<Func<ImageButton, ImageSource>>)(w => w.Source), (ImageSource)null, BindingMode.OneWay, (BindableProperty.ValidateValueDelegate<ImageSource>)null, (BindableProperty.BindingPropertyChangedDelegate<ImageSource>)((bindable, oldvalue, newvalue) => ((VisualElement)bindable).ToString()), (BindableProperty.BindingPropertyChangingDelegate<ImageSource>)null, (BindableProperty.CoerceValueDelegate<ImageSource>)null);
+        public static readonly BindableProperty SourceProperty = BindableProperty.Create(nameof(Source), typeof(ImageSource), typeof(ImageButton), (ImageSource)null, BindingMode.OneWay, (BindableProperty.ValidateValueDelegate)null, (BindableProperty.BindingPropertyChangedDelegate)((bindable, oldvalue, newvalue) => ((VisualElement)bindable).ToString()), (BindableProperty.BindingPropertyChangingDelegate)null, (BindableProperty.CoerceValueDelegate)null);
 
         /// <summary>
         /// Gets or sets the ImageSource to use with the control.
@@ -32,9 +30,7 @@ namespace MyVote.UI.Controls
         /// <summary>
         /// Backing field for the orientation property.
         /// </summary>
-        public static readonly BindableProperty OrientationProperty =
-            BindableProperty.Create<ImageButton, ImageOrientation>(
-                p => p.Orientation, ImageOrientation.ImageToLeft);
+        public static readonly BindableProperty OrientationProperty = BindableProperty.Create(nameof(Orientation), typeof(ImageOrientation), typeof(ImageButton), ImageOrientation.ImageToLeft);
 
         /// <summary>
         /// Gets or sets The orientation of the image relative to the text.
@@ -51,9 +47,7 @@ namespace MyVote.UI.Controls
         /// <summary>
         /// Backing field for the image height property.
         /// </summary>
-        public static readonly BindableProperty ImageHeightRequestProperty =
-            BindableProperty.Create<ImageButton, int>(
-                p => p.ImageHeightRequest, default(int));
+        public static readonly BindableProperty ImageHeightRequestProperty = BindableProperty.Create(nameof(ImageHeightRequest), typeof(int), typeof(ImageButton), default(int));
 
         /// <summary>
         /// Gets or sets the requested height of the image.  If less than or equal to zero than a 
@@ -71,9 +65,7 @@ namespace MyVote.UI.Controls
         /// <summary>
         /// Backing field for the image width property.
         /// </summary>
-        public static readonly BindableProperty ImageWidthRequestProperty =
-           BindableProperty.Create<ImageButton, int>(
-               p => p.ImageWidthRequest, default(int));
+        public static readonly BindableProperty ImageWidthRequestProperty = BindableProperty.Create(nameof(ImageWidthRequest), typeof(int), typeof(ImageButton), default(int));
 
         /// <summary>
         /// Gets or sets the requested width of the image.  If less than or equal to zero than a 

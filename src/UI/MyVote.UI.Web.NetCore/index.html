@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html id="ng-app">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MyVote</title>
+    
+    <link href="app/shared/content/jquery-ui.css" rel="stylesheet" />
+    <link href="app/shared/content/bootstrap.css" rel="stylesheet" />
+    <link href="app/shared/content/Site.css" rel="stylesheet" />
+    <link href="app/shared/content/landing.css" rel="stylesheet" />
+    <link href="app/shared/content/poll.css" rel="stylesheet" />
+
+    <!--[if lt IE 9]>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/json2/20140204/json2.min.js"></script>
+    <![endif]-->
+    <meta name="description" content="Magenic MyVote Web Application" />
+    
+    <meta http-equiv ="Content-Security-Policy" content="default-src * 'unsafe-inline'; script-src * 'unsafe-inline'; connect-src *; img-src *; style-src * 'unsafe-inline'">   
+    
+    <!-- Polyfill(s) for older browsers -->
+    <script src="libs/shim.js"></script>
+    
+    <script src="libs/zone.js"></script>
+    <script src="libs/Reflect.js"></script>
+    <script src="libs/system.src.js"></script>
+
+    <!-- Configure SystemJS -->
+    <script src="systemjs.config.js"></script>
+    <script>
+      System.import('app').catch(function(err){ console.error(err); });
+    </script>
+
+</head>
+<body ng-app="MyVoteApp" ng-controller="auth">
+
+    <header class="site-header">
+        <h1><a href="/#/polls">MyVote</a></h1>
+        <h2>Modern Apps Live!</h2>
+        <div class="auth-message">
+            <span ng-bind="authMessage"></span>
+            <span ng-show="loggedIn() || isAuthError()">(<a class="logout-link" ng-click="logOut()">Logout</a>)</span>
+        </div>
+        <div ng-show="newPollsCount" class="newpolls-message">
+            <span ng-bind="getNewPollsMessage()"></span>
+            <button ng-click="viewNewPolls()">Go</button>
+            <button ng-click="newPollsCount = 0">X</button>
+        </div>
+    </header>
+
+    <div class="main-content" ng-view=""></div>
+
+<script type="text/javascript">
+
+    //var apiUrl = "http://localhost:20970";
+    var apiUrl = "http://myvoteapi.azurewebsites.net";
+
+    Globals = {
+        apiUrl: apiUrl
+    };
+
+</script>
+    
+<!-- 1. Load libraries -->
+<!--<script src="app/shared/scripts/MobileServices.Web-1.2.7.js"></script>-->
+<script src="https://zumo.blob.core.windows.net/sdk/azure-mobile-apps-client.2.0.0-rc1.js"></script>
+<script src="libs/moment.js"></script>
+<script src="libs/jquery.js"></script>
+<script src="libs/bootstrap.js"></script>
+<script src="libs/angular.js"></script>
+<script src="libs/angular-route.js"></script>
+<script src="libs/angular-resource.js"></script>
+<script src="libs/highcharts.js"></script>
+<script src="libs/highcharts-ng.js"></script>
+<script src="libs/ui-bootstrap.js"></script>
+<script src="libs/ui-bootstrap-tpls.js"></script>
+
+<script src="libs/jquery.signalr-2.2.0.js"></script>
+<script src="libs/modernizr.js"></script>
+    
+
+
+
+    
+<!-- 2. Load src Todo: use module loader -->
+<script src="app/angular1x/app.js"></script>
+<script src="app/angular1x/_refs.js"></script>
+<script src="app/angular1x/models/authProvider.js"></script>
+<script src="app/angular1x/models/pollfilter.js"></script>
+<script src="app/angular1x/services/auth.js"></script>
+<script src="app/angular1x/services/myvote.js"></script>
+<script src="app/angular1x/services/signalr.js"></script>
+<script src="app/angular1x/controllers/addpoll.js"></script>  
+<script src="app/angular1x/controllers/landing.js"></script>
+<script src="app/angular1x/controllers/pollresult.js"></script>
+<script src="app/angular1x/controllers/polls.js"></script>
+<script src="app/angular1x/controllers/registration.js"></script>
+<script src="app/angular1x/controllers/viewpoll.js"></script>
+<script src="app/angular1x/directives/backgrounds.js"></script>
+<script src="app/angular1x/directives/file.js"></script>
+<script src="app/angular1x/directives/mvInput.js"></script>
+<script src="app/angular1x/directives/mvSelect.js"></script>
+<script src="app/angular1x/directives/mvErrorBlock.js"></script>
+<script src="app/angular1x/directives/nvD3AxisConfiguration.js"></script>
+<script src="app/angular1x/directives/nvd3Directives.js"></script>
+
+</body>
+</html>

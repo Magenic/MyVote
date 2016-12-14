@@ -84,10 +84,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\MyVote.Core.Net\MyVote.Core.Net.csproj">
-      <Project>{95125f50-fe49-42ac-850e-e554f119fa34}</Project>
-      <Name>MyVote.Core.Net</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Data\MyVote.Data.Entities\MyVote.Data.Entities.csproj">
       <Project>{d9b1b07e-4ef4-4f9f-b898-e0a32eb6dfb0}</Project>
       <Name>MyVote.Data.Entities</Name>

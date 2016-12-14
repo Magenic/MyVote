@@ -105,6 +105,11 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=4.0.20622.1351, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IdentityModel.Tokens.Jwt.4.0.2.206221351\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -290,10 +295,6 @@
     <ProjectReference Include="..\..\BusinessObjects\MyVote.BusinessObjects.Net\MyVote.BusinessObjects.Net.csproj">
       <Project>{0890b67c-5d87-4cd2-9e00-00764e190633}</Project>
       <Name>MyVote.BusinessObjects.Net</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\MyVote.Core.Net\MyVote.Core.Net.csproj">
-      <Project>{95125f50-fe49-42ac-850e-e554f119fa34}</Project>
-      <Name>MyVote.Core.Net</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Data\MyVote.Data.Database\MyVote.Data.Database.sqlproj">
       <Project>{c08d2d15-9aa1-4d87-8480-b2dc5b47f984}</Project>

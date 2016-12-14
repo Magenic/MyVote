@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Csla;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
@@ -14,10 +14,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Principal;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class PollLifecycleTests
 	{
 		private static PollOption CreatePollOption()
@@ -28,7 +28,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			return option;
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Create()
 		{
 			var generator = new RandomObjectGenerator();
@@ -47,21 +47,21 @@ namespace MyVote.BusinessObjects.Net.Tests
 			{
 				var poll = new DataPortal<Poll>().Create(userId);
 
-				Assert.IsNull(poll.PollAdminRemovedFlag, nameof(poll.PollAdminRemovedFlag));
-				Assert.IsNull(poll.PollCategoryID, nameof(poll.PollCategoryID));
-				Assert.IsNull(poll.PollDateRemoved, nameof(poll.PollDateRemoved));
-				Assert.IsNull(poll.PollDeletedDate, nameof(poll.PollDeletedDate));
-				Assert.IsNull(poll.PollDeletedFlag, nameof(poll.PollDeletedFlag));
-				Assert.AreEqual(string.Empty, poll.PollDescription, nameof(poll.PollDescription));
-				Assert.IsNull(poll.PollEndDate, nameof(poll.PollEndDate));
-				Assert.IsNull(poll.PollID, nameof(poll.PollID));
-				Assert.AreEqual(string.Empty, poll.PollImageLink, nameof(poll.PollImageLink));
-				Assert.IsNull(poll.PollMaxAnswers, nameof(poll.PollMaxAnswers));
-				Assert.IsNull(poll.PollMinAnswers, nameof(poll.PollMinAnswers));
-				Assert.AreEqual(string.Empty, poll.PollQuestion, nameof(poll.PollQuestion));
-				Assert.IsNull(poll.PollStartDate, nameof(poll.PollStartDate));
-				Assert.AreEqual(userId, poll.UserID, nameof(poll.UserID));
-				Assert.AreEqual(0, poll.PollOptions.Count, nameof(poll.PollOptions));
+				poll.PollAdminRemovedFlag.Should().NotHaveValue();
+				poll.PollCategoryID.Should().NotHaveValue();
+				poll.PollDateRemoved.Should().NotHaveValue();
+				poll.PollDeletedDate.Should().NotHaveValue();
+				poll.PollDeletedFlag.Should().NotHaveValue();
+				poll.PollDescription.Should().BeEmpty();
+				poll.PollEndDate.Should().NotHaveValue();
+				poll.PollID.Should().NotHaveValue();
+				poll.PollImageLink.Should().BeEmpty();
+				poll.PollMaxAnswers.Should().NotHaveValue();
+				poll.PollMinAnswers.Should().NotHaveValue();
+				poll.PollQuestion.Should().BeEmpty();
+				poll.PollStartDate.Should().NotHaveValue();
+				poll.UserID.Should().Be(userId);
+				poll.PollOptions.Count.Should().Be(0);
 
 				poll.BrokenRulesCollection.AssertRuleCount(7);
 				poll.BrokenRulesCollection.AssertRuleCount(Poll.PollStartDateProperty, 1);
@@ -90,7 +90,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			pollOptions.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Fetch()
 		{
 			var entity = EntityCreator.Create<MVPoll>(_ => _.PollDeletedFlag = false);
@@ -117,21 +117,21 @@ namespace MyVote.BusinessObjects.Net.Tests
 			{
 				var poll = new DataPortal<Poll>().Fetch(entity.PollID);
 
-				Assert.AreEqual(entity.PollAdminRemovedFlag, poll.PollAdminRemovedFlag, nameof(poll.PollAdminRemovedFlag));
-				Assert.AreEqual(entity.PollCategoryID, poll.PollCategoryID, nameof(poll.PollCategoryID));
-				Assert.AreEqual(entity.PollDateRemoved, poll.PollDateRemoved, nameof(poll.PollDateRemoved));
-				Assert.AreEqual(entity.PollDeletedDate, poll.PollDeletedDate, nameof(poll.PollDeletedDate));
-				Assert.AreEqual(entity.PollDeletedFlag, poll.PollDeletedFlag, nameof(poll.PollDeletedFlag));
-				Assert.AreEqual(entity.PollDescription, poll.PollDescription, nameof(poll.PollDescription));
-				Assert.AreEqual(entity.PollEndDate, poll.PollEndDate, nameof(poll.PollEndDate));
-				Assert.AreEqual(entity.PollID, poll.PollID, nameof(poll.PollID));
-				Assert.AreEqual(entity.PollImageLink, poll.PollImageLink, nameof(poll.PollImageLink));
-				Assert.AreEqual(entity.PollMaxAnswers, poll.PollMaxAnswers, nameof(poll.PollMaxAnswers));
-				Assert.AreEqual(entity.PollMinAnswers, poll.PollMinAnswers, nameof(poll.PollMinAnswers));
-				Assert.AreEqual(entity.PollQuestion, poll.PollQuestion, nameof(poll.PollQuestion));
-				Assert.AreEqual(entity.PollStartDate, poll.PollStartDate, nameof(poll.PollStartDate));
-				Assert.AreEqual(entity.UserID, poll.UserID, nameof(poll.UserID));
-				Assert.AreEqual(1, poll.PollOptions.Count, nameof(poll.PollOptions));
+				poll.PollAdminRemovedFlag.Should().Be(entity.PollAdminRemovedFlag);
+				poll.PollCategoryID.Should().Be(entity.PollCategoryID);
+				poll.PollDateRemoved.Should().Be(entity.PollDateRemoved);
+				poll.PollDeletedDate.Should().Be(entity.PollDeletedDate);
+				poll.PollDeletedFlag.Should().Be(entity.PollDeletedFlag);
+				poll.PollDescription.Should().Be(entity.PollDescription);
+				poll.PollEndDate.Should().Be(entity.PollEndDate);
+				poll.PollID.Should().Be(entity.PollID);
+				poll.PollImageLink.Should().Be(entity.PollImageLink);
+				poll.PollMaxAnswers.Should().Be(entity.PollMaxAnswers);
+				poll.PollMinAnswers.Should().Be(entity.PollMinAnswers);
+				poll.PollQuestion.Should().Be(entity.PollQuestion);
+				poll.PollStartDate.Should().Be(entity.PollStartDate);
+				poll.UserID.Should().Be(entity.UserID);
+				poll.PollOptions.Count.Should().Be(1);
 			}
 
 			entities.VerifyAll();
@@ -139,7 +139,7 @@ namespace MyVote.BusinessObjects.Net.Tests
 			pollOption.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Insert()
 		{
 			var generator = new RandomObjectGenerator();
@@ -197,26 +197,26 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 				poll = poll.Save();
 
-				Assert.AreEqual(pollAdminRemoveFlag, poll.PollAdminRemovedFlag, nameof(poll.PollAdminRemovedFlag));
-				Assert.AreEqual(pollCategoryId, poll.PollCategoryID, nameof(poll.PollCategoryID));
-				Assert.AreEqual(pollDateRemoved, poll.PollDateRemoved, nameof(poll.PollDateRemoved));
-				Assert.AreEqual(pollDeletedDate, poll.PollDeletedDate, nameof(poll.PollDeletedDate));
-				Assert.AreEqual(pollDeletedFlag, poll.PollDeletedFlag, nameof(poll.PollDeletedFlag));
-				Assert.AreEqual(pollDescription, poll.PollDescription, nameof(poll.PollDescription));
-				Assert.AreEqual(pollEndDate.ToUniversalTime(), poll.PollEndDate, nameof(poll.PollEndDate));
-				Assert.AreEqual(pollId, poll.PollID, nameof(poll.PollID));
-				Assert.AreEqual(pollImageLink, poll.PollImageLink, nameof(poll.PollImageLink));
-				Assert.AreEqual(pollMaxAnswers, poll.PollMaxAnswers, nameof(poll.PollMaxAnswers));
-				Assert.AreEqual(pollMinAnswers, poll.PollMinAnswers, nameof(poll.PollMinAnswers));
-				Assert.AreEqual(pollQuestion, poll.PollQuestion, nameof(poll.PollQuestion));
-				Assert.AreEqual(pollStartDate.ToUniversalTime(), poll.PollStartDate, nameof(poll.PollStartDate));
-				Assert.AreEqual(userId, poll.UserID, nameof(poll.UserID));
+				poll.PollAdminRemovedFlag.Should().Be(pollAdminRemoveFlag);
+				poll.PollCategoryID.Should().Be(pollCategoryId);
+				poll.PollDateRemoved.Should().Be(pollDateRemoved);
+				poll.PollDeletedDate.Should().Be(pollDeletedDate);
+				poll.PollDeletedFlag.Should().Be(pollDeletedFlag);
+				poll.PollDescription.Should().Be(pollDescription);
+				poll.PollEndDate.Should().Be(pollEndDate.ToUniversalTime());
+				poll.PollID.Should().Be(pollId);
+				poll.PollImageLink.Should().Be(pollImageLink);
+				poll.PollMaxAnswers.Should().Be(pollMaxAnswers);
+				poll.PollMinAnswers.Should().Be(pollMinAnswers);
+				poll.PollQuestion.Should().Be(pollQuestion);
+				poll.PollStartDate.Should().Be(pollStartDate.ToUniversalTime());
+				poll.UserID.Should().Be(userId);
 			}
 
 			entities.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Update()
 		{
 			var now = DateTime.UtcNow;
@@ -287,24 +287,24 @@ namespace MyVote.BusinessObjects.Net.Tests
 
 				poll = poll.Save();
 
-				Assert.AreEqual(newPollAdminRemoveFlag, poll.PollAdminRemovedFlag, nameof(poll.PollAdminRemovedFlag));
-				Assert.AreEqual(newPollCategoryId, poll.PollCategoryID, nameof(poll.PollCategoryID));
-				Assert.AreEqual(newPollDateRemoved, poll.PollDateRemoved, nameof(poll.PollDateRemoved));
-				Assert.AreEqual(newPollDeletedDate, poll.PollDeletedDate, nameof(poll.PollDeletedDate));
-				Assert.AreEqual(newPollDeletedFlag, poll.PollDeletedFlag, nameof(poll.PollDeletedFlag));
-				Assert.AreEqual(newPollDescription, poll.PollDescription, nameof(poll.PollDescription));
-				Assert.AreEqual(newPollEndDate.ToUniversalTime(), poll.PollEndDate, nameof(poll.PollEndDate));
-				Assert.AreEqual(newPollImageLink, poll.PollImageLink, nameof(poll.PollImageLink));
-				Assert.AreEqual(newPollMaxAnswers, poll.PollMaxAnswers, nameof(poll.PollMaxAnswers));
-				Assert.AreEqual(newPollMinAnswers, poll.PollMinAnswers, nameof(poll.PollMinAnswers));
-				Assert.AreEqual(newPollQuestion, poll.PollQuestion, nameof(poll.PollQuestion));
-				Assert.AreEqual(newPollStartDate.ToUniversalTime(), poll.PollStartDate, nameof(poll.PollStartDate));
+				poll.PollAdminRemovedFlag.Should().Be(newPollAdminRemoveFlag);
+				poll.PollCategoryID.Should().Be(newPollCategoryId);
+				poll.PollDateRemoved.Should().Be(newPollDateRemoved);
+				poll.PollDeletedDate.Should().Be(newPollDeletedDate);
+				poll.PollDeletedFlag.Should().Be(newPollDeletedFlag);
+				poll.PollDescription.Should().Be(newPollDescription);
+				poll.PollEndDate.Should().Be(newPollEndDate.ToUniversalTime());
+				poll.PollImageLink.Should().Be(newPollImageLink);
+				poll.PollMaxAnswers.Should().Be(newPollMaxAnswers);
+				poll.PollMinAnswers.Should().Be(newPollMinAnswers);
+				poll.PollQuestion.Should().Be(newPollQuestion);
+				poll.PollStartDate.Should().Be(newPollStartDate.ToUniversalTime());
 			}
 
 			entities.VerifyAll();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void Delete()
 		{
 			var generator = new RandomObjectGenerator();
@@ -363,10 +363,10 @@ namespace MyVote.BusinessObjects.Net.Tests
 					poll.Delete();
 					poll = poll.Save();
 
-					Assert.AreEqual(2, polls.Local.Count);
+					polls.Local.Count.Should().Be(2);
 					var deletedPoll = polls.Local[1];
-					Assert.IsNotNull(deletedPoll.PollDeletedDate, nameof(deletedPoll.PollDeletedDate));
-					Assert.IsTrue(deletedPoll.PollDeletedFlag.Value, nameof(deletedPoll.PollDeletedFlag));
+					deletedPoll.PollDeletedDate.Should().HaveValue();
+					deletedPoll.PollDeletedFlag.Value.Should().BeTrue();
 				}
 			}
 

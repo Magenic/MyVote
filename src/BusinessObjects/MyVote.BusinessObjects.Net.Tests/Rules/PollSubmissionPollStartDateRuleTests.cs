@@ -1,20 +1,20 @@
 ﻿using Csla.Core;
 using Csla.Rules;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
 using MyVote.BusinessObjects.Rules;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests.Rules
 {
 	[SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", MessageId = "Flag")]
-	[TestClass]
 	public sealed class PollSubmissionPollStartDateRuleTests
 	{
 		[SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", MessageId = "Flag")]
-		[TestMethod]
+		[Fact]
 		public void ExecuteWhenStartDateIsBeforeNow()
 		{
 			var pollStartDateProperty = new Mock<IPropertyInfo>(MockBehavior.Strict);
@@ -33,14 +33,14 @@ namespace MyVote.BusinessObjects.Net.Tests.Rules
 				});
 			(rule as IBusinessRule).Execute(context);
 
-			Assert.AreEqual(0, context.Results.Count, nameof(context.Results));
-			Assert.IsNull(context.OutputPropertyValues, nameof(context.OutputPropertyValues));
+			context.Results.Count.Should().Be(0);
+			context.OutputPropertyValues.Should().BeNull();
 
 			pollStartDateProperty.VerifyAll();
 		}
 
 		[SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", MessageId = "Flag")]
-		[TestMethod]
+		[Fact]
 		public void ExecuteWhenStartDateIsAfterNow()
 		{
 			var pollStartDateProperty = new Mock<IPropertyInfo>(MockBehavior.Strict);
@@ -59,8 +59,8 @@ namespace MyVote.BusinessObjects.Net.Tests.Rules
 				});
 			(rule as IBusinessRule).Execute(context);
 
-			Assert.AreEqual(1, context.Results.Count, nameof(context.Results));
-			Assert.IsFalse((bool)context.OutputPropertyValues[isActiveProperty]);
+			context.Results.Count.Should().Be(1);
+			((bool)context.OutputPropertyValues[isActiveProperty]).Should().BeFalse();
 
 			pollStartDateProperty.VerifyAll();
 		}

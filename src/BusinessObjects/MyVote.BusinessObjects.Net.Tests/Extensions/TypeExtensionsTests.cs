@@ -1,39 +1,36 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MyVote.BusinessObjects.Extensions;
 using MyVote.BusinessObjects.Net.Tests.Extensions.Contracts;
+using Xunit;
+using FluentAssertions;
 
 namespace MyVote.BusinessObjects.Net.Tests.Extensions
 {
-	[TestClass]
 	public sealed class TypeExtensionsTests
 	{
-		[TestMethod]
+		[Fact]
 		public void GetConcreteTypeWhenTargetIsNull()
 		{
-			Assert.IsNull((null as Type).GetConcreteType());
+			(null as Type).GetConcreteType().Should().BeNull();
 		}
 
-		[TestMethod]
+		[Fact]
 		public void GetConcreteTypeWhenTargetIsAnInterface()
 		{
-			var target = typeof(ITarget);
-			Assert.AreSame(typeof(Target), target.GetConcreteType());
+			typeof(ITarget).GetConcreteType().Should().BeSameAs(typeof(Target));
 		}
 
-		[TestMethod]
+		[Fact]
 		public void GetConcreteTypeWhenTargetIsAClass()
 		{
-			var target = typeof(Target);
-			Assert.AreSame(target, target.GetConcreteType());
+			typeof(Target).GetConcreteType().Should().BeSameAs(typeof(Target));
 		}
 
-		[TestMethod]
+		[Fact]
 		public void GetConcreteTypeWhenTargetHasNoNamespace()
 		{
-			var target = typeof(IHaveNoNamespace);
-			Assert.AreSame(target, target.GetConcreteType());
+			typeof(IHaveNoNamespace).GetConcreteType().Should().BeSameAs(typeof(IHaveNoNamespace));
 		}
 	}
 

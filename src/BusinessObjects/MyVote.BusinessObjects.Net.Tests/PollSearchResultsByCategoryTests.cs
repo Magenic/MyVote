@@ -1,19 +1,19 @@
 ﻿using Autofac;
 using Csla;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 using Moq;
 using MyVote.BusinessObjects.Contracts;
 using MyVote.BusinessObjects.Core;
 using MyVote.Data.Entities;
 using Spackle.Extensions;
 using System.Collections.Generic;
+using Xunit;
 
 namespace MyVote.BusinessObjects.Net.Tests
 {
-	[TestClass]
 	public sealed class PollSearchResultsByCategoryTests
 	{
-		[TestMethod]
+		[Fact]
 		public void Fetch()
 		{
 			var data = new List<PollSearchResultsData> { EntityCreator.Create<PollSearchResultsData>() };
@@ -35,8 +35,8 @@ namespace MyVote.BusinessObjects.Net.Tests
 			{
 				var result = DataPortal.FetchChild<PollSearchResultsByCategory>(data);
 
-				Assert.AreEqual(data[0].Category, result.Category, nameof(result.Category));
-				Assert.AreEqual(1, result.SearchResults.Count, nameof(result.SearchResults));
+				result.Category.Should().Be(data[0].Category);
+				result.SearchResults.Count.Should().Be(1);
 			}
 
 			pollSearchResultsFactory.VerifyAll();
