@@ -1,3 +1,6 @@
 {
-   "projects": [ "Data", "BusinessObjects" ]
+	"sdk":	{
+				"version": "1.0.0-preview2-003133"
+			},
+	"projects": [ "Data", "BusinessObjects" ]
 }

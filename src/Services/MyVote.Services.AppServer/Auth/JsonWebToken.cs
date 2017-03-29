@@ -69,7 +69,7 @@ namespace MyVote.Services.AppServer.Auth
         public void Validate(bool validateExpiration = false)
         {
             ValidateEnvelope(Envelope);
-            //ValidateSignature();
+            ValidateSignature();
 
             //if (validateExpiration && this.IsExpired)
             //{

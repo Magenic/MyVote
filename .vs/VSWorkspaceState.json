@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\Components",
+    "\\src\\Components\\azure-mobile-services-1.3.1",
+    "\\src\\Components\\azure-mobile-services-1.3.1\\samples",
+    "\\src\\Components\\azure-mobile-services-1.3.1\\samples\\androidsample",
+    "\\src\\Components\\azure-mobile-services-1.3.1\\samples\\androidsample\\androidsample",
+    "\\src\\Components\\azure-mobile-services-1.3.1\\samples\\androidsample\\androidsample\\Resources"
+  ],
+  "SelectedNode": "\\src\\Components\\azure-mobile-services-1.3.1\\samples\\androidsample\\androidsample\\Resources\\Resource.designer.cs",
+  "PreviewInSolutionExplorer": false
+}

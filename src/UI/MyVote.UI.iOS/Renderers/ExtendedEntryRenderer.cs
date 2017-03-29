@@ -18,12 +18,47 @@ namespace MyVote.UI.Renderers
             var model = this.Element as ExtendedEntry;
             if (model != null)
             {
+                SetNormalBorder();
+
+                SetErrorBorder();
+            }
+        }
+
+        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+
+            if (e.PropertyName == "ErrorMessage")
+            {
+                SetErrorBorder();
+            }
+        }
+
+        private void SetNormalBorder()
+        {
+            var model = (ExtendedEntry)Element;
+            var control = (UITextField)Control;
+            control.BorderStyle = model.HasBorder ? UITextBorderStyle.RoundedRect : UITextBorderStyle.None;
+            control.Layer.BorderWidth = model.HasBorder ? 1f : 0f;
+            control.AttributedPlaceholder = new NSAttributedString(model.Placeholder, new UIStringAttributes()
+            {
+                ForegroundColor = ColorExtensions.ToUIColor(model.PlaceholderColor)
+            });
+        }
+
+        private void SetErrorBorder()
+        {
+            var model = (ExtendedEntry)Element;
+            if (!string.IsNullOrWhiteSpace(model.ErrorMessage))
+            {
                 var control = (UITextField)this.Control;
-                control.BorderStyle = model.HasBorder ? UITextBorderStyle.RoundedRect : UITextBorderStyle.None;
-                control.AttributedPlaceholder = new NSAttributedString(model.Placeholder, new UIStringAttributes()
-                {
-                    ForegroundColor = ColorExtensions.ToUIColor(model.PlaceholderColor)
-                });
+                control.BorderStyle = UITextBorderStyle.RoundedRect;
+                control.Layer.BorderWidth = 1f;
+                control.Layer.BorderColor = ((Color)Application.Current.Resources["ErrorColor"]).ToCGColor();
+            }
+            else
+            {
+                SetNormalBorder();
             }
         }
     }

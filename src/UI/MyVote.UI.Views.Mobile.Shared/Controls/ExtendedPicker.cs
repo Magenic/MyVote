@@ -57,6 +57,16 @@ namespace MyVote.UI.Controls
 			}
 		}
 
+        public static readonly BindableProperty ErrorMessageProperty = BindableProperty.Create(nameof(ErrorMessage), typeof(string), typeof(ExtendedEntry), string.Empty);
+        public string ErrorMessage
+        {
+            get { return (string)GetValue(ErrorMessageProperty); }
+            set
+            {
+                SetValue(ErrorMessageProperty, value);
+            }
+        }
+
         private static void OnItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
 		{
             var picker = (ExtendedPicker<T>)bindable;

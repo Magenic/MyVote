@@ -22,7 +22,34 @@ namespace MyVote.UI.Renderers
                 if (!model.HasBorder)
                 {
                     control.SetBackground(null);
+                    if (!string.IsNullOrWhiteSpace(model.ErrorMessage))
+                    {
+                        control.SetError(model.ErrorMessage, Resources.GetDrawable(Resource.Drawable.ic_error_white_24dp, Context.Theme));
+                        control.Error = model.ErrorMessage;
+                    }
                 }
+            }
+        }
+
+        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+            var model = this.Element as ExtendedEntry;
+            var control = (EditText)Control;
+            if (e.PropertyName == "ErrorMessage")
+            {
+                if (!string.IsNullOrWhiteSpace(model.ErrorMessage))
+                {
+                    control.Error = model.ErrorMessage;
+                }
+                else
+                {
+                    control.Error = null;
+                }
+            }
+            else if (e.PropertyName == "Text" && !string.IsNullOrEmpty(model.ErrorMessage))
+            {
+                control.Error = model.ErrorMessage;
             }
         }
     }

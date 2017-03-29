@@ -2,35 +2,40 @@
 <views:ContentPageBase xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyVote.UI.Views.AddPollPage"
-			 xmlns:views="clr-namespace:MyVote.UI.Views;assembly=MyVoteUI"
-			 xmlns:converters="clr-namespace:MyVote.UI.Converters;assembly=MyVoteUI"
-			 xmlns:controls="clr-namespace:MyVote.UI.Controls;assembly=MyVoteUI">
-	<views:ContentPageBase.Resources>
-		<ResourceDictionary>
-			<converters:NullableDateConverter x:Key="nullableDateConverter"/>
-			<converters:NullableIntConverter x:Key="nullableIntConverter"/>
-		</ResourceDictionary>
-	</views:ContentPageBase.Resources>
+             xmlns:views="clr-namespace:MyVote.UI.Views;assembly=MyVoteUI"
+             xmlns:converters="clr-namespace:MyVote.UI.Converters;assembly=MyVoteUI"
+             xmlns:controls="clr-namespace:MyVote.UI.Controls;assembly=MyVoteUI"
+             xmlns:csla="clr-namespace:Csla.Xaml;assembly=CSLA.Xaml">
+    <views:ContentPageBase.Resources>
+        <ResourceDictionary>
+            <converters:NullableDateConverter x:Key="nullableDateConverter"/>
+            <converters:NullableIntConverter x:Key="nullableIntConverter"/>
+        </ResourceDictionary>
+    </views:ContentPageBase.Resources>
     <ScrollView Style="{StaticResource BackgroundStyle}" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
         <StackLayout Orientation="Vertical"  Spacing="10" Padding="0, 10, 0, 0" >
             <StackLayout Style="{StaticResource IndividualEntryRegionStyle}">
                 <controls:ExtendedLabel Text="Create a New Poll" TextColor="White" LeftPadding="20"></controls:ExtendedLabel>
-			</StackLayout>
-            <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
-            <StackLayout Style="{StaticResource IndividualEntryRegionStyle}">
-            <controls:ExtendedEntry Text="{Binding Poll.PollQuestion, Mode=TwoWay}" Style="{StaticResource EntryColumnStyle}" Placeholder="Ask your question here*" />
             </StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
             <StackLayout Style="{StaticResource IndividualEntryRegionStyle}">
-                <controls:ExtendedEntry Text="{Binding Poll.PollDescription, Mode=TwoWay}" Style="{StaticResource EntryColumnStyle}" Placeholder="Description" />
+                <csla:PropertyInfo x:Name="PollQuestionInfo" BindingContext="{Binding Poll}" Path="PollQuestion" />
+                <controls:ExtendedEntry BindingContext="{x:Reference PollQuestionInfo}" Text="{Binding Value, Mode=TwoWay}" Style="{StaticResource EntryColumnStyle}" Placeholder="Ask your question here*" ErrorMessage="{Binding RuleDescription}" />
             </StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
             <StackLayout Style="{StaticResource IndividualEntryRegionStyle}">
-                <controls:ExtendedEntry Text="{Binding PollOptions[0].OptionText, Mode=TwoWay}" Style="{StaticResource EntryColumnStyle}" Placeholder="Answer #1*" />
+                <csla:PropertyInfo x:Name="PollDescriptionInfo" BindingContext="{Binding Poll}" Path="PollDescription" />
+                <controls:ExtendedEntry BindingContext="{x:Reference PollDescriptionInfo}" Text="{Binding Value, Mode=TwoWay}" Style="{StaticResource EntryColumnStyle}" Placeholder="Description" ErrorMessage="{Binding RuleDescription}" />
             </StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
             <StackLayout Style="{StaticResource IndividualEntryRegionStyle}">
-                <controls:ExtendedEntry Text="{Binding PollOptions[1].OptionText, Mode=TwoWay}" Style="{StaticResource EntryColumnStyle}" Placeholder="Answer #2*" />
+                <csla:PropertyInfo x:Name="PollOptionOneInfo" BindingContext="{Binding PollOptions[0].PollOption}" Path="OptionText" />
+                <controls:ExtendedEntry BindingContext="{x:Reference PollOptionOneInfo}" Text="{Binding Value, Mode=TwoWay}" Style="{StaticResource EntryColumnStyle}" Placeholder="Answer #1*" ErrorMessage="{Binding RuleDescription}" />
+            </StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
+            <StackLayout Style="{StaticResource IndividualEntryRegionStyle}">
+                <csla:PropertyInfo x:Name="PollOptionTwoInfo" BindingContext="{Binding PollOptions[1].PollOption}" Path="OptionText" />
+                <controls:ExtendedEntry BindingContext="{x:Reference PollOptionTwoInfo}" Text="{Binding Value, Mode=TwoWay}" Style="{StaticResource EntryColumnStyle}" Placeholder="Answer #2*" ErrorMessage="{Binding RuleDescription}" />
             </StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
             <StackLayout Style="{StaticResource IndividualEntryRegionStyle}">
@@ -47,36 +52,37 @@
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
             <StackLayout x:Name="multiSelectRegion" Orientation="Horizontal" Style="{StaticResource IndividualEntryRegionStyle}">
                 <controls:ExtendedLabel Text="Allow Multiple Answers?" HorizontalOptions="StartAndExpand" Style="{StaticResource LabelStyle}" />
-				<Switch IsToggled="{Binding HasMultiAnswer, Mode=TwoWay}" HorizontalOptions="End" />
-			</StackLayout>
+                <Switch IsToggled="{Binding HasMultiAnswer, Mode=TwoWay}" HorizontalOptions="End" />
+            </StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
             <StackLayout Orientation="Horizontal" Style="{StaticResource IndividualEntryRegionStyle}">
-                <controls:BackgroundIntExtendedPicker x:Name="pckGender" ItemsSource="{Binding Categories}" SelectedItem="{Binding Poll.PollCategoryID, Converter={StaticResource nullableIntConverter}, Mode=TwoWay}" Style="{StaticResource IntPickerColumnStyle}" PlaceholderText="Select a Category *" />
-			</StackLayout>
+                <controls:ExtendedPropertyInfo x:Name="CategoryInfo" BindingContext="{Binding .}" Path="Poll.PollCategoryID" ExtraInfo="{Binding Categories, Mode=TwoWay}" />
+				<controls:BackgroundIntExtendedPicker BindingContext="{x:Reference CategoryInfo}" x:Name="pckCategory" ItemsSource="{Binding ExtraInfo, Mode=TwoWay}" SelectedItem="{Binding Value, Converter={StaticResource nullableIntConverter}, Mode=TwoWay}" Style="{StaticResource IntPickerColumnStyle}" PlaceholderText="Select a Category *" ErrorMessage="{Binding RuleDescription}" />
+            </StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
             <StackLayout Orientation="Horizontal" Style="{StaticResource IndividualEntryRegionStyle}">
                 <controls:ExtendedLabel Text="Start Date" HorizontalOptions="StartAndExpand" Style="{StaticResource ColumnLabelColumnStyle}" />
                 <controls:ExtendedDatePicker Date="{Binding Poll.PollStartDate, Converter={StaticResource nullableDateConverter}, Mode=TwoWay}" HorizontalOptions="End" WidthRequest="200" Style="{StaticResource DatePickerStyle}" />
-			</StackLayout>
+            </StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
             <StackLayout Orientation="Horizontal" Style="{StaticResource IndividualEntryRegionStyle}">
                 <controls:ExtendedLabel Text="End Date" HorizontalOptions="StartAndExpand" Style="{StaticResource ColumnLabelColumnStyle}" />
                 <controls:ExtendedDatePicker Date="{Binding Poll.PollEndDate, Converter={StaticResource nullableDateConverter}, Mode=TwoWay}" HorizontalOptions="End" WidthRequest="200" Style="{StaticResource DatePickerStyle}" />
-			</StackLayout>
+            </StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
             <StackLayout Orientation="Vertical" Style="{StaticResource IndividualEntryRegionStyle}">
                 <Button Text="Add Image" BackgroundColor="Transparent" HorizontalOptions="Start" Style="{StaticResource ButtonStyle}" Command="{Binding AddImage}" />
-				<Image Source="{Binding PollImageViewModel.PollImage.Source}" HorizontalOptions="StartAndExpand" />
+                <Image Source="{Binding PollImageViewModel.PollImage.Source}" HorizontalOptions="StartAndExpand" />
             </StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
             <StackLayout Orientation="Horizontal" Style="{StaticResource IndividualEntryRegionStyle}">
-                <controls:ExtendedLabel Text="*Required Fields" TextColor="{StaticResource AppGrayLight}" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
+                <controls:ExtendedLabel Text="*Required Fields" TextColor="{StaticResource ErrorColor}" HorizontalOptions="Center" XAlign="Center" YAlign="Center" />
             </StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource SpacerStyle}"></BoxView>
             <StackLayout Orientation="Horizontal" Style="{StaticResource IndividualEntryRegionStyle}" Padding="0, 0, 0, 0">
                 <Button IsEnabled="{Binding CanSave}" Text="Submit My Poll" HorizontalOptions="FillAndExpand" Style="{StaticResource ButtonStyle}" Command="{Binding Submit}" />
-			</StackLayout>
+            </StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource ButtonStyle}"></BoxView>
-		</StackLayout>
-	</ScrollView>
+        </StackLayout>
+    </ScrollView>
 </views:ContentPageBase>

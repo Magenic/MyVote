@@ -7,9 +7,9 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.magenic.MyVote</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2</string>
+	<string>1.3</string>
 	<key>CFBundleVersion</key>
-	<string>1.2</string>
+	<string>1.3</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
@@ -43,5 +43,9 @@
 		<string>Icon-Small-40@2x.png</string>
 		<string>Icon-Small.png</string>
 	</array>
+	<key>CFBundleName</key>
+	<string>MyVote</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo library used to add images to polls.</string>
 </dict>
 </plist>

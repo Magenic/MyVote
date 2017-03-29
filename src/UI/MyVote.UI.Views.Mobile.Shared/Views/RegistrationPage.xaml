@@ -4,7 +4,8 @@
              x:Class="MyVote.UI.Views.RegistrationPage"
 			 xmlns:views="clr-namespace:MyVote.UI.Views;assembly=MyVoteUI"
 			 xmlns:converters="clr-namespace:MyVote.UI.Converters;assembly=MyVoteUI"
-			 xmlns:controls="clr-namespace:MyVote.UI.Controls;assembly=MyVoteUI">
+			 xmlns:controls="clr-namespace:MyVote.UI.Controls;assembly=MyVoteUI"
+		     xmlns:csla="clr-namespace:Csla.Xaml;assembly=CSLA.Xaml">
 	<views:ContentPageBase.Resources>
 		<ResourceDictionary>
 			<converters:NullableDateConverter x:Key="nullableDateConverter"/>
@@ -17,23 +18,27 @@
             </StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
             <StackLayout x:Name="firstNameRegion" Style="{StaticResource IndividualEntryRegionStyle}">
-                <controls:ExtendedLabel Text="First Name" Style="{StaticResource ColumnLabelColumnStyle}" />
-                <controls:ExtendedEntry Text="{Binding User.FirstName, Mode=TwoWay}" Placeholder="First Name" Style="{StaticResource EntryColumnStyle}" />
+                <csla:PropertyInfo x:Name="FirstNameInfo" BindingContext="{Binding User}" Path="FirstName" />
+				<controls:ExtendedLabel Text="First Name" Style="{StaticResource ColumnLabelColumnStyle}" />
+                <controls:ExtendedEntry BindingContext="{x:Reference FirstNameInfo}" Text="{Binding Value, Mode=TwoWay}" Placeholder="First Name" Style="{StaticResource EntryColumnStyle}" ErrorMessage="{Binding RuleDescription}" />
 			</StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
             <StackLayout x:Name="lastNameRegion" Style="{StaticResource IndividualEntryRegionStyle}">
-                <controls:ExtendedLabel Text="Last Name" Style="{StaticResource ColumnLabelColumnStyle}" />
-                <controls:ExtendedEntry Text="{Binding User.LastName, Mode=TwoWay}" Placeholder="Last Name" Style="{StaticResource EntryColumnStyle}" />
+                <csla:PropertyInfo x:Name="LastNameInfo" BindingContext="{Binding User}" Path="LastName" />
+				<controls:ExtendedLabel Text="Last Name" Style="{StaticResource ColumnLabelColumnStyle}" />
+                <controls:ExtendedEntry BindingContext="{x:Reference LastNameInfo}" Text="{Binding Value, Mode=TwoWay}" Placeholder="Last Name" Style="{StaticResource EntryColumnStyle}" ErrorMessage="{Binding RuleDescription}" />
 			</StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
             <StackLayout x:Name="emailRegion" Style="{StaticResource IndividualEntryRegionStyle}">
-                <controls:ExtendedLabel Text="Email" Style="{StaticResource ColumnLabelColumnStyle}" />
-                <controls:ExtendedEntry Text="{Binding User.EmailAddress, Mode=TwoWay}" Placeholder="Email" Style="{StaticResource EntryColumnStyle}" />
+                <csla:PropertyInfo x:Name="EmailInfo" BindingContext="{Binding User}" Path="EmailAddress" />
+				<controls:ExtendedLabel Text="Email" Style="{StaticResource ColumnLabelColumnStyle}" />
+                <controls:ExtendedEntry BindingContext="{x:Reference EmailInfo}" Text="{Binding Value, Mode=TwoWay}" Placeholder="Email" Style="{StaticResource EntryColumnStyle}" ErrorMessage="{Binding RuleDescription}" />
 			</StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
             <StackLayout x:Name="userNameRegion" Style="{StaticResource IndividualEntryRegionStyle}">
-                <controls:ExtendedLabel Text="Username" Style="{StaticResource ColumnLabelColumnStyle}" />
-                <controls:ExtendedEntry Text="{Binding User.UserName, Mode=TwoWay}" Placeholder="Username" Style="{StaticResource EntryColumnStyle}" />
+                <csla:PropertyInfo x:Name="UsernameInfo" BindingContext="{Binding User}" Path="UserName" />
+				<controls:ExtendedLabel Text="Username" Style="{StaticResource ColumnLabelColumnStyle}" />
+                <controls:ExtendedEntry BindingContext="{x:Reference UsernameInfo}" Text="{Binding Value, Mode=TwoWay}" Placeholder="Username" Style="{StaticResource EntryColumnStyle}" ErrorMessage="{Binding RuleDescription}" />
 			</StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
             <StackLayout x:Name="birthDateRegion" Style="{StaticResource IndividualEntryRegionStyle}">
@@ -47,8 +52,9 @@
 			</StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
             <StackLayout x:Name="zipCodeRegion" Style="{StaticResource IndividualEntryRegionStyle}">
-                <controls:ExtendedLabel Text="Zip Code" Style="{StaticResource ColumnLabelColumnStyle}" />
-                <controls:ExtendedEntry Text="{Binding User.PostalCode, Mode=TwoWay}" Placeholder="Zip Code" Style="{StaticResource EntryColumnStyle}" />
+                <csla:PropertyInfo x:Name="ZipInfo" BindingContext="{Binding User}" Path="PostalCode" />
+				<controls:ExtendedLabel Text="Zip Code" Style="{StaticResource ColumnLabelColumnStyle}" />
+                <controls:ExtendedEntry BindingContext="{x:Reference ZipInfo}" Text="{Binding Value, Mode=TwoWay}" Placeholder="Zip Code" Style="{StaticResource EntryColumnStyle}" ErrorMessage="{Binding RuleDescription}" />
 			</StackLayout>
             <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
 			<BoxView HorizontalOptions="Start" HeightRequest="10" Color="#00000000"></BoxView>

@@ -19,8 +19,8 @@ module MyVote.Directives {
 
                 selectTemplate += `<div class="form-error-block">
                                     <span class="form-error-message"
-                                          ng-show="invalidInput('${attrs.name}')" 
-                                          ng-bind="validationMessage('${attrs.name}')">
+                                          ng-show="vm.invalidInput('${attrs.name}')" 
+                                          ng-bind="vm.validationMessage('${attrs.name}')">
                                     </span></div>`;
 
                 return selectTemplate;

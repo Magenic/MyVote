@@ -12,10 +12,10 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "launchUrl": "api/home",
-      "environmentVariables": {
-        "SQLCONNSTR_Entities": "Server=tcp:myvote.database.windows.net, 1433;Initial Catalog=myvote_data_db;Persist Security Info=False;User ID={myvote};Password={password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+        "environmentVariables": {
+            "SQLCONNSTR_Entities": "YOUR AZURE DATABASE CONNECTION HERE",
+            "ASPNETCORE_ENVIRONMENT": "Development"
+        }
     }
   }
 }

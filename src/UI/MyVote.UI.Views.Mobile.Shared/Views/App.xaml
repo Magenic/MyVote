@@ -9,6 +9,7 @@
             <Color x:Key="AppGrayLight">#434342</Color>
             <Color x:Key="AppGrayDark">#333333</Color>
             <Color x:Key="AppOrange">#FF6600</Color>
+			<Color x:Key="ErrorColor">#805050</Color>
 
             <Style x:Key="BackgroundStyle" TargetType="VisualElement">
                 <Setter Property="BackgroundColor" Value="{StaticResource AppGrayDark}" />

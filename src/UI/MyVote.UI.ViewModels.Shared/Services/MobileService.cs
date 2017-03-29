@@ -25,7 +25,7 @@ namespace MyVote.UI.Services
 			"https://localhost:44305/");
 #else
 	    private readonly MobileServiceClient mobileService = new MobileServiceClient(
-            "https://mbl-myvote.azurewebsites.net/");
+            "https://yourapi.azurewebsites.net/");
         #region Private Key
  //"heZNtCPzxAcMZxWlLRzxfuhVQPLaeB41"
         #endregion
@@ -51,7 +51,7 @@ namespace MyVote.UI.Services
 #if DEBUG_OFF && !MOBILE
 				client.BaseAddress = new Uri("https://localhost:44305/");
 #else
-				client.BaseAddress = new Uri("http://mbl-myvote.azurewebsites.net/");
+				client.BaseAddress = new Uri("http://yourapi.azurewebsites.net/");
 #endif // DEBUG
 
 				var response = await client.GetAsync("api/SasGenerator?ZUMO-API-VERSION=2.0.0").ConfigureAwait(false);

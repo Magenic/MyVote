@@ -10,7 +10,7 @@ namespace MyVote.Services.AppServer.Controllers
 {
 	public class PollImageController : ApiController
 	{
-        const string STORAGE_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=myvoteapp;AccountKey=XszpX17ZNRRWUt7D5+ESo04eUZ9gEvLrEW9XvUIgZfnLDcNIKQkpCs8feLLSFDLmeUvfVEEnE4kyKWeRPpbQug==";
+        const string STORAGE_CONNECTION_STRING = "YOUR_AZURE_BLOB_CONNECTION_HERE";
 
 		[Authorize]
 		public HttpResponseMessage Put(HttpRequestMessage request)

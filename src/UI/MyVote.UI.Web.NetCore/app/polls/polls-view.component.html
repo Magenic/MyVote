@@ -1,0 +1,32 @@
+﻿<section class="left-view clear-fix">
+    <!--<img class="poll-view-img" ng-src="{{currentPoll.PollImageLink}}" ng-show="currentPoll.PollImageLink" alt="Poll image"-->
+    <img class="poll-view-img" [src]="currentPoll?.PollImageLink" *ngIf="currentPoll?.PollImageLink" alt="Poll image"
+         onerror='this.style.visibility="hidden"' />
+    <div class="poll-view">
+        <!--<h2 ng-bind="currentPoll.PollQuestion"></h2>
+        <h3 ng-bind="currentPoll.PollDescription"></h3>-->
+        <!--<h2 [innerText]="currentPoll?.PollQuestion"></h2>
+        <h3 [innerText]="currentPoll?.PollDescription"></h3>-->
+        <h2>{{currentPoll?.PollQuestion}}</h2>
+        <h3>{{currentPoll?.PollDescription}}</h3>
+
+        <ul>
+            <!--<li class="poll-option" ng-repeat="option in currentPoll.PollOptions">-->
+            <li class="poll-option" *ngFor="let option of currentPoll?.PollOptions">
+                <!--<input type="checkbox" id="{{'option' + option.PollOptionID}}" ng-model="option.Selected" />-->
+                <input type="checkbox" id="{{'option' + option.PollOptionID}}" [(ngModel)]="option.Selected" />
+                <label for="{{'option' + option.PollOptionID}}">{{option.OptionText}}</label>
+            </li>
+        </ul>
+        <!--<button ng-click="submit()" ng-disabled="!canSubmit()">Submit My Vote!</button>-->
+        <button (click)="submit()" [disabled]="!canSubmit()">Submit My Vote!</button>
+        <!--<button ng-show="canDelete()" ng-click="delete()">Delete Poll</button>-->
+        <button *ngIf="canDelete()" (click)="delete()">Delete Poll</button>
+        <a class="block-link" href="/#/pollResult/{{currentPoll?.PollID}}">View results</a>
+        <a class="block-link" href="/#/polls">Back to polls</a>
+    </div>
+    <!--<div class="topbar topbar-info" ng-show="infoMessage" title="{{infoMessage}}"><span ng-bind="infoMessage"></span></div>-->
+    <div class="topbar topbar-info" *ngIf="infoMessage" title="{{infoMessage}}"><span [innerText]="infoMessage"></span></div>
+    <!--<div class="topbar topbar-error" ng-show="errorMessage" title="{{errorMessage}}"><span ng-bind="errorMessage"></span></div>-->
+    <div class="topbar topbar-error" *ngIf="errorMessage" title="{{errorMessage}}"><span [innerText]="errorMessage"></span></div>
+</section>

@@ -9,7 +9,7 @@ namespace MyVote.UI.ViewModels
 		private readonly IObjectFactory<IPollOption> objectFactory;
 		private readonly short optionPosition;
 
-		private IPollOption pollOption;
+        public IPollOption PollOption { get; private set; }
 
 		public PollOptionViewModel(
 			IPoll poll,
@@ -19,14 +19,18 @@ namespace MyVote.UI.ViewModels
 			this.poll = poll;
 			this.objectFactory = objectFactory;
 			this.optionPosition = optionPosition;
+            if (optionPosition >= 0 && optionPosition <= 1)
+            {
+                CreatePollOption();
+                poll.PollOptions.Add(PollOption);
+            }
 		}
 
 		private void CreatePollOption()
 		{
-			this.pollOption = this.objectFactory.CreateChild();
-			this.pollOption.OptionText = this.optionText;
-			this.pollOption.OptionPosition = this.optionPosition;
-			this.poll.PollOptions.Add(this.pollOption);
+			PollOption = this.objectFactory.CreateChild();
+			PollOption.OptionText = this.optionText;
+			PollOption.OptionPosition = this.optionPosition;
 		}
 
 		private string optionText;
@@ -39,21 +43,19 @@ namespace MyVote.UI.ViewModels
 				this.RaisePropertyChanged(() => OptionText);
 				if (!string.IsNullOrEmpty(value))
 				{
-					if (this.pollOption == null)
+					if (PollOption == null)
 					{
 						this.CreatePollOption();
+                        this.poll.PollOptions.Add(PollOption);
 					}
-					else
-					{
-						this.pollOption.OptionText = value;
-					}
+					PollOption.OptionText = value;
 				}
 				else
 				{
-					if (this.pollOption != null)
+					if (PollOption != null && optionPosition >= 2)
 					{
-						this.poll.PollOptions.Remove(this.pollOption);
-						this.pollOption = null;
+						this.poll.PollOptions.Remove(PollOption);
+						PollOption = null;
 					}
 				}
 			}

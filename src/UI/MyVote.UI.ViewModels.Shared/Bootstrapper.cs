@@ -9,7 +9,7 @@ namespace MyVote.UI
 #if DEBUG_OFF && !__MOBILE__
 		private static string DataPortalUrl = "http://localhost:55130/api/DataPortal/PostAsync";
 #else
-		private static string DataPortalUrl =  "http://myvoteapi.azurewebsites.net/api/DataPortal";
+		private static string DataPortalUrl =  "http://yourapi.azurewebsites.net/api/DataPortal";
 #endif
 
 		public IContainer Bootstrap()

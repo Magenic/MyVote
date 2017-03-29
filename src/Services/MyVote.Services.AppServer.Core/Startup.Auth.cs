@@ -15,7 +15,7 @@ namespace MyVote.Services.AppServer
         {
 
             //Todo: place in configuration
-            var signingKey = new SymmetricSecurityKey(FromHex("<your key>"));            
+            var signingKey = new SymmetricSecurityKey(FromHex("Enter_your_WEBSITE_AUTH_SIGNING_KEY_here"));            
 
             var tokenValidationParameters = new TokenValidationParameters
             {

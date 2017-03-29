@@ -10,5 +10,15 @@ namespace MyVote.UI.Controls
             get { return (bool)GetValue(HasBorderProperty); }
             set { SetValue(HasBorderProperty, value); }
         }
+
+        public static readonly BindableProperty ErrorMessageProperty = BindableProperty.Create(nameof(ErrorMessage), typeof(string), typeof(ExtendedEntry), string.Empty);
+        public string ErrorMessage
+        {
+            get { return (string)GetValue(ErrorMessageProperty); }
+            set
+            {
+                SetValue(ErrorMessageProperty, value); 
+            }
+        }
     }
 }

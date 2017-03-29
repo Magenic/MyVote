@@ -18,7 +18,7 @@ namespace MyVote.UI.Renderers
 			var model = this.Element as ExtendedPicker<T>;
 			if (model != null)
 			{
-				var control = this.Control as UITextField;
+                var control = Control;
 				control.TextColor = model.TextColor.ToUIColor();
                 control.BorderStyle = UITextBorderStyle.None;
 
@@ -27,7 +27,36 @@ namespace MyVote.UI.Renderers
                 {
                     ForegroundColor = ColorExtensions.ToUIColor(model.PlaceholderColor)
                 });
+
+                SetErrorBorder();
             }
 		}
+
+        protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+
+            if (e.PropertyName == "ErrorMessage")
+            {
+                SetErrorBorder();
+            }
+        }
+
+        private void SetErrorBorder()
+        {
+            var model = (ExtendedPicker<T>)Element;
+            var control = (UITextField)this.Control;
+            if (!string.IsNullOrWhiteSpace(model.ErrorMessage))
+            {
+                control.BorderStyle = UITextBorderStyle.RoundedRect;
+                control.Layer.BorderWidth = 1f;
+                control.Layer.BorderColor = ((Color)Application.Current.Resources["ErrorColor"]).ToCGColor();
+            }
+            else
+            {
+                control.BorderStyle = UITextBorderStyle.None;
+                control.Layer.BorderWidth = 0f;
+            }
+        }
 	}
 }

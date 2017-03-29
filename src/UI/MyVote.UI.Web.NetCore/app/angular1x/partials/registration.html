@@ -1,24 +1,24 @@
 ﻿<section class="left-view">
     <h2>Welcome</h2>
     <h3>Welcome to MyVote. Please complete your registration and start creating your own polls!</h3>
-    <form name="registrationForm" class="stacked-form" ng-submit="register()" novalidate autocomplete="off">
+    <form name="vm.registrationForm" class="stacked-form" ng-submit="vm.register()" novalidate autocomplete="off">
         
-        <mv-input name="email" data-description="Email Address" ng-Model="email" type="email" required="true" autofocus="true"></mv-input>
+        <mv-input name="email" data-description="Email Address" ng-Model="vm.email" type="email" required="true" autofocus="true"></mv-input>
         
-        <mv-input name="screenName" data-description="Choose a MyVote Screen Name" ng-Model="screenName" type="text" required="true"></mv-input>                
+        <mv-input name="screenName" data-description="Choose a MyVote Screen Name" ng-Model="vm.screenName" type="text" required="true"></mv-input>                
 
         <label for="birthDate">Date of Birth</label>
         <div class="input-group my-datepicker">
-            <input type="text" id="birthDate" name="birthDate" ng-model="birthDate" class="form-control" datepicker-popup="yyyy-MM-dd" show-button-bar="false" datepicker-options="dateOptions" ng-model="dtSBirthDate" is-open="birthDateOpened" close-text="Close"/>
-            <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="openBirthDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button></span>
+            <input type="text" id="birthDate" name="birthDate" ng-model="vm.birthDate" class="form-control" datepicker-popup="yyyy-MM-dd" show-button-bar="false" datepicker-options="vm.dateOptions" ng-model="vm.dtSBirthDate" is-open="vm.birthDateOpened" close-text="Close"/>
+            <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="vm.openBirthDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button></span>
         </div>
         
-        <mv-select name="sex" , data-description="Sex" ng-model="sex" required="true" data-optionsExpr="opt.id as opt.name for opt in sOptions"></mv-select>
+        <mv-select name="sex" , data-description="Sex" ng-model="vm.sex" required="true" data-optionsExpr="opt.id as opt.name for opt in vm.sOptions"></mv-select>
         
-        <mv-input name="zip" data-description="ZIP Code" ng-Model="zip" type="text" required="true"></mv-input>
+        <mv-input name="zip" data-description="ZIP Code" ng-Model="vm.zip" type="text" required="true"></mv-input>
 
         <button type="submit">Let's Get Started!</button>
     </form>
-    <div class="topbar topbar-error" ng-show="errorMessage"><span ng-bind="errorMessage"></span></div>
-    <div class="progress" ng-show="busyMessage"><span ng-bind="busyMessage"></span></div>
+    <div class="topbar topbar-error" ng-show="vm.errorMessage"><span ng-bind="vm.errorMessage"></span></div>
+    <div class="progress" ng-show="vm.busyMessage"><span ng-bind="vm.busyMessage"></span></div>
 </section>

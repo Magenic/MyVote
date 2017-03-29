@@ -42,7 +42,6 @@ namespace MyVote.UI.Services
                 //await blob.UploadFromStreamAsync(fileStream);
             }
 #else
-            // strangely it expects /pollimages/pollimages
 		    sasUrl = sasUrl.Replace("/pollimages", String.Format("/pollimages/{0}", uploadViewModel.ImageIdentifier));
             sasUrl = sasUrl.Replace("\"", "");
 			var request = (HttpWebRequest)WebRequest.Create(sasUrl);

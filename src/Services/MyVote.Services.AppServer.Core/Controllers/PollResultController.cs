@@ -32,8 +32,9 @@ namespace MyVote.Services.AppServer.Controllers
 			this.pollDataResultsFactory = pollDataResultsFactory;
 		}
 
-		// GET api/pollresult?pollId=5
-		[HttpGet("{pollId}")]
+        // GET api/pollresult?pollId=5
+        // IActionResult is from Microsoft​.AspNetCore​.Mvc: represents the result of an action method
+        [HttpGet("{pollId}")]
 		public IActionResult Get(int pollId)
 		{
 			var userID = this.authentication.GetCurrentUserID();

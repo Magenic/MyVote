@@ -33,22 +33,28 @@ module MyVote {
             $httpProvider.interceptors.push('zumoAuthInterceptor');
 
             $routeProvider
-                .when('/landing', {
-                        controller: MyVote.Controllers.LandingCtrl,
-                        templateUrl: '/app/angular1x/partials/landing.html'
-                    })
-                .when('/registration', {
-                        controller: MyVote.Controllers.RegistrationCtrl,
-                        templateUrl: '/app/angular1x/partials/registration.html'
+                .when('/landing',
+                {
+                    controller: MyVote.Controllers.LandingCtrl,
+                    templateUrl: '/app/angular1x/partials/landing.html'
                 })
-                .when('/polls', {
-                        controller: MyVote.Controllers.PollsCtrl,
-                        templateUrl: '/app/angular1x/partials/polls.html'
+                .when('/registration',
+                {
+                    controller: MyVote.Controllers.RegistrationCtrl,
+                    controllerAs: 'vm',
+                    templateUrl: '/app/angular1x/partials/registration.html'
+                })
+                .when('/polls', {                    
+                    template: '<polls-list></polls-list>'  //Angular 2 component
+                    //controller: MyVote.Controllers.PollsCtrl,
+                    //controllerAs: 'vm',
+                    //templateUrl: '/app/angular1x/partials/polls.html'
                 })
                 //:pollId is a route parameter passed in the URL
                 .when('/viewPoll/:pollId', {
-                    controller: MyVote.Controllers.ViewPollCtrl,
-                    templateUrl: '/app/angular1x/partials/viewpoll.html'
+                    template: '<polls-view></polls-view>' //Angular 2 component
+                    //controller: MyVote.Controllers.ViewPollCtrl,
+                    //templateUrl: '/app/angular1x/partials/viewpoll.html'
                 })
                 .when('/addPoll', {
                     controller: MyVote.Controllers.AddPollCtrl,
@@ -196,4 +202,5 @@ module MyVote {
             return defaultMessage;
         }
     }
+    
 }

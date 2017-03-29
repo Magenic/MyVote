@@ -153,7 +153,7 @@ namespace MyVote.UI.ViewModels
         private void SetupOptions()
         {
             var newOptions = new ObservableCollection<PollOptionViewModel>();
-			for (int i = 0; i <= 5; i++)
+			for (int i = 0; i < 5; i++)
 			{
 				newOptions.Add(new PollOptionViewModel(this.Poll, this.pollOptionObjectFactory, (short)i));
 			}
