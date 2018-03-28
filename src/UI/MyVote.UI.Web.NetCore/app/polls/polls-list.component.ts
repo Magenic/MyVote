@@ -1,8 +1,9 @@
-﻿declare var angularJS: angular.IAngularStatic;
+﻿declare var angular: angular.IAngularStatic;
+//import * as angular from 'angular';
 
 //import * as angular from 'angular';
-import { Component, Pipe, PipeTransform, OnInit } from '@angular/core';
-import { Location, NgFor, NgIf } from '@angular/common';
+import { Component, Pipe, PipeTransform } from '@angular/core';
+import { Location } from '@angular/common';
 import { PollsService } from './polls.service';
 import { downgradeComponent } from '@angular/upgrade/static';
 //import { App } from '../angular1x/app';
@@ -33,13 +34,14 @@ export class ValuesPipe implements PipeTransform {
     }
 }
 
-@Component(({
-    //module.id variable is available and contains the absolute URL of the component class module file. allows using relative paths vs. absolute paths for commonjs modules + systemjs loader
+@Component({
+    //module.id variable is available and contains the absolute URL of the component class module file. 
+    //allows using relative paths vs. absolute paths for commonjs modules + systemjs loader
     moduleId: module.id, //remove node typings to show what will happen (or any other typings example)
     selector: 'polls-list',
-    templateUrl: 'polls-list.component.html',
-    styleUrls: ['polls-list.component.css']
-}) as any)
+    templateUrl: './polls-list.component.html',
+    styleUrls: ['./polls-list.component.css']
+})
 
 export class PollsListComponent {
 
@@ -92,4 +94,4 @@ export class PollsListComponent {
 //Instead of registering a component, we register a pollsList directive, a downgraded version of the Angular 2 component.
 //The as angular.IDirectiveFactory cast tells the TypeScript compiler that the return value of the downgradeComponent method is a directive factory.
 angular.module('MyVoteApp')
-    .directive('pollsList', downgradeComponent({ component: PollsListComponent }) as angular.IDirectiveFactory);
+    .directive('pollsList', downgradeComponent({ component: PollsListComponent }));

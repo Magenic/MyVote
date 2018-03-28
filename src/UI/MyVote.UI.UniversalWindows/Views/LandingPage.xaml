@@ -256,6 +256,6 @@
             <Grid x:Name="Progress" Grid.Row="2" Margin="0,0,0,0" VerticalAlignment="Top" Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}}">
                 <ProgressRing IsActive="{Binding IsBusy}" />
             </Grid>
-        </Grid>
+		</Grid>
     </Grid>
 </local:MyVotePage>

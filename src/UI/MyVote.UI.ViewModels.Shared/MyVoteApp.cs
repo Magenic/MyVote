@@ -1,13 +1,13 @@
-﻿using MvvmCross.Core.ViewModels;
-using MyVote.UI.Helpers;
+﻿using MyVote.UI.Helpers;
 
 namespace MyVote.UI
 {
-	public class MyVoteApp : MvxApplication
+	public class MyVoteApp
 	{
-		public override void Initialize()
+		public void Initialize()
 		{
-			RegisterAppStart(new MvxAppStart());
+            Ioc.Container = new Bootstrapper().Bootstrap();
+            //RegisterAppStart(new MvxAppStart());
 		}
 	}
 }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MyVote</title>
     
-    <link href="app/shared/content/jquery-ui.css" rel="stylesheet" />
+    <link href="app/shared/content/theme.css" rel="stylesheet" />
     <link href="app/shared/content/bootstrap.css" rel="stylesheet" />
     <link href="app/shared/content/Site.css" rel="stylesheet" />
     <link href="app/shared/content/landing.css" rel="stylesheet" />
@@ -32,8 +32,6 @@
     <script src="libs/highcharts-ng.js"></script>
     <script src="libs/ui-bootstrap.js"></script>
     <script src="libs/ui-bootstrap-tpls.js"></script>
-
-    <script src="libs/jquery.signalr-2.2.0.js"></script>
     <script src="libs/modernizr.js"></script>
 
 
@@ -65,7 +63,8 @@
     <script src="libs/zone.js"></script>
     <script src="libs/Reflect.js"></script>
     <script src="libs/system.src.js"></script>
-
+    
+    <script src="systemjs.config.js"></script>
 
 
 </head>
@@ -93,8 +92,8 @@
     </div>
 
     <script type="text/javascript">
-        //var apiUrl = "http://localhost:20970";
-        var apiUrl = "http://myvoteapi.azurewebsites.net";
+        //var apiUrl = "http://localhost:10746";
+        var apiUrl = "http://myapp.azurewebsites.net";
 
         Globals = {
             apiUrl: apiUrl
@@ -105,9 +104,8 @@
     
     
     <!-- Configure SystemJS (bootstrap Angular 2 app) -->
-    <script src="systemjs.config.js"></script>
     <script>
-      System.import('app').catch(function(err){ console.error(err); });
+        System.import('app/main').catch(function(err){ console.error(err); });
     </script>
 
 <!-- Old Angular 1 bootstrap method -->

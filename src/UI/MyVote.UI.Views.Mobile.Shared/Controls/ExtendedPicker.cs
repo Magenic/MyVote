@@ -31,9 +31,7 @@ namespace MyVote.UI.Controls
 
         public static BindableProperty SelectedItemProperty = BindableProperty.Create(nameof(SelectedItem), typeof(T), typeof(ExtendedPicker<T>), default(T), propertyChanged: OnSelectedItemChanged);
 
-        public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(ExtendedDatePicker), Color.Black);
-
-		public ObservableCollection<SelectOptionViewModel<T>> ItemsSource
+		public new ObservableCollection<SelectOptionViewModel<T>> ItemsSource
 		{
 			get
 			{
@@ -45,7 +43,7 @@ namespace MyVote.UI.Controls
 			}
 		}
 
-		public T SelectedItem
+		public new T SelectedItem
 		{
 			get
 			{
@@ -82,12 +80,6 @@ namespace MyVote.UI.Controls
 
                 OnSelectedItemChanged(bindable, picker.SelectedItem, picker.SelectedItem);
 			}
-		}
-
-		public Color TextColor
-		{
-			get { return (Color)this.GetValue(TextColorProperty); }
-			set { SetValue(TextColorProperty, value); }
 		}
 
 		private void OnSelectedIndexChanged(object sender, EventArgs eventArgs)

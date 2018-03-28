@@ -3,15 +3,12 @@ using MyVote.BusinessObjects.Contracts;
 using MyVote.UI.Helpers;
 using MyVote.UI.NavigationCriteria;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MvvmCross.Core.ViewModels;
-using MvvmCross.Platform;
+using MyVote.UI.Contracts;
 
 namespace MyVote.UI.ViewModels
 {
@@ -22,7 +19,7 @@ namespace MyVote.UI.ViewModels
         public IPoll Poll { get; set; }
     }
 
-    public sealed class AddPollPageViewModel : ViewModelBase
+    public sealed class AddPollPageViewModel : NavigatingViewModelBase
     {
         private readonly IObjectFactory<IPoll> pollObjectFactory;
         private readonly IObjectFactory<IPollOption> pollOptionObjectFactory;
@@ -38,7 +35,8 @@ namespace MyVote.UI.ViewModels
             IObjectFactory<ICategoryCollection> categoryObjectFactory,
             IMessageBox messageBox,
 			ILogger logger,
-            PollImageViewModel pollImageViewModel)
+            PollImageViewModel pollImageViewModel, 
+            INavigationService navigationService) :  base(navigationService)
         {
             this.pollObjectFactory = pollObjectFactory;
             this.pollOptionObjectFactory = pollOptionObjectFactory;
@@ -52,7 +50,7 @@ namespace MyVote.UI.ViewModels
         {
             get
             {
-                return new MvxCommand(async () => await SubmitHandlerAsync());
+                return new Command(async () => await SubmitHandlerAsync());
             }
         }
 
@@ -90,18 +88,18 @@ namespace MyVote.UI.ViewModels
                     {
                         PollAdded(this, new AddPollEventArgs { Poll = this.Poll });                        
                     }
-#if !__MOBILE__
-                    this.Close(this);
+#if ANDROID
+                    this.navigationService.Close();
 #endif
                     var criteria = new ViewPollPageNavigationCriteria
                                        {
                                            PollId = this.Poll.PollID.Value
                                        };
 
-                    this.ShowViewModel<ViewPollPageViewModel>(criteria);
-                    var viewModelLoader = Mvx.Resolve<IMvxViewModelLoader>();
-                    this.PollImageViewModel = (PollImageViewModel)viewModelLoader.LoadViewModel(new MvxViewModelRequest(typeof(PollImageViewModel), new MvxBundle(), new MvxBundle(), new MvxRequestedBy(MvxRequestedByType.UserAction)), null);
-                    this.Start();
+                    navigationService.ShowViewModel<ViewPollPageViewModel>(criteria);
+                    var viewModelLoader = Ioc.Resolve<IViewModelLoader>();
+                    this.PollImageViewModel = viewModelLoader.LoadViewModel<PollImageViewModel>();
+                    Start();
                 }
             }
             else
@@ -114,7 +112,7 @@ namespace MyVote.UI.ViewModels
         {
             get
             {
-                return new MvxCommand(async () => await AddImageHandler());
+                return new Command(async () => await AddImageHandler());
             }
         }
 
@@ -135,7 +133,7 @@ namespace MyVote.UI.ViewModels
             }
             catch (Exception ex)
             {
-                this.messageBox.ShowAsync("There was an error creating the poll.", "Error");
+                await this.messageBox.ShowAsync("There was an error creating the poll.", "Error");
 				this.logger.Log(ex);
             }
 
@@ -145,7 +143,7 @@ namespace MyVote.UI.ViewModels
             }
             catch (Exception ex)
             {
-                this.messageBox.ShowAsync("There was an error loading the categories.", "Error");
+                await this.messageBox.ShowAsync("There was an error loading the categories.", "Error");
 				this.logger.Log(ex);
             }
         }
@@ -170,19 +168,19 @@ namespace MyVote.UI.ViewModels
         public async Task LoadCategoriesAsync()
         {
             var newCategoryList = new ObservableCollection<SelectOptionViewModel<int>>();
-            var categories = await this.categoryObjectFactory.FetchAsync();
-            foreach (var category in categories)
+            var cats = await this.categoryObjectFactory.FetchAsync();
+            foreach (var category in cats)
             {
                 var bindableCategory = new SelectOptionViewModel<int> {Display = category.Name, Value = category.ID};
                 newCategoryList.Add(bindableCategory);
             }
             this.Categories = newCategoryList;
-            this.RaisePropertyChanged(() => this.Categories);
+            this.RaisePropertyChanged(nameof(Categories));
         }
 
         private void PollPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.RaisePropertyChanged(() => this.CanSave);
+            this.RaisePropertyChanged(nameof(CanSave));
         }
 
 		private ObservableCollection<PollOptionViewModel> pollOptions;
@@ -192,7 +190,7 @@ namespace MyVote.UI.ViewModels
 			private set
 			{
 				this.pollOptions = value;
-				RaisePropertyChanged(() => PollOptions);
+                RaisePropertyChanged(nameof(PollOptions));
 			}
 		}
 
@@ -235,7 +233,7 @@ namespace MyVote.UI.ViewModels
             private set
             {
                 this.categories = value;
-                this.RaisePropertyChanged(() => this.Categories);
+                this.RaisePropertyChanged(nameof(Categories));
             }
         }
 
@@ -249,7 +247,7 @@ namespace MyVote.UI.ViewModels
             set
             {
                 specifyBeginEndDates = value;
-                this.RaisePropertyChanged(() => this.SpecifyBeginEndDates);
+                this.RaisePropertyChanged(nameof(SpecifyBeginEndDates));
 
                 if (value)
                 {
@@ -272,7 +270,7 @@ namespace MyVote.UI.ViewModels
             set
             {
                 this.hasMultiAnswer = value;
-                this.RaisePropertyChanged(() => this.HasMultiAnswer);
+                this.RaisePropertyChanged(nameof(HasMultiAnswer));
             }
         }
 

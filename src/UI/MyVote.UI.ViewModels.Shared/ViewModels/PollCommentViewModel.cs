@@ -3,26 +3,20 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MvvmCross.Core.ViewModels;
+using MyVote.UI.Helpers;
 
 namespace MyVote.UI.ViewModels
 {
-    public sealed class PollCommentViewModel : MvxViewModel
+    public sealed class PollCommentViewModel : ViewModelBase
     {
-		public PollCommentViewModel(int? parentCommentId, IPollComment pollComment, Func<int, string, Task> submitCommentCallback, bool isNested)
+		public PollCommentViewModel(int? parentCommentId, 
+                                    IPollComment pollComment, 
+                                    Func<int, string, Task> submitCommentCallback, 
+                                    bool isNested)
 		{
-			if (pollComment == null)
-			{
-				throw new ArgumentNullException("pollComment");
-			}
-			if (submitCommentCallback == null)
-			{
-				throw new ArgumentNullException("submitCommentCallback");
-			}
-
-			this.ParentCommentId = parentCommentId;
-			this.PollComment = pollComment;
-			this.SubmitCommentCallback = submitCommentCallback;
+            this.ParentCommentId = parentCommentId;
+			this.PollComment = pollComment ?? throw new ArgumentNullException(nameof(pollComment));
+			this.SubmitCommentCallback = submitCommentCallback ?? throw new ArgumentNullException(nameof(submitCommentCallback));
 
 			this.IsNested = isNested;
 
@@ -40,7 +34,7 @@ namespace MyVote.UI.ViewModels
 		{
 			get
 			{
-				return new MvxCommand(() => ShowReplyHandler());
+				return new Command(() => ShowReplyHandler());
 			}
 		}
 
@@ -53,7 +47,7 @@ namespace MyVote.UI.ViewModels
 		{
 			get
 			{
-				return new MvxCommand(async() => await SubmitCommentHandler());
+				return new Command(async() => await SubmitCommentHandler());
 			}
 		}
 
@@ -77,8 +71,8 @@ namespace MyVote.UI.ViewModels
 			set
 			{
 				this.replyText = value;
-				this.RaisePropertyChanged(() => this.ReplyText);
-				this.RaisePropertyChanged(() => this.CanSubmit);
+                this.RaisePropertyChanged(nameof(ReplyText));
+                this.RaisePropertyChanged(nameof(CanSubmit));
 			}
 		}
 
@@ -105,8 +99,8 @@ namespace MyVote.UI.ViewModels
 			private set
 			{
 				this.shouldShowReply = value;
-				this.RaisePropertyChanged(() => this.ShouldShowReply);
-				this.RaisePropertyChanged(() => this.ShouldShowReplyOption);
+                this.RaisePropertyChanged(nameof(ShouldShowReply));
+                this.RaisePropertyChanged(nameof(ShouldShowReplyOption));
 			}
 		}
     }

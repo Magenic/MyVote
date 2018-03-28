@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <views:ContentPageBase xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyVote.UI.Views.ViewPollPage"
@@ -18,11 +18,11 @@
             <StackLayout Orientation="Vertical"  Spacing="10" Padding="0, 10, 0, 10" >
                 <StackLayout Style="{StaticResource IndividualEntryRegionStyle}" Padding="0, 0, 20, 0">
                     <Image WidthRequest="150" HeightRequest="150" Aspect="AspectFill" Source="{Binding PollSubmission.PollImageLink}" />
-                    <controls:ExtendedLabel Text="{Binding PollSubmission.PollQuestion}" Style="{StaticResource LabelStyle}" HorizontalOptions="StartAndExpand" />
+                    <Label Text="{Binding PollSubmission.PollQuestion}" Style="{StaticResource LabelStyle}" HorizontalOptions="StartAndExpand" />
                 </StackLayout>
                 <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
                 <StackLayout Style="{StaticResource IndividualEntryRegionStyle}">
-		            <controls:ExtendedLabel Text="{Binding PollSubmission.PollDescription}" Style="{StaticResource LabelStyle}" HorizontalOptions="StartAndExpand" />
+		            <Label Text="{Binding PollSubmission.PollDescription}" Style="{StaticResource LabelStyle}" HorizontalOptions="StartAndExpand" />
                 </StackLayout>
                 <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>
                 <controls:RepeaterView x:TypeArguments="bo:IPollSubmissionResponse" Spacing="0" Orientation="Vertical" ItemsSource="{Binding PollSubmission.Responses}" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
@@ -32,7 +32,7 @@
 						        <ViewCell.View>
                                     <StackLayout Orientation="Vertical" Spacing="20" Padding="0, 0, 0, 0">
                                         <StackLayout Style="{StaticResource IndividualEntryRegionStyle}">
-                                            <controls:ExtendedLabel Text="{Binding OptionText}" HorizontalOptions="StartAndExpand" Style="{StaticResource LabelStyle}" />
+                                            <Label Text="{Binding OptionText}" HorizontalOptions="StartAndExpand" Style="{StaticResource LabelStyle}" />
                                             <Switch IsToggled="{Binding IsOptionSelected, Mode=TwoWay}" HorizontalOptions="End" />
                                         </StackLayout>
                                         <BoxView HorizontalOptions="FillAndExpand" Style="{StaticResource LineStyle}"></BoxView>

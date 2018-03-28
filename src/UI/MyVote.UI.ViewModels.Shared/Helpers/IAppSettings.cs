@@ -3,8 +3,8 @@ namespace MyVote.UI.Helpers
 {
     public interface IAppSettings
     {
-		void Add<T>(string key, T value);
-		bool TryGetValue<T>(string key, out T value);
+		void Add(string key, string value);
+		bool TryGetValue(string key, out string value);
 		bool Remove(string key);
     }
 }

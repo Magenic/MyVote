@@ -1,12 +1,16 @@
-﻿using MvvmCross.Core.ViewModels;
-using MvvmCross.Platform;
+﻿using MyVote.UI.Contracts;
+using MyVote.UI.Helpers;
 using MyVote.UI.NavigationCriteria;
+using MyVote.UI.ViewModels;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Autofac;
+using MyVote.UI.Services;
+using MyVote.UI.Views;
 
 namespace MyVote.UI
 {
@@ -78,22 +82,44 @@ namespace MyVote.UI
                     }
                 }
 
-                var setup = new Setup(rootFrame);
+				var app = new MyVoteApp();
+				app.Initialize();
+				InitContainer();
+
+				var navigationService = Ioc.Resolve<INavigationService>();
+				navigationService.ShowViewModel<LandingPageViewModel>();
+				// TODO: Work this out without MvvmCross
+				/*var setup = new Setup(rootFrame);
                 setup.Initialize();
 
                 var start = Mvx.Resolve<IMvxAppStart>();
-                start.Start(hintCriteria);
-            }
-            // Ensure the current window is active
-            Window.Current.Activate();
+                start.Start(hintCriteria);*/
+			}
+			// Ensure the current window is active
+			Window.Current.Activate();
         }
 
-        /// <summary>
-        /// Invoked when Navigation to a certain page fails
-        /// </summary>
-        /// <param name="sender">The Frame which failed navigation</param>
-        /// <param name="e">Details about the navigation failure</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+		protected override void OnActivated(IActivatedEventArgs args)
+		{
+			if (args.Kind == ActivationKind.Protocol)
+			{
+				ProtocolActivatedEventArgs protocolArgs = args as ProtocolActivatedEventArgs;
+				Frame content = Window.Current.Content as Frame;
+				if (content.Content.GetType() == typeof(LandingPage))
+				{
+					content.Navigate(typeof(LandingPage), protocolArgs.Uri);
+				}
+			}
+			Window.Current.Activate();
+			base.OnActivated(args);
+		}
+
+		/// <summary>
+		/// Invoked when Navigation to a certain page fails
+		/// </summary>
+		/// <param name="sender">The Frame which failed navigation</param>
+		/// <param name="e">Details about the navigation failure</param>
+		void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
@@ -111,5 +137,21 @@ namespace MyVote.UI
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+		private void InitContainer()
+		{
+
+			var containerBuilder = new Autofac.ContainerBuilder();
+
+			containerBuilder.RegisterType<NavigationService>().As<INavigationService>();
+			containerBuilder.RegisterType<MessageBox>().As<IMessageBox>();
+			containerBuilder.RegisterInstance(new ViewPresenter((Frame)Window.Current.Content)).As<IViewPresenter>();
+			containerBuilder.RegisterType<PhotoChooser>().As<IPhotoChooser>();
+			//containerBuilder.RegisterType<ImageResize>().As<IImageResize>();
+
+			containerBuilder.RegisterType<MobileService>().As<IMobileService>();
+
+			containerBuilder.Update(Ioc.Container);
+		}
     }
 }

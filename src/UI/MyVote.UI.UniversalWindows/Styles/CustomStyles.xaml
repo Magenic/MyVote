@@ -20,7 +20,7 @@
     <Color x:Key="DarkColor">#FF333333</Color>
     <Color x:Key="AccentColor">#FFFF6600</Color>
 
-    <SolidColorBrush x:Key="ApplicationBackgroundBrush" Color="{StaticResource DarkColor}" />
+	<SolidColorBrush x:Key="ApplicationBackgroundBrush" Color="{StaticResource LightColor}" />
     <SolidColorBrush x:Key="ApplicationSolidBackgroundBrush" Color="{StaticResource DarkColor}" />
     <SolidColorBrush x:Key="ApplicationForegroundBrush" Color="{StaticResource AccentColor}" />
     <SolidColorBrush x:Key="GoldBrush" Color="{StaticResource DarkColor}" />

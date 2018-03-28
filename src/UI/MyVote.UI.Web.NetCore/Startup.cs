@@ -1,9 +1,6 @@
-﻿using System.IO;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 
 namespace MyVote.UI.Web.NetCore
@@ -20,10 +17,12 @@ namespace MyVote.UI.Web.NetCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddSignalR(options => options.Hubs.EnableDetailedErrors = true);
+            //services.AddSignalR(options => options.Hubs.EnableDetailedErrors = true);
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // The Configure method is used to specify how the ASP.NET application will respond to HTTP requests
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
@@ -35,6 +34,9 @@ namespace MyVote.UI.Web.NetCore
                 app.UseDeveloperExceptionPage();
             }
 
+            //Each 'Use' extension method adds a middleware component to the request pipeline. 
+            //the 'UseMvc' extension method adds the routing middleware to the request pipeline and configures MVC as the default handler
+
             app.UseCors(builder => builder.AllowAnyOrigin());
 
             //Configure to serve a default page
@@ -42,13 +44,11 @@ namespace MyVote.UI.Web.NetCore
             //Configure for static files to be served outside of wwwroot
             app.UseStaticFiles();
 
-            //app.UseStaticFiles(new StaticFileOptions()
-            //{
-            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "node_modules")),
-            //    RequestPath = new PathString("/node_modules")
-            //});
-
-            app.UseSignalR();
+            //Add our MyVoteHub via UseSignalR extension method
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<MyVoteHub>("myvotehub");
+            });
         }
     }
 }

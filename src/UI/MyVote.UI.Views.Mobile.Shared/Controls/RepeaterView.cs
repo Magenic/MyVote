@@ -17,21 +17,24 @@ namespace MyVote.UI.Controls
 		}
 
 		public static readonly BindableProperty ItemsSourceProperty =
-		BindableProperty.Create<RepeaterView<T>, ObservableCollection<T>>(p => p.ItemsSource, new ObservableCollection<T>(), BindingMode.OneWay, null, ItemsChanged);
+            BindableProperty.Create(nameof(ItemsSource), typeof(ObservableCollection<T>), typeof(RepeaterView<T>), new ObservableCollection<T>(), BindingMode.OneWay, null, (BindableObject bindable, object oldValue, object newValue) => ItemsChanged(bindable, oldValue, newValue));
 
-		private static void ItemsChanged(BindableObject bindable, ObservableCollection<T> oldValue, ObservableCollection<T> newValue)
+		private static void ItemsChanged(BindableObject bindable, object oldValue, object newValue)
 		{
-			var control = bindable as RepeaterView<T>;
+            var control = (RepeaterView<T>)bindable;
 			control.ItemsSource.CollectionChanged += control.ItemsSource_CollectionChanged;
 			control.Children.Clear();
 
-			foreach (var item in newValue)
+            var newCollection = (ObservableCollection<T>)newValue;
+            foreach (var item in newCollection)
 			{
 				var cell = control.ItemTemplate.CreateContent();
 				var view = ((ViewCell)cell).View;
 				view.BindingContext = item;
 				control.Children.Add(view);
 			}
+            control.UpdateChildrenLayout();
+            control.InvalidateLayout();
 		}
 
 		void ItemsSource_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -52,19 +55,16 @@ namespace MyVote.UI.Controls
 					view.BindingContext = item;
 					this.Children.Insert(ItemsSource.IndexOf(item), view);
 				}
-
-				this.UpdateChildrenLayout();
-				this.InvalidateLayout();
 			}
 		}
 
 		public static readonly BindableProperty ItemTemplateProperty =
-		BindableProperty.Create<RepeaterView<T>, DataTemplate>(p => p.ItemTemplate, default(DataTemplate));
+            BindableProperty.Create(nameof(ItemTemplate), typeof(DataTemplate), typeof(RepeaterView<T>), default(DataTemplate));
 
 		public DataTemplate ItemTemplate
 		{
 			get { return (DataTemplate)GetValue(ItemTemplateProperty); }
-			set { SetValue(ItemTemplateProperty, value); }
+            set { SetValue(ItemTemplateProperty, value); }
 		}
 	}
 }

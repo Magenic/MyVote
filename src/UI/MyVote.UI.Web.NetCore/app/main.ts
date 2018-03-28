@@ -7,18 +7,15 @@
 //This file has been configured as the application entry point in systemjs.config.js, so it is already being loaded by the browser
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { UpgradeAdapter } from '@angular/upgrade/index';
-import { UpgradeModule } from '@angular/upgrade/static';
+//import { UpgradeModule } from '@angular/upgrade/static';
 
 import { AppModule } from './app.module';
-//import { App } from './angular1x/app';
+
+//platformBrowserDynamic().bootstrapModule(AppModule).then(platformRef => {
+//    const upgrade = platformRef.injector.get(UpgradeModule) as UpgradeModule;
+//    upgrade.bootstrap(document.body, ['MyVoteApp']); 
+//    //upgrade.bootstrap(document.body, [App.name]); 
+//});
 
 
-//const adapter = new UpgradeAdapter(AppModule);
-//adapter.upgradeNg1Provider('authService');
-
-platformBrowserDynamic().bootstrapModule(AppModule).then(platformRef => {
-    const upgrade = platformRef.injector.get(UpgradeModule) as UpgradeModule;
-    upgrade.bootstrap(document.body, ['MyVoteApp']); 
-    //upgrade.bootstrap(document.body, [App.name]); 
-});
+platformBrowserDynamic().bootstrapModule(AppModule);

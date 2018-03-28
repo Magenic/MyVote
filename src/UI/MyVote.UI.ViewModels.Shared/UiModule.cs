@@ -1,13 +1,12 @@
 ﻿using Autofac;
+//using MyVote.Core;
 using MyVote.UI.Helpers;
 using MyVote.UI.Services;
 using MyVote.UI.ViewModels;
-using MvvmCross.Plugins.Json;
-using MvvmCross.Core.Platform;
+using Newtonsoft.Json;
 
 #if NETFX_CORE
 using System.Reflection;
-using MvvmCross.Core.ViewModels;
 #endif // NETFX_CORE
 
 namespace MyVote.UI
@@ -30,7 +29,10 @@ namespace MyVote.UI
 
 			builder.RegisterType<Logger>().AsImplementedInterfaces();
 			builder.RegisterType<PhotoChooser>().AsImplementedInterfaces();
-            builder.RegisterType<MvxJsonConverter>().AsImplementedInterfaces();
+
+            builder.RegisterType<JsonConverter>().AsImplementedInterfaces();
+
+			builder.RegisterType<ViewModelLoader>().AsImplementedInterfaces();
 
 #if NETFX_CORE
 			builder.RegisterType<ShareManager>().AsImplementedInterfaces();

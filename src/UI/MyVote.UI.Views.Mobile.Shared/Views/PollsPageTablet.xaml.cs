@@ -1,8 +1,8 @@
 ﻿using MyVote.UI.ViewModels;
 using System.Linq;
-using MvvmCross.Core.ViewModels;
-using MvvmCross.Platform;
 using Xamarin.Forms;
+using System.Threading.Tasks;
+using MyVote.UI.Helpers;
 
 namespace MyVote.UI.Views
 {
@@ -14,14 +14,16 @@ namespace MyVote.UI.Views
 
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, true);
 
-            Device.OnPlatform(
-                iOS: () => ToolbarItems.Add(new ToolbarItem("More", "", ActionsClick, ToolbarItemOrder.Primary, 1)),
-                Android: () =>
-                {
+            switch (Device.RuntimePlatform)
+            {
+                case Device.iOS:
+                    ToolbarItems.Add(new ToolbarItem("More", "", ActionsClick, ToolbarItemOrder.Primary, 1));
+                    break;
+                case Device.Android:
                     ToolbarItems.Add(new ToolbarItem("Edit Profile", "", () => { }, ToolbarItemOrder.Secondary, 1));
                     ToolbarItems.Add(new ToolbarItem("Logout", "", () => { }, ToolbarItemOrder.Secondary, 2));
-                }
-            );
+                    break;
+            }
         }
 
         protected override void OnBindingContextChanged()
@@ -39,18 +41,21 @@ namespace MyVote.UI.Views
                 searchPage.BindingContext = BindingContext;
                 var addPollPage = Children.Single(c => c.Title == "New Poll");
                 addPollPage.PropertyChanged += Child_PropertyChanged;
-#if IOS
-                homePage.Icon = "Home.png";
-                categoriesPage.Icon = "Categories.png";
-                searchPage.Icon = "Search.png";
-                addPollPage.Icon = "New.png";
 
-#endif
-                SetupNewPollViewModel();
-
-#if ANDROID
-                SetupToolbar();
-#endif
+                switch (Device.RuntimePlatform)
+                {
+                    case Device.iOS:
+                        homePage.Icon = "Home.png";
+                        categoriesPage.Icon = "Categories.png";
+                        searchPage.Icon = "Search.png";
+                        addPollPage.Icon = "New.png";
+                        SetupNewPollViewModel();
+                        break;
+                    case Device.Android:
+                        SetupNewPollViewModel();
+                        SetupToolbar();
+                        break;
+                }
             }
             else if (Children != null)
             {
@@ -83,8 +88,9 @@ namespace MyVote.UI.Views
         private void SetupNewPollViewModel()
         {
             var addPollPage = Children.Single(c => c.Title == "New Poll");
-            var viewModelLoader = Mvx.Resolve<IMvxViewModelLoader>();
-            var addPollviewModel = (AddPollPageViewModel)viewModelLoader.LoadViewModel(new MvxViewModelRequest(typeof(AddPollPageViewModel), new MvxBundle(), new MvxBundle(), new MvxRequestedBy(MvxRequestedByType.UserAction)), null);
+
+			var viewModelLoader = Ioc.Resolve<IViewModelLoader>();
+			var addPollviewModel = viewModelLoader.LoadViewModel<AddPollPageViewModel>();
             addPollviewModel.PollAdded += AddPollviewModel_PollAdded;
             addPollPage.BindingContext = addPollviewModel;
         }

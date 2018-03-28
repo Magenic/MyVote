@@ -1,100 +1,87 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using Csla.Rules;
-using Microsoft.Ajax.Utilities;
 using MyVote.Services.AppServer.Auth;
 using MyVote.Services.AppServer.Models;
 using MyVote.BusinessObjects;
 using MyVote.BusinessObjects.Contracts;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using static MyVote.Services.AppServer.Extensions.IBusinessBaseExtensions;
 
 namespace MyVote.Services.AppServer.Controllers
 {
-	public class RespondController : ApiController
+	[Route("api/[controller]")]
+	public sealed class RespondController
+		: Controller
 	{
-		public IObjectFactory<IPollSubmission> PollSubmissionFactory { get; set; }
-		public IMyVoteAuthentication MyVoteAuthentication { get; set; }
+		public IObjectFactory<IPollSubmission> pollSubmissionFactory { get; set; }
+		public IMyVoteAuthentication authentication { get; set; }
+
+		public RespondController(IObjectFactory<IPollSubmission> pollSubmissionFactory,
+			IMyVoteAuthentication authentication)
+		{
+			if (pollSubmissionFactory == null)
+			{
+				throw new ArgumentNullException(nameof(pollSubmissionFactory));
+			}
+
+			if (authentication == null)
+			{
+				throw new ArgumentNullException(nameof(authentication));
+			}
+
+			this.pollSubmissionFactory = pollSubmissionFactory;
+			this.authentication = authentication;
+		}
 
 		// GET api/respond
 		[Authorize]
-		public PollInfo Get(int pollID, int userID)
+		[HttpGet("{pollID}/{userID}")]
+		public IActionResult Get(int pollID, int userID)
 		{
-			try
+			var authUserID = this.authentication.GetCurrentUserID().Value;
+			var criteria = new PollSubmissionCriteria(pollID, authUserID);
+			var submission = this.pollSubmissionFactory.Fetch(criteria);
+			var result = new PollInfo
 			{
-				var authUserID = MyVoteAuthentication.GetCurrentUserID().Value;
-				var criteria = new PollSubmissionCriteria(pollID, authUserID);
-				var submission = this.PollSubmissionFactory.Fetch(criteria);
-				var result = new PollInfo
+				PollID = submission.PollID,
+				PollDescription = submission.PollDescription,
+				MaxAnswers = submission.PollMaxAnswers,
+				MinAnswers = submission.PollMinAnswers,
+				Comment = submission.Comment,
+				PollQuestion = submission.PollQuestion,
+				PollSubmissionID = submission.PollSubmissionID,
+				SubmissionDate = submission.SubmissionDate,
+				UserID = submission.UserID,
+				PollOptions = submission.Responses.Select(_ => new PollResponseOption
 				{
-					PollID = submission.PollID,
-					PollDescription = submission.PollDescription,
-					MaxAnswers = submission.PollMaxAnswers,
-					MinAnswers = submission.PollMinAnswers,
-					Comment = submission.Comment,
-					PollQuestion = submission.PollQuestion,
-					PollSubmissionID = submission.PollSubmissionID,
-					SubmissionDate = submission.SubmissionDate,
-					UserID = submission.UserID,
-					PollOptions = submission.Responses.Select(_ => new Models.PollResponseOption
-					{
-						IsOptionSelected = _.IsOptionSelected,
-						OptionPosition = _.OptionPosition,
-						OptionText = _.OptionText,
-						PollOptionID = _.PollOptionID,
-						PollResponseID = _.PollResponseID
-					}).ToList()
-				};
-				return result;
-			}
-			catch (Exception ex)
-			{
-				throw ex.ToHttpResponseException(Request);
-			}
+					IsOptionSelected = _.IsOptionSelected,
+					OptionPosition = _.OptionPosition,
+					OptionText = _.OptionText,
+					PollOptionID = _.PollOptionID,
+					PollResponseID = _.PollResponseID
+				}).ToList()
+			};
+
+			return new OkObjectResult(result);
 		}
 
 		// PUT api/respond
 		[Authorize]
-		public void Put([FromBody]Models.PollResponse value)
+		public async Task<IActionResult> Put([FromBody]PollResponse value)
 		{
-			IPollSubmission submission = null;
+			var authUserID = authentication.GetCurrentUserID().Value;
+			var criteria = new PollSubmissionCriteria(value.PollID, authUserID);
+			var submission = this.pollSubmissionFactory.Create(criteria);
 
-			try
+			foreach (var item in value.ResponseItems)
 			{
-			    var authUserID = MyVoteAuthentication.GetCurrentUserID().Value;
-				var criteria = new PollSubmissionCriteria(value.PollID, authUserID);
-				submission = this.PollSubmissionFactory.Create(criteria);
-
-				foreach (var item in value.ResponseItems)
-				{
-					var response = submission.Responses.Where(_ => _.PollOptionID == item.PollOptionID).Single();
-					response.IsOptionSelected = item.IsOptionSelected;
-				}
-
-				submission.Save();
+				var response = submission.Responses.Where(_ => _.PollOptionID == item.PollOptionID).Single();
+				response.IsOptionSelected = item.IsOptionSelected;
 			}
-			catch (ValidationException ex)
-			{
-				string brokenRules = string.Empty;
-				if (submission != null)
-				{
-					brokenRules = submission.GetBrokenRules().ToString();
-				}
 
-				throw new HttpResponseException(
-				  new HttpResponseMessage
-				  {
-					  StatusCode = HttpStatusCode.BadRequest,
-					  ReasonPhrase = ex.Message.Replace(Environment.NewLine, " "),
-					  Content = new StringContent(brokenRules),
-					  RequestMessage = Request
-				  });
-			}
-			catch (Exception ex)
-			{
-				throw ex.ToHttpResponseException(Request);
-			}
+			return await submission.PersistAsync();
 		}
 	}
 }

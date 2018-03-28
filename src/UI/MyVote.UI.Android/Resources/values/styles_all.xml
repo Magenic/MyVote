@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <resources>
-    <style name="Theme.MyVoteAll" parent="@android:style/Theme.Holo">
+<!--    <style name="Theme.MyVoteAll" parent="Theme.AppCompat">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_myvote</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Myvote</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Myvote</item>
@@ -11,14 +11,36 @@
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_myvote</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Myvote</item>
         <item name="android:listViewStyle">@style/Theme.MyVoteListView</item>
+    </style>-->
+
+	<style name="Theme.MyVoteAll" parent="Theme.MyVoteAll.Base">
+    </style>
+    <!-- Base theme applied no matter what API -->
+    <style name="Theme.MyVoteAll.Base" parent="Theme.AppCompat">
+        <!--If you are using revision 22.1 please use just windowNoTitle. Without android:-->
+        <item name="windowNoTitle">true</item>
+        <!--We will be using the toolbar so no need to show ActionBar-->
+        <item name="windowActionBar">false</item>
+        <!-- Set theme colors from http://www.google.com/design/spec/style/color.html#color-color-palette-->
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <!-- You can also set colorControlNormal, colorControlActivated
+         colorControlHighlight and colorSwitchThumbNormal. -->
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
+    </style>
+	
+    <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">#FF4081</item>
     </style>
 
-    <color name="MyVoteOrange">#FF6600</color>
-    <style name="Theme.MyVoteListView" parent="android:Theme.Holo.Light">
-        <item name="android:colorPressedHighlight">@color/MyVoteOrange</item>
-        <item name="android:colorLongPressedHighlight">@color/MyVoteOrange</item>
-        <item name="android:colorFocusedHighlight">@color/MyVoteOrange</item>
-        <item name="android:colorActivatedHighlight">@color/MyVoteOrange</item>
-        <item name="android:activatedBackgroundIndicator">@color/MyVoteOrange</item>
+    <style name="Theme.MyVoteListView" parent="Theme.AppCompat.Light">
+        <item name="android:colorPressedHighlight">@color/accent</item>
+        <item name="android:colorLongPressedHighlight">@color/accent</item>
+        <item name="android:colorFocusedHighlight">@color/accent</item>
+        <item name="android:colorActivatedHighlight">@color/accent</item>
+        <item name="android:activatedBackgroundIndicator">@color/accent</item>
     </style>
 </resources>

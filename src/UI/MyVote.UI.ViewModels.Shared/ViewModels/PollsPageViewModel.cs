@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Linq;
 using Csla.Security;
-using MvvmCross.Core.ViewModels;
+using MyVote.UI.Contracts;
+using System;
 
 namespace MyVote.UI.ViewModels
 {
-	public sealed class PollsPageViewModel : ViewModelBase<PollsPageSearchNavigationCriteria>
+	public sealed class PollsPageViewModel : NavigatingViewModelBase
     {
 		private readonly IObjectFactory<IPollSearchResults> objectFactory;
 		private readonly IObjectFactory<IPollSubmissionCommand> pollSubmissionFactory;
@@ -22,7 +23,8 @@ namespace MyVote.UI.ViewModels
 			IObjectFactory<IPollSearchResults> objectFactory,
 			IObjectFactory<IPollSubmissionCommand> pollSubmissionFactory,
 			IAppSettings appSettings,
-			ILogger logger)
+			ILogger logger,
+            INavigationService navigationService) : base(navigationService)
 		{
 			this.objectFactory = objectFactory;
 			this.pollSubmissionFactory = pollSubmissionFactory;
@@ -34,19 +36,26 @@ namespace MyVote.UI.ViewModels
 
 		public async Task SearchPollsAsync()
 		{
-			this.IsBusy = true;
-			if ((this.NavigationCriteria == null) || (string.IsNullOrEmpty(this.NavigationCriteria.SearchQuery)))
+			try
 			{
-				var searchResults = await this.objectFactory.FetchAsync(this.SelectedSearchOption.QueryType);
-				this.LoadSearchResults(searchResults);
-			}
-			else
-			{
-				var searchResults = await this.objectFactory.FetchAsync(this.NavigationCriteria.SearchQuery);
-				this.LoadSearchResults(searchResults);
-			}
+				this.IsBusy = true;
+				if ((this.NavigationCriteria == null) || (string.IsNullOrEmpty(this.NavigationCriteria.SearchQuery)))
+				{
+					var searchResults = await this.objectFactory.FetchAsync(this.SelectedSearchOption.QueryType);
+					this.LoadSearchResults(searchResults);
+				}
+				else
+				{
+					var searchResults = await this.objectFactory.FetchAsync(this.NavigationCriteria.SearchQuery);
+					this.LoadSearchResults(searchResults);
+				}
 
-			this.IsBusy = false;
+				this.IsBusy = false;
+			}
+			catch (System.Exception ex)
+			{
+				var blah = 0;
+			}
 		}
 
 		private void LoadSearchResults(IPollSearchResults searchResults)
@@ -58,9 +67,13 @@ namespace MyVote.UI.ViewModels
 			var viewModel = new ObservableCollection<PollResultsByCategoryViewModel>();
 			foreach (var categoryResult in searchResults.SearchResultsByCategory)
 			{
-				viewModel.Add(new PollResultsByCategoryViewModel(categoryResult, pollSubmissionFactory));
+                viewModel.Add(new PollResultsByCategoryViewModel(categoryResult, pollSubmissionFactory));
 			}
 			this.PollSearchResults = viewModel;
+            var cats = viewModel.Select(item => item.Category).Distinct();
+            var newCats = new ObservableCollection<string>(cats);
+            newCats.Insert(0, "All");
+            this.Categories = newCats;
 #if __MOBILE__
             });
 #endif
@@ -70,7 +83,7 @@ namespace MyVote.UI.ViewModels
 		{
 			get
 			{
-				return new MvxCommand(() => this.ShowViewModel<AddPollPageViewModel>());
+				return new Command(() => navigationService.ShowViewModel<AddPollPageViewModel>());
 			}
 		}
 
@@ -83,11 +96,14 @@ namespace MyVote.UI.ViewModels
 		{
 			bool keywordSearch = ((NavigationCriteria != null) && (!string.IsNullOrEmpty(NavigationCriteria.SearchQuery)));
 			this.PopulateFilterOptions(keywordSearch);
+            this.Categories = new ObservableCollection<string>();
+            this.Categories.Add("All");
+            this.SelectedCategory = "All";
 		}
 
-		public override void RealInit(PollsPageSearchNavigationCriteria criteria)
+		public override void Init(object parameter)
 		{
-			this.NavigationCriteria = criteria;
+			this.NavigationCriteria = (PollsPageSearchNavigationCriteria)parameter;
 		}
 
 		private void PopulateFilterOptions(bool keywordSearch)
@@ -143,12 +159,38 @@ namespace MyVote.UI.ViewModels
 			    if (value != null && value != this.selectedSearchOption)
 			    {
                     this.selectedSearchOption = value;
-                    this.RaisePropertyChanged(() => this.SelectedSearchOption);
+                    this.RaisePropertyChanged(nameof(SelectedSearchOption));
 
                     this.ExecuteSearch();			        
 			    }
 			}
 		}
+
+        private ObservableCollection<String> categories;
+        public ObservableCollection<String> Categories
+        {
+            get { return this.categories; }
+            set
+            {
+                this.categories = value;
+                this.RaisePropertyChanged(nameof(Categories));
+            }
+        }
+
+        private String selectedCategory;
+        public String SelectedCategory
+        {
+            get { return this.selectedCategory; }
+            set
+            {
+                if (value != null && value != this.selectedCategory)
+                {
+                    this.selectedCategory = value;
+                    this.RaisePropertyChanged(nameof(SelectedCategory));
+                    this.RaisePropertyChanged(nameof(FilteredPollSearchResults));
+                }
+            }
+        }
 
 		private ObservableCollection<PollResultsByCategoryViewModel> pollSearchResults;
 		public ObservableCollection<PollResultsByCategoryViewModel> PollSearchResults
@@ -157,9 +199,25 @@ namespace MyVote.UI.ViewModels
 			set
 			{
 				this.pollSearchResults = value;
-				this.RaisePropertyChanged(() => this.PollSearchResults);
+                this.RaisePropertyChanged(nameof(PollSearchResults));
+                this.RaisePropertyChanged(nameof(FilteredPollSearchResults));
 			}
 		}
+
+        public ObservableCollection<PollResultsByCategoryViewModel> FilteredPollSearchResults
+        {
+            get 
+            {
+                if (this.SelectedCategory == "All")
+                {
+                    return this.PollSearchResults;
+                }
+                else
+                {
+                    return new ObservableCollection<PollResultsByCategoryViewModel>(this.PollSearchResults.Where(p => p.Category == this.SelectedCategory));
+                }
+            }
+        }
 
 		private PollsPageSearchNavigationCriteria NavigationCriteria { get; set; }
 
@@ -167,7 +225,7 @@ namespace MyVote.UI.ViewModels
 		{
 			get
 			{
-				return new MvxCommand(this.LogoutCommand);
+				return new Command(this.LogoutCommand);
 			}
 		}
 
@@ -176,17 +234,10 @@ namespace MyVote.UI.ViewModels
 		    this.IsBusy = true;
 		    this.IsEnabled = false;
             this.DoLogout();
-#if MOBILE
-            Xamarin.Forms.MessagingCenter.Subscribe<VmPageMappings>(this, string.Format(Constants.Navigation.PageNavigated, typeof(LandingPageViewModel)), (sender) =>
-            {
-                Xamarin.Forms.MessagingCenter.Unsubscribe<VmPageMappings>(this, string.Format(Constants.Navigation.PageNavigated, typeof(LandingPageViewModel)));
-                this.Close(this);
-                this.IsBusy = false;
-            });
-#endif // MOBILE
-            this.ShowViewModel<LandingPageViewModel>();
+            navigationService.Close();
+            navigationService.ShowViewModel<LandingPageViewModel>();
 #if !MOBILE
-                    this.Close(this);
+            //this.Close(this);
 #endif
             this.IsBusy = false;
         }
@@ -194,14 +245,14 @@ namespace MyVote.UI.ViewModels
 		public void DoLogout()
 		{
 			this.appSettings.Remove(SettingsKeys.ProfileId);
-            Csla.ApplicationContext.User = new UnauthenticatedPrincipal(); ;
+            Csla.ApplicationContext.User = new UnauthenticatedPrincipal();
 		}
 
 		public ICommand EditProfile
 		{
 			get
 			{
-				return new MvxCommand(this.EditProfileCommand);
+				return new Command(this.EditProfileCommand);
 			}
 		}
 
@@ -216,13 +267,13 @@ namespace MyVote.UI.ViewModels
 				ExistingUser = true
 			};
 
-			this.ShowViewModel<RegistrationPageViewModel>(criteria);
+			navigationService.ShowViewModel<RegistrationPageViewModel>(criteria);
             this.IsBusy = false;
         }
 
         public ICommand ViewPoll
         {
-            get { return new MvxCommand<int>(async (id) => await this.DoViewPollAsync(id)); }
+            get { return new Command<int>(async (id) => await this.DoViewPollAsync(id)); }
         }
 
         private async Task DoViewPollAsync(int id)
@@ -243,7 +294,7 @@ namespace MyVote.UI.ViewModels
                     PollId = id
                 };
 
-                this.ShowViewModel<ViewPollPageViewModel>(criteria);
+                navigationService.ShowViewModel<ViewPollPageViewModel>(criteria);
             }
             else
             {
@@ -252,7 +303,7 @@ namespace MyVote.UI.ViewModels
                     PollId = id
                 };
 
-                this.ShowViewModel<PollResultsPageViewModel>(navigationCriteria);
+                navigationService.ShowViewModel<PollResultsPageViewModel>(navigationCriteria);
             }
             this.IsEnabled = true;
         }

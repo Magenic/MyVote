@@ -14,28 +14,26 @@ namespace MyVote.UI.Helpers
 {
 	public static class AutofacInject
 	{
-		public static IContainer Container { get; private set; }
-
 		public static void ResolveAutofacDependencies(this object obj)
 		{
 			// Bootstrap
 
-			if (Container == null)
+			if (Ioc.Container == null)
 			{
-				Container = new Bootstrapper().Bootstrap();
+				Ioc.Container = new Bootstrapper().Bootstrap();
 			}
 
 			if (obj is Page)
 			{
 				var builder = new ContainerBuilder();
 				builder.RegisterInstance(obj).As<Page>();
-				builder.Update(Container);
+				builder.Update(Ioc.Container);
 			}
 
 			PropertyInfo[] properties =
 				obj.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 
-			using (var lifetimeScope = Container.BeginLifetimeScope())
+			using (var lifetimeScope = Ioc.Container.BeginLifetimeScope())
 			{
 				foreach (var property in properties.Where(p => p.GetCustomAttributes(typeof(InjectAttribute), false).Any()))
 				{

@@ -1,3 +1,4 @@
+using Android.Support.V4.Content;
 using Android.Widget;
 using MyVote.UI.Controls;
 using MyVote.UI.Renderers;
@@ -25,7 +26,7 @@ namespace MyVote.UI.Renderers
 
                 if (!string.IsNullOrWhiteSpace(model.ErrorMessage))
                 {
-                    control.SetError(model.ErrorMessage, Resources.GetDrawable(Resource.Drawable.ic_error_white_24dp, Context.Theme));
+                    control.SetError(model.ErrorMessage, ContextCompat.GetDrawable(Context, Resource.Drawable.ic_error_white_24dp));
                     control.Error = model.ErrorMessage;
                 }
             }

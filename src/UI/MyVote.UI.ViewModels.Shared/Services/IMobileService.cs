@@ -15,12 +15,9 @@ namespace MyVote.UI.Services
     public interface IMobileService : IDisposable
     {
 		Task<string> AuthenticateAsync(AuthenticationProvider provider);
+		void ResumeWithUrl(Uri uri);
 
 		[SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
 		Task<string> GenerateStorageAccessSignatureAsync();
-
-#if WINDOWS_PHONE_APP
-		void AuthenticationComplete(Windows.ApplicationModel.Activation.WebAuthenticationBrokerContinuationEventArgs args);
-#endif // WINDOWS_PHONE_APP
     }
 }

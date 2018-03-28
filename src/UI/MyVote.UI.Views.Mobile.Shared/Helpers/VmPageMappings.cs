@@ -31,7 +31,6 @@ namespace MyVote.UI.Helpers
 
 		public Dictionary<Type, Type> Mappings { get; private set; }
 
-#if MOBILE
         public NavigationPage Navigation
         {
             get { return navigationPage; }
@@ -43,18 +42,8 @@ namespace MyVote.UI.Helpers
             set
             {
                 navigationPage = value; 
-                navigationPage.Pushed += NavigationPageOnPushed;
             }
             get { return navigationPage; }
         }
-
-        private static void NavigationPageOnPushed(object sender, NavigationEventArgs navigationEventArgs)
-        {
-            var page = navigationEventArgs.Page;
-            var vm = page.BindingContext;
-
-            MessagingCenter.Send<VmPageMappings>(new VmPageMappings(), string.Format(Constants.Navigation.PageNavigated, vm.GetType()));
-        }
-#endif // MOBILE
     }
 }

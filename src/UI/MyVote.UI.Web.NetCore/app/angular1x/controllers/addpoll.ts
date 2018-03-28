@@ -48,7 +48,7 @@ module MyVote.Controllers {
             '$scope',
             'myVoteService',
             'authService',
-            'signalrService'
+            'ngSignalRService'
         ];
         constructor(           
             //this: AddPollScope,
@@ -57,7 +57,7 @@ module MyVote.Controllers {
             $scope: angular.IScope,
             public myVoteService: Services.MyVoteService,
             authService: Services.AuthService,
-            public signalrService: Services.SignalrService
+            public ngSignalRService: any
         ) {
             this.vm = this;
 
@@ -223,7 +223,7 @@ module MyVote.Controllers {
                     return this.myVoteService.savePoll(this.newPoll);
                 }).then((poll: MyVote.Services.AppServer.Models.Poll): any => {
                     this.added = true;
-                    this.signalrService.addPoll();
+                    this.ngSignalRService.addPollNotification();
                     this.busyMessage = 'Success! Viewing your poll...';
                     this.$location.path('/viewPoll/' + poll.PollID);
                 },

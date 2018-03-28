@@ -5,11 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using MvvmCross.Core.ViewModels;
+using MyVote.UI.Contracts;
+using MyVote.UI.Helpers;
 
 namespace MyVote.UI.ViewModels
 {
-    public sealed class PollSearchResultViewModel : ViewModelBase
+    public sealed class PollSearchResultViewModel : NavigatingViewModelBase
     {
 		private IPollSearchResult pollSearchResult;
 		private readonly IObjectFactory<IPollSubmissionCommand> objectFactory;
@@ -22,8 +23,9 @@ namespace MyVote.UI.ViewModels
 		private const string MissingImage = "NoImage.png";
 #endif
 
-		public PollSearchResultViewModel(IPollSearchResult searchResult
-			, IObjectFactory<IPollSubmissionCommand> objectFactory)
+		public PollSearchResultViewModel(IPollSearchResult searchResult, 
+			                            IObjectFactory<IPollSubmissionCommand> objectFactory,
+                                        INavigationService navigationService) : base(navigationService)
 		{
 			this.pollSearchResult = searchResult;
 			this.objectFactory = objectFactory;
@@ -31,7 +33,7 @@ namespace MyVote.UI.ViewModels
 
 		public System.Windows.Input.ICommand ViewPoll
 		{
-			get { return new MvxCommand(async () => await this.DoViewPollAsync()); }
+			get { return new Command(async () => await this.DoViewPollAsync()); }
 		}
 
 		private async Task DoViewPollAsync()
@@ -51,7 +53,7 @@ namespace MyVote.UI.ViewModels
 					PollId = this.Id
 				};
 
-				this.ShowViewModel<ViewPollPageViewModel>(criteria);
+				navigationService.ShowViewModel<ViewPollPageViewModel>(criteria);
 			}
 			else
 			{
@@ -60,7 +62,7 @@ namespace MyVote.UI.ViewModels
 					PollId = this.Id
 				};
 
-				this.ShowViewModel<PollResultsPageViewModel>(navigationCriteria);
+				navigationService.ShowViewModel<PollResultsPageViewModel>(navigationCriteria);
 			}
 		}
 

@@ -1,6 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<?xml version="1.0" encoding="utf-8" ?>
+<views:ContentPageBase xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:MyVote.UI.Views;assembly=MyVoteUI"
              xmlns:controls="clr-namespace:MyVote.UI.Controls;assembly=MyVoteUI"
              xmlns:vm="clr-namespace:MyVote.UI.ViewModels;assembly=MyVoteUI"
              x:Class="MyVote.UI.Views.HomePageTablet">
@@ -14,7 +15,7 @@
                 "{ConstraintExpression Type=RelativeToParent,
                                     Property=Height,
                                     Factor=1}">
-        <controls:RepeaterView x:TypeArguments="vm:PollResultsByCategoryViewModel" x:Name="Repeater" Spacing="10" Orientation="Vertical" ItemsSource="{Binding PollSearchResults}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <controls:RepeaterView x:TypeArguments="vm:PollResultsByCategoryViewModel" x:Name="Repeater" Spacing="10" Orientation="Vertical" ItemsSource="{Binding FilteredPollSearchResults}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
             <controls:RepeaterView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -46,7 +47,7 @@
                                                                     <TapGestureRecognizer Command="{DynamicResource vmViewPoll}" CommandParameter="{Binding Id}" />
                                                                 </Image.GestureRecognizers>
                                                             </Image>
-                                                            <controls:ExtendedLabel Text="{Binding Question}" WidthRequest="150" HeightRequest="50"  LineBreakMode="WordWrap" TextColor="Black" BackgroundColor="#98FFFFFF" HorizontalOptions="FillAndExpand"
+                                                            <Label Text="{Binding Question}" WidthRequest="150" HeightRequest="50"  LineBreakMode="WordWrap" TextColor="Black" BackgroundColor="#98FFFFFF" HorizontalOptions="FillAndExpand"
                                                                     RelativeLayout.XConstraint=
                                                                         "{ConstraintExpression Type=RelativeToParent, 
                                                                         Property=Width,
@@ -88,4 +89,4 @@
                                     Factor=0.5,
                                     Constant=-25}" />
   </RelativeLayout>
-</ContentPage>
+</views:ContentPageBase>

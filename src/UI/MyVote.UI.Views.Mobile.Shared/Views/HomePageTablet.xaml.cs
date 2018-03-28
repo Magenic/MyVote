@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace MyVote.UI.Views
 {
-	public partial class HomePageTablet : ContentPage
+    public partial class HomePageTablet : ContentPageBase
 	{
 		public HomePageTablet()
 		{

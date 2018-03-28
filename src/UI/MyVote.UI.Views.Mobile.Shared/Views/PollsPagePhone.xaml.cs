@@ -1,28 +1,34 @@
-﻿using System;
-using System.Linq;
-using MvvmCross.Core.ViewModels;
-using MvvmCross.Platform;
+﻿using System.Linq;
 using MyVote.UI.ViewModels;
 using Xamarin.Forms;
+using MyVote.UI.Helpers;
 
 namespace MyVote.UI.Views
 {
-	public partial class PollsPagePhone : TabbedPage
-	{
-		public PollsPagePhone()
-		{
+    public partial class PollsPagePhone : TabbedPage
+    {
+        public PollsPagePhone()
+        {
             InitializeComponent();
 
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, true);
 
-            Device.OnPlatform(
-		        iOS: () => ToolbarItems.Add(new ToolbarItem("More", "", ActionsClick, ToolbarItemOrder.Primary, 1)),
-                Android: () =>
-                {
+            this.Children.Add(new HomePagePhone { Title = "Home" });
+
+            switch (Device.RuntimePlatform)
+            {
+                case Device.iOS:
+                    this.Children.Add(new AddPollPage { Title = "New Poll" });
+                    ToolbarItems.Add(new ToolbarItem("More", "", ActionsClick, ToolbarItemOrder.Primary, 1));
+                    break;
+                case Device.Android:
                     ToolbarItems.Add(new ToolbarItem("Edit Profile", "", () => { }, ToolbarItemOrder.Secondary, 1));
                     ToolbarItems.Add(new ToolbarItem("Logout", "", () => { }, ToolbarItemOrder.Secondary, 2));
-                }
-            );
+                    break;
+            }
+            this.Children.Add(new CategoriesPage { Title = "Categories" });
+            this.Children.Add(new SearchPage { Title = "Search" });
+
         }
 
         protected override void OnBindingContextChanged()
@@ -38,28 +44,35 @@ namespace MyVote.UI.Views
                 var searchPage = Children.Single(c => c.Title == "Search");
                 searchPage.PropertyChanged += Child_PropertyChanged;
                 searchPage.BindingContext = BindingContext;
-                var addPollPage = Children.Single(c => c.Title == "New Poll");
-                addPollPage.PropertyChanged += Child_PropertyChanged;
-#if IOS
-                homePage.Icon = "Home.png";
-                categoriesPage.Icon = "Categories.png";
-                searchPage.Icon = "Search.png";
-                addPollPage.Icon = "New.png";
 
-#endif
-                SetupNewPollViewModel();
-
-#if ANDROID
-                SetupToolbar();
-#endif
+                switch (Device.RuntimePlatform)
+                {
+                    case Device.iOS:
+                        var addPollPage = Children.Single(c => c.Title == "New Poll");
+                        addPollPage.PropertyChanged += Child_PropertyChanged;
+                        homePage.Icon = "Home.png";
+                        categoriesPage.Icon = "Categories.png";
+                        searchPage.Icon = "Search.png";
+                        addPollPage.Icon = "New.png";
+                        SetupNewPollViewModel();
+                        break;
+                    case Device.Android:
+                        SetupToolbar();
+                        break;
+                }
 	        }
             else if (Children != null)
             {
-                var addPollPage = Children.Single(c => c.Title == "New Poll");
-                var addPollviewModel = addPollPage.BindingContext as AddPollPageViewModel;
-                if (addPollviewModel != null)
+                switch (Device.RuntimePlatform)
                 {
-                    addPollviewModel.PollAdded -= AddPollviewModel_PollAdded;
+                    case Device.iOS:
+                        var addPollPage = Children.Single(c => c.Title == "New Poll");
+                        var addPollviewModel = addPollPage.BindingContext as AddPollPageViewModel;
+                        if (addPollviewModel != null)
+                        {
+                            addPollviewModel.PollAdded -= AddPollviewModel_PollAdded;
+                        }
+                        break;
                 }
             }
 	    }
@@ -84,8 +97,9 @@ namespace MyVote.UI.Views
 	    private void SetupNewPollViewModel()
 	    {
             var addPollPage = Children.Single(c => c.Title == "New Poll");
-            var viewModelLoader = Mvx.Resolve<IMvxViewModelLoader>();
-            var addPollviewModel = (AddPollPageViewModel)viewModelLoader.LoadViewModel(new MvxViewModelRequest(typeof(AddPollPageViewModel), new MvxBundle(), new MvxBundle(), new MvxRequestedBy(MvxRequestedByType.UserAction)), null);
+
+            var viewModelLoader = Ioc.Resolve<IViewModelLoader>();
+			var addPollviewModel = viewModelLoader.LoadViewModel<AddPollPageViewModel>();
             addPollviewModel.PollAdded += AddPollviewModel_PollAdded;
             addPollPage.BindingContext = addPollviewModel;
 	    }
@@ -104,7 +118,7 @@ namespace MyVote.UI.Views
             const string editProfile = "Edit Profile";
             const string logout = "Logout";
 
-            var result = await this.DisplayActionSheet(null, null, null, editProfile, logout);
+            var result = await this.DisplayActionSheet(null, "Cancel", null, editProfile, logout);
             var viewModel = ((PollsPageViewModel)this.BindingContext);
 
             switch (result)

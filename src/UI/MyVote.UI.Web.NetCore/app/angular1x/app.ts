@@ -3,11 +3,11 @@
 module MyVote {
     'use strict';
 
-    export var App: ng.IModule = angular.module('MyVoteApp', ['ngRoute', 'ngResource', 'highcharts-ng', 'ui.bootstrap']);
+    export var App: angular.IModule = angular.module('MyVoteApp', ['ngRoute', 'ngResource', 'highcharts-ng', 'ui.bootstrap']);
 
     App.constant("APP_CONFIG_GLOBALS", {        
-        //"apiUrl": "http://localhost:20970"
-        "apiUrl": "http://myvoteapi.azurewebsites.net"
+        //"apiUrl": "http://localhost:10746"
+        "apiUrl": "http://myapp.azurewebsites.net"
     });
 
     App.factory('zumoAuthInterceptor', ['APP_CONFIG_GLOBALS', (APP_CONFIG_GLOBALS) => {
@@ -74,7 +74,9 @@ module MyVote {
 
     App.filter('fromNow', () => {
         var fromNow = (dateString: string) => {
-            return moment(new Date(dateString)).fromNow();
+            //Todo: re-add once building
+            //return ""
+            //return moment(new Date(dateString)).fromNow();
         };
         return fromNow;
     });
@@ -90,7 +92,7 @@ module MyVote {
     }
 
     class AuthCtrl {
-        static $inject = ['$scope', '$route', '$location', '$log', 'authService', 'signalrService'];
+        static $inject = ['$scope', '$route', '$location', '$log', 'authService', 'ngSignalRService'];
 
         private static _noAuthPaths = [
             '/', '/landing', '/registration', '/pollResult'
@@ -102,7 +104,7 @@ module MyVote {
             $location: ng.ILocationService,
             $log: ng.ILogService,
             authService: Services.AuthService,
-            signalrService: Services.SignalrService
+            ngSignalRService: any
         ) {
             $scope.authMessage = null;
             $scope.newPollsCount = 0;
@@ -137,15 +139,16 @@ module MyVote {
                     $location.path('/polls');
                 }
             };
-            
-            //SignalR listener for newly added polls
-            $scope.$parent.$on(MyVote.Services.SignalrService.PollAddedEvent, () => {
+
+            //SignalR Observable callback method
+            ngSignalRService.pollAddedChanged$.subscribe(pollAddedMsg => {
                 //$scope.$apply will manually trigger a digest cycle for this SignalR callback and ensure data is bound because this occurs outside of Angular's
                 //normal digest cycles which are ordinarily triggered by events Angular controls (i.e. Directives ng-click, etc.).
-                $scope.$apply(()=> {
+                console.log(`Poll Added at: ${pollAddedMsg}`);
+                $scope.$apply(() => {
                     var newCount = $scope.newPollsCount + 1;
                     $scope.newPollsCount = 0;
-                    setTimeout(()=> $scope.$apply(()=> $scope.newPollsCount = newCount), 200);
+                    setTimeout(() => $scope.$apply(() => $scope.newPollsCount = newCount), 200);
                 });
             });
 

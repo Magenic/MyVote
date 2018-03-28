@@ -9,11 +9,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MvvmCross.Core.ViewModels;
+using MyVote.UI.Contracts;
 
 namespace MyVote.UI.ViewModels
 {
-	public sealed class PollResultsPageViewModel : ViewModelBase<PollResultsPageNavigationCriteria>
+	public sealed class PollResultsPageViewModel : NavigatingViewModelBase
 	{
 		private readonly IObjectFactory<IPollResults> objectFactory;
 		private readonly IObjectFactory<IPoll> pollFactory;
@@ -31,12 +31,13 @@ namespace MyVote.UI.ViewModels
 			 IObjectFactory<IPoll> pollFactory,
 			 IObjectFactory<IPollComment> pollCommentFactory,
 			 IMessageBox messageBox,
-		 ILogger logger
+		     ILogger logger,
+             INavigationService navigationService
 #if NETFX_CORE
 			, IShareManager shareManager,
 		 ISecondaryPinner secondaryPinner
 #endif // NETFX_CORE
-)
+) : base(navigationService)
 		{
 			this.objectFactory = objectFactory;
 			this.pollFactory = pollFactory;
@@ -70,14 +71,14 @@ namespace MyVote.UI.ViewModels
 					{
 						foreach (var comment in this.PollResults.PollComments.Comments)
 						{
-							this.PollComments.Add(new PollCommentViewModel(null, comment, this.SubmitChildComment, false));
+							this.PollComments.Add(new PollCommentViewModel(null, comment, this.SubmitChildCommentAsync, false));
 						}
 					}
 
 					var totalResponses = this.TotalResponses;
 					foreach (var pollDataResult in this.PollResults.PollDataResults.Results)
 					{
-						this.PollDataResults.Add(new PollDataResultViewModel(pollDataResult, totalResponses));
+                        this.PollDataResults.Add(new PollDataResultViewModel(pollDataResult, totalResponses));
 					}
 				}
 			}
@@ -118,7 +119,7 @@ namespace MyVote.UI.ViewModels
 		{
 			get
 			{
-				return new MvxCommand<Windows.UI.Xaml.FrameworkElement>(async (param) => await PinPollHandler(param));
+				return new Command<Windows.UI.Xaml.FrameworkElement>(async (param) => await PinPollHandler(param));
 			}
 		}
 
@@ -131,7 +132,7 @@ namespace MyVote.UI.ViewModels
 		{
 			get
 			{
-				return new MvxCommand<Windows.UI.Xaml.FrameworkElement>(async (param) => await UnpinPollHandler(param));
+				return new Command<Windows.UI.Xaml.FrameworkElement>(async (param) => await UnpinPollHandler(param));
 			}
 		}
 
@@ -145,11 +146,11 @@ namespace MyVote.UI.ViewModels
 		{
 			get
 			{
-				return new MvxCommand(async () => await DeletePollHandler());
+				return new Command(async () => await DeletePollHandlerAsync());
 			}
 		}
 
-		private async Task DeletePollHandler()
+		private async Task DeletePollHandlerAsync()
 		{
 #if __MOBILE__
 				var result = await this.messageBox.ShowAsync("Are you sure you want to delete this poll?", "Delete Poll?", MessageBoxButtons.OkCancel);
@@ -174,18 +175,18 @@ namespace MyVote.UI.ViewModels
 		{
 			get
 			{
-				return new MvxCommand(async () => await SubmitCommentHandler());
+				return new Command(async () => await SubmitCommentHandlerAsync());
 			}
 		}
 
-		private async Task SubmitCommentHandler()
+		private async Task SubmitCommentHandlerAsync()
 		{
 			var identity = ApplicationContext.User.Identity as IUserIdentity;
 			var comment = this.pollCommentFactory.CreateChild(identity.UserID, identity.UserName);
 			comment.CommentText = this.RootComment;
 
 			this.PollResults.PollComments.Comments.Add(comment);
-			this.PollComments.Add(new PollCommentViewModel(null, comment, this.SubmitChildComment, false));
+			this.PollComments.Add(new PollCommentViewModel(null, comment, this.SubmitChildCommentAsync, false));
 
 			this.IsBusy = true;
 
@@ -196,7 +197,7 @@ namespace MyVote.UI.ViewModels
 			this.IsBusy = false;
 		}
 
-		public async Task SubmitChildComment(int pollCommentId, string commentText)
+		public async Task SubmitChildCommentAsync(int pollCommentId, string commentText)
 		{
 			var identity = Csla.ApplicationContext.User.Identity as IUserIdentity;
 
@@ -207,7 +208,7 @@ namespace MyVote.UI.ViewModels
 			parentComment.Comments.Add(comment);
 
 			var parentCommentViewModel = this.PollComments.Single(_ => _.PollComment.PollCommentID == pollCommentId);
-			parentCommentViewModel.ChildComments.Add(new PollCommentViewModel(parentComment.PollCommentID, comment, this.SubmitChildComment, true));
+			parentCommentViewModel.ChildComments.Add(new PollCommentViewModel(parentComment.PollCommentID, comment, this.SubmitChildCommentAsync, true));
 
 			this.IsBusy = true;
 
@@ -216,9 +217,9 @@ namespace MyVote.UI.ViewModels
 			this.IsBusy = false;
 		}
 
-		public override void RealInit(PollResultsPageNavigationCriteria criteria)
+		public override void Init(object parameters)
 		{
-			this.NavigationCriteria = criteria;
+			this.NavigationCriteria = (PollResultsPageNavigationCriteria)parameters;
 		}
 
 		public async override void Start()
@@ -238,14 +239,15 @@ namespace MyVote.UI.ViewModels
 #endif // NETFX_CORE
 		}
 
-		protected override void SaveStateToBundle(IMvxBundle bundle)
-		{
-			base.SaveStateToBundle(bundle);
+        //todo: figure out what to do for UWP
+//		protected override void SaveStateToBundle(IMvxBundle bundle)
+//		{
+//			base.SaveStateToBundle(bundle);
 
-#if NETFX_CORE
-			this.shareManager.Cleanup();
-#endif // NETFX_CORE
-		}
+//#if NETFX_CORE
+//			this.shareManager.Cleanup();
+//#endif // NETFX_CORE
+		//}
 
 		public ObservableCollection<PollDataResultViewModel> PollDataResults { get; private set; }
 		public ObservableCollection<PollCommentViewModel> PollComments { get; private set; }
@@ -257,8 +259,8 @@ namespace MyVote.UI.ViewModels
 			set
 			{
 				this.pollResults = value;
-				this.RaisePropertyChanged(() => this.PollResults);
-				this.RaisePropertyChanged(() => this.TotalResponses);
+                this.RaisePropertyChanged(nameof(PollResults));
+                this.RaisePropertyChanged(nameof(TotalResponses));
 
 #if NETFX_CORE
 				if (value != null)
@@ -276,7 +278,7 @@ namespace MyVote.UI.ViewModels
 			set
 			{
 				this.isPollPinned = value;
-				this.RaisePropertyChanged(() => this.IsPollPinned);
+                this.RaisePropertyChanged(nameof(IsPollPinned));
 			}
 		}
 
@@ -287,8 +289,8 @@ namespace MyVote.UI.ViewModels
 			set
 			{
 				this.rootComment = value;
-				this.RaisePropertyChanged(() => this.RootComment);
-				this.RaisePropertyChanged(() => this.CanSubmitComment);
+                this.RaisePropertyChanged(nameof(RootComment));
+                this.RaisePropertyChanged(nameof(CanSubmitComment));
 			}
 		}
 

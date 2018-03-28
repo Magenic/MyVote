@@ -22,8 +22,8 @@ namespace MyVote.UI.Helpers
 			return await currentPage.DisplayAlert(
 				title,
 				content,
-				messageBoxButtons == MessageBoxButtons.Cancel ? string.Empty : "Ok",
-				messageBoxButtons == MessageBoxButtons.Ok ? string.Empty : "Cancel");
+				messageBoxButtons == MessageBoxButtons.Cancel ? "Ok1" : "Ok",
+				messageBoxButtons == MessageBoxButtons.Ok ? "Cancel1" : "Cancel");
 		}
 	}
 }

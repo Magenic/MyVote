@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using MvvmCross.Core.ViewModels;
 #if WINDOWS_PHONE
 using System.Windows.Media.Imaging;
 #elif __MOBILE__
@@ -10,9 +9,10 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace MyVote.UI.ViewModels
 {
-    public abstract class PollImageViewModelBase : MvxViewModel
+    public abstract class PollImageViewModelBase : ViewModelBase
     {
-		public const string PollPicturesUrlBase = "https://myvoteapp.blob.core.windows.net/pollimages/";
+
+		public const string PollPicturesUrlBase = "https://myapp.blob.core.windows.net/pollimages/";
 
 		public abstract Task AddImage();
 		public abstract Task<string> UploadImage();
@@ -36,7 +36,7 @@ namespace MyVote.UI.ViewModels
 			set
 			{
 				pollImage = value;
-				this.RaisePropertyChanged(() => this.PollImage);
+                this.RaisePropertyChanged(nameof(PollImage));
 			}
 		}
     }

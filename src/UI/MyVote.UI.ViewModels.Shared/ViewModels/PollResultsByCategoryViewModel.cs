@@ -3,17 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using MyVote.UI.Contracts;
 
 namespace MyVote.UI.ViewModels
 {
-    public sealed class PollResultsByCategoryViewModel
+    public sealed class PollResultsByCategoryViewModel : ViewModelBase
     {
 		private IPollSearchResultsByCategory pollSearchResultsByCategory;
         private IList<PollSearchResultViewModel> searchResults;
         private readonly IObjectFactory<IPollSubmissionCommand> objectFactory;
         
-        public PollResultsByCategoryViewModel(IPollSearchResultsByCategory pollResultsByCategory
-               , IObjectFactory<IPollSubmissionCommand> objectFactory)
+        public PollResultsByCategoryViewModel(IPollSearchResultsByCategory pollResultsByCategory,
+               IObjectFactory<IPollSubmissionCommand> objectFactory)
         {
             this.pollSearchResultsByCategory = pollResultsByCategory;
             this.searchResults = new ObservableCollection<PollSearchResultViewModel>();
@@ -21,7 +22,7 @@ namespace MyVote.UI.ViewModels
 
             foreach (IPollSearchResult searchResult in pollResultsByCategory.SearchResults)
             {
-                this.searchResults.Add(new PollSearchResultViewModel(searchResult, this.objectFactory));
+                this.searchResults.Add(new PollSearchResultViewModel(searchResult, this.objectFactory, null));
             }
         }
         

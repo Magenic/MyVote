@@ -2,20 +2,19 @@
 
 import { Component, Inject } from '@angular/core';
 //import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { PollsService } from './polls.service';
 import { downgradeComponent } from '@angular/upgrade/static';
 import { Logger } from 'angular2-logger/core';
 //import { AuthService } from '../angular1x/services/auth'
 
-@Component(({
+@Component({
     //module.id variable is available and contains the absolute URL of the component class module file. allows using relative paths vs. absolute paths for commonjs modules + systemjs loader
     moduleId: module.id, //remove node typings to show what will happen (or any other typings example)
     selector: 'polls-view',
-    templateUrl: 'polls-view.component.html',
-    styleUrls: ['polls-view.component.css']
-}) as any)
+    templateUrl: './polls-view.component.html',
+    styleUrls: ['./polls-view.component.css']
+})
 
 export class PollsViewComponent {
 
@@ -27,7 +26,6 @@ export class PollsViewComponent {
     constructor(private location: Location,
         private pollsService: PollsService,
         //private route: ActivatedRoute,        
-        private router: Router,
         private logger: Logger,
         @Inject('authService') private authService,
         @Inject('$routeParams') private $routeParams

@@ -9,7 +9,7 @@ namespace MyVote.UI.Views
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
-            var context = this.BindingContext as ViewModelBase;
+            var context = this.BindingContext as NavigatingViewModelBase;
             if (context != null)
             {
                 context.PropertyChanged += BindingContextOnPropertyChanged;
@@ -18,7 +18,7 @@ namespace MyVote.UI.Views
 
         private void BindingContextOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            var context = this.BindingContext as ViewModelBase;
+            var context = this.BindingContext as NavigatingViewModelBase;
             if (context != null)
             {
                 if (propertyChangedEventArgs.PropertyName == "IsBusy")

@@ -9,7 +9,8 @@ namespace MyVote.UI
 #if DEBUG_OFF && !__MOBILE__
 		private static string DataPortalUrl = "http://localhost:55130/api/DataPortal/PostAsync";
 #else
-		private static string DataPortalUrl =  "http://yourapi.azurewebsites.net/api/DataPortal";
+        //private static string DataPortalUrl =  "http://myapi.azurewebsites.net/api/DataPortal";
+        private static string DataPortalUrl = "http://myapi-stage.azurewebsites.net/api/DataPortal";
 #endif
 
 		public IContainer Bootstrap()
@@ -18,18 +19,18 @@ namespace MyVote.UI
 			Csla.ApplicationContext.DataPortalUrlString = Bootstrapper.DataPortalUrl;
 
 			Csla.ApplicationContext.User = new UnauthenticatedPrincipal();
-			var container = new ContainerBuilder();
+			var containerBuilder = new ContainerBuilder();
 
-			container.RegisterModule(new UiModule());
-			container.RegisterModule(new BusinessObjectsModule());
+			containerBuilder.RegisterModule(new UiModule());
+			containerBuilder.RegisterModule(new BusinessObjectsModule());
 
-			//container.RegisterType<PhotoChooser>().AsImplementedInterfaces();
+			//containerBuilder.RegisterType<PhotoChooser>().AsImplementedInterfaces();
 
-			var returnValue = container.Build();
+			var container = containerBuilder.Build();
 			Csla.ApplicationContext.DataPortalActivator = new ObjectActivator(
-				returnValue, new ExecutionCallContext());
+				container, new ExecutionCallContext());
 
-			return returnValue;
+			return container;
 		}
 	}
 }

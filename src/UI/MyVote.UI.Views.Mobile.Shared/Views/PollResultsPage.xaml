@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <views:ContentPageBase xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyVote.UI.Views.PollResultsPage"
@@ -18,26 +18,27 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 		<Image
+                x:Name="pollImage"
 				Grid.Column="0"
 				Grid.Row="0"
 				VerticalOptions="LayoutOptions.Start"
                 WidthRequest="150" 
                 HeightRequest="150"
                 Aspect="AspectFill"
-				Source="{Binding PollResults.PollImageLink}" />
+				Source="{Binding PollResults.PollImageLink}"
+                Opacity="0"/>
+        <Label Text="{Binding PollResults.PollDataResults.Question}" Style="{StaticResource LabelStyle}" Grid.Column="1" Grid.Row="0" />
 
-        <controls:ExtendedLabel Text="{Binding PollResults.PollDataResults.Question}" Style="{StaticResource LabelStyle}" Grid.Column="1" Grid.Row="0" />
-
-		<controls:ExtendedLabel
+		<Label
 			Text="Thanks for voting! Here are the current results:"
 			Grid.Row="1"
             Grid.ColumnSpan="2"
             Style="{StaticResource LabelStyle}" />
 
         <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource IndividualEntryRegionStyle}" >
-            <controls:ExtendedLabel Text="Total" Style="{StaticResource LabelStyle}" />
-            <controls:ExtendedLabel Text="{Binding TotalResponses}" Style="{StaticResource LabelStyle}" />
-            <controls:ExtendedLabel Text="Votes" Style="{StaticResource LabelStyle}" />
+            <Label Text="Total" Style="{StaticResource LabelStyle}" />
+            <Label Text="{Binding TotalResponses}" Style="{StaticResource LabelStyle}" />
+            <Label Text="Votes" Style="{StaticResource LabelStyle}" />
 		</StackLayout>
 
 		<controls:RepeaterView x:TypeArguments="vm:PollDataResultViewModel" Grid.Row="3" Grid.ColumnSpan="2" Spacing="0" Orientation="Vertical" ItemsSource="{Binding PollDataResults}" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
@@ -48,9 +49,9 @@
 							<StackLayout Orientation="Vertical" Spacing="0" VerticalOptions="FillAndExpand">
                                 <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource SpacerStyle}"></BoxView>
                                 <StackLayout Orientation="Horizontal" Style="{StaticResource IndividualEntryRegionStyle}" Padding="0,0,0,0">
-                                    <controls:ExtendedLabel Text="{Binding PollDataResult.OptionText}" HorizontalOptions="Start" Style="{StaticResource LabelStyle}"/>
-                                    <controls:ExtendedLabel Text="{Binding ResponsePercentage}" HorizontalOptions="EndAndExpand" Style="{StaticResource LabelStyle}" />
-                                    <controls:ExtendedLabel Text="% " HorizontalOptions="Start" Style="{StaticResource LabelStyle}"/>
+                                    <Label Text="{Binding PollDataResult.OptionText}" HorizontalOptions="Start" Style="{StaticResource LabelStyle}"/>
+                                    <Label Text="{Binding ResponsePercentage}" HorizontalOptions="EndAndExpand" Style="{StaticResource LabelStyle}" />
+                                    <Label Text="% " HorizontalOptions="Start" Style="{StaticResource LabelStyle}"/>
 								</StackLayout>
                                 <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Style="{StaticResource SpacerStyle}"></BoxView>
 							</StackLayout>

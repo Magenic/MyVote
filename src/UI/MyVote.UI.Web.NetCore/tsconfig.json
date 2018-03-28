@@ -1,21 +1,27 @@
 {
+    "compileOnSave": false,
     "compilerOptions": {
         "target": "es5",
         "module": "commonjs",
         "moduleResolution": "node",
-        "sourceMap": true,
+        //"sourceMap": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
+        "lib": [
+            "es5",
+            "es2015",
+            "es2017",
+            "dom",
+            "scripthost"
+        ], //list of library files to be included in the compilation
         "removeComments": false,
         "noImplicitAny": false,
         "suppressImplicitAnyIndexErrors": true,
-        "noEmitOnError": true
+        "noEmitOnError": true,
+        "noStrictGenericChecks": true //required for TS 2.4; will be fixed in RxJS6,
     },
     "exclude": [
         "node_modules",
         "wwwroot"
-    ],
-    "files": [
-        "typings/index.d.ts"
     ]
 }

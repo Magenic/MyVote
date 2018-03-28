@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Platforms>AnyCPU;Client</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
+    <NoWarn>1701;1702;1705;CSLA0010</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
+    <NoWarn>1701;1702;1705;CSLA0010</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Client'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;MOBILE</DefineConstants>
+    <NoWarn>1701;1702;1705;CSLA0010</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Client'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;MOBILE</DefineConstants>
+    <NoWarn>1701;1702;1705;CSLA0010</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.1" />
+    <PackageReference Include="CSLA-Core" Version="4.7.100-Beta-17100905" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\MyVote.Data.Entities\MyVote.Data.Entities.csproj" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " />
+    <ProjectReference Include="..\..\Data\MyVote.Data.Entities\MyVote.Data.Entities.csproj" Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />
+  </ItemGroup>
+</Project>

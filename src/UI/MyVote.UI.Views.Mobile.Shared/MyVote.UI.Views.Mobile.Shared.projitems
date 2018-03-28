@@ -20,8 +20,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controls\BackgroundStringExtendedPicker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ExtendedDatePicker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ExtendedEntry.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ExtendedImage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Controls\ExtendedLabel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ExtendedPicker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ExtendedScrollView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ImageButton.cs" />
@@ -32,12 +30,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\NullableIntConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ImageOrientation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\AppSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ClearBackstackHint.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\MessageBox.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\MvxPresenterHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\PresenterHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\PhotoChooser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\VmPageMappings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewPresenter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\AddPollPage.xaml.cs">
       <DependentUpon>AddPollPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -93,6 +89,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\ExtendedPropertyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ViewPresenter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EffectRouting\ButtonRoundingEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\RegistrationPage.xaml">
@@ -165,5 +163,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)EffectRouting\" />
   </ItemGroup>
 </Project>

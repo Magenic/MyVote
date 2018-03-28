@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MyVote.Services.AppServer.Models
 {
-	public class PollResultComment
+	public sealed class PollResultComment
 	{
 		public int PollID { get; set; }
 		public int PollCommentID { get; set; }

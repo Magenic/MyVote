@@ -7,22 +7,22 @@ namespace MyVote.UI.Helpers
 {
 	public sealed class AppSettings : IAppSettings
 	{
-		public void Add<T>(string key, T value)
+		public void Add(string key, string value)
 		{
 			ApplicationData.Current.RoamingSettings.Values[key] = value;
 		}
 
-		public bool TryGetValue<T>(string key, out T value)
+		public bool TryGetValue(string key, out string value)
 		{
 			var result = false;
 			if (ApplicationData.Current.RoamingSettings.Values.ContainsKey(key))
 			{
-				value = (T)ApplicationData.Current.RoamingSettings.Values[key];
+				value = (string)ApplicationData.Current.RoamingSettings.Values[key];
 				result = true;
 			}
 			else
 			{
-				value = default(T);
+				value = string.Empty;
 			}
 
 			return result;

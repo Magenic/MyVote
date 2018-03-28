@@ -10,10 +10,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ILogger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\IMvxPageNavigationProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Ioc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\IPhotoChooser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\IViewModelLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Logger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\MvxAppStart.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ViewModelLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SharedPoll.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MyVoteApp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Bootstrapper.cs" />
@@ -28,7 +29,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)NavigationCriteria\PollsPageSearchNavigationCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NavigationCriteria\RegistrationPageNavigationCriteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NavigationCriteria\ViewPollPageNavigationCriteria.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\AutofacMvxProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AzureStorageService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IAzureStorageService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IMobileService.cs" />
@@ -36,6 +36,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\MobileService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UiModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AddPollPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\Bundle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\IBundle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\IViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LandingPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PollCommentViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PollDataResultViewModel.cs" />
@@ -54,5 +57,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\UploadViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewPollPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IImageResize.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\INavigationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\NavigatingViewModelBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ViewModelRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Command.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\NavigationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IViewPresenter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\PresentationHint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ClearBackstackHint.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Contracts\" />
   </ItemGroup>
 </Project>

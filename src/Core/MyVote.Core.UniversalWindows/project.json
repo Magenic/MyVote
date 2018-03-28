@@ -1,10 +1,10 @@
 ﻿{
   "dependencies": {
-    "CSLA-Core": "4.6.500",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
+    "CSLA-Core": "4.6.603",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.4.0"
   },
   "frameworks": {
-    "uap10.0": {}
+    "uap10.0.10240": {}
   },
   "runtimes": {
     "win10-arm": {},

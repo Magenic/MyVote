@@ -7,11 +7,11 @@ using MyVote.UI.Services;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MvvmCross.Core.ViewModels;
+using MyVote.UI.Contracts;
 
 namespace MyVote.UI.ViewModels
 {
-	public sealed class LandingPageViewModel : ViewModelBase<LandingPageNavigationCriteria>
+	public sealed class LandingPageViewModel : NavigatingViewModelBase
 	{
 		private readonly IMessageBox messageBox;
 		private readonly IMobileService mobileService;
@@ -24,7 +24,8 @@ namespace MyVote.UI.ViewModels
 			IMobileService mobileService,
 			IObjectFactory<IUserIdentity> objectFactory,
 			IAppSettings appSettings,
-			ILogger logger)
+			ILogger logger,
+            INavigationService navigationService) : base(navigationService)
 		{
 			this.messageBox = messageBox;
 			this.mobileService = mobileService;
@@ -33,14 +34,14 @@ namespace MyVote.UI.ViewModels
 			this.logger = logger;
 		}
 
-		public override void RealInit(LandingPageNavigationCriteria parameter)
+		public override void Init(object parameter)
 		{
-			NavigationCriteria = parameter;
+			NavigationCriteria = (LandingPageNavigationCriteria)parameter;
 		}
 
 		public async override void Start()
 		{
-			base.Start();
+            base.Start();
 			string profileId;
 			if (appSettings.TryGetValue(SettingsKeys.ProfileId, out profileId))
 			{
@@ -59,7 +60,7 @@ namespace MyVote.UI.ViewModels
 			{
 				this.logger.Log(ex);
 				this.IsBusy = false;
-				messageBox.ShowAsync("There was an error loading your profile.", "Error");
+				await messageBox.ShowAsync("There was an error loading your profile.", "Error");
 			}
 		}
 
@@ -67,8 +68,8 @@ namespace MyVote.UI.ViewModels
 		{
 			get
 			{
-				return new MvxCommand(async () =>
-						 await AuthenticateAndGo(AuthenticationProvider.Twitter));
+				return new Command(async () =>
+						 await AuthenticateAndGoAsync(AuthenticationProvider.Twitter));
 			}
 		}
 
@@ -76,8 +77,8 @@ namespace MyVote.UI.ViewModels
 		{
 			get
 			{
-				return new MvxCommand(async () =>
-						 await AuthenticateAndGo(AuthenticationProvider.Facebook));
+				return new Command(async () =>
+						 await AuthenticateAndGoAsync(AuthenticationProvider.Facebook));
 			}
 		}
 
@@ -85,8 +86,8 @@ namespace MyVote.UI.ViewModels
 		{
 			get
 			{
-				return new MvxCommand(async () =>
-						 await AuthenticateAndGo(AuthenticationProvider.Microsoft));
+				return new Command(async () =>
+						 await AuthenticateAndGoAsync(AuthenticationProvider.Microsoft));
 			}
 		}
 
@@ -94,12 +95,12 @@ namespace MyVote.UI.ViewModels
 		{
 			get
 			{
-				return new MvxCommand(async () =>
-						 await AuthenticateAndGo(AuthenticationProvider.Google));
+				return new Command(async () =>
+						 await AuthenticateAndGoAsync(AuthenticationProvider.Google));
 			}
 		}
 
-		private async Task AuthenticateAndGo(AuthenticationProvider provider)
+		private async Task AuthenticateAndGoAsync(AuthenticationProvider provider)
 		{
 			var result = await Authenticate(provider);
 
@@ -109,6 +110,7 @@ namespace MyVote.UI.ViewModels
 				{
 					await messageBox.ShowAsync("Error authenticating.", "Error");
 				}
+                await messageBox.ShowAsync("Unexpected error.", result.Error.Message);
 			}
 			else
 			{
@@ -133,6 +135,11 @@ namespace MyVote.UI.ViewModels
             {
                 logger.Log(ex);
                 identity = null;
+                await messageBox.ShowAsync("DataPortal error.", ex.Message);
+            }
+            catch (Exception e)
+            {
+                var a = e;
             }
 
 			IsBusy = false;
@@ -144,13 +151,8 @@ namespace MyVote.UI.ViewModels
 			else if (identity.IsAuthenticated)
 			{
 #if MOBILE
-				Xamarin.Insights.Identify(profileId, Xamarin.Insights.Traits.Name, identity.UserName);
-				Xamarin.Forms.MessagingCenter.Subscribe<VmPageMappings>(this, string.Format(Constants.Navigation.PageNavigated, typeof(PollsPageViewModel)), (sender) =>
-				{
-					Xamarin.Forms.MessagingCenter.Unsubscribe<VmPageMappings>(this, string.Format(Constants.Navigation.PageNavigated, typeof(PollsPageViewModel)));
-					//this.Close(this);
-					ChangePresentation(new ClearBackstackHint());
-				});
+				//TODO:Change logging 
+                Xamarin.Insights.Identify(profileId, Xamarin.Insights.Traits.Name, identity.UserName);
 #endif // MOBILE
 
 				// If there is a PollId, the user is coming in from a URI.
@@ -165,13 +167,13 @@ namespace MyVote.UI.ViewModels
 						PollId = NavigationCriteria.PollId.Value
 					};
 
-					ShowViewModel<PollsPageViewModel>();
+					navigationService.ShowViewModel<PollsPageViewModel>();
 #if MOBILE
-                    ChangePresentation(new ClearBackstackHint());
+                    navigationService.ChangePresentation(new ClearBackstackHint());
 #endif
-                    ShowViewModel<ViewPollPageViewModel>(criteria);
+                    navigationService.ShowViewModel<ViewPollPageViewModel>(criteria);
 #if !MOBILE
-					this.Close(this);
+					//this.Close(this);
 #endif
 				}
 
@@ -182,23 +184,23 @@ namespace MyVote.UI.ViewModels
 						SearchQuery = NavigationCriteria.SearchQuery
 					};
 
-					ShowViewModel<PollsPageViewModel>();
+					navigationService.ShowViewModel<PollsPageViewModel>();
 #if MOBILE
-                    ChangePresentation(new ClearBackstackHint());
+                    navigationService.ChangePresentation(new ClearBackstackHint());
 #endif
-                    ShowViewModel<ViewPollPageViewModel>(criteria);
+                    navigationService.ShowViewModel<ViewPollPageViewModel>(criteria);
 #if !MOBILE
-					this.Close(this);
+					//this.Close(this);
 #endif
 				}
 				else
 				{
-					ShowViewModel<PollsPageViewModel>();
+					navigationService.ShowViewModel<PollsPageViewModel>();
 #if MOBILE
-                    ChangePresentation(new ClearBackstackHint());
+                    navigationService.ChangePresentation(new ClearBackstackHint());
 #endif
 #if !MOBILE
-					this.Close(this);
+					//this.Close(this);
 #endif
                 }
             }
@@ -214,7 +216,7 @@ namespace MyVote.UI.ViewModels
 					criteria.PollId = NavigationCriteria.PollId;
 				}
 
-				ShowViewModel<RegistrationPageViewModel>(criteria);
+				navigationService.ShowViewModel<RegistrationPageViewModel>(criteria);
 			}
 		}
 

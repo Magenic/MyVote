@@ -1,9 +1,8 @@
-﻿using MvvmCross.Core.ViewModels;
-using MyVote.BusinessObjects.Contracts;
+﻿using MyVote.BusinessObjects.Contracts;
 
 namespace MyVote.UI.ViewModels
 {
-    public sealed class PollOptionViewModel : MvxViewModel
+    public sealed class PollOptionViewModel : ViewModelBase
     {
 		private readonly IPoll poll;
 		private readonly IObjectFactory<IPollOption> objectFactory;
@@ -40,7 +39,7 @@ namespace MyVote.UI.ViewModels
 			set
 			{
 				this.optionText = value;
-				this.RaisePropertyChanged(() => OptionText);
+                this.RaisePropertyChanged(nameof(OptionText));
 				if (!string.IsNullOrEmpty(value))
 				{
 					if (PollOption == null)

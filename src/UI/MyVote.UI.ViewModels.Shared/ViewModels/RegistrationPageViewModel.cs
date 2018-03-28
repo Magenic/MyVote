@@ -8,11 +8,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MvvmCross.Core.ViewModels;
+using MyVote.UI.Contracts;
 
 namespace MyVote.UI.ViewModels
 {
-	public sealed class RegistrationPageViewModel : ViewModelBase<RegistrationPageNavigationCriteria>
+	public sealed class RegistrationPageViewModel : NavigatingViewModelBase
     {
 		private readonly IObjectFactory<IUser> objectFactory;
 		private readonly IObjectFactory<IUserIdentity> userIdentityObjectFactory;
@@ -23,7 +23,8 @@ namespace MyVote.UI.ViewModels
 			IObjectFactory<IUser> objectFactory,
 			IObjectFactory<IUserIdentity> userIdentityObjectFactory,
 			IMessageBox messageBox,
-			ILogger logger)
+			ILogger logger,
+            INavigationService navigationService) : base(navigationService)
 		{
 			this.objectFactory = objectFactory;
 			this.userIdentityObjectFactory = userIdentityObjectFactory;
@@ -37,7 +38,7 @@ namespace MyVote.UI.ViewModels
 		{
 			get
 			{
-				return new MvxCommand(async () => await SubmitHandlerAsync());
+				return new Command(async () => await SubmitHandlerAsync());
 			}
 		}
 
@@ -66,17 +67,17 @@ namespace MyVote.UI.ViewModels
 			{
 				// Always navigate to the Polls page first.
 
-				this.ShowViewModel<PollsPageViewModel>();
+				navigationService.ShowViewModel<PollsPageViewModel>();
 
 				// If there is a PollId, the user is coming in from a URI link.
 				// Navigate to the View Poll page, leaving the Polls page in the back
 				// stack so the user can back up to it.
 				if (this.NavigationCriteria.PollId.HasValue)
 				{
-					this.Close(this);
+					navigationService.Close();
 				}
 #if MOBILE
-                ChangePresentation(new ClearBackstackHint());
+                navigationService.ChangePresentation(new ClearBackstackHint());
 #endif
             }
             else
@@ -85,9 +86,9 @@ namespace MyVote.UI.ViewModels
 			}
 		}
 
-		public override void RealInit(RegistrationPageNavigationCriteria criteria)
+		public override void Init(object parameter)
 		{
-			this.NavigationCriteria = criteria;
+			this.NavigationCriteria = (RegistrationPageNavigationCriteria)parameter;
 		}
 
 		public async override void Start()
@@ -117,7 +118,7 @@ namespace MyVote.UI.ViewModels
 			}
 			catch (Exception ex)
 			{
-				this.messageBox.ShowAsync("There was an error creating the user: " + ex.Message, "Error");
+                await this.messageBox.ShowAsync($"There was an error creating the user: {ex.Message}", "Error");
 				this.logger.Log(ex);
 			}
 		}
@@ -134,7 +135,7 @@ namespace MyVote.UI.ViewModels
 
 		private void UserPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			this.RaisePropertyChanged(() => this.CanSave);
+            this.RaisePropertyChanged(nameof(CanSave));
 		}
 
 		private RegistrationPageNavigationCriteria NavigationCriteria { get; set; }
@@ -156,7 +157,7 @@ namespace MyVote.UI.ViewModels
 				{
 					value.PropertyChanged += UserPropertyChanged;
 				}
-				this.RaisePropertyChanged(() => this.User);
+                this.RaisePropertyChanged(nameof(User));
 			}
 		}
 

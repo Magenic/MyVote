@@ -1,10 +1,9 @@
-﻿using MvvmCross.Platform.Platform;
-using System;
+﻿using System;
 using System.Diagnostics;
 
 namespace MyVote.UI
 {
-    public class DebugTrace : IMvxTrace
+    /*public class DebugTrace : IMvxTrace
     {
         public void Trace(MvxTraceLevel level, string tag, Func<string> message)
         {
@@ -27,5 +26,5 @@ namespace MyVote.UI
                 Trace(MvxTraceLevel.Error, tag, "Exception during trace of {0} {1} {2}", level, message);
             }
         }
-    }
+    }*/
 }

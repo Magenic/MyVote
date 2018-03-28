@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -12,7 +13,7 @@ namespace MyVote.Data.Entities
 	/// Lifted from: http://romiller.com/2012/02/14/testing-with-a-fake-dbcontext/.
 	/// Useful in testing/mocking scenarios.
 	/// </summary>
-	public class InMemoryDbSet<T> : IDbSet<T>
+	public class InMemoryDbSet<T> : DbSet<T>, IQueryable<T>
 		 where T : class
 	{
 		private ObservableCollection<T> data;
@@ -25,27 +26,27 @@ namespace MyVote.Data.Entities
 			this.query = this.data.AsQueryable();
 		}
 
-		public virtual T Find(params object[] keyValues)
+		public override T Find(params object[] keyValues)
 		{
 			throw new NotImplementedException("Derive from InMemoryDbSet<T> and override Find");
 		}
 
-		public T Add(T item)
+		public override EntityEntry<T> Add(T entity)
 		{
-			this.data.Add(item);
-			return item;
+			this.data.Add(entity);
+			return default(EntityEntry<T>);
 		}
 
-		public T Remove(T item)
+		public override EntityEntry<T> Remove(T entity)
 		{
-			this.data.Remove(item);
-			return item;
+			this.data.Remove(entity);
+			return default(EntityEntry<T>);
 		}
 
-		public T Attach(T item)
+		public override EntityEntry<T> Attach(T entity)
 		{
-			this.data.Add(item);
-			return item;
+			this.data.Add(entity);
+			return default(EntityEntry<T>);
 		}
 
 		public T Detach(T item)
@@ -62,11 +63,6 @@ namespace MyVote.Data.Entities
 		public TDerivedEntity Create<TDerivedEntity>() where TDerivedEntity : class, T
 		{
 			return Activator.CreateInstance<TDerivedEntity>();
-		}
-
-		public ObservableCollection<T> Local
-		{
-			get { return this.data; }
 		}
 
 		Type IQueryable.ElementType
@@ -93,5 +89,8 @@ namespace MyVote.Data.Entities
 		{
 			return this.data.GetEnumerator();
 		}
+
+		public ObservableCollection<T> LocalData => this.data;
+
 	}
 }

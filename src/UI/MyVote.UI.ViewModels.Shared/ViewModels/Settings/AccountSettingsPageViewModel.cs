@@ -1,37 +1,37 @@
 ﻿using MyVote.UI.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
-using MvvmCross.Core.ViewModels;
+using Csla.Security;
+using MyVote.UI.Contracts;
 
 namespace MyVote.UI.ViewModels.Settings
 {
     public sealed class AccountSettingsPageViewModel : ViewModelBase
     {
 		private readonly IAppSettings appSettings;
+        private readonly INavigationService navigationService;
 
 		public AccountSettingsPageViewModel(
-			IAppSettings appSettings)
+			IAppSettings appSettings,
+            INavigationService navigationService)
 		{
 			this.appSettings = appSettings;
+            this.navigationService = navigationService;
 		}
 
 		public ICommand LogOut
 		{
 			get
 			{
-				return new MvxCommand(() => this.ExecuteLogOut());
+				return new Command(() => ExecuteLogOut());
 			}
 		}
 
 		public void ExecuteLogOut()
 		{
 			this.appSettings.Remove(SettingsKeys.ProfileId);
-			Csla.ApplicationContext.User = null;
-			// TODO: Implement custom presenter with ability to reset the
-			//		 view stack and show the landing page.
-			//this.ChangePresentation(new LogOutHint());
+			Csla.ApplicationContext.User = new UnauthenticatedPrincipal(); ;
+            navigationService.ShowViewModel<LandingPageViewModel>();
+			navigationService.ChangePresentation(new ClearBackstackHint());
 		}
     }
 }

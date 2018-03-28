@@ -1,15 +1,15 @@
 ﻿using Autofac;
+
 namespace MyVote.Services.AppServer.Auth
 {
 	public sealed class AuthModule
-		:  Module
+		: Module
 	{
 		protected override void Load(ContainerBuilder builder)
 		{
 			builder
 				.RegisterType<MyVoteAuthentication>()
-				.As<IMyVoteAuthentication>()
-				.PropertiesAutowired();
+				.As<IMyVoteAuthentication>();
 		}
 	}
 }

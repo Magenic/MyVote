@@ -1,19 +1,14 @@
 ﻿using MyVote.BusinessObjects.Contracts;
 using System;
-using MvvmCross.Core.ViewModels;
 
 namespace MyVote.UI.ViewModels
 {
-	public sealed class PollDataResultViewModel : MvxViewModel
+	public sealed class PollDataResultViewModel : ViewModelBase
 	{
-		public PollDataResultViewModel(IPollDataResult pollDataResult, int totalResponses)
+		public PollDataResultViewModel(IPollDataResult pollDataResult, 
+                                       int totalResponses)
 		{
-			if (pollDataResult == null)
-			{
-				throw new ArgumentNullException("pollDataResult");
-			}
-
-			this.PollDataResult = pollDataResult;
+            this.PollDataResult = pollDataResult ?? throw new ArgumentNullException(nameof(pollDataResult));
 			this.TotalResponses = totalResponses;
 		}
 
@@ -24,7 +19,7 @@ namespace MyVote.UI.ViewModels
 			private set
 			{
 				this.pollDataResult = value;
-				this.RaisePropertyChanged(() => this.PollDataResult);
+                this.RaisePropertyChanged(nameof(PollDataResult));
 			}
 		}
 
@@ -35,8 +30,8 @@ namespace MyVote.UI.ViewModels
 			private set
 			{
 				this.totalResponses = value;
-				this.RaisePropertyChanged(() => this.TotalResponses);
-				this.RaisePropertyChanged(() => this.ResponsePercentage);
+                this.RaisePropertyChanged(nameof(TotalResponses));
+                this.RaisePropertyChanged(nameof(ResponsePercentage));
 			}
 		}
 

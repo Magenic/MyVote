@@ -1,40 +1,43 @@
-﻿using System.Threading;
-using System.Web;
-using MyVote.BusinessObjects.Contracts;
+﻿using MyVote.BusinessObjects.Contracts;
+using System;
 
 namespace MyVote.Services.AppServer.Auth
 {
-	public class MyVoteAuthentication : IMyVoteAuthentication
+	// TODO: This should be using OAuth authentication
+	// and whatnot, but for now, just have 1 user in the DB
+	// that has an ID of "1". This HAS to get changed 
+	// in the very near future,
+	public sealed class MyVoteAuthentication 
+		: IMyVoteAuthentication
 	{
-		public IObjectFactory<IUser> UserFactory { get; set; }
+		private readonly IObjectFactory<IUser> userFactory;
 
-		public static void SetCurrentPrincipal(MyVotePrincipal principal)
+		public MyVoteAuthentication(IObjectFactory<IUser> userFactory)
 		{
-			Thread.CurrentPrincipal = principal;
-			if (HttpContext.Current != null)
-				HttpContext.Current.User = principal;
+			if (userFactory == null)
+			{
+				throw new ArgumentNullException(nameof(userFactory));
+			}
+
+			this.userFactory = userFactory;
 		}
 
 		public MyVotePrincipal CurrentPrincipal
 		{
-			get { return Thread.CurrentPrincipal as MyVotePrincipal; }
+			get
+			{
+				return new MyVotePrincipal("test");
+			}
 		}
 
 		public IUser GetCurrentUser()
 		{
-			if (CurrentPrincipal != null)
-			{
-				return UserFactory.Fetch(CurrentPrincipal.Identity.Name);
-			}
-			return null;
+			return this.userFactory.Fetch("test");
 		}
 
 		public int? GetCurrentUserID()
 		{
-			var currentUser = GetCurrentUser();
-			if (currentUser != null)
-				return currentUser.UserID;
-			return null;
+			return 1;
 		}
 	}
 }

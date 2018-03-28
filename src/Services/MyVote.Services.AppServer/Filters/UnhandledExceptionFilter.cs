@@ -1,28 +1,21 @@
-﻿using System;
-using System.Web.Http.Filters;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace MyVote.Services.AppServer.Filters
 {
 	public sealed class UnhandledExceptionFilter
-		: ExceptionFilterAttribute
+		: IExceptionFilter
 	{
-		//private readonly ILogger logger;
-
-		public UnhandledExceptionFilter(/*ILogger logger*/)
+		public void OnException(ExceptionContext context)
 		{
-			//if (logger == null)
-			//{
-			//	throw new ArgumentNullException("logger");
-			//}
+			var exception = context.Exception;
 
-			//this.logger = logger;
-		}
-
-		public override void OnException(HttpActionExecutedContext context)
-		{
-			//this.logger.Error(context.Exception,
-			//	"Unhandled Exception.");
-			Console.WriteLine(context.Exception.ToString());
+			context.Result = new ObjectResult(
+				new ExceptionResult(exception))
+			{
+				StatusCode = StatusCodes.Status500InternalServerError
+			};
 		}
 	}
 }

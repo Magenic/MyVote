@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using Android.Support.V4.Content;
 using Android.Widget;
 using MyVote.UI.Controls;
 using MyVote.UI.Renderers;
@@ -24,7 +25,8 @@ namespace MyVote.UI.Renderers
                     control.SetBackground(null);
                     if (!string.IsNullOrWhiteSpace(model.ErrorMessage))
                     {
-                        control.SetError(model.ErrorMessage, Resources.GetDrawable(Resource.Drawable.ic_error_white_24dp, Context.Theme));
+                        control.SetError(model.ErrorMessage, ContextCompat.GetDrawable(Context, Resource.Drawable.ic_error_white_24dp));
+
                         control.Error = model.ErrorMessage;
                     }
                 }
@@ -40,14 +42,14 @@ namespace MyVote.UI.Renderers
             {
                 if (!string.IsNullOrWhiteSpace(model.ErrorMessage))
                 {
-                    control.Error = model.ErrorMessage;
+						control.Error = model.ErrorMessage; 
                 }
                 else
                 {
                     control.Error = null;
                 }
             }
-            else if (e.PropertyName == "Text" && !string.IsNullOrEmpty(model.ErrorMessage))
+            if (e.PropertyName == "Text" && !string.IsNullOrEmpty(model.ErrorMessage))
             {
                 control.Error = model.ErrorMessage;
             }

@@ -8,11 +8,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MvvmCross.Core.ViewModels;
+using MyVote.UI.Contracts;
 
 namespace MyVote.UI.ViewModels
 {
-	public sealed class ViewPollPageViewModel : ViewModelBase<ViewPollPageNavigationCriteria>
+	public sealed class ViewPollPageViewModel : NavigatingViewModelBase
     {
 		private readonly IObjectFactory<IPollSubmissionCommand> objectFactory;
         private readonly IObjectFactory<IPoll> pollFactory;
@@ -28,12 +28,13 @@ namespace MyVote.UI.ViewModels
             IObjectFactory<IPollSubmissionCommand> objectFactory,
             IObjectFactory<IPoll> pollFactory,
             IMessageBox messageBox,
-			ILogger logger
+			ILogger logger,
+            INavigationService navigationService
 #if NETFX_CORE
 			, IShareManager shareManager,
 			ISecondaryPinner secondaryPinner
 #endif // NETFX_CORE
-)
+) : base(navigationService)
         {
             this.objectFactory = objectFactory;
             this.pollFactory = pollFactory;
@@ -74,7 +75,7 @@ namespace MyVote.UI.ViewModels
             }
         }
 
-        public async Task Submit()
+        public async Task SubmitAsync()
         {
             this.IsBusy = true;
 
@@ -92,11 +93,11 @@ namespace MyVote.UI.ViewModels
 
             if (!hasError)
             {
-                this.NavigateToPollResults(this.PollSubmission.PollID);
+                NavigateToPollResults(this.PollSubmission.PollID);
             }
             else
             {
-                await this.messageBox.ShowAsync("There was an error submitting your poll. Please try again.", "Error");
+                await messageBox.ShowAsync("There was an error submitting your poll. Please try again.", "Error");
             }
         }
 
@@ -104,7 +105,7 @@ namespace MyVote.UI.ViewModels
 		{
 			get
 			{
-				return new MvxCommand(async () => await DeletePollHandler());
+				return new Command(async () => await DeletePollHandler());
 			}
 		}
 
@@ -147,7 +148,7 @@ namespace MyVote.UI.ViewModels
 		{
 			get
 			{
-				return new MvxCommand<Windows.UI.Xaml.FrameworkElement>(async (param) => await PinPollHandler(param));
+				return new Command<Windows.UI.Xaml.FrameworkElement>(async (param) => await PinPollHandler(param));
 			}
 		}
 
@@ -160,7 +161,7 @@ namespace MyVote.UI.ViewModels
 		{
 			get
 			{
-				return new MvxCommand<Windows.UI.Xaml.FrameworkElement>(async (param) => await UnpinPollHandler(param));
+				return new Command<Windows.UI.Xaml.FrameworkElement>(async (param) => await UnpinPollHandler(param));
 			}
 		}
 
@@ -170,17 +171,16 @@ namespace MyVote.UI.ViewModels
 		}
 #endif // NETFX_CORE
 
-        public override void Start()
+        public override async void Start()
         {
-            var task = this.LoadPollAsync();
-            var awaiter = task.GetAwaiter();
-            awaiter.OnCompleted(() =>
+            try
             {
-                if (task.Exception != null)
-                {
-					this.logger.Log(task.Exception);
-                }
-            });
+                await LoadPollAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.Log(ex);
+            }
 
 #if NETFX_CORE
 			this.shareManager.Initialize();
@@ -188,18 +188,19 @@ namespace MyVote.UI.ViewModels
 #endif // NETFX_CORE
         }
 
-		protected override void SaveStateToBundle(IMvxBundle bundle)
-		{
-			base.SaveStateToBundle(bundle);
+        //ToDo: needs to be refactored for UWP
+//		protected override void SaveStateToBundle(IMvxBundle bundle)
+//		{
+//			base.SaveStateToBundle(bundle);
 
-#if NETFX_CORE
-			this.shareManager.Cleanup();
-#endif // NETFX_CORE
-		}
+//#if NETFX_CORE
+//			this.shareManager.Cleanup();
+//#endif // NETFX_CORE
+		//}
 
-        public override void RealInit(ViewPollPageNavigationCriteria criteria)
+        public override void Init(object parameter)
         {
-            this.NavigationCriteria = criteria;
+            this.NavigationCriteria = (ViewPollPageNavigationCriteria)parameter;
         }
 
         private void NavigateToPollResults(int pollId)
@@ -210,17 +211,17 @@ namespace MyVote.UI.ViewModels
             };
 
 			this.GoBack.Execute(null);
-            this.ShowViewModel<PollResultsPageViewModel>(navigationCriteria);
+            navigationService.ShowViewModel<PollResultsPageViewModel>(navigationCriteria);
         }
 
         private void PollSubmission_ChildChanged(object sender, Csla.Core.ChildChangedEventArgs e)
         {
-            this.RaisePropertyChanged(() => this.CanSubmit);
+            this.RaisePropertyChanged(nameof(CanSubmit));
         }
 
         private void PollSubmission_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            this.RaisePropertyChanged(() => this.CanSubmit);
+            this.RaisePropertyChanged(nameof(CanSubmit));
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -250,7 +251,7 @@ namespace MyVote.UI.ViewModels
 #endif // NETFX_CORE
                 }
 
-                this.RaisePropertyChanged(() => this.PollSubmission);
+                this.RaisePropertyChanged(nameof(PollSubmission));
             }
         }
 
@@ -261,7 +262,7 @@ namespace MyVote.UI.ViewModels
             set
             {
                 this.isPollPinned = value;
-                this.RaisePropertyChanged(() => this.IsPollPinned);
+                this.RaisePropertyChanged(nameof(IsPollPinned));
             }
         }
 
@@ -273,10 +274,7 @@ namespace MyVote.UI.ViewModels
                 {
                     return this.PollSubmission.IsActive && this.PollSubmission.IsSavable;
                 }
-                else
-                {
-                    return false;
-                }
+                return false;
             }
         }
 
@@ -284,7 +282,7 @@ namespace MyVote.UI.ViewModels
 		{
 			get
 			{
-				return new MvxCommand(async () => await this.Submit());
+				return new Command(async () => await this.SubmitAsync());
 			}
 		}
     }

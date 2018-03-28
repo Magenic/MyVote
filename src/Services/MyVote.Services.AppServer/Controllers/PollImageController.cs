@@ -1,37 +1,45 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace MyVote.Services.AppServer.Controllers
 {
-	public class PollImageController : ApiController
+	[Route("api/[controller]")]
+	public sealed class PollImageController 
+		: Controller
 	{
-        const string STORAGE_CONNECTION_STRING = "YOUR_AZURE_BLOB_CONNECTION_HERE";
+	    const string STORAGE_CONNECTION_STRING = "YOUR_AZURE_BLOB_CONNECTION_HERE";
 
-		[Authorize]
-		public HttpResponseMessage Put(HttpRequestMessage request)
+        [Authorize]
+		[HttpPost]		
+		public async Task<IActionResult> Post()
 		{
-			string imageId = Guid.NewGuid().ToString("N") + ".jpg"; // TODO: file extension from client side
-			var imageBytes = request.Content.ReadAsByteArrayAsync().Result;
 
-			var pollPicturesContainer = CloudStorageAccount
-				.Parse(STORAGE_CONNECTION_STRING)
-				.CreateCloudBlobClient()
-				.GetContainerReference("pollimages");
+            //Read file from POST and extract properties
+		    var imageFile = Request.Form.Files[0];
+		    var fileExtension = Path.GetExtension(imageFile.FileName);
+            var imageId = Guid.NewGuid().ToString("N") + fileExtension;
+            var imageStream = new MemoryStream(new BinaryReader(imageFile.OpenReadStream()).ReadBytes((int)imageFile.Length));
 
-			var imageBlockBlob = pollPicturesContainer.GetBlockBlobReference(imageId);
-			using (var imageStream = new MemoryStream(imageBytes))
-			{
-				imageBlockBlob.UploadFromStream(imageStream, null, new BlobRequestOptions{ ServerTimeout = TimeSpan.FromSeconds(15)});
-			}
+            // Setup cloud storage account
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(STORAGE_CONNECTION_STRING);
 
-			return request.CreateResponse(
-				HttpStatusCode.OK,
-				new { imageUrl = "https://myvoteapp.blob.core.windows.net/pollimages/" + imageId});
+            // Create the blob client.
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+
+            // Retrieve a reference to a container.
+            CloudBlobContainer container = blobClient.GetContainerReference("pollimages");
+            
+            CloudBlockBlob blockBlob = container.GetBlockBlobReference(imageId);
+
+            await blockBlob.UploadFromStreamAsync(imageStream);
+
+            return new OkObjectResult(new { imageUrl = blockBlob.Uri.ToString() });
+
 		}
 	}
 }

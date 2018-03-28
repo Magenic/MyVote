@@ -5,22 +5,22 @@ namespace MyVote.UI.Helpers
 {
 	public sealed class AppSettings : IAppSettings
 	{
-		public void Add<T>(string key, T value)
+		public void Add(string key, string value)
 		{
 			var settings = CrossSettings.Current;
             settings.AddOrUpdateValue(key, value);
 		}
 
-		public bool TryGetValue<T>(string key, out T value)
+		public bool TryGetValue(string key, out string value)
 		{
 			var settings = CrossSettings.Current;
 		    try
 		    {
-		        value = settings.GetValueOrDefault<T>(key);
+		        value = settings.GetValueOrDefault(key, string.Empty);
 		    }
 		    catch (NullReferenceException)
 		    {
-		        value = default(T);
+		        value = string.Empty;
 		        return false;
 		    }
 		    return value != null && !string.IsNullOrEmpty(value.ToString());

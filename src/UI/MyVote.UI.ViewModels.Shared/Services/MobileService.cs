@@ -25,7 +25,7 @@ namespace MyVote.UI.Services
 			"https://localhost:44305/");
 #else
 	    private readonly MobileServiceClient mobileService = new MobileServiceClient(
-            "https://yourapi.azurewebsites.net/");
+            "https://myapp.azurewebsites.net/");
         #region Private Key
  //"heZNtCPzxAcMZxWlLRzxfuhVQPLaeB41"
         #endregion
@@ -34,12 +34,15 @@ namespace MyVote.UI.Services
 
 		public async Task<string> AuthenticateAsync(AuthenticationProvider provider)
 		{
+#if IOS
+            AppDelegate.ResumeWithURL = url => url.Scheme == "commagenicmyvote" && this.mobileService.ResumeWithURL(url);
+#endif
 #if MOBILE
-			var user = await this.mobileService.LoginAsync(currentUiContext.CurrentContext, ToMobileServiceProvider(provider));
+			var user = await this.mobileService.LoginAsync(currentUiContext.CurrentContext, ToMobileServiceProvider(provider), "commagenicmyvote");
 #else
-			var user = await this.mobileService.LoginAsync(ToMobileServiceProvider(provider));
+            var user = await this.mobileService.LoginAsync(ToMobileServiceProvider(provider), "commagenicmyvote");
 #endif // MOBILE
-			return user.UserId;
+            return user.UserId;
 		}
 
 		public async Task<string> GenerateStorageAccessSignatureAsync()
@@ -51,7 +54,7 @@ namespace MyVote.UI.Services
 #if DEBUG_OFF && !MOBILE
 				client.BaseAddress = new Uri("https://localhost:44305/");
 #else
-				client.BaseAddress = new Uri("http://yourapi.azurewebsites.net/");
+                client.BaseAddress = new Uri("http://myapp.azurewebsites.net/");
 #endif // DEBUG
 
 				var response = await client.GetAsync("api/SasGenerator?ZUMO-API-VERSION=2.0.0").ConfigureAwait(false);
@@ -84,6 +87,11 @@ namespace MyVote.UI.Services
 			}
 		}
 
+		public void ResumeWithUrl(Uri uri)
+		{
+			this.mobileService.ResumeWithURL(uri);
+		}
+
 #if NETFX_CORE || MOBILE
 		public void Dispose()
 		{
@@ -102,12 +110,5 @@ namespace MyVote.UI.Services
 			}
 		}
 #endif // NETFX_CORE || MOBILE
-
-#if WINDOWS_PHONE_APP
-		public void AuthenticationComplete(Windows.ApplicationModel.Activation.WebAuthenticationBrokerContinuationEventArgs args)
-		{
-			this.mobileService.LoginComplete(args);
-		}
-#endif // WINDOWS_PHONE_APP
 	}
 }

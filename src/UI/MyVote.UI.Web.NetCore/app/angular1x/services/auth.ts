@@ -61,24 +61,28 @@ module MyVote.Services {
             return this._savedZumoUser != null;
         }
 
-        public loadSavedLogin(): ng.IPromise<MyVote.Services.AppServer.Models.User> {
-            return this._myVoteService.getUser(this._savedZumoUser.userId)
-                .then((result: any) => {
-                    if (result) {
-                        AuthService._client.currentUser = this._savedZumoUser;
-                        this.userId = result.UserID;
-                        this.userName = result.UserName;
-                        this._rootScope.$emit(AuthService.LoginEvent);
+        public loadSavedLogin(): Promise<MyVote.Services.AppServer.Models.User> {
+
+            return new Promise((resolve, reject) => {
+                return this._myVoteService.getUser(this._savedZumoUser.userId)
+                    .then((result: any) => {
+                        if (result) {
+                            AuthService._client.currentUser = this._savedZumoUser;
+                            this.userId = result.UserID;
+                            this.userName = result.UserName;
+                            this._rootScope.$emit(AuthService.LoginEvent);
+                        }
+                        resolve(result);
+                    }, (error) => {
+                        //Indicate there was an Authorization error and a user was not returned
+                        this._isAuthError = true;
+                        //Remove any saved user credentials from storage as they were not valid anymore (i.e. expired)
+                        window.localStorage.removeItem(AuthService._zumoUserKey);
+                        return reject(error);
                     }
-                    return result;
-                }, (error) => {
-                    //Indicate there was an Authorization error and a user was not returned
-                    this._isAuthError = true;
-                    //Remove any saved user credentials from storage as they were not valid anymore (i.e. expired)
-                    window.localStorage.removeItem(AuthService._zumoUserKey);
-                    return this._q.reject(error);
-                }
-            );
+            )});
+
+
         }
 
         public login(provider: string): Microsoft.WindowsAzure.asyncPromise {

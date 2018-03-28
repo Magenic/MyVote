@@ -7,7 +7,6 @@ using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Views;
 
-using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
 using MyVote.UI.Enums;

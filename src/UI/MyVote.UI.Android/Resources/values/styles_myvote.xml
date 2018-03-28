@@ -19,7 +19,10 @@
 
 <resources>
 
-    <style name="Theme.Myvote" parent="@android:style/Theme.Holo">
+    <style name="Theme.Myvote" parent="Theme.AppCompat">
+		<item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
         <item name="android:actionBarItemBackground">@drawable/selectable_background_myvote</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Myvote</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Myvote</item>
@@ -31,47 +34,47 @@
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Myvote</item>
     </style>
 
-    <style name="ActionBar.Solid.Myvote" parent="@android:style/Widget.Holo.ActionBar.Solid">
+    <style name="ActionBar.Solid.Myvote" parent="@style/Widget.AppCompat.ActionBar.Solid">
         <item name="android:background">@drawable/ab_solid_myvote</item>
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_myvote</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_myvote</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Myvote</item>
     </style>
 
-    <style name="ActionBar.Transparent.Myvote" parent="@android:style/Widget.Holo.ActionBar">
+    <style name="ActionBar.Transparent.Myvote" parent="@style/Widget.AppCompat.ActionBar">
         <item name="android:background">@drawable/ab_transparent_myvote</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Myvote</item>
     </style>
 
-    <style name="PopupMenu.Myvote" parent="@android:style/Widget.Holo.ListPopupWindow">
+    <style name="PopupMenu.Myvote" parent="@style/Widget.AppCompat.ListPopupWindow">
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_myvote</item>	
     </style>
 
-    <style name="DropDownListView.Myvote" parent="@android:style/Widget.Holo.ListView.DropDown">
+    <style name="DropDownListView.Myvote" parent="@style/Widget.AppCompat.ListView.DropDown">
         <item name="android:listSelector">@drawable/selectable_background_myvote</item>
     </style>
 
-    <style name="ActionBarTabStyle.Myvote" parent="@android:style/Widget.Holo.ActionBar.TabView">
+    <style name="ActionBarTabStyle.Myvote" parent="@style/Widget.AppCompat.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_myvote</item>
     </style>
 
-    <style name="DropDownNav.Myvote" parent="@android:style/Widget.Holo.Spinner">
+    <style name="DropDownNav.Myvote" parent="@style/Widget.AppCompat.Spinner">
         <item name="android:background">@drawable/spinner_background_ab_myvote</item>
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_myvote</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_myvote</item>
     </style>
     
-    <style name="ProgressBar.Myvote" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
+    <style name="ProgressBar.Myvote" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_myvote</item>
     </style>
     
-    <style name="ActionButton.CloseMode.Myvote" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
+    <style name="ActionButton.CloseMode.Myvote" parent="@style/Widget.AppCompat.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_myvote</item>
     </style>
 
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-    <style name="Theme.Myvote.Widget" parent="@android:style/Theme.Holo">
+<!--    <style name="Theme.Myvote.Widget" parent="@style/Widget.AppCompat">
         <item name="android:popupMenuStyle">@style/PopupMenu.Myvote</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Myvote</item>
-    </style>
+    </style>-->
 </resources>

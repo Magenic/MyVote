@@ -1,7 +1,12 @@
 ﻿// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
+using MyVote.UI.Helpers;
 using MyVote.UI.ViewModels;
+using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Navigation;
+using Autofac;
+using MyVote.UI.Services;
 
 namespace MyVote.UI.Views
 {
@@ -10,19 +15,30 @@ namespace MyVote.UI.Views
     /// </summary>
     public sealed partial class LandingPage : MyVotePage
     {
+		private NavigatingViewModelBase ViewModel { get; set; }
+
         public LandingPage()
         {
             this.InitializeComponent();
             this.Loaded += LandingPage_Loaded;
         }
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
+			base.OnNavigatedTo(e);
 
-        void LandingPage_Loaded(object sender, RoutedEventArgs e)
+			if (e.Parameter is Uri)
+			{
+				Ioc.Container.Resolve<IMobileService>().ResumeWithUrl(e.Parameter as Uri);
+			}
+		}
+		void LandingPage_Loaded(object sender, RoutedEventArgs e)
         {
             VisualStateManager.GoToState(this, "DoneLoading", true);
 
             if (this.DataContext != null)
             {
-                ((ViewModelBase)this.ViewModel).PropertyChanged += viewModel_PropertyChanged;
+				this.ViewModel = (NavigatingViewModelBase)this.DataContext;
+                this.ViewModel.PropertyChanged += viewModel_PropertyChanged;
 
                 UpdateState();
             }
@@ -39,7 +55,7 @@ namespace MyVote.UI.Views
             if (this.ViewModel == null)
                 return;
 
-            if (((ViewModelBase)this.ViewModel).IsBusy)
+            if (this.ViewModel.IsBusy)
                 VisualStateManager.GoToState(this, "Busy", true);
             else
                 VisualStateManager.GoToState(this, "Idle", true);

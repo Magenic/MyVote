@@ -2,6 +2,7 @@
 using MyVote.UI.Services;
 using System.Threading.Tasks;
 using System.IO;
+using MyVote.UI.Contracts;
 
 #if __MOBILE__
 using Xamarin.Forms;
@@ -18,9 +19,9 @@ namespace MyVote.UI.ViewModels
 		private readonly IPhotoChooser photoChooser;
         private readonly IImageResize imageResize;
 
-		public PollImageViewModel(
-			IAzureStorageService azureStorageService,
-			IPhotoChooser photoChooser,
+        public PollImageViewModel(
+            IAzureStorageService azureStorageService,
+            IPhotoChooser photoChooser,
             IImageResize imageResize)
 		{
 			this.azureStorageService = azureStorageService;
@@ -54,7 +55,7 @@ namespace MyVote.UI.ViewModels
 		{
 			await azureStorageService.UploadPicture(UploadViewModel);
 
-			return string.Format("{0}{1}", PollImageViewModel.PollPicturesUrlBase, UploadViewModel.ImageIdentifier);
+			return $"{PollImageViewModelBase.PollPicturesUrlBase}{UploadViewModel.ImageIdentifier}";
 		}
 	}
 }

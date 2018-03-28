@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Mvc5AppServer.Controllers
+namespace MyVote.Services.AppServer.Controllers
 {
-  public class DataPortalController : Csla.Server.Hosts.HttpPortalController
-  {
-    public async override Task<HttpResponseMessage> PostAsync(string operation)
+    [Route("api/[controller]")]
+    public class DataPortalController : Csla.Server.Hosts.HttpPortalController
     {
-      var result = await base.PostAsync(operation).ConfigureAwait(false);
-      return result;
+        [HttpPost]
+        public async override Task PostAsync(string operation)
+        {
+            await base.PostAsync(operation).ConfigureAwait(false);
+        }
     }
-  }
 }

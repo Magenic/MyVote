@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="typings\custom\TypeLite\**" />
+    <Content Remove="typings\custom\TypeLite\**" />
+    <EmbeddedResource Remove="typings\custom\TypeLite\**" />
+    <None Remove="typings\custom\TypeLite\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="**.user;**.vspscc">
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.0-alpha1-final" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="typings\angularjs\" />
+    <Folder Include="typings\azuremobileservicesclient\" />
+    <Folder Include="typings\angularjs\" />
+  </ItemGroup>
+
+   <ItemGroup>
+      <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+   </ItemGroup>
+
+   <ItemGroup>
+     <None Update="typings\custom\TypeLite.Net4.tt">
+       <Generator>TextTemplatingFileGenerator</Generator>
+       <LastGenOutput>TypeLite.Net4.d.ts</LastGenOutput>
+     </None>
+   </ItemGroup>
+
+   <ItemGroup>
+     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+   </ItemGroup>
+
+</Project>

@@ -1,10 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<core:MvxFormsApp xmlns="http://xamarin.com/schemas/2014/forms"
+<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:MyVote.UI.Controls;assembly=MyVoteUI"
-             xmlns:core="clr-namespace:MvvmCross.Forms.Presenter.Core;assembly=MvvmCross.Forms.Presenter.Core"
              x:Class="MyVote.UI.Views.App">
-    <core:MvxFormsApp.Resources>
+    <Application.Resources>
         <ResourceDictionary>
             <Color x:Key="AppGrayLight">#434342</Color>
             <Color x:Key="AppGrayDark">#333333</Color>
@@ -23,15 +22,15 @@
                 <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="Padding" Value="20,0,20,0" />
             </Style>
-            <Style x:Key="ColumnLabelColumnStyle" TargetType="controls:ExtendedLabel">
+            <Style x:Key="ColumnLabelColumnStyle" TargetType="Label">
                 <Setter Property="HorizontalOptions" Value="Start" />
                 <Setter Property="VerticalTextAlignment" Value="Center" />
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="WidthRequest" Value="100" />
             </Style>
-            <Style x:Key="LabelStyle" TargetType="controls:ExtendedLabel">
+            <Style x:Key="LabelStyle" TargetType="Label">
                 <Setter Property="VerticalTextAlignment" Value="Center" />
-                <Setter Property="LeftPadding" Value="20" />
+                <Setter Property="Margin" Value="10,0,0,0" />
                 <Setter Property="TextColor" Value="White" />
             </Style>
             <Style x:Key="EntryColumnStyle" TargetType="controls:ExtendedEntry">
@@ -82,5 +81,5 @@
                 <Setter Property="FontSize" Value="10" />
             </Style>
         </ResourceDictionary>
-    </core:MvxFormsApp.Resources>
-</core:MvxFormsApp>
+    </Application.Resources>
+</Application>

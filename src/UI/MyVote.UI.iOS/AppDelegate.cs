@@ -1,7 +1,9 @@
-﻿using Foundation;
-using MvvmCross.Core.ViewModels;
-using MvvmCross.iOS.Platform;
-using MvvmCross.Platform;
+﻿using System;
+using Autofac;
+using Foundation;
+using MyVote.UI.Contracts;
+using MyVote.UI.Helpers;
+using MyVote.UI.Services;
 using UIKit;
 using Xamarin;
 using Xamarin.Forms;
@@ -13,7 +15,7 @@ namespace MyVote.UI
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
     [Register("AppDelegate")]
-    public class AppDelegate : MvxApplicationDelegate
+    public class AppDelegate :FormsApplicationDelegate
     {
         public override UIWindow Window
         {
@@ -30,25 +32,42 @@ namespace MyVote.UI
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            // create a new window instance based on the screen size
-            Window = new UIWindow(UIScreen.MainScreen.Bounds);
-
-            var setup = new Setup(this, Window);
-            setup.Initialize();
-            var newApp = setup.FormsApp;
-
-            var startup = Mvx.Resolve<IMvxAppStart>();
             Insights.Initialize("fbe45ea4c25df48a8eeb15f1bdd929cf14482e4b");
 
-            UITabBar.Appearance.SelectedImageTintColor = ((Color)newApp.Resources["AppOrange"]).ToUIColor();
-            UIPickerView.Appearance.TintColor = ((Color)newApp.Resources["AppOrange"]).ToUIColor();
-            UIDatePicker.Appearance.TintColor = ((Color)newApp.Resources["AppOrange"]).ToUIColor();
+            global::Xamarin.Forms.Forms.Init();
 
-            startup.Start();
+            var context = new UiContext();
 
-            Window.MakeKeyAndVisible();
+            var formsApp = new Views.App();
+            var containerBuilder = new Autofac.ContainerBuilder();
 
-            return true;
+            containerBuilder.RegisterType<NavigationService>().As<INavigationService>();
+            containerBuilder.RegisterType<MessageBox>().As<IMessageBox>();
+            containerBuilder.RegisterType<ViewPresenter>().As<IViewPresenter>();
+            containerBuilder.RegisterType<PhotoChooser>().As<IPhotoChooser>();
+            containerBuilder.RegisterType<ImageResize>().As<IImageResize>();
+
+            containerBuilder.Register(c => new MobileService(context)).As<IMobileService>();
+
+            containerBuilder.Update(Ioc.Container);
+
+            formsApp.Start();
+
+            LoadApplication(formsApp);
+
+            UITabBar.Appearance.SelectedImageTintColor = ((Color)formsApp.Resources["AppOrange"]).ToUIColor();
+            UIPickerView.Appearance.TintColor = ((Color)formsApp.Resources["AppOrange"]).ToUIColor();
+            UIDatePicker.Appearance.TintColor = ((Color)formsApp.Resources["AppOrange"]).ToUIColor();
+            UISwitch.Appearance.OnTintColor = ((Color)formsApp.Resources["AppOrange"]).ToUIColor();
+
+            return base.FinishedLaunching(app, options); ;
+        }
+
+        public static Func<NSUrl, bool> ResumeWithURL;
+
+        public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        {
+            return ResumeWithURL != null && ResumeWithURL(url);
         }
     }
 }

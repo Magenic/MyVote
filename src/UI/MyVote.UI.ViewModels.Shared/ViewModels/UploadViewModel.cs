@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using MyVote.UI.Contracts;
 
 namespace MyVote.UI.ViewModels
 {
@@ -11,7 +12,7 @@ namespace MyVote.UI.ViewModels
 			set
 			{
 				this.imageIdentifier = value;
-				this.RaisePropertyChanged(() => this.ImageIdentifier);
+                this.RaisePropertyChanged(nameof(ImageIdentifier));
 			}
 		}
 
@@ -23,7 +24,7 @@ namespace MyVote.UI.ViewModels
 			set
 			{
 				this.pictureStream = value;
-				this.RaisePropertyChanged(() => this.PictureStream);
+                this.RaisePropertyChanged(nameof(PictureStream));
 			}
 		}
 #else
@@ -34,7 +35,7 @@ namespace MyVote.UI.ViewModels
             set
 			{ 
 				this.pictureFile = value;
-                this.RaisePropertyChanged(() => this.PictureFile);
+                this.RaisePropertyChanged(nameof(PictureFile));
 			}
         }
 
@@ -45,7 +46,7 @@ namespace MyVote.UI.ViewModels
 			set
 			{
 				this.pictureStream = value;
-                this.RaisePropertyChanged(() => this.PictureStream);
+                this.RaisePropertyChanged(nameof(PictureStream));
 			}
 		}
 #endif // WINDOWS_PHONE

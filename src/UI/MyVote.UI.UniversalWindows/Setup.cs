@@ -1,13 +1,10 @@
-﻿using MvvmCross.Core.ViewModels;
-using MvvmCross.Platform.IoC;
-using MvvmCross.Platform.Platform;
-using MvvmCross.WindowsUWP.Platform;
-using MyVote.UI.Services;
+﻿using MyVote.UI.Services;
 using Windows.UI.Xaml.Controls;
 
 namespace MyVote.UI
 {
-    public class Setup : MvxWindowsSetup
+	// TODO: Work this out without MvvmCross
+	/*public class Setup : MvxWindowsSetup
     {
         private readonly Frame rootFrame;
 
@@ -36,5 +33,5 @@ namespace MyVote.UI
         {
             return new MvxViewToViewModelNameMapping();
         }
-    }
+    }*/
 }

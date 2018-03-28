@@ -1,69 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
-using System.Windows.Input;
-using MvvmCross.Core.ViewModels;
-using MvvmCross.Platform;
-using MvvmCross.Platform.Platform;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace MyVote.UI.ViewModels
 {
-	// Navigation criteria serialization based on: http://stackoverflow.com/questions/19058173/passing-complex-navigation-parameters-with-mvvmcross-showviewmodel
-	public abstract class ViewModelBase : MvxViewModel
+	public abstract class ViewModelBase : IViewModel, INotifyPropertyChanged
     {
-		protected void ShowViewModel<TViewModel>(object parameter)
-			where TViewModel : IMvxViewModel
-		{
-			var json = Mvx.Resolve<IMvxJsonConverter>().SerializeObject(parameter);
-			base.ShowViewModel<TViewModel>(new Dictionary<string, string>()
-            {
-                {"parameter", json}
-            });
-		}
+        public virtual void Init(object parameter) { }
 
-		public ICommand GoBack
-		{
-			get { return new MvxCommand(() => this.Close(this)); }
-		}
+        public virtual void Start() { }
 
-		private bool isBusy;
-		public bool IsBusy
-		{
-			get { return this.isBusy; }
-			set
-			{
-				this.isBusy = value;
-				this.RaisePropertyChanged(() => this.IsBusy);
-			}
-		}
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        private bool isEnabled;
-        public bool IsEnabled
+        protected void RaisePropertyChanged([CallerMemberName] String propertyName = "")
         {
-            get { return this.isEnabled; }
-            set
-            {
-                this.isEnabled = value;
-                this.RaisePropertyChanged(() => this.IsEnabled);
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
-	public abstract class ViewModelBase<TCriteria>
-		: ViewModelBase
-	{
-		public void Init(string parameter)
-		{
-			if (!string.IsNullOrEmpty(parameter))
-			{
-				var deserialized = Mvx.Resolve<IMvxJsonConverter>().DeserializeObject<TCriteria>(parameter);
-				this.RealInit(deserialized);
-			}
-			else
-			{
-				this.RealInit(default(TCriteria));
-			}
-		}
-
-		public abstract void RealInit(TCriteria parameter);
-	}
 }
